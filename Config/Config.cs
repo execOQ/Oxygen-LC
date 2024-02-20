@@ -23,10 +23,8 @@ namespace Oxygen.ConfigBase
 
         public readonly ConfigEntry<bool> enableOxygenSFXInShip;
 
-
         internal readonly ConfigFile File;
         
-
         private readonly ManualLogSource LogSource = new ManualLogSource($"{OxygenBase.modName} > Config");
 
         public Config(ConfigFile file)
@@ -71,12 +69,11 @@ namespace Oxygen.ConfigBase
                 .SetDescription("Increases oxygen drain when player running. Depends on timer setting")
                 .Build(out oxygenDeficiency);
 
-
             new ConfigBuilder<float>(this)
                 .SetSection("Timer")
                 .SetKey("secTimer")
                 .SetDefault(value: 5f)
-                .SetDescription("number of seconds the cool down timer lasts")
+                .SetDescription("Number of seconds the cool down timer lasts")
                 .Build(out secTimer);
 
             new ConfigBuilder<bool>(this)
@@ -97,12 +94,12 @@ namespace Oxygen.ConfigBase
                 .SetSection("Sounds")
                 .SetKey("enableOxygenSFXInShip")
                 .SetDefault(value: true)
-                .SetDescription("remains oxygen inhalation sounds when player in ship")
+                .SetDescription("Remains oxygen inhalation sounds when player in ship. Depends on enableOxygenSFX variable.")
                 .Build(out enableOxygenSFXInShip);
         }
     }
 
-    // thanks flerouwu for code <3
+    // thanks flerouwu for code
     internal class ConfigBuilder<T>
     {
         private static readonly ManualLogSource LogSource;
@@ -121,7 +118,7 @@ namespace Oxygen.ConfigBase
         {
             //IL_0005: Unknown result type (might be due to invalid IL or missing references)
             //IL_000f: Expected O, but got Unknown
-            LogSource = new ManualLogSource("FastStartup > Config");
+            LogSource = new ManualLogSource($"{OxygenBase.modName} > Config");
             Logger.Sources.Add((ILogSource)(object)LogSource);
         }
 

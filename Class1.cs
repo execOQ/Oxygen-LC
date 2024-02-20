@@ -19,13 +19,11 @@ namespace Oxygen
         private const string modVersion = "1.0.0";
 
         private readonly Harmony harmony = new Harmony(modGUID);
-
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
 
         public static new Config Config { get; private set; }
 
         internal static AudioClip[] SFX;
-
         public AssetBundle assets;
 
         private void Awake()
@@ -38,6 +36,11 @@ namespace Oxygen
             mls.LogInfo($"{modName} is loading...");
 
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Oxygen.Assets.oxygensounds");
+            if (stream == null)
+            {
+                mls.LogError("Failed to get stream of resources...");
+                return;
+            }
 
             AssetBundle bundle = AssetBundle.LoadFromStream(stream);
             if (bundle == null)

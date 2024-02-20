@@ -32,7 +32,7 @@ namespace Oxygen.Patches
 
         public static bool isNotification = OxygenBase.Config.notifications.Value;
          
-        private static bool isRecovering = false; // just to prevent creating a lot logs about recovering oxygen when player in ship
+        //private static bool isRecovering = false; // just to prevent creating a lot logs about recovering oxygen when player in ship
 
         private static bool deadNotification = false;
         private static bool fisrtNotification = false;
@@ -93,145 +93,158 @@ namespace Oxygen.Patches
         {
             PlayerControllerB pController = GameNetworkManager.Instance.localPlayerController;
 
-            StartOfRound sor = StartOfRound.Instance;
+            //StartOfRound sor = StartOfRound.Instance;
 
-            if (pController != null && !instantiating)
+            if (pController == null || instantiating)
             {
-                GameObject oxygenMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/OxygenMeter");
-                Image oxyUI = oxygenMeter.transform.GetComponent<Image>();
+                mls.LogError("PlayerControllerB is null or HUDPatch is still instantiating");
+                return;
+            }
 
-                if (!pController.isPlayerDead)
+            GameObject oxygenMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/OxygenMeter");
+            Image oxyUI = oxygenMeter.transform.GetComponent<Image>();
+
+            if (oxygenMeter == null || oxyUI == null)
+            {
+                mls.LogError("oxygenMeter or oxyUI is null");
+                return;
+            }
+
+            if (!pController.isPlayerDead)
+            {
+                if (deadNotification) deadNotification = false;
+
+                // Problem: there is something with variable sinkingValue, it doesn't update in any case.
+                // it's should increasing when player underwater. so here's a crutch... or maybe i'm dumb :)
+
+                // uses if player is sinking
+                if (pController.isSinking)
                 {
-                    if (deadNotification) deadNotification = false;
-                    
-                    // Problem: there is something with variable isSinking, it doesn't update in any case.
-                    // it's should increasing when player underwater. so here's a crutch... or maybe i'm dumb :)
+                    //mls.LogError($"sinking: {pController.sinkingValue}");
 
-                    // uses if player is sinking
-                    if (pController.isSinking)
+                    oxyUI.fillAmount -= 0.0020f;
+                    mls.LogInfo($"{oxyUI.fillAmount}");
+                    return;
+                }
+
+                // need to be reworked cause it's doesn't sound as I expected... it should sounds more panicked
+                /* if (sor.fearLevelIncreasing)
+                {
+                    PlayOxygenInhailsSFX(pController);
+                    mls.LogError("playing sound cause fearLevelIncreasing");
+                } */
+
+                if (timeSinceLastAction >= secTimer)
+                {
+                    float localDecValue = decreasingOxygen;
+
+                    if (inhalerSFX == null)
                     {
-                        //mls.LogError($"sinking: {pController.sinkingValue}");
-
-                        oxyUI.fillAmount -= 0.0023f;
-                        mls.LogInfo($"{oxyUI.fillAmount}");
+                        mls.LogError("inhalerSFX is null");
                         return;
                     }
 
-                    if (timeSinceLastAction >= secTimer)
+                    if (enableOxygenSFX && !pController.isInHangarShipRoom)
+                    { 
+                        PlayOxygenInhailsSFX(pController);
+                    }
+
+                    if (pController.isInHangarShipRoom && enableOxygenSFX && enableOxygenSFXInShip)
                     {
-                        float localDecValue = decreasingOxygen;
+                        PlayOxygenInhailsSFX(pController);
+                    }
 
-                        if (inhalerSFX == null)
-                        {
-                            return;
-                        }
+                    // if player running the oxygen goes away faster
+                    if (pController.isSprinting)
+                    {
+                        localDecValue += oxygenRunning;
+                        mls.LogInfo($"The player is running, oxygen consumption is increased by {oxygenRunning}");
+                    }
 
-                        sor.fearLevelIncreasing = true;
+                    // outside and not in ship
+                    if (!pController.isInsideFactory && !pController.isInHangarShipRoom)
+                    {
+                        //isRecovering = false; // just to prevent creating a lot logs about recovering oxygen when player in ship
 
-                        // need to be reworked
-                        //if (sor.fearLevelIncreasing) PlayOxygenInhailsSFX(pController);
+                        oxyUI.fillAmount -= localDecValue;
+                        mls.LogInfo($"current oxygen level: {oxyUI.fillAmount}");
+                    }
 
-                        if (enableOxygenSFX && !pController.isInHangarShipRoom) { 
-                            PlayOxygenInhailsSFX(pController);
-                        }
+                    // inside factory
+                    if (pController.isInsideFactory)
+                    {
+                        oxyUI.fillAmount -= localDecValue;
+                        mls.LogInfo($"current oxygen level: {oxyUI.fillAmount}");
+                    }
 
-                        if (pController.isInHangarShipRoom && enableOxygenSFX && enableOxygenSFXInShip)
-                        {
-                            PlayOxygenInhailsSFX(pController);
-                        }
-
-                        // TODO: maybe should be configurable
-                        // if player running the oxygen goes away faster
-                        if (pController.isSprinting)
-                        {
-                            mls.LogInfo($"The player is running, oxygen consumption is increased.");
-                            localDecValue += oxygenRunning;
-                        }
-
-                        // outside and not in ship
-                        if (!pController.isInsideFactory && !pController.isInHangarShipRoom)
-                        {
-                            isRecovering = false; // just to prevent creating a lot logs about recovering oxygen when player in ship
-
-                            oxyUI.fillAmount -= localDecValue;
-                            mls.LogInfo($"current oxygen level: {oxyUI.fillAmount}");
-                        }
-
-                        // inside factory
-                        if (pController.isInsideFactory)
-                        {
-                            oxyUI.fillAmount -= localDecValue;
-                            mls.LogInfo($"current oxygen level: {oxyUI.fillAmount}");
-                        }
-
-                        // notification about low level of oxygen
-                        if (oxyUI.fillAmount < 0.45)
-                        {
-                            if (!fisrtNotification) { 
-                                if (isNotification)
-                                {
-                                    HUDManager.Instance.DisplayTip("System...", "The oxygen tanks are running low.");
-                                }
-                                fisrtNotification = true;
-                            }
-                        }
-
-                        // system warning
-                        if (oxyUI.fillAmount < 0.35)
-                        {
-                            if (!warningNotification)
+                    // notification about low level of oxygen
+                    if (oxyUI.fillAmount < 0.45)
+                    {
+                        if (!fisrtNotification) { 
+                            if (isNotification)
                             {
-                                if (isNotification)
-                                {
-                                    HUDManager.Instance.DisplayTip("System...", "There is a critical level of oxygen in the oxygen tanks, fill it up immediately!", isWarning: true);
-                                }                                
-                                warningNotification = true;
+                                HUDManager.Instance.DisplayTip("System...", "The oxygen tanks are running low.");
                             }
+                            fisrtNotification = true;
                         }
-
-                        // increasing drunkness
-                        if (oxyUI.fillAmount < 0.33)
-                        {
-                            pController.drunkness += oxygenDeficiency;
-                            mls.LogInfo($"current oxygen deficiency level: {pController.drunkness}");
-                        }
-
-                        // 0.30 is the lowest value when we see UI meter
-                        if (oxyUI.fillAmount < 0.30)
-                        {
-                            pController.DamagePlayer(playerDamage);
-                        }
-
-                        // timer resets
-                        timeSinceLastAction = 0f;
                     }
 
-                    sor.fearLevelIncreasing = false;
-
-                    // in ship
-                    if (pController.isInHangarShipRoom && oxyUI.fillAmount != 1)
+                    // system warning
+                    if (oxyUI.fillAmount < 0.35)
                     {
-                        oxyUI.fillAmount += increasingOxygen;
-
-                        mls.LogInfo($"Oxygen is recovering: {oxyUI.fillAmount}");
-
-                        pController.drunkness -= increasingOxygen;
+                        if (!warningNotification)
+                        {
+                            if (isNotification)
+                            {
+                                HUDManager.Instance.DisplayTip("System...", "There is a critical level of oxygen in the oxygen tanks, fill it up immediately!", isWarning: true);
+                            }                                
+                            warningNotification = true;
+                        }
                     }
 
-                    timeSinceLastAction += Time.deltaTime; //increment the cool down timer
-                } else
+                    // increasing drunkness
+                    if (oxyUI.fillAmount < 0.33)
+                    {
+                        pController.drunkness += oxygenDeficiency;
+                        mls.LogInfo($"current oxygen deficiency level: {pController.drunkness}");
+                    }
+
+                    // 0.30 is the lowest value when we see UI meter
+                    if (oxyUI.fillAmount < 0.30)
+                    {
+                        pController.DamagePlayer(playerDamage);
+                    }
+
+                    // timer resets
+                    timeSinceLastAction = 0f;
+                }
+
+                //sor.fearLevelIncreasing = false;
+
+                // in ship
+                if (pController.isInHangarShipRoom && oxyUI.fillAmount != 1)
                 {
-                    if (!deadNotification)
-                    {
-                        oxyUI.fillAmount = 1;
-                        mls.LogInfo("Player is dead, oxygen recovered to 1");
+                    oxyUI.fillAmount += increasingOxygen;
 
-                        deadNotification = true;
-                        fisrtNotification = false;
-                        warningNotification = false;
-                    }
+                    mls.LogInfo($"Oxygen is recovering: {oxyUI.fillAmount}");
+
+                    pController.drunkness -= increasingOxygen;
+                }
+
+                timeSinceLastAction += Time.deltaTime; //increment the cool down timer
+            } else
+            {
+                if (!deadNotification)
+                {
+                    oxyUI.fillAmount = 1;
+                    mls.LogInfo("Player is dead, oxygen recovered to 1");
+
+                    deadNotification = true;
+                    fisrtNotification = false;
+                    warningNotification = false;
                 }
             }
+            
         }
     }
 }
