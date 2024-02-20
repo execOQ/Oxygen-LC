@@ -66,7 +66,7 @@ namespace Oxygen.ConfigBase
                 .SetSection("Oxygen")
                 .SetKey("oxygenDeficiency")
                 .SetDefault(value: 0.15f)
-                .SetDescription("Increases oxygen drain when player running. Depends on timer setting")
+                .SetDescription("Increases oxygen deficiency when the player's oxygen runs out. Depends on timer setting")
                 .Build(out oxygenDeficiency);
 
             new ConfigBuilder<float>(this)

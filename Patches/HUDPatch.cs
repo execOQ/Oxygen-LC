@@ -118,14 +118,14 @@ namespace Oxygen.Patches
                 // it's should increasing when player underwater. so here's a crutch... or maybe i'm dumb :)
 
                 // uses if player is sinking
-                if (pController.isSinking)
+                /* if (pController.isUnderwater)
                 {
-                    //mls.LogError($"sinking: {pController.sinkingValue}");
+                    mls.LogError($"sinking: {pController.sinkingValue}");
 
                     oxyUI.fillAmount -= 0.0020f;
                     mls.LogInfo($"{oxyUI.fillAmount}");
                     return;
-                }
+                } */
 
                 // need to be reworked cause it's doesn't sound as I expected... it should sounds more panicked
                 /* if (sor.fearLevelIncreasing)

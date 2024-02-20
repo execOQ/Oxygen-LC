@@ -16,7 +16,7 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         private const string modGUID = "consequential.Oxygen";
-        private const string modVersion = "1.0.0";
+        private const string modVersion = "1.0.2";
 
         private readonly Harmony harmony = new Harmony(modGUID);
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
