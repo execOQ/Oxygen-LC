@@ -87,6 +87,7 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>R:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="UnityEngine.UI">
       <HintPath>R:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -103,9 +104,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\oxygensounds" />
+    <None Include="Assets\oxygensoundsOLD" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\heavyinhale" />
+    <None Include="Assets\heavyinhaleOLD" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

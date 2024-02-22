@@ -15,9 +15,9 @@ namespace Oxygen.Patches
 
         private static readonly bool isBackroomsFound = OxygenBase.isBackroomsFound;
         public static bool backroomsCompatibility = OxygenBase.Config.InfinityOxygenInbackrooms.Value;
+        private const float backroomsOffset = -500f;
 
         public static AudioClip[] inhaleSFX = OxygenBase.inhaleSFX;
-        public static AudioClip[] heavyInhaleSFX = OxygenBase.heavyInhaleSFX;
 
         public static float volume = OxygenBase.Config.SFXvolume.Value;
         public static bool enableOxygenSFX = OxygenBase.Config.enableOxygenSFX.Value;
@@ -55,15 +55,15 @@ namespace Oxygen.Patches
             if (instantiating)
             { 
                 GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/SprintMeter");
-                GameObject uiPlace = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
+                GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
 
-                if (sprintMeter == null || uiPlace == null)
+                if (sprintMeter == null || topLeftCorner == null)
                 {
-                    mls.LogError("One or more GameObjects not found...");
+                    mls.LogError("oxygenMeter or oxyUI is null");
                     return;
                 }
                 
-                GameObject oxygenMeter = Instantiate(sprintMeter, uiPlace.transform);
+                GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
 
                 oxygenMeter.name = "OxygenMeter";
                 oxygenMeter.transform.localPosition = new Vector3(-317.386f, 125.961f, -13.0994f);
@@ -74,6 +74,18 @@ namespace Oxygen.Patches
                 omImage.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
 
                 mls.LogInfo("Oxygen UI instantiated");
+
+                GameObject statusEffectHUD = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/StatusEffects");
+                if (statusEffectHUD == null)
+                {
+                    mls.LogError("statusEffectHUD is null");
+                    return;
+                }
+                
+                statusEffectHUD.transform.localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
+                //HUDManager.Instance.DisplayStatusEffect("Oxygen critically low!");
+
+                mls.LogInfo("statusEffectHUD is fixed");
 
                 instantiating = false;
             }
@@ -100,12 +112,17 @@ namespace Oxygen.Patches
         public static void Update()
         {
             PlayerControllerB pController = GameNetworkManager.Instance.localPlayerController;
-
             StartOfRound sor = StartOfRound.Instance;
 
             if (pController == null)
             {
-                mls.LogError("PlayerControllerB is null or HUDPatch is still instantiating");
+                mls.LogError("PlayerControllerB is null");
+                return;
+            }
+
+            if (sor == null)
+            {
+                mls.LogError("StartOfRound is null");
                 return;
             }
 
@@ -130,25 +147,23 @@ namespace Oxygen.Patches
 
                 if (deadNotification) deadNotification = false;
 
-                // Problem: there is something with variable sinkingValue, it doesn't update in any case.
-                // it's should increasing when player underwater. so here's a crutch... or maybe i'm dumb :)
-
-                // uses if player is sinking
-                /* if (pController.isUnderwater)
+                if (pController.isUnderwater && pController.underwaterCollider != null && 
+                    pController.underwaterCollider.bounds.Contains(pController.gameplayCamera.transform.position))
                 {
-                    mls.LogError($"sinking: {pController.sinkingValue}");
+                    // can cause a problems with other mods (●'◡'●)
+                    oxyUI.fillAmount -= Mathf.Clamp(Time.deltaTime / 10f, 0f, 1f);
 
-                    oxyUI.fillAmount -= 0.0020f;
-                    mls.LogInfo($"{oxyUI.fillAmount}");
+                    sor.drowningTimer = oxyUI.fillAmount;
+
+                    //mls.LogInfo($"oxyUI.fillAmount: {oxyUI.fillAmount}");
+                    //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
                     return;
-                } */
-
-                //sor.fearLevelIncreasing = true;
+                }
 
                 // i think it could cause a troubles if other mods teleport player in the same offset
                 if (isBackroomsFound && backroomsCompatibility)
                 {
-                    if (pController.serverPlayerPosition.y == -500f)
+                    if (pController.serverPlayerPosition.y == backroomsOffset)
                     {
                         if (!backroomsNotification)
                         {
@@ -160,7 +175,15 @@ namespace Oxygen.Patches
                             backroomsNotification = true;
                         }
 
-                        oxyUI.fillAmount = 1f;
+                        if (oxyUI.fillAmount != 1)
+                        {
+                            oxyUI.fillAmount += increasingOxygen;
+                            mls.LogInfo($"Oxygen is recovering: {oxyUI.fillAmount}");
+                        }
+
+                        if (pController.drunkness != 0) pController.drunkness -= increasingOxygen;
+
+                        //oxyUI.fillAmount = 1f;
                         //mls.LogInfo($"player in backrooms, oxygen is recovered.");
                         //mls.LogInfo($"Contains: {Backrooms.Backrooms.Instance.playerInBackrooms.Contains(pController)}");
                         //mls.LogInfo($"isInHangarShipRoom: {pController.isInHangarShipRoom}");
@@ -178,7 +201,13 @@ namespace Oxygen.Patches
 
                     if (sor.fearLevel > 0)
                     {
-                        PlaySFX(pController, heavyInhaleSFX[0]);
+                        if (enableOxygenSFX)
+                        {
+                            if (!pController.isInHangarShipRoom || (pController.isInHangarShipRoom && enableOxygenSFXInShip))
+                            {
+                                PlaySFX(pController, inhaleSFX[0]);
+                            }
+                        }
 
                         // just unnecessary to decrease oxygen in ship ~_~
                         if (!pController.isInHangarShipRoom)
@@ -196,7 +225,6 @@ namespace Oxygen.Patches
 
                 if (timeSinceLastAction >= secTimer)
                 {
-
                     if (inhaleSFX == null)
                     {
                         mls.LogError("inhalerSFX is null");
@@ -278,13 +306,14 @@ namespace Oxygen.Patches
                 }
 
                 // in ship
-                if (pController.isInHangarShipRoom && oxyUI.fillAmount != 1)
+                if (pController.isInHangarShipRoom)
                 {
-                    oxyUI.fillAmount += increasingOxygen;
+                    if (oxyUI.fillAmount != 1) {
+                        oxyUI.fillAmount += increasingOxygen;
+                        mls.LogInfo($"Oxygen is recovering: {oxyUI.fillAmount}");
+                    }
 
-                    mls.LogInfo($"Oxygen is recovering: {oxyUI.fillAmount}");
-
-                    pController.drunkness -= increasingOxygen;
+                    if (pController.drunkness != 0) pController.drunkness -= increasingOxygen;
                 }
 
                 timeSinceLastAction += Time.deltaTime; //increment the cool down timer
@@ -293,6 +322,7 @@ namespace Oxygen.Patches
                 if (!deadNotification)
                 {
                     oxyUI.fillAmount = 1;
+                    pController.drunkness = 0;
                     mls.LogInfo("Player is dead, oxygen recovered to 1");
 
                     // to prevent spamming the message above

@@ -16,7 +16,7 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         private const string modGUID = "consequential.Oxygen";
-        private const string modVersion = "1.0.2";
+        private const string modVersion = "1.1.0";
 
         private const string backroomsGUID = "Neekhaulas.Backrooms";
         internal static bool isBackroomsFound = false;
@@ -27,8 +27,7 @@ namespace Oxygen
         public static new Config Config { get; private set; }
 
         internal static AudioClip[] inhaleSFX;
-        internal static AudioClip[] heavyInhaleSFX;
-        public AssetBundle assets;
+
 
         private void Awake()
         {
@@ -58,13 +57,6 @@ namespace Oxygen
                 return;
             }
             inhaleSFX = bundle.LoadAllAssets<AudioClip>();
-
-            AssetBundle bundle2 = Util.LoadAssetFromStream("Oxygen.Assets.heavyinhale");
-            if (bundle2 == null)
-            {
-                return;
-            }
-            heavyInhaleSFX = bundle2.LoadAllAssets<AudioClip>();
 
             mls.LogInfo($"Sounds are loaded.");
 
