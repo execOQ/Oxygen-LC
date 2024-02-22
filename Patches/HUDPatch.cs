@@ -9,11 +9,17 @@ namespace Oxygen.Patches
     [HarmonyPatch]
     internal class HUDPatch : MonoBehaviour
     {
+
         public static ManualLogSource mls = OxygenBase.mls;
         public static bool instantiating = true;
 
-        public static AudioClip[] inhalerSFX = OxygenBase.SFX;
+        private static readonly bool isBackroomsFound = OxygenBase.isBackroomsFound;
+        public static bool backroomsCompatibility = OxygenBase.Config.InfinityOxygenInbackrooms.Value;
 
+        public static AudioClip[] inhaleSFX = OxygenBase.inhaleSFX;
+        public static AudioClip[] heavyInhaleSFX = OxygenBase.heavyInhaleSFX;
+
+        public static float volume = OxygenBase.Config.SFXvolume.Value;
         public static bool enableOxygenSFX = OxygenBase.Config.enableOxygenSFX.Value;
         public static bool enableOxygenSFXInShip = OxygenBase.Config.enableOxygenSFXInShip.Value;
 
@@ -21,24 +27,26 @@ namespace Oxygen.Patches
 
         public static float increasingOxygen = OxygenBase.Config.increasingOxygen.Value; 
         public static float decreasingOxygen = OxygenBase.Config.decreasingOxygen.Value;
+        public static float multiplyDecreasingInFear = OxygenBase.Config.multiplyDecreasingInFear.Value;
 
         public static float oxygenRunning = OxygenBase.Config.oxygenRunning.Value;
 
         public static float oxygenDeficiency = OxygenBase.Config.oxygenDeficiency.Value;
 
         public static float secTimer = OxygenBase.Config.secTimer.Value;  // number of seconds the cool down timer lasts
+        public static float secTimerInFear = 2f;
 
         private static float timeSinceLastAction = 0f;  //number of seconds since we did something
+        private static float timeSinceLastFear = 0f;  //number of seconds since we were fear
 
         public static bool isNotification = OxygenBase.Config.notifications.Value;
          
         //private static bool isRecovering = false; // just to prevent creating a lot logs about recovering oxygen when player in ship
 
         private static bool deadNotification = false;
+        private static bool backroomsNotification = false;
         private static bool fisrtNotification = false;
         private static bool warningNotification = false;
-
-
 
         [HarmonyPatch(typeof(StartOfRound), "SceneManager_OnLoadComplete1")]
         [HarmonyPostfix]
@@ -51,7 +59,7 @@ namespace Oxygen.Patches
 
                 if (sprintMeter == null || uiPlace == null)
                 {
-                    mls.LogInfo("One or more GameObjects not found...");
+                    mls.LogError("One or more GameObjects not found...");
                     return;
                 }
                 
@@ -65,6 +73,8 @@ namespace Oxygen.Patches
                 Image omImage = oxygenMeter.transform.GetComponent<Image>();
                 omImage.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
 
+                mls.LogInfo("Oxygen UI instantiated");
+
                 instantiating = false;
             }
         }
@@ -76,16 +86,14 @@ namespace Oxygen.Patches
             instantiating = true;
         }
 
-        private static void PlayOxygenInhailsSFX(PlayerControllerB pc) 
+        private static void PlaySFX(PlayerControllerB pc, AudioClip clip)
         {
             AudioSource audio = pc.waterBubblesAudio;
-            float oneShotVolume = 1f;
+            if (audio.isPlaying) audio.Stop();
 
-            if (audio.isPlaying) return;
-
-            int index = Random.Range(0, inhalerSFX.Length);
-            audio.PlayOneShot(inhalerSFX[index], Random.Range(oneShotVolume - 0.18f, oneShotVolume));
+            audio.PlayOneShot(clip, Random.Range(volume - 0.18f, volume));
         }
+
 
         [HarmonyPatch(typeof(HUDManager), "Update")]
         [HarmonyPostfix]
@@ -93,11 +101,17 @@ namespace Oxygen.Patches
         {
             PlayerControllerB pController = GameNetworkManager.Instance.localPlayerController;
 
-            //StartOfRound sor = StartOfRound.Instance;
+            StartOfRound sor = StartOfRound.Instance;
 
-            if (pController == null || instantiating)
+            if (pController == null)
             {
                 mls.LogError("PlayerControllerB is null or HUDPatch is still instantiating");
+                return;
+            }
+
+            if (instantiating)
+            {
+                mls.LogError("HUDPatch is still instantiating");
                 return;
             }
 
@@ -112,6 +126,8 @@ namespace Oxygen.Patches
 
             if (!pController.isPlayerDead)
             {
+                float localDecValue = decreasingOxygen;
+
                 if (deadNotification) deadNotification = false;
 
                 // Problem: there is something with variable sinkingValue, it doesn't update in any case.
@@ -127,31 +143,73 @@ namespace Oxygen.Patches
                     return;
                 } */
 
-                // need to be reworked cause it's doesn't sound as I expected... it should sounds more panicked
-                /* if (sor.fearLevelIncreasing)
+                //sor.fearLevelIncreasing = true;
+
+                // i think it could cause a troubles if other mods teleport player in the same offset
+                if (isBackroomsFound && backroomsCompatibility)
                 {
-                    PlayOxygenInhailsSFX(pController);
-                    mls.LogError("playing sound cause fearLevelIncreasing");
-                } */
+                    if (pController.serverPlayerPosition.y == -500f)
+                    {
+                        if (!backroomsNotification)
+                        {
+                            if (isNotification)
+                            {
+                                mls.LogInfo($"player in backrooms, oxygen is recovered.");
+                                HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
+                            }
+                            backroomsNotification = true;
+                        }
+
+                        oxyUI.fillAmount = 1f;
+                        //mls.LogInfo($"player in backrooms, oxygen is recovered.");
+                        //mls.LogInfo($"Contains: {Backrooms.Backrooms.Instance.playerInBackrooms.Contains(pController)}");
+                        //mls.LogInfo($"isInHangarShipRoom: {pController.isInHangarShipRoom}");
+                        //mls.LogInfo($"isInsideFactory: {pController.isInsideFactory}");
+                        //mls.LogInfo($"isInElevator: {pController.isInElevator}");
+
+                        return;
+                    }
+                }
+
+                if (timeSinceLastFear >= secTimerInFear)
+                {
+                    //mls.LogError($"fear level: {sor.fearLevel}");
+                    //mls.LogError($"fearLevelIncreasing: {sor.fearLevelIncreasing}");
+
+                    if (sor.fearLevel > 0)
+                    {
+                        PlaySFX(pController, heavyInhaleSFX[0]);
+
+                        // just unnecessary to decrease oxygen in ship ~_~
+                        if (!pController.isInHangarShipRoom)
+                        {
+                            mls.LogError("playing sound cause fearLevelIncreasing. oxygen consumption is increased by 2");
+                            //mls.LogError($"fear level: {sor.fearLevel}");
+
+                            localDecValue += decreasingOxygen * 2f;
+                        }
+
+                        timeSinceLastFear = 0f;
+                    }
+                }
+                timeSinceLastFear += Time.deltaTime; //increment the cool down timer
 
                 if (timeSinceLastAction >= secTimer)
                 {
-                    float localDecValue = decreasingOxygen;
 
-                    if (inhalerSFX == null)
+                    if (inhaleSFX == null)
                     {
                         mls.LogError("inhalerSFX is null");
                         return;
                     }
 
-                    if (enableOxygenSFX && !pController.isInHangarShipRoom)
-                    { 
-                        PlayOxygenInhailsSFX(pController);
-                    }
-
-                    if (pController.isInHangarShipRoom && enableOxygenSFX && enableOxygenSFXInShip)
+                    if (enableOxygenSFX && !sor.fearLevelIncreasing)
                     {
-                        PlayOxygenInhailsSFX(pController);
+                        if (!pController.isInHangarShipRoom || (pController.isInHangarShipRoom && enableOxygenSFXInShip))
+                        {
+                            int index = Random.Range(0, inhaleSFX.Length);
+                            PlaySFX(pController, inhaleSFX[index]);
+                        }
                     }
 
                     // if player running the oxygen goes away faster
@@ -219,8 +277,6 @@ namespace Oxygen.Patches
                     timeSinceLastAction = 0f;
                 }
 
-                //sor.fearLevelIncreasing = false;
-
                 // in ship
                 if (pController.isInHangarShipRoom && oxyUI.fillAmount != 1)
                 {
@@ -239,7 +295,11 @@ namespace Oxygen.Patches
                     oxyUI.fillAmount = 1;
                     mls.LogInfo("Player is dead, oxygen recovered to 1");
 
+                    // to prevent spamming the message above
                     deadNotification = true;
+
+                    // resets notifications
+                    backroomsNotification = false;
                     fisrtNotification = false;
                     warningNotification = false;
                 }

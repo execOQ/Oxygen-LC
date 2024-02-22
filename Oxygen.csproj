@@ -37,8 +37,15 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>R:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Backrooms">
+      <HintPath>..\References\Backrooms.dll</HintPath>
+    </Reference>
     <Reference Include="BepInEx">
       <HintPath>C:\Users\execo\AppData\Roaming\r2modmanPlus-local\LethalCompany\profiles\Default\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch Transport for Netcode for GameObjects, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>R:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Facepunch Transport for Netcode for GameObjects.dll</HintPath>
     </Reference>
     <Reference Include="LethalLib">
       <HintPath>C:\Users\execo\AppData\Roaming\r2modmanPlus-local\LethalCompany\profiles\Coding\BepInEx\plugins\Evaisa-LethalLib\LethalLib\LethalLib.dll</HintPath>
@@ -56,6 +63,10 @@
     </Reference>
     <Reference Include="Unity.Netcode.Runtime">
       <HintPath>R:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.Netcode.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Networking.Transport, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>R:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.Networking.Transport.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -92,6 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\oxygensounds" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\heavyinhale" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

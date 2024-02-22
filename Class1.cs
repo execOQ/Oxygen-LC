@@ -3,13 +3,13 @@ using BepInEx.Logging;
 using HarmonyLib;
 using Oxygen.Patches;
 using Oxygen.ConfigBase;
-using System.IO;
-using System.Reflection;
 using UnityEngine;
+using BepInEx.Bootstrap;
 
 namespace Oxygen
 {
     [BepInPlugin(modGUID, modName, modVersion)]
+    [BepInDependency(backroomsGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class OxygenBase : BaseUnityPlugin
     {
         private static OxygenBase Instance;
@@ -18,12 +18,16 @@ namespace Oxygen
         private const string modGUID = "consequential.Oxygen";
         private const string modVersion = "1.0.2";
 
+        private const string backroomsGUID = "Neekhaulas.Backrooms";
+        internal static bool isBackroomsFound = false;
+
         private readonly Harmony harmony = new Harmony(modGUID);
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
 
         public static new Config Config { get; private set; }
 
-        internal static AudioClip[] SFX;
+        internal static AudioClip[] inhaleSFX;
+        internal static AudioClip[] heavyInhaleSFX;
         public AssetBundle assets;
 
         private void Awake()
@@ -32,24 +36,35 @@ namespace Oxygen
             {
                 Instance = this;
             }
+            
 
             mls.LogInfo($"{modName} is loading...");
 
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Oxygen.Assets.oxygensounds");
-            if (stream == null)
+            foreach (var plugin in Chainloader.PluginInfos)
             {
-                mls.LogError("Failed to get stream of resources...");
-                return;
+                var metadata = plugin.Value.Metadata;
+                if (metadata.GUID.Equals(backroomsGUID))
+                {
+                    // found it
+                    mls.LogWarning($"Found {backroomsGUID}.");
+                    isBackroomsFound = true;
+                    break;
+                }
             }
 
-            AssetBundle bundle = AssetBundle.LoadFromStream(stream);
+            AssetBundle bundle = Util.LoadAssetFromStream("Oxygen.Assets.oxygensounds");
             if (bundle == null)
             {
-                mls.LogError("Failed to load audio assets...");
                 return;
             }
+            inhaleSFX = bundle.LoadAllAssets<AudioClip>();
 
-            SFX = bundle.LoadAllAssets<AudioClip>();
+            AssetBundle bundle2 = Util.LoadAssetFromStream("Oxygen.Assets.heavyinhale");
+            if (bundle2 == null)
+            {
+                return;
+            }
+            heavyInhaleSFX = bundle2.LoadAllAssets<AudioClip>();
 
             mls.LogInfo($"Sounds are loaded.");
 
@@ -60,7 +75,5 @@ namespace Oxygen
 
             mls.LogInfo($"{modName} is loaded!");
         }
-
-
     }
 }

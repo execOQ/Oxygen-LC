@@ -11,17 +11,23 @@ namespace Oxygen.ConfigBase
 
         public readonly ConfigEntry<float> decreasingOxygen;
 
+        public readonly ConfigEntry<float> multiplyDecreasingInFear;
+
         public readonly ConfigEntry<float> oxygenRunning;
 
         public readonly ConfigEntry<float> oxygenDeficiency;
 
-        public readonly ConfigEntry<float > secTimer;
+        public readonly ConfigEntry<float> secTimer;
 
         public readonly ConfigEntry<bool> notifications;
+
+        public readonly ConfigEntry<float> SFXvolume;
 
         public readonly ConfigEntry<bool> enableOxygenSFX;
 
         public readonly ConfigEntry<bool> enableOxygenSFXInShip;
+
+        public readonly ConfigEntry<bool> InfinityOxygenInbackrooms;
 
         internal readonly ConfigFile File;
         
@@ -57,6 +63,13 @@ namespace Oxygen.ConfigBase
 
             new ConfigBuilder<float>(this)
                 .SetSection("Oxygen")
+                .SetKey("multiplyDecreasingInFear")
+                .SetDefault(value: 0.006f)
+                .SetDescription("Increases oxygen drain when player running. Depends on timer setting")
+                .Build(out multiplyDecreasingInFear);
+
+            new ConfigBuilder<float>(this)
+                .SetSection("Oxygen")
                 .SetKey("oxygenRunning")
                 .SetDefault(value: 0.006f)
                 .SetDescription("Increases oxygen drain when player running. Depends on timer setting")
@@ -83,6 +96,13 @@ namespace Oxygen.ConfigBase
                 .SetDescription("Should mod notify you if oxygen getting low?")
                 .Build(out notifications);
 
+            new ConfigBuilder<float>(this)
+               .SetSection("Sounds")
+               .SetKey("SFXvolume")
+               .SetDefault(value: 1.0f)
+               .SetDescription("volume of SFX's")
+               .Build(out SFXvolume);
+
             new ConfigBuilder<bool>(this)
                 .SetSection("Sounds")
                 .SetKey("enableOxygenSFX")
@@ -96,6 +116,13 @@ namespace Oxygen.ConfigBase
                 .SetDefault(value: true)
                 .SetDescription("Remains oxygen inhalation sounds when player in ship. Depends on enableOxygenSFX variable.")
                 .Build(out enableOxygenSFXInShip);
+
+            new ConfigBuilder<bool>(this)
+                .SetSection("Compatibility")
+                .SetKey("InfinityOxygenInbackrooms")
+                .SetDefault(value: true)
+                .SetDescription("Oxygen becomes infinite when the player teleports to the backrooms (mod).")
+                .Build(out InfinityOxygenInbackrooms);
         }
     }
 
