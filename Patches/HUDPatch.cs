@@ -16,15 +16,12 @@ namespace Oxygen.Patches
 
         public static AudioClip[] inhaleSFX = OxygenBase.Instance.inhaleSFX;
 
-        //public static bool instantiating => StartOfRoundPatch.instantiating;
-        //public static bool updatingConfig = StartOfRoundPatch.updatingConfig;
-
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
         private static readonly bool isBackroomsFound = OxygenBase.Instance.isBackroomsFound;
         private const float backroomsOffset = -500f;
 
-        // syncing
+        // syncing with host
         public static bool backroomsCompatibility => Config.Instance.InfinityOxygenInbackrooms.Value;
 
         public static int playerDamage => Config.Instance.playerDamage.Value;

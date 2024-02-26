@@ -108,22 +108,16 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Configuration\Config.cs" />
-    <None Include="Configuration\MoonConfig.csOLD" />
     <Compile Include="Patches\HUDPatch.cs" />
     <Compile Include="Patches\KillPlayerPatch.cs" />
     <None Include="Patches\PlayerControllerBPatch.csOLD" />
     <None Include="Patches\StartOfRoundPatch.csOLD" />
-    <None Include="Patches\TerminalPatch.csOLD" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\oxygensounds" />
-    <None Include="Assets\oxygensoundsOLD" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\heavyinhaleOLD" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,53 +16,27 @@ namespace Oxygen.Configuration
     [DataContract]
     public class Config : SyncedInstance<Config>
     {
-        //[DataMember]
-        //internal SyncedEntry<bool> useMoonsValues;
 
-        // 
         [DataMember]
         internal SyncedEntry<int> playerDamage;
-
-        //[DataMember]
-        //internal SyncedEntry<string> playerDamageMoons;
 
         [DataMember]
         internal SyncedEntry<float> increasingOxygen;
 
-        //[DataMember]
-        //internal SyncedEntry<string> increasingOxygenMoons;
-
         [DataMember]
         internal SyncedEntry<float> decreasingOxygen;
-
-        //[DataMember]
-        //internal SyncedEntry<string> decreasingOxygenMoons;
 
         [DataMember]
         internal SyncedEntry<float> multiplyDecreasingInFear;
 
-        //[DataMember]
-        //internal SyncedEntry<string> multiplyDecreasingInFearMoons;
-
         [DataMember]
         internal SyncedEntry<float> oxygenRunning;
-
-        //[DataMember]
-        //internal SyncedEntry<string> oxygenRunningMoons;
 
         [DataMember]
         internal SyncedEntry<float> oxygenDepletionInWater;
 
-        //[DataMember]
-        //internal SyncedEntry<string> oxygenDepletionInWaterMoons;
-
         [DataMember]
         internal SyncedEntry<float> oxygenDeficiency;
-
-        //[DataMember]
-        //internal SyncedEntry<string> oxygenDeficiencyMoons;
-
-        //
 
         [DataMember]
         internal SyncedEntry<float> secTimer;
@@ -84,30 +58,12 @@ namespace Oxygen.Configuration
         {
             InitInstance(this);
 
-            /*
-            useMoonsValues = file.BindSyncedEntry(
-                "Settings", // Section
-                "useMoonsValues", // Key
-                true, // Default value
-                "Should mod use different values on each moon? If true then mod will use setting from moons.json. Creates after creating a lobby." // Description
-            );
-            */
-
             playerDamage = file.BindSyncedEntry(
                 "Player", // Section
                 "playerDamage", // Key
                 15, // Default value
                 "Sets how many damage player should get when he has no oxygen. (syncing with host)" // Description
             );
-
-            /*
-            playerDamageMoons = file.BindSyncedEntry(
-                "Player", // Section
-                "playerDamageMoons", // Key
-                "null", // Default value
-                "Sets how many damage player should get when he has no oxygen for each moon. Enables if useMoonsValues is enabled. Example: 'Experimentation-15,Secret Labs-15'" // Description
-            );
-            */
 
             increasingOxygen = file.BindSyncedEntry(
                 "Oxygen", // Section
@@ -116,30 +72,12 @@ namespace Oxygen.Configuration
                 "How fast oxygen should be recovered. Happens every frame. (syncing with host)" // Description
             );
 
-            /*
-            increasingOxygenMoons = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "increasingOxygenMoons", // Key
-                "null", // Default value
-                "Sets how many damage player should get when he has no oxygen for each moon. Enables if useMoonsValues is enabled. Example: 'Experimentation-0.001f,Secret Labs-0.001f'" // Description
-            );
-            */
-
             decreasingOxygen = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "decreasingOxygen", // Key
                 0.0083f, // Default value
                 "How fast oxygen is decreasing. Depends on timer setting. (syncing with host)" // Description
             );
-
-            /*
-            decreasingOxygenMoons = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "decreasingOxygenMoons", // Key
-                "null", // Default value
-                "Sets how many damage player should get when he has no oxygen for each moon. Enables if useMoonsValues is enabled. Example: 'Experimentation-0.0083f,Secret Labs-0.0083f'" // Description
-            );
-            */
 
             multiplyDecreasingInFear = file.BindSyncedEntry(
                 "Oxygen", // Section
@@ -148,30 +86,12 @@ namespace Oxygen.Configuration
                 "Multiplies oxygen drain when player in fear. Depends on timer setting. (syncing with host)" // Description
             );
 
-            /*
-            multiplyDecreasingInFearMoons = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "multiplyDecreasingInFearMoons", // Key
-                "null", // Default value
-                "Multiplies oxygen drain when player in fear for each moon. Depends on timer setting. Enables if useMoonsValues is enabled. Example: 'Experimentation-0.006f,Secret Labs-0.006f'" // Description
-            );
-            */
-
             oxygenRunning = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenRunning", // Key
                 0.006f, // Default value
                 "Increases oxygen drain when player running. Depends on timer setting. (syncing with host)" // Description
             );
-
-            /*
-            oxygenRunningMoons = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "oxygenRunningMoons", // Key
-                "null", // Default value
-                "Multiplies oxygen drain when player in fear for each moon. Depends on timer setting. Enables if useMoonsValues is enabled. Example: 'Experimentation-0.006f,Secret Labs-0.006f'" // Description
-            );
-            */
 
             oxygenDeficiency = file.BindSyncedEntry(
                 "Oxygen", // Section
@@ -180,30 +100,12 @@ namespace Oxygen.Configuration
                 "Increases oxygen deficiency when the player's oxygen runs out. Depends on timer setting. (syncing with host)" // Description
             );
 
-            /*
-            oxygenDeficiencyMoons = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "oxygenDeficiencyMoons", // Key
-                "null", // Default value
-                "Multiplies oxygen drain when player in fear for each moon. Depends on timer setting. Enables if useMoonsValues is enabled. Example: 'Experimentation-0.15f,Secret Labs-0.15f'" // Description
-            );
-            */
-
             oxygenDepletionInWater = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenDepletionInWater", // Key
                 0.020f, // Default value
                 "Increases oxygen deficiency when the player underwater. Depends on timer setting. (syncing with host)" // Description
             );
-
-            /* 
-            oxygenDepletionInWaterMoons = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "oxygenDepletionInWaterMoons", // Key
-                "null", // Default value
-                "Multiplies oxygen drain when player in fear for each moon. Depends on timer setting. Enables if useMoonsValues is enabled. Example: 'Experimentation-0.020f,Secret Labs-0.020f'" // Description
-            ); 
-            */
 
             secTimer = file.BindSyncedEntry(
                 "Timer", // Section
@@ -329,94 +231,6 @@ namespace Oxygen.Configuration
         public static void PlayerLeave()
         {
             Config.RevertSync();
-        }
-    }
-
-    public class ConfigHelper
-    {
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
-
-        static dynamic ExtractValueInt(string moon, string text)
-        {
-            dynamic value = null;
-
-            if (moon == "null" || moon == "")
-            {
-                string[] pairs = text.Split(',');
-
-                foreach (string pair in pairs)
-                {
-                    string[] parts = pair.Split('-');
-
-                    if (parts.Length == 2)
-                    {
-                        string moonName = parts[0].Trim();
-                        string moonValue = parts[1].Trim();
-
-                        mls.LogError($"moonName {moonName}");
-                        mls.LogError($"moonValue {moonValue}");
-
-                        if (moonName == moon)
-                        {
-                            if (int.TryParse(moonValue, out var result))
-                            {
-                                value = result;
-                            }
-
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return value;
-        }
-
-        static dynamic ExtractValueFloat(string moon, string text)
-        {
-            dynamic value = null;
-
-            if (moon == "null" || moon == "")
-            {
-                string[] pairs = text.Split(',');
-
-                foreach (string pair in pairs)
-                {
-                    string[] parts = pair.Split('-');
-
-                    if (parts.Length == 2)
-                    {
-                        string moonName = parts[0].Trim();
-                        string moonValue = parts[1].Trim();
-
-                        mls.LogError($"moonName {moonName}");
-                        mls.LogError($"moonValue {moonValue}");
-
-                        if (moonName == moon)
-                        {
-                            if (float.TryParse(moonValue, out var result))
-                            {
-                                value = result;
-                            }
-
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return value;
-        }
-
-        public static void LoadMoonsConfig(string loadedMoons)
-        {
-            List<string> loadedMoonsList = new List<string>(loadedMoons.Split(','));
-
-            // Вывод элементов списка для проверки
-            foreach (var moon in loadedMoonsList)
-            {
-                Console.WriteLine($"found a {moon}");
-            }
         }
     }
 }
