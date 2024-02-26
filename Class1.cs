@@ -20,9 +20,6 @@ namespace Oxygen
         public const string modGUID = "consequential.Oxygen";
         public const string modVersion = "1.1.0";
 
-        //public string moonsConfigPath { get; private set; } = Path.Combine(Paths.ConfigPath, "oxygen", "moons.json");
-        //private string defaultConfigPath = Path.Combine(Paths.ConfigPath, "oxygen", "default.cfg");
-
         private const string backroomsGUID = "Neekhaulas.Backrooms";
         private const string shyHUDGUID = "ShyHUD";
 
@@ -32,9 +29,9 @@ namespace Oxygen
         private readonly Harmony harmony = new(modGUID);
         public ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
 
-        //public new Config Config { get; internal set; }
-
         public AudioClip[] inhaleSFX;
+
+        internal static Config Config;
 
         private void Awake()
         {
@@ -50,18 +47,14 @@ namespace Oxygen
                 var metadata = plugin.Value.Metadata;
                 if (metadata.GUID.Equals(backroomsGUID))
                 {
-                    // found it
                     mls.LogWarning($"Found {backroomsGUID}.");
                     isBackroomsFound = true;
-                    //break;
                 }
 
                 if (metadata.GUID.Equals(shyHUDGUID))
                 {
-                    // found it
                     mls.LogWarning($"Found {shyHUDGUID}.");
                     isShyHUDFound = true;
-                    //break;
                 }
             }
 
@@ -75,11 +68,11 @@ namespace Oxygen
             mls.LogInfo($"Sounds are loaded.");
 
             harmony.PatchAll(typeof(HUDPatch));
+            harmony.PatchAll(typeof(OxygenHUD));
             harmony.PatchAll(typeof(KillPlayerPatch));
             harmony.PatchAll(typeof(Config));
-            //harmony.PatchAll(typeof(StartOfRoundPatch));
 
-            _ = new Config(((BaseUnityPlugin)this).Config);
+            Config = new Config(((BaseUnityPlugin)this).Config);
             mls.LogInfo($"Config is loaded.");
 
             mls.LogInfo($"{modName} is loaded!");

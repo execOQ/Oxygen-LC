@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Unity.Collections;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace Oxygen.Configuration
 {
@@ -43,6 +44,11 @@ namespace Oxygen.Configuration
 
         [DataMember]
         internal SyncedEntry<bool> InfinityOxygenInbackrooms;
+
+        [DataMember]
+        internal SyncedEntry<bool> ShyHUDSupport;
+
+        internal ConfigEntry<Vector3> OxygenHUDPosition;
 
         internal ConfigEntry<bool> notifications;
 
@@ -147,6 +153,20 @@ namespace Oxygen.Configuration
                 "InfinityOxygenInbackrooms", // Key
                 true, // Default value
                 "Oxygen becomes infinite when the player teleports to the backrooms (mod). (syncing with host)" // Description
+            );
+
+            ShyHUDSupport = file.BindSyncedEntry(
+                "Compatibility", // Section
+                "ShyHUDSupport", // Key
+                true, // Default value
+                "hud disappears if oxygen value > 55 (syncing with host)" // Description
+            );
+
+            OxygenHUDPosition = file.Bind(
+                "Compatibility", // Section
+                "OxygenHUDPosition", // Key
+                new Vector3(-317.386f, 125.961f, -13.0994f), // Default value
+                "Oxygen HUD postion (X, Y, Z)" // Description
             );
         }
 

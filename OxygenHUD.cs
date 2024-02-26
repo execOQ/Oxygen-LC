@@ -1,56 +1,39 @@
 ﻿using BepInEx.Logging;
-using CSync.Lib;
+using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 
-namespace Oxygen.Patches
+namespace Oxygen
 {
-    [HarmonyPatch]
-    internal class StartOfRoundPatch : MonoBehaviour
+    internal class OxygenHUD : MonoBehaviour
     {
         public static Image oxygenUI;
 
-        public static bool instantiating = true;
+        public static bool initialized = false;
 
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
-        //public static Config config;
+        public static float volume => OxygenBase.Config.SFXvolume.Value;
 
-        [HarmonyPatch(typeof(GameNetworkManager), "Disconnect")]
-        [HarmonyPrefix]
-        public static void UnInstantiate()
+        public static void Init()
         {
-            instantiating = true;
-        }
-
-        [HarmonyPatch(typeof(StartOfRound), "SceneManager_OnLoadComplete1")]
-        [HarmonyPostfix]
-        public static void Init_oxyHUD()
-        {
-            if (instantiating)
+            if (!initialized)
             {
                 GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/SprintMeter");
                 GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
 
                 if (sprintMeter == null || topLeftCorner == null)
                 {
-                    mls.LogError("oxygenMeter or oxyUI is null");
+                    mls.LogError("oxygenMeter or topLeftCorner is null");
                     return;
                 }
 
                 GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
 
                 oxygenMeter.name = "OxygenMeter";
-                oxygenMeter.transform.localPosition = new Vector3(-317.386f, 125.961f, -13.0994f);
+                oxygenMeter.transform.localPosition = OxygenBase.Config.OxygenHUDPosition.Value;
                 oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
                 oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
 
@@ -71,8 +54,25 @@ namespace Oxygen.Patches
 
                 mls.LogInfo("statusEffectHUD is fixed");
 
-                instantiating = false;
+                mls.LogWarning($"config synced: {Config.Synced}");
+
+                initialized = true;
             }
+        }
+
+        internal static void PlaySFX(PlayerControllerB pc, AudioClip clip)
+        {
+            AudioSource audio = pc.waterBubblesAudio;
+            if (audio.isPlaying) audio.Stop();
+
+            audio.PlayOneShot(clip, Random.Range(volume - 0.18f, volume));
+        }
+
+        [HarmonyPatch(typeof(GameNetworkManager), "Disconnect")]
+        [HarmonyPrefix]
+        public static void UnInstantiate()
+        {
+            initialized = false;
         }
     }
 }

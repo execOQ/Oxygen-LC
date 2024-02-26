@@ -108,10 +108,10 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Configuration\Config.cs" />
+    <None Include="Configuration\MoonConfig.csOLD" />
+    <Compile Include="OxygenHUD.cs" />
     <Compile Include="Patches\HUDPatch.cs" />
     <Compile Include="Patches\KillPlayerPatch.cs" />
-    <None Include="Patches\PlayerControllerBPatch.csOLD" />
-    <None Include="Patches\StartOfRoundPatch.csOLD" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -2,7 +2,9 @@
 using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 namespace Oxygen.Patches
@@ -10,15 +12,12 @@ namespace Oxygen.Patches
     [HarmonyPatch]
     internal class HUDPatch : MonoBehaviour
     {
-        public static Image oxygenUI;
-
-        public static bool instantiating = true;
-
         public static AudioClip[] inhaleSFX = OxygenBase.Instance.inhaleSFX;
+
+        public static Image OxygenUI => OxygenHUD.oxygenUI;
 
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
-        private static readonly bool isBackroomsFound = OxygenBase.Instance.isBackroomsFound;
         private const float backroomsOffset = -500f;
 
         // syncing with host
@@ -38,89 +37,57 @@ namespace Oxygen.Patches
         public static float secTimer => Config.Instance.secTimer.Value;  // number of seconds the cool down timer lasts
         //
 
-        public static bool enableOxygenSFX => Config.Instance.enableOxygenSFX.Value;
-        public static bool enableOxygenSFXInShip => Config.Instance.enableOxygenSFXInShip.Value;
-        public static float volume => Config.Instance.SFXvolume.Value;
+        public static bool enableOxygenSFX => OxygenBase.Config.enableOxygenSFX.Value;
+        public static bool enableOxygenSFXInShip => OxygenBase.Config.enableOxygenSFXInShip.Value;
 
         public static float secTimerInFear = 2f;
 
         private static float timeSinceLastAction = 0f;  //number of seconds since we did something
         private static float timeSinceLastFear = 0f;  //number of seconds since we were fear
 
-        public static bool isNotification => Config.Instance.notifications.Value;
+        public static bool isNotification => OxygenBase.Config.notifications.Value;
 
         internal static bool backroomsNotification = false;
         internal static bool firstNotification = false;
         internal static bool warningNotification = false;
 
-        [HarmonyPatch(typeof(GameNetworkManager), "Disconnect")]
-        [HarmonyPrefix]
-        public static void UnInstantiate()
+        [HarmonyPostfix]
+        //[HarmonyPatch(typeof(HUDManager), "Awake")]
+        [HarmonyPatch(typeof(StartOfRound), "SceneManager_OnLoadComplete1")]
+        public static void BuildHUD(HUDManager __instance)
         {
-            instantiating = true;
+            __instance.StartCoroutine(AwaitPlayerController());
+
+            OxygenHUD.Init();
         }
 
-        [HarmonyPatch(typeof(StartOfRound), "SceneManager_OnLoadComplete1")]
         [HarmonyPostfix]
-        public static void Init_oxyHUD()
+        [HarmonyPatch(typeof(PlayerControllerB), "LateUpdate")]
+        public static void LateUpdatePatch(ref PlayerControllerB __instance)
         {
-            if (instantiating)
+            if (!OxygenHUD.initialized) return;
+
+            if (OxygenBase.Instance.isShyHUDFound && Config.Instance.ShyHUDSupport)
             {
-                GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/SprintMeter");
-                GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
-
-                if (sprintMeter == null || topLeftCorner == null)
+                if (OxygenUI.fillAmount >= 0.55f)
                 {
-                    mls.LogError("oxygenMeter or oxyUI is null");
-                    return;
+                    OxygenUI.CrossFadeAlpha(0f, 5f, ignoreTimeScale: false);
                 }
-
-                GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
-
-                oxygenMeter.name = "OxygenMeter";
-                oxygenMeter.transform.localPosition = new Vector3(-317.386f, 125.961f, -13.0994f);
-                oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
-                oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
-
-                oxygenUI = oxygenMeter.transform.GetComponent<Image>();
-                oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
-
-                mls.LogInfo("Oxygen UI instantiated");
-
-                GameObject statusEffectHUD = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/StatusEffects");
-                if (statusEffectHUD == null)
+                else
                 {
-                    mls.LogError("statusEffectHUD is null");
-                    return;
+                    OxygenUI.CrossFadeAlpha(1f, 0.5f, ignoreTimeScale: false);
                 }
-
-                statusEffectHUD.transform.localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
-                //HUDManager.Instance.DisplayStatusEffect("Oxygen critically low!");
-
-                mls.LogInfo("statusEffectHUD is fixed");
-
-                mls.LogWarning($"config synced: {Config.Synced}");
-
-                instantiating = false;
             }
         }
 
-        private static void PlaySFX(PlayerControllerB pc, AudioClip clip)
-        {
-            AudioSource audio = pc.waterBubblesAudio;
-            if (audio.isPlaying) audio.Stop();
-
-            audio.PlayOneShot(clip, Random.Range(volume - 0.18f, volume));
-        }
-
-
-        [HarmonyPatch(typeof(HUDManager), "Update")]
         [HarmonyPostfix]
-        public static void Update()
+        //[HarmonyPatch(typeof(PlayerControllerB), "LateUpdate")]
+        [HarmonyPatch(typeof(HUDManager), "Update")]
+        public static void UpdatePatch()
         {
-            if (instantiating)
+            if (!OxygenHUD.initialized)
             {
-                mls.LogError("HUDPatch is still instantiating");
+                mls.LogError("OxygenHUD is still instantiating");
                 return;
             }
 
@@ -139,7 +106,7 @@ namespace Oxygen.Patches
                 return;
             }
 
-            if (oxygenUI == null)
+            if (OxygenUI == null)
             {
                 mls.LogError("oxygenUI is null");
                 return;
@@ -161,11 +128,11 @@ namespace Oxygen.Patches
             // can cause a problems with other mods (●'◡'●)
             if (!pController.isInsideFactory)
             {
-                sor.drowningTimer = oxygenUI.fillAmount;
+                sor.drowningTimer = OxygenUI.fillAmount;
             }
 
             // i think it could cause a troubles if other mods teleport player in the same offset
-            if (isBackroomsFound && backroomsCompatibility)
+            if (OxygenBase.Instance.isBackroomsFound && backroomsCompatibility)
             {
                 if (pController.serverPlayerPosition.y == backroomsOffset)
                 {
@@ -195,7 +162,7 @@ namespace Oxygen.Patches
                     {
                         if (!pController.isInHangarShipRoom || (pController.isInHangarShipRoom && enableOxygenSFXInShip))
                         {
-                            PlaySFX(pController, inhaleSFX[0]);
+                            OxygenHUD.PlaySFX(pController, inhaleSFX[0]);
                         }
                     }
 
@@ -220,7 +187,7 @@ namespace Oxygen.Patches
                     if (!pController.isInHangarShipRoom || (pController.isInHangarShipRoom && enableOxygenSFXInShip))
                     {
                         int index = Random.Range(0, inhaleSFX.Length);
-                        PlaySFX(pController, inhaleSFX[index]);
+                        OxygenHUD.PlaySFX(pController, inhaleSFX[index]);
                     }
                 }
 
@@ -231,7 +198,6 @@ namespace Oxygen.Patches
 
                     //mls.LogInfo($"oxyUI.fillAmount: {oxyUI.fillAmount}");
                     //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
-                    return;
                 }
 
                 // if player running the oxygen goes away faster
@@ -246,21 +212,22 @@ namespace Oxygen.Patches
                 {
                     //isRecovering = false; // just to prevent creating a lot logs about recovering oxygen when player in ship
 
-                    oxygenUI.fillAmount -= localDecValue;
-                    mls.LogInfo($"current oxygen level: {oxygenUI.fillAmount}");
+                    OxygenUI.fillAmount -= localDecValue;
+                    mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
                 }
 
                 // inside factory
                 if (pController.isInsideFactory)
                 {
-                    oxygenUI.fillAmount -= localDecValue;
-                    mls.LogInfo($"current oxygen level: {oxygenUI.fillAmount}");
+                    OxygenUI.fillAmount -= localDecValue;
+                    mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
                 }
 
                 // notification about low level of oxygen
-                if (oxygenUI.fillAmount < 0.45)
+                if (OxygenUI.fillAmount < 0.45)
                 {
-                    if (!firstNotification) { 
+                    if (!firstNotification)
+                    {
                         if (isNotification)
                         {
                             HUDManager.Instance.DisplayTip("System...", "The oxygen tanks are running low.");
@@ -270,27 +237,27 @@ namespace Oxygen.Patches
                 }
 
                 // system warning
-                if (oxygenUI.fillAmount < 0.35)
+                if (OxygenUI.fillAmount < 0.35)
                 {
                     if (!warningNotification)
                     {
                         if (isNotification)
                         {
                             HUDManager.Instance.DisplayTip("System...", "There is a critical level of oxygen in the oxygen tanks, fill it up immediately!", isWarning: true);
-                        }                                
+                        }
                         warningNotification = true;
                     }
                 }
 
                 // increasing drunkness
-                if (oxygenUI.fillAmount < 0.33)
+                if (OxygenUI.fillAmount < 0.33)
                 {
                     pController.drunkness += oxygenDeficiency;
                     mls.LogInfo($"current oxygen deficiency level: {pController.drunkness}");
                 }
 
                 // 0.30 is the lowest value when we see UI meter
-                if (oxygenUI.fillAmount < 0.30)
+                if (OxygenUI.fillAmount < 0.30)
                 {
                     pController.DamagePlayer(playerDamage);
                 }
@@ -303,13 +270,19 @@ namespace Oxygen.Patches
             // in ship
             if (pController.isInHangarShipRoom)
             {
-                if (oxygenUI.fillAmount != 1) {
-                    oxygenUI.fillAmount += increasingOxygen;
-                    mls.LogInfo($"Oxygen is recovering: {oxygenUI.fillAmount}");
+                if (OxygenUI.fillAmount != 1)
+                {
+                    OxygenUI.fillAmount += increasingOxygen;
+                    mls.LogInfo($"Oxygen is recovering: {OxygenUI.fillAmount}");
                 }
 
                 if (pController.drunkness != 0) pController.drunkness -= increasingOxygen;
             }
+        }
+
+        private static IEnumerator AwaitPlayerController()
+        {
+            yield return new WaitUntil(() => (Object)(object)GameNetworkManager.Instance.localPlayerController != null);
         }
     }
 }
