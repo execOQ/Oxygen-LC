@@ -1,0 +1,44 @@
+﻿using BepInEx;
+using GameNetcodeStuff;
+using HarmonyLib;
+using Oxygen.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using Unity.Netcode;
+using UnityEngine;
+
+namespace Oxygen.Patches
+{
+    [HarmonyPatch]
+    public class PlayerControllerBPatch
+    {
+        internal static bool IsHost => NetworkManager.Singleton.IsHost;
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(PlayerControllerB), "ConnectClientToPlayerObject")]
+        public static void InitializeLocalPlayer()
+        {
+            if (IsHost)
+            {
+                Config.MessageManager.RegisterNamedMessageHandler($"{OxygenBase.modGUID}_OnRequestConfigSync", Config.OnRequestSync);
+                Config.Synced = true;
+                return;
+            }
+
+            Config.Synced = false;
+            Config.MessageManager.RegisterNamedMessageHandler($"{OxygenBase.modGUID}_OnReceiveConfigSync", Config.OnReceiveSync);
+            Config.RequestSync();
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(GameNetworkManager), "StartDisconnect")]
+        public static void PlayerLeave()
+        {
+            Config.RevertSync();
+        }
+    }
+}

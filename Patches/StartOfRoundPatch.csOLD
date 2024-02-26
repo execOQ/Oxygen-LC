@@ -1,0 +1,78 @@
+﻿using BepInEx.Logging;
+using CSync.Lib;
+using HarmonyLib;
+using Oxygen.Configuration;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Windows;
+
+namespace Oxygen.Patches
+{
+    [HarmonyPatch]
+    internal class StartOfRoundPatch : MonoBehaviour
+    {
+        public static Image oxygenUI;
+
+        public static bool instantiating = true;
+
+        public static ManualLogSource mls = OxygenBase.Instance.mls;
+
+        //public static Config config;
+
+        [HarmonyPatch(typeof(GameNetworkManager), "Disconnect")]
+        [HarmonyPrefix]
+        public static void UnInstantiate()
+        {
+            instantiating = true;
+        }
+
+        [HarmonyPatch(typeof(StartOfRound), "SceneManager_OnLoadComplete1")]
+        [HarmonyPostfix]
+        public static void Init_oxyHUD()
+        {
+            if (instantiating)
+            {
+                GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/SprintMeter");
+                GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
+
+                if (sprintMeter == null || topLeftCorner == null)
+                {
+                    mls.LogError("oxygenMeter or oxyUI is null");
+                    return;
+                }
+
+                GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
+
+                oxygenMeter.name = "OxygenMeter";
+                oxygenMeter.transform.localPosition = new Vector3(-317.386f, 125.961f, -13.0994f);
+                oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
+                oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
+
+                oxygenUI = oxygenMeter.transform.GetComponent<Image>();
+                oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+
+                mls.LogInfo("Oxygen UI instantiated");
+
+                GameObject statusEffectHUD = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/StatusEffects");
+                if (statusEffectHUD == null)
+                {
+                    mls.LogError("statusEffectHUD is null");
+                    return;
+                }
+
+                statusEffectHUD.transform.localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
+                //HUDManager.Instance.DisplayStatusEffect("Oxygen critically low!");
+
+                mls.LogInfo("statusEffectHUD is fixed");
+
+                instantiating = false;
+            }
+        }
+    }
+}

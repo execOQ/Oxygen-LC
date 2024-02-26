@@ -1,0 +1,187 @@
+﻿using BepInEx.Logging;
+using CSync.Lib;
+using CSync.Util;
+using Newtonsoft.Json;
+using Oxygen;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using Unity.Collections;
+using Unity.Netcode;
+using static Oxygen.Configuration.MoonConfigOLD;
+
+namespace Oxygen.Configuration
+{
+    [DataContract]
+    public class MoonConfigOLD : SyncedInstance<MoonConfigOLD>
+    {
+        [DataContract]
+        public class Moon
+        {
+            [DataMember]
+            public string moonName;
+
+            [DataMember]
+            public int playerDamage = 15;
+
+            [DataMember]
+            public float increasingOxygen = 0.001f;
+
+            [DataMember]
+            public float decreasingOxygen = 0.0083f;
+
+            [DataMember]
+            public float multiplyDecreasingInFear = 0.006f;
+
+            [DataMember]
+            public float oxygenRunning = 0.006f;
+
+            [DataMember]
+            public float oxygenDepletionInWater = 0.020f;
+
+            [DataMember]
+            public float oxygenDeficiency = 0.15f;
+        }
+
+        public List<Moon> moonsConfig = [];
+
+        private static readonly ManualLogSource mls = new($"{OxygenBase.modName} > MoonConfig");
+
+        /* public MoonConfigOLD(string filePath)
+        {
+            InitInstance(this);
+
+            moonsConfig = ConfigJSONBuilder.LoadJSON();
+
+        } */
+
+        internal static void RequestSync()
+        {
+            if (!IsClient) return;
+
+            using FastBufferWriter stream = new(IntSize, Allocator.Temp);
+
+            // Method `OnRequestSync` will then get called on host.
+            stream.SendMessage($"{OxygenBase.modGUID}_OnRequestMoonsConfigSync");
+        }
+
+        internal static void OnRequestSync(ulong clientId, FastBufferReader _)
+        {
+            if (!IsHost) return;
+
+            byte[] array = SerializeToBytes(Instance);
+            int value = array.Length;
+
+            using FastBufferWriter stream = new(value + IntSize, Allocator.Temp);
+
+            try
+            {
+                stream.WriteValueSafe(in value, default);
+                stream.WriteBytesSafe(array);
+
+                stream.SendMessage($"{OxygenBase.modGUID}_OnReceiveMoonsConfigSync", clientId);
+            }
+            catch (Exception e)
+            {
+                mls.LogError($"Error occurred syncing config with client: {clientId}\n{e}");
+            }
+        }
+
+        internal static void OnReceiveSync(ulong _, FastBufferReader reader)
+        {
+            if (!reader.TryBeginRead(IntSize))
+            {
+                mls.LogError("Config sync error: Could not begin reading buffer.");
+                return;
+            }
+
+            reader.ReadValueSafe(out int val, default);
+            if (!reader.TryBeginRead(val))
+            {
+                mls.LogError("Config sync error: Host could not sync.");
+                return;
+            }
+
+            byte[] data = new byte[val];
+            reader.ReadBytesSafe(ref data, val);
+
+            try
+            {
+                SyncInstance(data);
+                mls.LogError($"SyncInstance");
+            }
+            catch (Exception e)
+            {
+                mls.LogError($"Error syncing config instance!\n{e}");
+            }
+        }
+    }
+}
+
+/*internal class ConfigJSONBuilder
+{
+    private static readonly ManualLogSource mls = new($"{OxygenBase.modName} > MoonConfig");
+
+    private static readonly string filePath = OxygenBase.Instance.moonsConfigPath;
+
+    public static List<Moon> LoadJSON()
+    {
+        if (File.Exists(filePath))
+        {
+            string existingJson = File.ReadAllText(filePath);
+            List<Moon> dataList = JsonConvert.DeserializeObject<List<Moon>>(existingJson);
+
+            mls.LogInfo("Moons.json was loaded.");
+
+            return dataList;
+        }
+        else
+        {
+            mls.LogWarning("Moons.json was not found. Will be created when lobby will be created.");
+
+            return null;
+        }
+    }
+
+    public static void CreateJSON(List<Moon> data)
+    {
+        string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+        File.WriteAllText(filePath, json);
+
+        Console.WriteLine("moons.json was created.");
+    }
+
+    public static void UpdateJSON(List<Moon> data)
+    {
+        List<Moon> dataInJSON = LoadJSON();
+
+        if (dataInJSON != null)
+        {
+            foreach (var newDataItem in data)
+            {
+                var existingDataItem = dataInJSON.FirstOrDefault(d => d.moonName == newDataItem.moonName);
+
+                if (existingDataItem == null)
+                {
+                    dataInJSON.Add(newDataItem);
+                }
+            }
+
+            string updatedJson = JsonConvert.SerializeObject(dataInJSON, Formatting.Indented);
+
+            File.WriteAllText(filePath, updatedJson);
+
+            mls.LogInfo("Data has been successfully updated in moons.json.");
+        }
+        else
+        {
+            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(filePath, json);
+
+            mls.LogInfo("moons.json wasn't found and has been created.");
+        }
+    }
+}
+*/
