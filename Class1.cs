@@ -18,7 +18,7 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.1.0";
+        public const string modVersion = "1.2.0";
 
         private const string backroomsGUID = "Neekhaulas.Backrooms";
         private const string shyHUDGUID = "ShyHUD";

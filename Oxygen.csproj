@@ -108,7 +108,6 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Configuration\Config.cs" />
-    <None Include="Configuration\MoonConfig.csOLD" />
     <Compile Include="OxygenHUD.cs" />
     <Compile Include="Patches\HUDPatch.cs" />
     <Compile Include="Patches\KillPlayerPatch.cs" />
