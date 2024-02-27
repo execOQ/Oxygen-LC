@@ -14,6 +14,7 @@ namespace Oxygen
     [BepInDependency(backroomsGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(shyHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(LCAPIGUID, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(OopsAllFloodedGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class OxygenBase : BaseUnityPlugin
     {
         public static OxygenBase Instance { get; private set; }
@@ -25,10 +26,13 @@ namespace Oxygen
         private const string backroomsGUID = "Neekhaulas.Backrooms";
         private const string shyHUDGUID = "ShyHUD";
         private const string LCAPIGUID = "LC_API";
+        private const string OopsAllFloodedGUID = "squirrelboy.OopsAllFlooded";
 
         public bool isBackroomsFound { get; private set; } = false;
         public bool isShyHUDFound { get; private set; } = false;
         public bool isLCAPIFound { get; private set; } = false;
+        public bool isOopsAllFloodedFound { get; private set; } = false;
+
 
         private readonly Harmony harmony = new(modGUID);
         public ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
@@ -111,6 +115,19 @@ namespace Oxygen
                 {
                     mls.LogInfo("Backrooms is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
                     isBackroomsFound = true;
+                }
+            }
+            if (Chainloader.PluginInfos.ContainsKey(OopsAllFloodedGUID))
+            {
+                Chainloader.PluginInfos.TryGetValue(OopsAllFloodedGUID, out var value);
+                if (value == null)
+                {
+                    mls.LogError("Detected OopsAllFlooded, but could not get plugin info!");
+                }
+                else
+                {
+                    mls.LogInfo("OopsAllFlooded is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
+                    isOopsAllFloodedFound = true;
                 }
             }
         }

@@ -170,7 +170,7 @@ namespace Oxygen.Patches
                     // just unnecessary to decrease oxygen in ship ~_~
                     if (!pController.isInHangarShipRoom)
                     {
-                        mls.LogError("playing sound cause fearLevelIncreasing. oxygen consumption is increased by 2");
+                        mls.LogInfo($"playing sound cause fearLevelIncreasing. oxygen consumption is increased by {multiplyDecreasingInFear}");
                         //mls.LogError($"fear level: {sor.fearLevel}");
 
                         localDecValue += multiplyDecreasingInFear;
