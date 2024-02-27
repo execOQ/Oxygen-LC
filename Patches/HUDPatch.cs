@@ -19,10 +19,10 @@ namespace Oxygen.Patches
 
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
-        private const float backroomsOffset = -500f;
+        private const float offset = -400f;
 
         // syncing with host
-        public static bool backroomsCompatibility => Config.Instance.InfinityOxygenInbackrooms.Value;
+        public static bool InfinityOxygenInModsPlaces => Config.Instance.InfinityOxygenInModsPlaces.Value;
 
         public static int playerDamage => Config.Instance.playerDamage.Value;
 
@@ -132,24 +132,21 @@ namespace Oxygen.Patches
                 sor.drowningTimer = OxygenUI.fillAmount;
             }
 
-            // i think it could cause a troubles if other mods teleport player in the same offset
-            if (OxygenBase.Instance.isBackroomsFound && backroomsCompatibility)
+            // just for simplification if player was teleported and unable to refill oxygen
+            if (InfinityOxygenInModsPlaces && pController.serverPlayerPosition.y <= offset)
             {
-                if (pController.serverPlayerPosition.y == backroomsOffset)
+                if (!backroomsNotification)
                 {
-                    if (!backroomsNotification)
+                    if (isNotification)
                     {
-                        if (isNotification)
-                        {
-                            HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
-                        }
-                        backroomsNotification = true;
+                        HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
                     }
-
-                    if (pController.drunkness != 0) pController.drunkness -= increasingOxygen;
-
-                    return;
+                    backroomsNotification = true;
                 }
+
+                if (pController.drunkness != 0) pController.drunkness -= increasingOxygen;
+
+                return;
             }
 
             if (timeSinceLastFear >= secTimerInFear)
@@ -170,7 +167,7 @@ namespace Oxygen.Patches
                     // just unnecessary to decrease oxygen in ship ~_~
                     if (!pController.isInHangarShipRoom)
                     {
-                        mls.LogError("playing sound cause fearLevelIncreasing. oxygen consumption is increased by 2");
+                        mls.LogInfo("playing sound cause fearLevelIncreasing. oxygen consumption is increased by 2");
                         //mls.LogError($"fear level: {sor.fearLevel}");
 
                         localDecValue += multiplyDecreasingInFear;

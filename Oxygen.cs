@@ -11,7 +11,6 @@ namespace Oxygen
 {
     [BepInPlugin(modGUID, modName, modVersion)]
     [BepInDependency("io.github.CSync")]
-    [BepInDependency(backroomsGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(shyHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(LCAPIGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class OxygenBase : BaseUnityPlugin
@@ -20,13 +19,11 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.2.1";
+        public const string modVersion = "1.2.2";
 
-        private const string backroomsGUID = "Neekhaulas.Backrooms";
         private const string shyHUDGUID = "ShyHUD";
         private const string LCAPIGUID = "LC_API";
 
-        public bool isBackroomsFound { get; private set; } = false;
         public bool isShyHUDFound { get; private set; } = false;
         public bool isLCAPIFound { get; private set; } = false;
 
@@ -98,19 +95,6 @@ namespace Oxygen
                 {
                     mls.LogInfo("ShyHUD is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
                     isShyHUDFound = true;
-                }
-            }
-            if (Chainloader.PluginInfos.ContainsKey(backroomsGUID))
-            {
-                Chainloader.PluginInfos.TryGetValue(backroomsGUID, out var value);
-                if (value == null)
-                {
-                    mls.LogError("Detected Backrooms, but could not get plugin info!");
-                }
-                else
-                {
-                    mls.LogInfo("Backrooms is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
-                    isBackroomsFound = true;
                 }
             }
         }

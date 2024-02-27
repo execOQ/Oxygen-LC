@@ -41,7 +41,7 @@ namespace Oxygen.Configuration
         internal SyncedEntry<float> secTimer;
 
         [DataMember]
-        internal SyncedEntry<bool> InfinityOxygenInbackrooms;
+        internal SyncedEntry<bool> InfinityOxygenInModsPlaces;
 
         [DataMember]
         internal SyncedEntry<bool> ShyHUDSupport;
@@ -146,11 +146,11 @@ namespace Oxygen.Configuration
                 "Remains oxygen inhalation sounds when player in ship. Depends on enableOxygenSFX variable." // Description
             );
 
-            InfinityOxygenInbackrooms = file.BindSyncedEntry(
+            InfinityOxygenInModsPlaces = file.BindSyncedEntry(
                 "Compatibility", // Section
-                "InfinityOxygenInbackrooms", // Key
+                "InfinityOxygenInModsPlaces", // Key
                 true, // Default value
-                "Oxygen becomes infinite when the player teleports to the backrooms (mod). (syncing with host)" // Description
+                "Oxygen becomes infinite when the player teleports to mod's places to simplificate gameplay. (syncing with host)" // Description
             );
 
             ShyHUDSupport = file.BindSyncedEntry(
