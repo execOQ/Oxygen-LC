@@ -6,7 +6,7 @@ using System;
 
 namespace Oxygen.Patches
 {
-    internal static class Utils
+    internal static class Utilities
     {
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource($"{OxygenBase.modName} > Utils");
 

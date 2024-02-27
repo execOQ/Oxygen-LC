@@ -17,6 +17,8 @@ namespace Oxygen
 
         public static float volume => OxygenBase.Config.SFXvolume.Value;
 
+        public static bool diedBecauseOfOxygen = false;
+
         public static void Init()
         {
             if (!initialized)

@@ -1,12 +1,10 @@
-﻿using BepInEx;
-using BepInEx.Configuration;
+﻿using BepInEx.Configuration;
 using BepInEx.Logging;
 using CSync.Lib;
 using CSync.Util;
 using GameNetcodeStuff;
 using HarmonyLib;
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Unity.Collections;
 using Unity.Netcode;
@@ -15,7 +13,7 @@ using UnityEngine;
 namespace Oxygen.Configuration
 {
     [DataContract]
-    public class Config : SyncedInstance<Config>
+    public class Config : SyncedConfig<Config>
     {
 
         [DataMember]
@@ -60,9 +58,9 @@ namespace Oxygen.Configuration
 
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
-        public Config(ConfigFile file)
+        public Config(ConfigFile file) : base(OxygenBase.modGUID)
         {
-            InitInstance(this);
+            ConfigManager.Register(this);
 
             playerDamage = file.BindSyncedEntry(
                 "Player", // Section
@@ -168,89 +166,6 @@ namespace Oxygen.Configuration
                 new Vector3(-317.386f, 125.961f, -13.0994f), // Default value
                 "Oxygen HUD postion (X, Y, Z)" // Description
             );
-        }
-
-        internal static void RequestSync()
-        {
-            if (!IsClient) return;
-
-            using FastBufferWriter stream = new(IntSize, Allocator.Temp);
-
-            // Method `OnRequestSync` will then get called on host.
-            stream.SendMessage($"{OxygenBase.modGUID}_OnRequestConfigSync");
-        }
-
-        internal static void OnRequestSync(ulong clientId, FastBufferReader _)
-        {
-            if (!IsHost) return;
-
-            byte[] array = SerializeToBytes(Instance);
-            int value = array.Length;
-
-            using FastBufferWriter stream = new(value + IntSize, Allocator.Temp);
-
-            try
-            {
-                stream.WriteValueSafe(in value, default);
-                stream.WriteBytesSafe(array);
-
-                stream.SendMessage($"{OxygenBase.modGUID}_OnReceiveConfigSync", clientId);
-            }
-            catch (Exception e)
-            {
-                mls.LogError($"Error occurred syncing config with client: {clientId}\n{e}");
-            }
-        }
-
-        internal static void OnReceiveSync(ulong _, FastBufferReader reader)
-        {
-            if (!reader.TryBeginRead(IntSize))
-            {
-                mls.LogError("Config sync error: Could not begin reading buffer.");
-                return;
-            }
-
-            reader.ReadValueSafe(out int val, default);
-            if (!reader.TryBeginRead(val))
-            {
-                mls.LogError("Config sync error: Host could not sync.");
-                return;
-            }
-
-            byte[] data = new byte[val];
-            reader.ReadBytesSafe(ref data, val);
-
-            try
-            {
-                SyncInstance(data);
-            }
-            catch (Exception e)
-            {
-                mls.LogError($"Error syncing config instance!\n{e}");
-            }
-        }
-
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(PlayerControllerB), "ConnectClientToPlayerObject")]
-        public static void InitializeLocalPlayer()
-        {
-            if (IsHost)
-            {
-                Config.MessageManager.RegisterNamedMessageHandler($"{OxygenBase.modGUID}_OnRequestConfigSync", Config.OnRequestSync);
-                Config.Synced = true;
-                return;
-            }
-
-            Config.Synced = false;
-            Config.MessageManager.RegisterNamedMessageHandler($"{OxygenBase.modGUID}_OnReceiveConfigSync", Config.OnReceiveSync);
-            Config.RequestSync();
-        }
-
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(GameNetworkManager), "StartDisconnect")]
-        public static void PlayerLeave()
-        {
-            Config.RevertSync();
         }
     }
 }

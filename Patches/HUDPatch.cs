@@ -2,6 +2,7 @@
 using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
+using Oxygen.Utils;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -258,7 +259,7 @@ namespace Oxygen.Patches
 
                 // 0.30 is the lowest value when we see UI meter
                 if (OxygenUI.fillAmount < 0.30)
-                {
+                {              
                     pController.DamagePlayer(playerDamage);
                 }
 
