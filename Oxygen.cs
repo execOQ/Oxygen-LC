@@ -13,19 +13,22 @@ namespace Oxygen
     [BepInDependency("io.github.CSync")]
     [BepInDependency(shyHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(LCAPIGUID, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(EladsHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class OxygenBase : BaseUnityPlugin
     {
         public static OxygenBase Instance { get; private set; }
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.2.2";
+        public const string modVersion = "1.2.3";
 
         private const string shyHUDGUID = "ShyHUD";
         private const string LCAPIGUID = "LC_API";
+        private const string EladsHUDGUID = "me.eladnlg.customhud";
 
         public bool isShyHUDFound { get; private set; } = false;
         public bool isLCAPIFound { get; private set; } = false;
+        public bool isEladsHUDFound { get; private set; } = false;
 
         private readonly Harmony harmony = new(modGUID);
         public ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
@@ -95,6 +98,19 @@ namespace Oxygen
                 {
                     mls.LogInfo("ShyHUD is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
                     isShyHUDFound = true;
+                }
+            }
+            if (Chainloader.PluginInfos.ContainsKey(EladsHUDGUID))
+            {
+                Chainloader.PluginInfos.TryGetValue(EladsHUDGUID, out var value);
+                if (value == null)
+                {
+                    mls.LogError("Detected EladsHUD, but could not get plugin info!");
+                }
+                else
+                {
+                    mls.LogInfo("EladsHUD is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
+                    isEladsHUDFound = true;
                 }
             }
         }

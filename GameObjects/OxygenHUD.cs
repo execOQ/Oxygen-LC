@@ -2,6 +2,7 @@
 using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,8 @@ namespace Oxygen
     internal class OxygenHUD : MonoBehaviour
     {
         public static Image oxygenUI;
+
+        public static TextMeshProUGUI EladsOxygenUIText;
 
         public static bool initialized = false;
 
@@ -23,43 +26,99 @@ namespace Oxygen
         {
             if (!initialized)
             {
-                GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/SprintMeter");
-                GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
-
-                if (sprintMeter == null || topLeftCorner == null)
+                if (!OxygenBase.Instance.isEladsHUDFound)
                 {
-                    mls.LogError("oxygenMeter or topLeftCorner is null");
-                    return;
-                }
-
-                GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
-
-                oxygenMeter.name = "OxygenMeter";
-                oxygenMeter.transform.localPosition = OxygenBase.Config.OxygenHUDPosition.Value;
-                oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
-                oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
-
-                oxygenUI = oxygenMeter.transform.GetComponent<Image>();
-                oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
-
-                mls.LogInfo("Oxygen UI instantiated");
-
-                GameObject statusEffectHUD = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/StatusEffects");
-                if (statusEffectHUD == null)
+                    Init_vanilla();
+                } 
+                else 
                 {
-                    mls.LogError("statusEffectHUD is null");
-                    return;
+                    Init_ElandHUD();
                 }
-
-                statusEffectHUD.transform.localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
-                //HUDManager.Instance.DisplayStatusEffect("Oxygen critically low!");
-
-                mls.LogInfo("statusEffectHUD is fixed");
 
                 mls.LogWarning($"config synced: {Config.Synced}");
 
                 initialized = true;
             }
+        }
+
+        private static void Init_vanilla()
+        {
+            GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/SprintMeter");
+            GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
+
+            if (sprintMeter == null || topLeftCorner == null)
+            {
+                mls.LogError("Init_vanilla / oxygenMeter or topLeftCorner is null");
+                return;
+            }
+
+            GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
+
+            oxygenMeter.name = "OxygenMeter";
+            oxygenMeter.transform.localPosition = OxygenBase.Config.OxygenHUDPosition.Value;
+            oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
+            oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
+
+            oxygenUI = oxygenMeter.transform.GetComponent<Image>();
+            oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+
+            mls.LogInfo("Oxygen UI instantiated");
+
+            GameObject statusEffectHUD = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/StatusEffects");
+            if (statusEffectHUD == null)
+            {
+                mls.LogError("statusEffectHUD is null");
+                return;
+            }
+
+            statusEffectHUD.transform.localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
+            //HUDManager.Instance.DisplayStatusEffect("Oxygen critically low!");
+
+            mls.LogInfo("statusEffectHUD is fixed");
+        }
+
+        private static void Init_ElandHUD()
+        {
+            GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/Stamina");
+            GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)");
+
+            if (sprintMeter == null || topLeftCorner == null)
+            {
+                mls.LogError("Init_ElandHUD / oxygenMeter or topLeftCorner is null");
+                return;
+            }
+
+            GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
+
+            oxygenMeter.name = "OxygenMeter";
+            oxygenMeter.transform.localPosition = new Vector3(135, -115, -2.8f);
+            //oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
+            //oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
+            
+            // hm just to not duplicating)
+            GameObject carryInfo = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/CarryInfo");
+            Destroy(carryInfo);
+
+            // we're not needed in it)))
+            GameObject staminaChangeFG = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/Bar/Stamina Change FG");
+            Destroy(staminaChangeFG);
+
+            //Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/Stamina/Bar/
+            GameObject staminaBar = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/Bar/StaminaBar");
+            oxygenUI = staminaBar.transform.GetComponent<Image>();
+
+            // fixing position of health
+            GameObject healthBar = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/Health");
+            healthBar.transform.localPosition = new Vector3(134.9906f, -178, 0.007f);
+
+            // getting text field
+            GameObject oxygenInfo = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/StaminaInfo");
+            EladsOxygenUIText = oxygenInfo.GetComponent<TextMeshProUGUI>();
+
+            oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+            oxygenUI.fillAmount = 1f;
+
+            mls.LogInfo("Oxygen UI instantiated");
         }
 
         internal static void PlaySFX(PlayerControllerB pc, AudioClip clip)

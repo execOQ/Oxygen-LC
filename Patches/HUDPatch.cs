@@ -3,7 +3,9 @@ using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
 using Oxygen.Utils;
+using static System.Math;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -16,6 +18,8 @@ namespace Oxygen.Patches
         public static AudioClip[] inhaleSFX = OxygenBase.Instance.inhaleSFX;
 
         public static Image OxygenUI => OxygenHUD.oxygenUI;
+
+        public static TextMeshProUGUI EladsOxygenUIText => OxygenHUD.EladsOxygenUIText;
 
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
@@ -124,6 +128,14 @@ namespace Oxygen.Patches
                 return;
             }
 
+            if (EladsOxygenUIText != null)
+            {
+                float roundedValue = (float)Round(OxygenUI.fillAmount, 2);
+                int oxygenInPercent = (int)(roundedValue * 100);
+
+                OxygenHUD.EladsOxygenUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
+            }
+
             float localDecValue = decreasingOxygen;
 
             // can cause a problems with other mods (●'◡'●)
@@ -192,6 +204,7 @@ namespace Oxygen.Patches
                 if (!pController.isInsideFactory && pController.isUnderwater && pController.underwaterCollider != null &&
                     pController.underwaterCollider.bounds.Contains(pController.gameplayCamera.transform.position))
                 {
+                    mls.LogInfo($"The player is underwater, oxygen consumption is increased by {oxygenDepletionInWater}");
                     localDecValue += oxygenDepletionInWater;
 
                     //mls.LogInfo($"oxyUI.fillAmount: {oxyUI.fillAmount}");
