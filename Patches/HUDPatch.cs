@@ -163,9 +163,6 @@ namespace Oxygen.Patches
 
             if (timeSinceLastFear >= secTimerInFear)
             {
-                //mls.LogError($"fear level: {sor.fearLevel}");
-                //mls.LogError($"fearLevelIncreasing: {sor.fearLevelIncreasing}");
-
                 if (sor.fearLevel > 0)
                 {
                     if (enableOxygenSFX)
@@ -179,7 +176,7 @@ namespace Oxygen.Patches
                     // just unnecessary to decrease oxygen in ship ~_~
                     if (!pController.isInHangarShipRoom)
                     {
-                        mls.LogInfo("playing sound cause fearLevelIncreasing. oxygen consumption is increased by 2");
+                        mls.LogInfo($"playing sound cause fearLevelIncreasing. oxygen consumption is increased by {multiplyDecreasingInFear}");
                         //mls.LogError($"fear level: {sor.fearLevel}");
 
                         localDecValue += multiplyDecreasingInFear;

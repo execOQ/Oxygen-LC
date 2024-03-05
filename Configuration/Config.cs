@@ -46,6 +46,9 @@ namespace Oxygen.Configuration
         [DataMember]
         internal SyncedEntry<bool> ShyHUDSupport;
 
+        [DataMember]
+        internal SyncedEntry<float> oxy99_increasingValue;
+
         internal ConfigEntry<Vector3> OxygenHUDPosition;
 
         internal ConfigEntry<bool> notifications;
@@ -128,7 +131,7 @@ namespace Oxygen.Configuration
             SFXvolume = file.Bind(
                 "Sounds", // Section
                 "SFXvolume", // Key
-                1.0f, // Default value
+                0.4f, // Default value
                 "volume of SFX's." // Description
             );
 
@@ -165,6 +168,13 @@ namespace Oxygen.Configuration
                 "OxygenHUDPosition", // Key
                 new Vector3(-317.386f, 125.961f, -13.0994f), // Default value
                 "Oxygen HUD postion (X, Y, Z)" // Description
+            );
+
+            oxy99_increasingValue = file.BindSyncedEntry(
+                "Oxy99", // Section
+                "oxy99_increasingValue", // Key
+                0.001f, // Default value
+                "How many oxygen " // Description
             );
         }
     }
