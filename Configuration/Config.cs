@@ -199,18 +199,19 @@ namespace Oxygen.Configuration
                 "Vertical offset for the health text position."
             );
 
+            // im too lazy to change variables name in unity
             oxy99_increasingValue = file.BindSyncedEntry(
-                "Oxy99", // Section
-                "oxy99_increasingValue", // Key
+                "OxyBoost", // Section
+                "OxyBoost_increasingValue", // Key
                 0.001f, // Default value
-                "How much oxygen does Oxy99 add to a player" // Description
+                "How much oxygen does OxyBoost add to a player" // Description
             );
 
             oxy99_price = file.BindSyncedEntry(
-                "Oxy99", // Section
-                "oxy99_price", // Key
+                "OxyBoost", // Section
+                "OxyBoost_price", // Key
                 70, // Default value
-                "oxy99's price" // Description
+                "OxyBoost's price" // Description
             );
         }
     }

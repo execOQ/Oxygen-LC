@@ -21,7 +21,7 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.2.3";
+        public const string modVersion = "1.3.0";
 
         private const string shyHUDGUID = "ShyHUD";
         private const string LCAPIGUID = "LC_API";
