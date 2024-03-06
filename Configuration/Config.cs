@@ -5,6 +5,7 @@ using CSync.Util;
 using GameNetcodeStuff;
 using HarmonyLib;
 using System;
+using System.Linq;
 using System.Runtime.Serialization;
 using Unity.Collections;
 using Unity.Netcode;
@@ -26,7 +27,7 @@ namespace Oxygen.Configuration
         internal SyncedEntry<float> decreasingOxygen;
 
         [DataMember]
-        internal SyncedEntry<float> multiplyDecreasingInFear;
+        internal SyncedEntry<float> decreasingInFear;
 
         [DataMember]
         internal SyncedEntry<float> oxygenRunning;
@@ -83,42 +84,50 @@ namespace Oxygen.Configuration
                 "Oxygen", // Section
                 "decreasingOxygen", // Key
                 0.0083f, // Default value
-                "How fast oxygen is decreasing. Depends on timer setting. (syncing with host)" // Description
+                "How much oxygen should be released when the timer (The timing of the timer is the secTimer variable) goes off? (syncing with host)" // Description
             );
 
-            multiplyDecreasingInFear = file.BindSyncedEntry(
+            // old
+            file.Bind(
                 "Oxygen", // Section
                 "multiplyDecreasingInFear", // Key
                 0.02f, // Default value
-                "Multiplies oxygen drain when player in fear. Depends on timer setting. (syncing with host)" // Description
+                "An old variable, now it's decreasingInFear" // Description
+            );
+
+            decreasingInFear = file.BindSyncedEntry(
+                "Oxygen", // Section
+                "decreasingInFear", // Key
+                0.02f, // Default value
+                "Increases oxygen leakage when the player is in fear. Depends on the secTimer variable. (syncing with host)" // Description
             );
 
             oxygenRunning = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenRunning", // Key
                 0.006f, // Default value
-                "Increases oxygen drain when player running. Depends on timer setting. (syncing with host)" // Description
+                "Increases oxygen drain when player running. Depends on the secTimer variable. (syncing with host)" // Description
             );
 
             oxygenDeficiency = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenDeficiency", // Key
                 0.15f, // Default value
-                "Increases oxygen deficiency when the player's oxygen runs out. Depends on timer setting. (syncing with host)" // Description
+                "Increases screen fog when the player runs out of oxygen. Depends on the secTimer variable. (syncing with host)" // Description
             );
 
             oxygenDepletionInWater = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenDepletionInWater", // Key
                 0.020f, // Default value
-                "Increases oxygen deficiency when the player underwater. Depends on timer setting. (syncing with host)" // Description
+                "Increases oxygen consumption when the player is underwater. Depends on the secTimer variable. (syncing with host)" // Description
             );
 
             secTimer = file.BindSyncedEntry(
                 "Timer", // Section
                 "secTimer", // Key
                 5f, // Default value
-                "Number of seconds the cool down timer lasts. (syncing with host)" // Description
+                "How many seconds must pass before oxygen is taken away? (syncing with host)" // Description
             );
 
             notifications = file.Bind(
@@ -131,7 +140,7 @@ namespace Oxygen.Configuration
             SFXvolume = file.Bind(
                 "Sounds", // Section
                 "SFXvolume", // Key
-                0.4f, // Default value
+                0.3f, // Default value
                 "volume of SFX's." // Description
             );
 
@@ -146,7 +155,7 @@ namespace Oxygen.Configuration
                 "Sounds", // Section
                 "enableOxygenSFXInShip", // Key
                 false, // Default value
-                "Remains oxygen inhalation sounds when player in ship. Depends on enableOxygenSFX variable." // Description
+                "Remains oxygen inhalation sounds when player in ship. Works if enableOxygenSFX variable is enabled." // Description
             );
 
             InfinityOxygenInModsPlaces = file.BindSyncedEntry(
@@ -174,7 +183,7 @@ namespace Oxygen.Configuration
                 "Oxy99", // Section
                 "oxy99_increasingValue", // Key
                 0.001f, // Default value
-                "How many oxygen " // Description
+                "How much oxygen does Oxy99 add to a player" // Description
             );
         }
     }
