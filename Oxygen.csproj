@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\build\BepInEx.AssemblyPublicizer.MSBuild.props" Condition="Exists('packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\build\BepInEx.AssemblyPublicizer.MSBuild.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,6 +15,8 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,7 +39,19 @@
     <Reference Include="0Harmony">
       <HintPath>C:\Users\execo\AppData\Roaming\r2modmanPlus-local\LethalCompany\profiles\Default\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp">
+    <Reference Include="AsmResolver, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\lib\net472\AsmResolver.dll</HintPath>
+    </Reference>
+    <Reference Include="AsmResolver.DotNet, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\lib\net472\AsmResolver.DotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="AsmResolver.PE, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\lib\net472\AsmResolver.PE.dll</HintPath>
+    </Reference>
+    <Reference Include="AsmResolver.PE.File, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\lib\net472\AsmResolver.PE.File.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp" Publicize="true">
       <HintPath>R:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Backrooms">
@@ -44,6 +59,12 @@
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>C:\Users\execo\AppData\Roaming\r2modmanPlus-local\LethalCompany\profiles\Default\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.AssemblyPublicizer, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\lib\net472\BepInEx.AssemblyPublicizer.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.AssemblyPublicizer.MSBuild, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\lib\net472\BepInEx.AssemblyPublicizer.MSBuild.dll</HintPath>
     </Reference>
     <Reference Include="CSync">
       <HintPath>..\References\CSync.dll</HintPath>
@@ -55,6 +76,9 @@
     <Reference Include="LC_API, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\LC_API.dll</HintPath>
+    </Reference>
+    <Reference Include="LethalLib">
+      <HintPath>..\References\LethalLib.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -110,6 +134,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Items\Oxy99.cs" />
     <Compile Include="Oxygen.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="GameObjects\OxygenHUD.cs" />
@@ -122,7 +147,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\oxygensounds" />
+    <EmbeddedResource Include="Assets\oxy99" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\build\BepInEx.AssemblyPublicizer.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\BepInEx.AssemblyPublicizer.MSBuild.0.4.1\build\BepInEx.AssemblyPublicizer.MSBuild.props'))" />
+  </Target>
 </Project>

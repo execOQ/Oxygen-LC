@@ -5,7 +5,7 @@ using Oxygen.Patches;
 using Oxygen.Configuration;
 using UnityEngine;
 using BepInEx.Bootstrap;
-using Oxygen.Utils;
+using LL = LethalLib.Modules;
 
 namespace Oxygen
 {
@@ -56,6 +56,20 @@ namespace Oxygen
 
             inhaleSFX = bundle.LoadAllAssets<AudioClip>();
             mls.LogInfo($"Sounds are loaded.");
+
+            AssetBundle oxy99 = Utilities.LoadAssetFromStream("Oxygen.Assets.oxy99");
+            if (oxy99 == null)
+            {
+                return;
+            }
+
+            Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
+            LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
+            LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
+            TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
+            node.clearPreviousText = true;
+            node.displayText = "Limited air supply, useful for flooded facilities.";
+            LL.Items.RegisterShopItem(oxycanister, null, null, node, 0);
 
             harmony.PatchAll(typeof(HUDPatch));
             harmony.PatchAll(typeof(OxygenHUD));
