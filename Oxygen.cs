@@ -74,6 +74,7 @@ namespace Oxygen
             mls.LogInfo($"Config is loaded.");
 
             Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
+            oxycanister.itemName = "OxyBoost";
             LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
             LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
             TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
