@@ -10,7 +10,7 @@ using LL = LethalLib.Modules;
 namespace Oxygen
 {
     [BepInPlugin(modGUID, modName, modVersion)]
-    [BepInDependency("io.github.CSync")]
+    [BepInDependency("com.sigurd.csync")]
     [BepInDependency(shyHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(LCAPIGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(EladsHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
