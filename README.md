@@ -2,19 +2,35 @@
 
 ### Information
 
-Adds oxygen level as a new mechanic. Don't forget to replenish the supply of oxygen cylinders on the ship :) Everything in this mod is configurable. 
+Adds oxygen level as a new mechanic. Don't forget to replenish the supply of oxygen cylinders on the ship :) Lots of things in this mod are configurable! 
 
 <details>
-  <summary>spoiler</summary>
+  <summary>Spoiler</summary>
 
   ```
   There is an SFX of inhaling included. You can disable it in the config.
   ```
 </details>
 
-## Preview
+<details>
+  <summary>Compatibility with other mods</summary>
 
+  Compatible with EladsHUD, ShyHUD!
+</details>
+
+## Preview
+### HUD
 <img src="https://i.imgur.com/MAMfxmS.png" width=350 height=auto>
+<details>
+  <summary>Compatible with EladsHUD</summary>
+
+  <img src="https://i.imgur.com/NHJ4IUV.png" width=350 height=auto>
+</details>
+
+
+### Items
+
+<img src="https://i.imgur.com/0w3LaWn.png" width=350 height=auto>
 
 ## Installation 
 
