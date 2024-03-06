@@ -1,4 +1,5 @@
-﻿using BepInEx.Configuration;
+﻿using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using CSync.Lib;
 using CSync.Util;
@@ -50,7 +51,9 @@ namespace Oxygen.Configuration
         [DataMember]
         internal SyncedEntry<float> oxy99_increasingValue;
 
-        internal ConfigEntry<Vector3> OxygenHUDPosition;
+        internal ConfigEntry<int> XOffset;
+
+        internal ConfigEntry<int> YOffset;
 
         internal ConfigEntry<bool> notifications;
 
@@ -172,11 +175,25 @@ namespace Oxygen.Configuration
                 "hud disappears if oxygen value > 55 (syncing with host)" // Description
             );
 
-            OxygenHUDPosition = file.Bind(
+            file.Bind(
                 "Compatibility", // Section
                 "OxygenHUDPosition", // Key
                 new Vector3(-317.386f, 125.961f, -13.0994f), // Default value
-                "Oxygen HUD postion (X, Y, Z)" // Description
+                "An old variable, use the XOffset and YOffset" // Description
+            );
+
+            XOffset = file.Bind<int>(
+                "Position", 
+                "XOffset", 
+                0, 
+                "Horizontal offset for the health text position."
+            );
+
+            YOffset = file.Bind<int>(
+                "Position", 
+                "YOffset", 
+                0, 
+                "Vertical offset for the health text position."
             );
 
             oxy99_increasingValue = file.BindSyncedEntry(

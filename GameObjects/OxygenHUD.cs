@@ -55,12 +55,23 @@ namespace Oxygen
             GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
 
             oxygenMeter.name = "OxygenMeter";
-            oxygenMeter.transform.localPosition = OxygenBase.Config.OxygenHUDPosition.Value;
-            oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
-            oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
 
             oxygenUI = oxygenMeter.transform.GetComponent<Image>();
             oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+
+            RectTransform rectTransform = oxygenMeter.GetComponent<RectTransform>();
+
+            rectTransform.anchorMin = new Vector2(0f, 1f);
+            rectTransform.anchorMax = new Vector2(0f, 1f);
+            rectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            int valueX = OxygenBase.Config.XOffset.Value;
+            int valueY = OxygenBase.Config.YOffset.Value;
+
+            rectTransform.anchoredPosition = new Vector2((float)(131.6 + valueX), (float)(-127.3715 + valueY));
+            rectTransform.localScale = new Vector3(2.0392f, 2.0392f, 1.6892f);
+
+            rectTransform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
 
             mls.LogInfo("Oxygen UI instantiated");
 
