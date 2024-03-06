@@ -51,6 +51,9 @@ namespace Oxygen.Configuration
         [DataMember]
         internal SyncedEntry<float> oxy99_increasingValue;
 
+        [DataMember]
+        internal SyncedEntry<int> oxy99_price;
+
         internal ConfigEntry<int> XOffset;
 
         internal ConfigEntry<int> YOffset;
@@ -201,6 +204,13 @@ namespace Oxygen.Configuration
                 "oxy99_increasingValue", // Key
                 0.001f, // Default value
                 "How much oxygen does Oxy99 add to a player" // Description
+            );
+
+            oxy99_price = file.BindSyncedEntry(
+                "Oxy99", // Section
+                "oxy99_price", // Key
+                70, // Default value
+                "oxy99's price" // Description
             );
         }
     }

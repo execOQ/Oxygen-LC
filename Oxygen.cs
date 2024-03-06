@@ -11,6 +11,7 @@ namespace Oxygen
 {
     [BepInPlugin(modGUID, modName, modVersion)]
     [BepInDependency("com.sigurd.csync")]
+    [BepInDependency("evaisa.lethallib")]
     [BepInDependency(shyHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(LCAPIGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(EladsHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
@@ -63,14 +64,6 @@ namespace Oxygen
                 return;
             }
 
-            Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
-            LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
-            LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
-            TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
-            node.clearPreviousText = true;
-            node.displayText = "Limited air supply, useful for flooded facilities.";
-            LL.Items.RegisterShopItem(oxycanister, null, null, node, 0);
-
             harmony.PatchAll(typeof(HUDPatch));
             harmony.PatchAll(typeof(OxygenHUD));
             harmony.PatchAll(typeof(KillPlayerPatch));
@@ -79,6 +72,14 @@ namespace Oxygen
 
             Config = new Config(((BaseUnityPlugin)this).Config);
             mls.LogInfo($"Config is loaded.");
+
+            Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
+            LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
+            LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
+            TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
+            node.clearPreviousText = true;
+            node.displayText = "Limited air supply, useful for flooded facilities.";
+            LL.Items.RegisterShopItem(oxycanister, null, null, node, Config.Instance.oxy99_price.Value);
 
             mls.LogInfo($"{modName} is loaded!");
 
