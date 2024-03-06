@@ -57,8 +57,8 @@ namespace Oxygen.Patches
         internal static bool warningNotification = false;
 
         [HarmonyPostfix]
-        //[HarmonyPatch(typeof(HUDManager), "Awake")]
-        [HarmonyPatch(typeof(StartOfRound), "SceneManager_OnLoadComplete1")]
+        [HarmonyPatch(typeof(HUDManager), "Awake")]
+        //[HarmonyPatch(typeof(StartOfRound), "SceneManager_OnLoadComplete1")]
         public static void BuildHUD(HUDManager __instance)
         {
             __instance.StartCoroutine(AwaitPlayerController());
