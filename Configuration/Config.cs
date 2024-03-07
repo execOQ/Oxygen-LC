@@ -40,6 +40,9 @@ namespace Oxygen.Configuration
         internal SyncedEntry<float> oxygenDeficiency;
 
         [DataMember]
+        internal SyncedEntry<bool> oxygenConsumptionOnTheCompany;
+
+        [DataMember]
         internal SyncedEntry<float> secTimer;
 
         [DataMember]
@@ -129,6 +132,13 @@ namespace Oxygen.Configuration
                 "oxygenDepletionInWater", // Key
                 0.020f, // Default value
                 "Increases oxygen consumption when the player is underwater. Depends on the secTimer variable. (syncing with host)" // Description
+            );
+
+            oxygenConsumptionOnTheCompany = file.BindSyncedEntry(
+                "Oxygen", // Section
+                "oxygenConsumptionOnTheCompany", // Key
+                true, // Default value
+                "If true, then there will be oxygen consumption on the company's planet. (syncing with host)" // Description
             );
 
             secTimer = file.BindSyncedEntry(

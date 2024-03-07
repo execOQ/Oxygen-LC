@@ -40,6 +40,8 @@ namespace Oxygen.Patches
 
         public static float oxygenDeficiency => Config.Instance.oxygenDeficiency.Value;
 
+        public static bool oxygenConsumptionOnTheCompany => Config.Instance.oxygenConsumptionOnTheCompany.Value;
+
         public static float secTimer => Config.Instance.secTimer.Value;  // number of seconds the cool down timer lasts
         //
 
@@ -232,8 +234,15 @@ namespace Oxygen.Patches
                 {
                     //isRecovering = false; // just to prevent creating a lot logs about recovering oxygen when player in ship
 
-                    OxygenUI.fillAmount -= localDecValue;
-                    mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
+                    if (!oxygenConsumptionOnTheCompany && StartOfRound.Instance.currentLevel.levelID == 3)
+                    {
+                        mls.LogInfo("Oxygen consumption on the company's planet is disabled, skipping...");
+                    } else
+                    {
+                        OxygenUI.fillAmount -= localDecValue;
+                        mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
+                    }
+
                 }
 
                 // inside factory
