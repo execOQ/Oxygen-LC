@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using System.Net;
 
 namespace Oxygen.Patches
 {
@@ -44,6 +45,7 @@ namespace Oxygen.Patches
 
         public static bool enableOxygenSFX => OxygenBase.Config.enableOxygenSFX.Value;
         public static bool enableOxygenSFXInShip => OxygenBase.Config.enableOxygenSFXInShip.Value;
+        public static bool enableOxygenSFXOnTheCompany => OxygenBase.Config.enableOxygenSFXOnTheCompany.Value;
 
         public static float secTimerInFear = 2f;
 
@@ -189,10 +191,20 @@ namespace Oxygen.Patches
 
             if (timeSinceLastAction >= secTimer)
             {
-                if (enableOxygenSFX && !sor.fearLevelIncreasing)
+                if (enableOxygenSFX && sor.fearLevel <= 0)
                 {
-                    if (!pController.isInHangarShipRoom || (pController.isInHangarShipRoom && enableOxygenSFXInShip))
+                    bool shouldPlaySFX = false;
+
+                    if (enableOxygenSFXOnTheCompany && StartOfRound.Instance.currentLevel.levelID == 3 && !pController.isInHangarShipRoom)
+                        shouldPlaySFX = true;
+                    else if (pController.isInHangarShipRoom && enableOxygenSFXInShip)
+                        shouldPlaySFX = true;
+                    else if (!pController.isInHangarShipRoom && StartOfRound.Instance.currentLevel.levelID != 3)
+                        shouldPlaySFX = true;
+
+                    if (shouldPlaySFX)
                     {
+                        mls.LogInfo("playing oxygen SFX");
                         int index = Random.Range(0, inhaleSFX.Length);
                         OxygenHUD.PlaySFX(pController, inhaleSFX[index]);
                     }

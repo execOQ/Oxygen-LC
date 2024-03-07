@@ -66,6 +66,8 @@ namespace Oxygen.Configuration
 
         internal ConfigEntry<bool> enableOxygenSFXInShip;
 
+        internal ConfigEntry<bool> enableOxygenSFXOnTheCompany;
+
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
         public Config(ConfigFile file) : base(OxygenBase.modGUID)
@@ -146,7 +148,7 @@ namespace Oxygen.Configuration
             SFXvolume = file.Bind(
                 "Sounds", // Section
                 "SFXvolume", // Key
-                0.3f, // Default value
+                0.4f, // Default value
                 "volume of SFX's." // Description
             );
 
@@ -162,6 +164,13 @@ namespace Oxygen.Configuration
                 "enableOxygenSFXInShip", // Key
                 false, // Default value
                 "Remains oxygen inhalation sounds when player in ship. Works if enableOxygenSFX variable is enabled." // Description
+            );
+
+            enableOxygenSFXOnTheCompany = file.Bind(
+                "Sounds", // Section
+                "enableOxygenSFXOnTheCompany", // Key
+                true, // Default value
+                "Remains oxygen inhalation sounds when player on the Gordion (The Company) planet. Works if enableOxygenSFX variable is enabled." // Description
             );
 
             InfinityOxygenInModsPlaces = file.BindSyncedEntry(
