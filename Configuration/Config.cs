@@ -198,14 +198,14 @@ namespace Oxygen.Configuration
                 "Position", 
                 "XOffset", 
                 0, 
-                "Horizontal offset for the health text position."
+                "Horizontal offset for the oxygenHUD position."
             );
 
             YOffset = file.Bind<int>(
                 "Position", 
                 "YOffset", 
-                0, 
-                "Vertical offset for the health text position."
+                0,
+                "Vertical offset for the oxygenHUD position."
             );
 
             // im too lazy to change variables name in unity
