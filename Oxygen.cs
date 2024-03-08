@@ -26,6 +26,7 @@ namespace Oxygen
         private const string shyHUDGUID = "ShyHUD";
         private const string LCAPIGUID = "LC_API";
         private const string EladsHUDGUID = "me.eladnlg.customhud";
+        private const string LethallibGUID = "evaisa.lethallib";
 
         public bool isShyHUDFound { get; private set; } = false;
         public bool isLCAPIFound { get; private set; } = false;
@@ -38,6 +39,8 @@ namespace Oxygen
 
         public GameObject oxyCharger;
         public AudioClip[] oxyChargerSFX;
+
+        //public Item oxycanister;
 
         public static Config Config { get; private set; }
 
@@ -86,16 +89,20 @@ namespace Oxygen
             Config = new Config(((BaseUnityPlugin)this).Config);
             mls.LogInfo($"Config is loaded.");
 
-            Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
-            oxycanister.itemName = "OxyBoost";
-            LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
-            LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
-            TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
-            node.clearPreviousText = true;
-            node.displayText = "Limited air supply, useful for flooded facilities.";
-            LL.Items.RegisterShopItem(oxycanister, null, null, node, Config.Instance.oxyBoost_price.Value);
+            if (!OxygenBase.Config.MakeItVanilla.Value)
+            {
+                Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
+                oxycanister.itemName = "OxyBoost";
+                LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
+                LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
+                TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
+                node.clearPreviousText = true;
+                node.displayText = "Limited air supply, useful for flooded facilities.";
+                LL.Items.RegisterShopItem(oxycanister, null, null, node, Config.Instance.oxyBoost_price.Value);
+                mls.LogInfo("Custom items are loaded!");
+            }
 
-            mls.LogInfo($"{modName} is loaded!");
+            mls.LogInfo($"{modName} loaded!");
 
             //DeathBroadcaster.Initialize();
         }

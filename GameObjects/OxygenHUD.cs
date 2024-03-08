@@ -2,6 +2,7 @@
 using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
+using LL = LethalLib.Modules;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

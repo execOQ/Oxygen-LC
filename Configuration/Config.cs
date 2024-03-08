@@ -17,6 +17,8 @@ namespace Oxygen.Configuration
     [DataContract]
     public class Config : SyncedConfig<Config>
     {
+        internal ConfigEntry<bool> MakeItVanilla;
+
         [DataMember]
         internal SyncedEntry<int> OxygenFillOption;
 
@@ -83,6 +85,13 @@ namespace Oxygen.Configuration
         public Config(ConfigFile file) : base(OxygenBase.modGUID)
         {
             ConfigManager.Register(this);
+
+            MakeItVanilla = file.Bind(
+                "General", // Section
+                "MakeItVanilla", // Key
+                false, // Default value
+                "If this is true, custom items from this mod will not load. It's not synced with the host, you need to manually change it. Leave it to 'false' if you want to play with a host who hasn't enabled it." // Description
+            );
 
             OxygenFillOption = file.BindSyncedEntry(
                 "General", // Section
