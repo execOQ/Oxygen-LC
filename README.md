@@ -2,7 +2,9 @@
 
 ### Information
 
-Adds oxygen level as a new mechanic. Don't forget to replenish the supply of oxygen cylinders on the ship :) Lots of things in this mod are configurable! 
+Adds oxygen level as a new mechanic. Don't forget to replenish the supply of oxygen cylinders on the ship :) 
+
+Lots of things in this mod are configurable! 
 
 <details>
   <summary>Spoiler</summary>
