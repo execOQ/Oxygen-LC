@@ -36,6 +36,9 @@ namespace Oxygen
 
         public AudioClip[] inhaleSFX;
 
+        public GameObject oxyCharger;
+        public AudioClip[] oxyChargerSFX;
+
         public static Config Config { get; private set; }
 
         private void Awake()
@@ -48,6 +51,15 @@ namespace Oxygen
             mls.LogInfo($"{modName} is loading...");
 
             CheckForDependencies();
+
+            AssetBundle oxyChargerBundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxycharger");
+            if (oxyChargerBundle == null)
+            {
+                return;
+            }
+
+            oxyCharger = oxyChargerBundle.LoadAsset<GameObject>("Assets/OxyCharger/OxyCharger.prefab");
+            oxyChargerSFX = oxyChargerBundle.LoadAllAssets<AudioClip>();
 
             AssetBundle bundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygensounds");
             if (bundle == null)
@@ -68,6 +80,7 @@ namespace Oxygen
             harmony.PatchAll(typeof(OxygenHUD));
             harmony.PatchAll(typeof(KillPlayerPatch));
             harmony.PatchAll(typeof(Config));
+            harmony.PatchAll(typeof(StartOfRoundPatch));
             //harmony.PatchAll(typeof(WritePlayerNotesPatch));
 
             Config = new Config(((BaseUnityPlugin)this).Config);
@@ -80,7 +93,7 @@ namespace Oxygen
             TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
             node.clearPreviousText = true;
             node.displayText = "Limited air supply, useful for flooded facilities.";
-            LL.Items.RegisterShopItem(oxycanister, null, null, node, Config.Instance.oxy99_price.Value);
+            LL.Items.RegisterShopItem(oxycanister, null, null, node, Config.Instance.oxyBoost_price.Value);
 
             mls.LogInfo($"{modName} is loaded!");
 

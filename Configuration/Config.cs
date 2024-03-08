@@ -17,6 +17,8 @@ namespace Oxygen.Configuration
     [DataContract]
     public class Config : SyncedConfig<Config>
     {
+        [DataMember]
+        internal SyncedEntry<int> OxygenFillOption;
 
         [DataMember]
         internal SyncedEntry<int> playerDamage;
@@ -52,10 +54,13 @@ namespace Oxygen.Configuration
         internal SyncedEntry<bool> ShyHUDSupport;
 
         [DataMember]
-        internal SyncedEntry<float> oxy99_increasingValue;
+        internal SyncedEntry<float> oxyBoost_increasingValue;
 
         [DataMember]
-        internal SyncedEntry<int> oxy99_price;
+        internal SyncedEntry<int> oxyBoost_price;
+
+        [DataMember]
+        internal SyncedEntry<float> oxyCharger_fillingValue;
 
         internal ConfigEntry<int> XOffset;
 
@@ -71,11 +76,20 @@ namespace Oxygen.Configuration
 
         internal ConfigEntry<bool> enableOxygenSFXOnTheCompany;
 
+        internal ConfigEntry<float> oxyCharger_SFXVolume;
+
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
         public Config(ConfigFile file) : base(OxygenBase.modGUID)
         {
             ConfigManager.Register(this);
+
+            OxygenFillOption = file.BindSyncedEntry(
+                "General", // Section
+                "OxygenFillOption", // Key
+                1, // Default value
+                "0 - without oxygen filling; 1 - only using oxygen cylinders located in the ship; 2 - only automatic oxygen filling when the player is on the ship" // Description
+            );
 
             playerDamage = file.BindSyncedEntry(
                 "Player", // Section
@@ -96,14 +110,6 @@ namespace Oxygen.Configuration
                 "decreasingOxygen", // Key
                 0.0083f, // Default value
                 "How much oxygen should be released when the timer (The timing of the timer is the secTimer variable) goes off? (syncing with host)" // Description
-            );
-
-            // old
-            file.Bind(
-                "Oxygen", // Section
-                "multiplyDecreasingInFear", // Key
-                0.02f, // Default value
-                "An old variable, now it's decreasingInFear" // Description
             );
 
             decreasingInFear = file.BindSyncedEntry(
@@ -197,13 +203,6 @@ namespace Oxygen.Configuration
                 "hud disappears if oxygen value > 55 (syncing with host)" // Description
             );
 
-            file.Bind(
-                "Compatibility", // Section
-                "OxygenHUDPosition", // Key
-                new Vector3(-317.386f, 125.961f, -13.0994f), // Default value
-                "An old variable, use the XOffset and YOffset" // Description
-            );
-
             XOffset = file.Bind<int>(
                 "Position", 
                 "XOffset", 
@@ -218,19 +217,32 @@ namespace Oxygen.Configuration
                 "Vertical offset for the oxygenHUD position."
             );
 
-            // im too lazy to change variables name in unity
-            oxy99_increasingValue = file.BindSyncedEntry(
+            oxyBoost_increasingValue = file.BindSyncedEntry(
                 "OxyBoost", // Section
                 "OxyBoost_increasingValue", // Key
                 0.001f, // Default value
                 "How much oxygen does OxyBoost add to a player" // Description
             );
 
-            oxy99_price = file.BindSyncedEntry(
+            oxyBoost_price = file.BindSyncedEntry(
                 "OxyBoost", // Section
                 "OxyBoost_price", // Key
                 70, // Default value
                 "OxyBoost's price" // Description
+            );
+
+            oxyCharger_fillingValue = file.BindSyncedEntry(
+                "oxyCharger", // Section
+                "oxyCharger_fillingValue", // Key
+                0.001f, // Default value
+                "oxyCharger's filling value" // Description
+            );
+
+            oxyCharger_SFXVolume = file.Bind(
+                "Sounds", // Section
+                "oxyCharger_SFXVolume", // Key
+                1f, // Default value
+                "oxyCharger's SFX volume" // Description
             );
         }
     }

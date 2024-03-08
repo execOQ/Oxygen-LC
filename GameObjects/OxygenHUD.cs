@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Oxygen
 {
-    internal class OxygenHUD : MonoBehaviour
+    public class OxygenHUD : MonoBehaviour
     {
         public static Image oxygenUI;
 
