@@ -21,12 +21,11 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.3.1";
+        public const string modVersion = "1.4.0";
 
         private const string shyHUDGUID = "ShyHUD";
         private const string LCAPIGUID = "LC_API";
         private const string EladsHUDGUID = "me.eladnlg.customhud";
-        private const string LethallibGUID = "evaisa.lethallib";
 
         public bool isShyHUDFound { get; private set; } = false;
         public bool isLCAPIFound { get; private set; } = false;
