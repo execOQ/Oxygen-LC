@@ -34,6 +34,12 @@ Lots of things in this mod are configurable!
 
 <img src="https://i.imgur.com/0w3LaWn.png" width=350 height=auto>
 
+### Ways to refill oxygen
+ - only automatic oxygen filling when the player is on the ship
+ - using oxygen cylinders located in the ship
+
+    <img src="https://i.imgur.com/3ADR8tN.png" width=350 height=auto>
+
 ## Installation 
 
 ### R2ModMan or Thunderstore Manager (highly recommended)
