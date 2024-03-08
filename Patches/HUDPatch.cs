@@ -29,6 +29,8 @@ namespace Oxygen.Patches
         // syncing with host
         public static bool InfinityOxygenInModsPlaces => Config.Instance.InfinityOxygenInModsPlaces.Value;
 
+        public static int oxygenFillOption => Config.Instance.OxygenFillOption.Value;
+
         public static int playerDamage => Config.Instance.playerDamage.Value;
 
         public static float increasingOxygen => Config.Instance.increasingOxygen.Value;
@@ -242,7 +244,6 @@ namespace Oxygen.Patches
                         OxygenUI.fillAmount -= localDecValue;
                         mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
                     }
-
                 }
 
                 // inside factory
@@ -299,10 +300,13 @@ namespace Oxygen.Patches
             // in ship
             if (pController.isInHangarShipRoom)
             {
-                if (OxygenUI.fillAmount != 1)
+                if (oxygenFillOption == 2)
                 {
-                    OxygenUI.fillAmount += increasingOxygen;
-                    mls.LogInfo($"Oxygen is recovering: {OxygenUI.fillAmount}");
+                    if (OxygenUI.fillAmount != 1)
+                    {
+                        OxygenUI.fillAmount += increasingOxygen;
+                        mls.LogInfo($"Oxygen is recovering: {OxygenUI.fillAmount}");
+                    }
                 }
 
                 if (pController.drunkness != 0) pController.drunkness -= increasingOxygen;

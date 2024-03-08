@@ -134,12 +134,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Items\OxyCharger.cs" />
     <Compile Include="Items\Oxy99.cs" />
     <Compile Include="Oxygen.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="GameObjects\OxygenHUD.cs" />
     <Compile Include="Patches\HUDPatch.cs" />
     <Compile Include="Patches\KillPlayerPatch.cs" />
+    <Compile Include="Patches\StartOfRoundPatch.cs" />
     <Compile Include="Patches\WritePlayerNotesPatch.cs" />
     <Compile Include="Utils\DeathBroadcaster.cs" />
     <Compile Include="Utils\Utils.cs" />
@@ -148,6 +150,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\oxygensounds" />
     <EmbeddedResource Include="Assets\oxy99" />
+    <EmbeddedResource Include="Assets\oxycharger" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
