@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using System.Net;
+using System.Linq;
 
 namespace Oxygen.Patches
 {
@@ -27,36 +28,36 @@ namespace Oxygen.Patches
         private const float offset = -400f;
 
         // syncing with host
-        public static bool InfinityOxygenInModsPlaces => Config.Instance.InfinityOxygenInModsPlaces.Value;
+        public static bool InfinityOxygenInModsPlaces => OxygenConfig.Instance.InfinityOxygenInModsPlaces.Value;
 
-        public static int oxygenFillOption => Config.Instance.OxygenFillOption.Value;
+        public static int oxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
 
-        public static int playerDamage => Config.Instance.playerDamage.Value;
+        public static int playerDamage => OxygenConfig.Instance.playerDamage.Value;
 
-        public static float increasingOxygen => Config.Instance.increasingOxygen.Value;
-        public static float decreasingOxygen => Config.Instance.decreasingOxygen.Value;
-        public static float decreasingInFear => Config.Instance.decreasingInFear.Value;
+        public static float increasingOxygen => MoonsDicts.IncreasingOxygenMoonsValue;
+        public static float decreasingOxygen => MoonsDicts.decreasingOxygenMoonsValue;
+        public static float decreasingInFear => MoonsDicts.decreasingInFearMoonsValue;
 
-        public static float oxygenDepletionWhileRunning => Config.Instance.oxygenRunning.Value;
-        public static float oxygenDepletionInWater => Config.Instance.oxygenDepletionInWater.Value;
+        public static float oxygenDepletionWhileRunning => MoonsDicts.oxygenDepletionInWaterMoonsValue;
+        public static float oxygenDepletionInWater => MoonsDicts.oxygenDepletionInWaterMoonsValue;
 
-        public static float oxygenDeficiency => Config.Instance.oxygenDeficiency.Value;
+        public static float oxygenDeficiency => OxygenConfig.Instance.oxygenDeficiency.Value;
 
-        public static bool oxygenConsumptionOnTheCompany => Config.Instance.oxygenConsumptionOnTheCompany.Value;
+        public static bool oxygenConsumptionOnTheCompany => OxygenConfig.Instance.oxygenConsumptionOnTheCompany.Value;
 
-        public static float secTimer => Config.Instance.secTimer.Value;  // number of seconds the cool down timer lasts
+        public static float secTimer => OxygenConfig.Instance.secTimer.Value;  // number of seconds the cool down timer lasts
         //
 
-        public static bool enableOxygenSFX => OxygenBase.Config.enableOxygenSFX.Value;
-        public static bool enableOxygenSFXInShip => OxygenBase.Config.enableOxygenSFXInShip.Value;
-        public static bool enableOxygenSFXOnTheCompany => OxygenBase.Config.enableOxygenSFXOnTheCompany.Value;
+        public static bool enableOxygenSFX => OxygenBase.oxygenConfig.enableOxygenSFX.Value;
+        public static bool enableOxygenSFXInShip => OxygenBase.oxygenConfig.enableOxygenSFXInShip.Value;
+        public static bool enableOxygenSFXOnTheCompany => OxygenBase.oxygenConfig.enableOxygenSFXOnTheCompany.Value;
 
         public static float secTimerInFear = 2f;
 
         private static float timeSinceLastAction = 0f;  //number of seconds since we did something
         private static float timeSinceLastFear = 0f;  //number of seconds since we were fear
 
-        public static bool isNotification => OxygenBase.Config.notifications.Value;
+        public static bool isNotification => OxygenBase.oxygenConfig.notifications.Value;
 
         internal static bool backroomsNotification = false;
         internal static bool firstNotification = false;
@@ -78,7 +79,7 @@ namespace Oxygen.Patches
         {
             if (!OxygenHUD.initialized) return;
 
-            if (OxygenBase.Instance.isShyHUDFound && Config.Instance.ShyHUDSupport)
+            if (OxygenBase.Instance.isShyHUDFound && OxygenConfig.Instance.ShyHUDSupport)
             {
                 if (OxygenUI.fillAmount >= 0.55f)
                 {
@@ -92,7 +93,6 @@ namespace Oxygen.Patches
         }
 
         [HarmonyPostfix]
-        //[HarmonyPatch(typeof(PlayerControllerB), "LateUpdate")]
         [HarmonyPatch(typeof(HUDManager), "Update")]
         public static void UpdatePatch()
         {
@@ -195,6 +195,13 @@ namespace Oxygen.Patches
 
             if (timeSinceLastAction >= secTimer)
             {
+                mls.LogInfo($"Synced: {OxygenConfig.Synced}");
+                mls.LogInfo($"increasingOxygen: {increasingOxygen}");
+                mls.LogInfo($"decreasingOxygen: {decreasingOxygen}");
+                mls.LogInfo($"decreasingInFear: {decreasingInFear}");
+                mls.LogInfo($"oxygenDepletionWhileRunning: {oxygenDepletionWhileRunning}");
+                mls.LogInfo($"oxygenDepletionInWater: {oxygenDepletionInWater}");
+
                 if (enableOxygenSFX && sor.fearLevel <= 0)
                 {
                     bool shouldPlaySFX = false;

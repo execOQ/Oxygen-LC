@@ -134,13 +134,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\MoonsDicts.cs" />
     <Compile Include="Items\OxyCharger.cs" />
     <Compile Include="Items\Oxy99.cs" />
     <Compile Include="Oxygen.cs" />
-    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\OxygenConfig.cs" />
     <Compile Include="GameObjects\OxygenHUD.cs" />
     <Compile Include="Patches\HUDPatch.cs" />
     <Compile Include="Patches\KillPlayerPatch.cs" />
+    <Compile Include="Patches\RoundManagerPatch.cs" />
     <Compile Include="Patches\StartOfRoundPatch.cs" />
     <Compile Include="Patches\WritePlayerNotesPatch.cs" />
     <Compile Include="Utils\DeathBroadcaster.cs" />

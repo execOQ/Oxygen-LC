@@ -41,7 +41,7 @@ namespace Oxygen
 
         //public Item oxycanister;
 
-        public static Config Config { get; private set; }
+        public static OxygenConfig oxygenConfig { get; private set; }
 
         private void Awake()
         {
@@ -81,23 +81,28 @@ namespace Oxygen
             harmony.PatchAll(typeof(HUDPatch));
             harmony.PatchAll(typeof(OxygenHUD));
             harmony.PatchAll(typeof(KillPlayerPatch));
-            harmony.PatchAll(typeof(Config));
+            harmony.PatchAll(typeof(OxygenConfig));
             harmony.PatchAll(typeof(StartOfRoundPatch));
+            harmony.PatchAll(typeof(RoundManagerPatch));
             //harmony.PatchAll(typeof(WritePlayerNotesPatch));
 
-            Config = new Config(((BaseUnityPlugin)this).Config);
+            oxygenConfig = new(Config);
             mls.LogInfo($"Config is loaded.");
 
-            if (!OxygenBase.Config.MakeItVanilla.Value)
+            if (!oxygenConfig.MakeItVanilla.Value)
             {
                 Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
                 oxycanister.itemName = "OxyBoost";
+
                 LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
                 LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
+
                 TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
                 node.clearPreviousText = true;
                 node.displayText = "Limited air supply, useful for flooded facilities.";
-                LL.Items.RegisterShopItem(oxycanister, null, null, node, Config.Instance.oxyBoost_price.Value);
+
+                LL.Items.RegisterShopItem(oxycanister, null, null, node, OxygenConfig.Instance.oxyBoost_price.Value);
+
                 mls.LogInfo("Custom items are loaded!");
             }
 

@@ -1,21 +1,13 @@
-﻿using BepInEx;
-using BepInEx.Configuration;
+﻿using BepInEx.Configuration;
 using BepInEx.Logging;
 using CSync.Lib;
 using CSync.Util;
-using GameNetcodeStuff;
-using HarmonyLib;
-using System;
-using System.Linq;
 using System.Runtime.Serialization;
-using Unity.Collections;
-using Unity.Netcode;
-using UnityEngine;
 
 namespace Oxygen.Configuration
 {
     [DataContract]
-    public class Config : SyncedConfig<Config>
+    public class OxygenConfig : SyncedConfig<OxygenConfig>
     {
         internal ConfigEntry<bool> MakeItVanilla;
 
@@ -29,16 +21,31 @@ namespace Oxygen.Configuration
         internal SyncedEntry<float> increasingOxygen;
 
         [DataMember]
+        internal SyncedEntry<string> increasingOxygenMoons;
+
+        [DataMember]
         internal SyncedEntry<float> decreasingOxygen;
+
+        [DataMember]
+        internal SyncedEntry<string> decreasingOxygenMoons;
 
         [DataMember]
         internal SyncedEntry<float> decreasingInFear;
 
         [DataMember]
+        internal SyncedEntry<string> decreasingInFearMoons;
+
+        [DataMember]
         internal SyncedEntry<float> oxygenRunning;
 
         [DataMember]
+        internal SyncedEntry<string> oxygenRunningMoons;
+
+        [DataMember]
         internal SyncedEntry<float> oxygenDepletionInWater;
+
+        [DataMember]
+        internal SyncedEntry<string> oxygenDepletionInWaterMoons;
 
         [DataMember]
         internal SyncedEntry<float> oxygenDeficiency;
@@ -82,7 +89,7 @@ namespace Oxygen.Configuration
 
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
-        public Config(ConfigFile file) : base(OxygenBase.modGUID)
+        public OxygenConfig(ConfigFile file) : base(OxygenBase.modGUID)
         {
             ConfigManager.Register(this);
 
@@ -114,11 +121,25 @@ namespace Oxygen.Configuration
                 "How fast oxygen should be recovered. Happens every frame. (syncing with host)" // Description
             );
 
+            increasingOxygenMoons = file.BindSyncedEntry(
+                "Oxygen", // Section
+                "increasingOxygenMoons", // Key
+                "Experimentation:2.0,Vow:0.9", // Default value
+                "How fast oxygen should be recovered. Happens every frame. (syncing with host)" // Description
+            );
+
             decreasingOxygen = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "decreasingOxygen", // Key
                 0.0083f, // Default value
                 "How much oxygen should be released when the timer (The timing of the timer is the secTimer variable) goes off? (syncing with host)" // Description
+            );
+
+            decreasingOxygenMoons = file.BindSyncedEntry(
+                "Oxygen", // Section
+                "decreasingOxygenMoons", // Key
+                "Experimentation:1.0,Vow:2.9", // Default value
+                "How fast oxygen should be recovered. Happens every frame. (syncing with host)" // Description
             );
 
             decreasingInFear = file.BindSyncedEntry(
@@ -128,6 +149,13 @@ namespace Oxygen.Configuration
                 "Increases oxygen leakage when the player is in fear. Depends on the secTimer variable. (syncing with host)" // Description
             );
 
+            decreasingInFearMoons = file.BindSyncedEntry(
+                "Oxygen", // Section
+                "decreasingInFearMoons", // Key
+                "Experimentation:1.0", // Default value
+                "How fast oxygen should be recovered. Happens every frame. (syncing with host)" // Description
+            );
+
             oxygenRunning = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenRunning", // Key
@@ -135,11 +163,11 @@ namespace Oxygen.Configuration
                 "Increases oxygen drain when player running. Depends on the secTimer variable. (syncing with host)" // Description
             );
 
-            oxygenDeficiency = file.BindSyncedEntry(
+            oxygenRunningMoons = file.BindSyncedEntry(
                 "Oxygen", // Section
-                "oxygenDeficiency", // Key
-                0.15f, // Default value
-                "Increases screen fog when the player runs out of oxygen. Depends on the secTimer variable. (syncing with host)" // Description
+                "oxygenRunningMoons", // Key
+                "Experimentation:1.0, March:22", // Default value
+                "How fast oxygen should be recovered. Happens every frame. (syncing with host)" // Description
             );
 
             oxygenDepletionInWater = file.BindSyncedEntry(
@@ -147,6 +175,20 @@ namespace Oxygen.Configuration
                 "oxygenDepletionInWater", // Key
                 0.020f, // Default value
                 "Increases oxygen consumption when the player is underwater. Depends on the secTimer variable. (syncing with host)" // Description
+            );
+
+            oxygenDepletionInWaterMoons = file.BindSyncedEntry(
+                "Oxygen", // Section
+                "oxygenDepletionInWaterMoons", // Key
+                "Experimentation:1.0, March:5", // Default value
+                "Increases oxygen consumption when the player is underwater. Depends on the secTimer variable. (syncing with host)" // Description
+            );
+
+            oxygenDeficiency = file.BindSyncedEntry(
+                "Oxygen", // Section
+                "oxygenDeficiency", // Key
+                0.15f, // Default value
+                "Increases screen fog when the player runs out of oxygen. Depends on the secTimer variable. (syncing with host)" // Description
             );
 
             oxygenConsumptionOnTheCompany = file.BindSyncedEntry(
