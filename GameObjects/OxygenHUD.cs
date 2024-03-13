@@ -19,7 +19,7 @@ namespace Oxygen
 
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
-        public static float volume => OxygenBase.oxygenConfig.SFXvolume.Value;
+        public static float volume => OxygenBase.OxygenConfig.SFXvolume.Value;
 
         public static bool diedBecauseOfOxygen = false;
 
@@ -66,8 +66,8 @@ namespace Oxygen
             rectTransform.anchorMax = new Vector2(0f, 1f);
             rectTransform.pivot = new Vector2(0.5f, 0.5f);
 
-            int valueX = OxygenBase.oxygenConfig.XOffset.Value;
-            int valueY = OxygenBase.oxygenConfig.YOffset.Value;
+            int valueX = OxygenBase.OxygenConfig.XOffset.Value;
+            int valueY = OxygenBase.OxygenConfig.YOffset.Value;
 
             rectTransform.anchoredPosition = new Vector2((float)(131.6 + valueX), (float)(-127.3715 + valueY));
             rectTransform.localScale = new Vector3(2.0392f, 2.0392f, 1.6892f);

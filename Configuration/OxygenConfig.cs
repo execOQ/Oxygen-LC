@@ -24,10 +24,16 @@ namespace Oxygen.Configuration
         internal SyncedEntry<string> increasingOxygenMoons;
 
         [DataMember]
-        internal SyncedEntry<float> decreasingOxygen;
+        internal SyncedEntry<float> decreasingOxygenOutside;
 
         [DataMember]
-        internal SyncedEntry<string> decreasingOxygenMoons;
+        internal SyncedEntry<float> decreasingOxygenInFactory;
+
+        [DataMember]
+        internal SyncedEntry<string> decreasingOxygenOutsideMoons;
+
+        [DataMember]
+        internal SyncedEntry<string> decreasingOxygenInFactoryMoons;
 
         [DataMember]
         internal SyncedEntry<float> decreasingInFear;
@@ -128,18 +134,32 @@ namespace Oxygen.Configuration
                 "How fast oxygen should be recovered. Happens every frame. (syncing with host)" // Description
             );
 
-            decreasingOxygen = file.BindSyncedEntry(
+            decreasingOxygenOutside = file.BindSyncedEntry(
                 "Oxygen", // Section
-                "decreasingOxygen", // Key
+                "decreasingOxygenOutside", // Key
                 0.0083f, // Default value
                 "How much oxygen should be released when the timer (The timing of the timer is the secTimer variable) goes off? (syncing with host)" // Description
             );
 
-            decreasingOxygenMoons = file.BindSyncedEntry(
+            decreasingOxygenInFactory = file.BindSyncedEntry(
                 "Oxygen", // Section
-                "decreasingOxygenMoons", // Key
-                "Experimentation:1.0,Vow:2.9", // Default value
-                "How fast oxygen should be recovered. Happens every frame. (syncing with host)" // Description
+                "decreasingOxygenInFactory", // Key
+                0.0083f, // Default value
+                "How much oxygen should be released when the timer (The timing of the timer is the secTimer variable) goes off? (syncing with host)" // Description
+            );
+
+            decreasingOxygenOutsideMoons = file.BindSyncedEntry(
+                "Oxygen", // Section
+                "decreasingOxygenOutsideMoons", // Key
+                string.Empty, // Default value
+                "How much oxygen should be released when the timer (The timing of the timer is the secTimer variable) goes off? (syncing with host)" // Description
+            );
+
+            decreasingOxygenInFactoryMoons = file.BindSyncedEntry(
+                "Oxygen", // Section
+                "decreasingOxygenInFactoryMoons", // Key
+                string.Empty, // Default value
+                "How much oxygen should be released when the timer (The timing of the timer is the secTimer variable) goes off? (syncing with host)" // Description
             );
 
             decreasingInFear = file.BindSyncedEntry(

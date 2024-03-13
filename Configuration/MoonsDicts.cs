@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -24,22 +25,37 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenBase.oxygenConfig.increasingOxygen.Value;
+                return OxygenBase.OxygenConfig.increasingOxygen.Value;
             }
         }
 
-        internal static Dictionary<string, float> decreasingOxygenMoons;
+        internal static Dictionary<string, float> decreasingOxygenOutsideMoons;
 
-        internal static float decreasingOxygenMoonsValue
+        internal static float decreasingOxygenOutsideMoonsValue
         {
             get
             {
-                if (decreasingOxygenMoons != null && decreasingOxygenMoons.TryGetValue(MoonName.ToLower(), out var value))
+                if (decreasingOxygenOutsideMoons != null && decreasingOxygenOutsideMoons.TryGetValue(MoonName.ToLower(), out var value))
                 {
                     return value;
                 }
 
-                return OxygenBase.oxygenConfig.decreasingOxygen.Value;
+                return OxygenBase.OxygenConfig.decreasingOxygenOutside.Value;
+            }
+        }
+
+        internal static Dictionary<string, float> decreasingOxygenInFactoryMoons;
+
+        internal static float decreasingOxygenInFactoryMoonsValue
+        {
+            get
+            {
+                if (decreasingOxygenInFactoryMoons != null && decreasingOxygenInFactoryMoons.TryGetValue(MoonName.ToLower(), out var value))
+                {
+                    return value;
+                }
+
+                return OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value;
             }
         }
 
@@ -54,7 +70,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenBase.oxygenConfig.decreasingInFear.Value;
+                return OxygenBase.OxygenConfig.decreasingInFear.Value;
             }
         }
 
@@ -69,7 +85,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenBase.oxygenConfig.oxygenRunning.Value;
+                return OxygenBase.OxygenConfig.oxygenRunning.Value;
             }
         }
 
@@ -84,7 +100,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenBase.oxygenConfig.oxygenDepletionInWater.Value;
+                return OxygenBase.OxygenConfig.oxygenDepletionInWater.Value;
             }
         }
 

@@ -14,21 +14,25 @@ namespace Oxygen.Patches
         [HarmonyPostfix]
         private static void RoundManagerPatch_Postfix()
         {
+            MoonsDicts.increasingOxygenMoons = GetLevelValue(OxygenBase.OxygenConfig.increasingOxygenMoons.Value, OxygenBase.OxygenConfig.increasingOxygen.Value);
 
-            MoonsDicts.increasingOxygenMoons = GetLevelValue(OxygenBase.oxygenConfig.increasingOxygenMoons.Value, OxygenBase.oxygenConfig.increasingOxygen.Value);
+            MoonsDicts.decreasingOxygenOutsideMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingOxygenOutsideMoons.Value, OxygenBase.OxygenConfig.decreasingOxygenOutside.Value);
+            
+            MoonsDicts.decreasingOxygenInFactoryMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingOxygenInFactoryMoons.Value, OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value);
 
-            MoonsDicts.decreasingOxygenMoons = GetLevelValue(OxygenBase.oxygenConfig.decreasingOxygenMoons.Value, OxygenBase.oxygenConfig.decreasingOxygen.Value);
+            MoonsDicts.decreasingInFearMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingInFearMoons.Value, OxygenBase.OxygenConfig.decreasingInFear.Value);
 
-            MoonsDicts.decreasingInFearMoons = GetLevelValue(OxygenBase.oxygenConfig.decreasingInFearMoons.Value, OxygenBase.oxygenConfig.decreasingInFear.Value);
+            MoonsDicts.oxygenRunningMoons = GetLevelValue(OxygenBase.OxygenConfig.oxygenRunningMoons.Value, OxygenBase.OxygenConfig.oxygenRunning.Value);
 
-            MoonsDicts.oxygenRunningMoons = GetLevelValue(OxygenBase.oxygenConfig.oxygenRunningMoons.Value, OxygenBase.oxygenConfig.oxygenRunning.Value);
-
-            MoonsDicts.oxygenDepletionInWaterMoons = GetLevelValue(OxygenBase.oxygenConfig.oxygenDepletionInWaterMoons.Value, OxygenBase.oxygenConfig.oxygenDepletionInWater.Value);
+            MoonsDicts.oxygenDepletionInWaterMoons = GetLevelValue(OxygenBase.OxygenConfig.oxygenDepletionInWaterMoons.Value, OxygenBase.OxygenConfig.oxygenDepletionInWater.Value);
         }
 
         private static Dictionary<string, float> GetLevelValue(string str, float defValue)
         {
             Dictionary<string, float> result = [];
+
+            // for simplification my work...
+            result.Add("default", defValue);
 
             if (string.IsNullOrEmpty(str))
             {

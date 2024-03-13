@@ -7,7 +7,7 @@ namespace Oxygen.Items
     {
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
-        public static float Volume => OxygenBase.oxygenConfig.oxyCharger_SFXVolume.Value;
+        public static float Volume => OxygenBase.OxygenConfig.oxyCharger_SFXVolume.Value;
 
         public static AudioClip[] OxyChargerSFX => OxygenBase.Instance.oxyChargerSFX;
 
