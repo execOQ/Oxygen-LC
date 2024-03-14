@@ -34,12 +34,14 @@ namespace Oxygen.Patches
 
         public static int playerDamage => OxygenConfig.Instance.playerDamage.Value;
 
+        public static bool IsgreenPlanet => MoonsDicts.GreenPlanetsValue;
         public static float increasingOxygen => MoonsDicts.IncreasingOxygenMoonsValue;
-        public static float decreasingOxygenOutside => MoonsDicts.decreasingOxygenOutsideMoonsValue;
-        public static float decreasingOxygenInFactory => MoonsDicts.decreasingOxygenInFactoryMoonsValue;
-        public static float decreasingInFear => MoonsDicts.decreasingInFearMoonsValue;
-        public static float oxygenDepletionWhileRunning => MoonsDicts.oxygenDepletionInWaterMoonsValue;
-        public static float oxygenDepletionInWater => MoonsDicts.oxygenDepletionInWaterMoonsValue;
+        public static float decreasingOxygenOutside => MoonsDicts.DecreasingOxygenOutsideMoonsValue;
+        public static float decreasingOxygenInFactory => MoonsDicts.DecreasingOxygenInFactoryMoonsValue;
+        public static float decreasingInFear => OxygenConfig.Instance.decreasingInFear.Value;
+        //public static float decreasingInFear => MoonsDicts.DecreasingInFearMoonsValue;
+        public static float oxygenDepletionWhileRunning => MoonsDicts.OxygenDepletionInWaterMoonsValue;
+        public static float oxygenDepletionInWater => MoonsDicts.OxygenDepletionInWaterMoonsValue;
 
         public static float oxygenDeficiency => OxygenConfig.Instance.oxygenDeficiency.Value;
 
@@ -142,8 +144,8 @@ namespace Oxygen.Patches
             }
 
             float localDecValue = 0f;
-            if (!pController.isInsideFactory && !pController.isInHangarShipRoom) localDecValue += decreasingOxygenOutside;
-            if (pController.isInsideFactory) localDecValue += decreasingOxygenInFactory;
+            //if (!pController.isInsideFactory && !pController.isInHangarShipRoom) localDecValue += decreasingOxygenOutside;
+            //if (pController.isInsideFactory) localDecValue += decreasingOxygenInFactory;
 
             // can cause a problems with other mods (●'◡'●)
             sor.drowningTimer = OxygenUI.fillAmount;
@@ -230,7 +232,7 @@ namespace Oxygen.Patches
                     //mls.LogInfo($"oxyUI.fillAmount: {oxyUI.fillAmount}");
                     //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
                 }
-
+                
                 // if player running the oxygen goes away faster
                 if (pController.isSprinting)
                 {
@@ -238,8 +240,8 @@ namespace Oxygen.Patches
                     mls.LogInfo($"The player is running, oxygen consumption is increased by {oxygenDepletionWhileRunning}");
                 }
 
-                // not in ship
-                if (!pController.isInHangarShipRoom)
+                // outside
+                if (!pController.isInHangarShipRoom && !pController.isInsideFactory)
                 {
                     if (!oxygenConsumptionOnTheCompany && StartOfRound.Instance.currentLevel.levelID == 3)
                     {
@@ -247,9 +249,23 @@ namespace Oxygen.Patches
                     }
                     else
                     {
-                        OxygenUI.fillAmount -= localDecValue;
-                        mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
+                        if (IsgreenPlanet)
+                        {
+                            mls.LogInfo("It's a green planet! Oxygen consumption is omitted");
+                        }
+                        else
+                        {
+                            OxygenUI.fillAmount -= localDecValue + decreasingOxygenOutside;
+                            mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
+                        }
                     }
+                }
+
+                // in the facility
+                if (pController.isInsideFactory)
+                {
+                    OxygenUI.fillAmount -= localDecValue + decreasingOxygenInFactory;
+                    mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
                 }
 
                 // notification about low level of oxygen

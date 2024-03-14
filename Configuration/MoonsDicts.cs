@@ -14,6 +14,21 @@ namespace Oxygen.Configuration
     {
         internal static string MoonName => NumberLessPlanetName(StartOfRound.Instance.currentLevel.PlanetName);
 
+        internal static Dictionary<string, float> greenPlanets;
+
+        internal static bool GreenPlanetsValue
+        {
+            get
+            {
+                if (greenPlanets != null && greenPlanets.TryGetValue(MoonName.ToLower(), out var value))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
         internal static Dictionary<string, float> increasingOxygenMoons;
 
         internal static float IncreasingOxygenMoonsValue
@@ -31,7 +46,7 @@ namespace Oxygen.Configuration
 
         internal static Dictionary<string, float> decreasingOxygenOutsideMoons;
 
-        internal static float decreasingOxygenOutsideMoonsValue
+        internal static float DecreasingOxygenOutsideMoonsValue
         {
             get
             {
@@ -46,7 +61,7 @@ namespace Oxygen.Configuration
 
         internal static Dictionary<string, float> decreasingOxygenInFactoryMoons;
 
-        internal static float decreasingOxygenInFactoryMoonsValue
+        internal static float DecreasingOxygenInFactoryMoonsValue
         {
             get
             {
@@ -59,9 +74,9 @@ namespace Oxygen.Configuration
             }
         }
 
-        internal static Dictionary<string, float> decreasingInFearMoons;
+        /* internal static Dictionary<string, float> decreasingInFearMoons;
 
-        internal static float decreasingInFearMoonsValue
+        internal static float DecreasingInFearMoonsValue
         {
             get
             {
@@ -72,11 +87,11 @@ namespace Oxygen.Configuration
 
                 return OxygenBase.OxygenConfig.decreasingInFear.Value;
             }
-        }
+        } */
 
         internal static Dictionary<string, float> oxygenRunningMoons;
 
-        internal static float oxygenRunningMoonsValue
+        internal static float OxygenRunningMoonsValue
         {
             get
             {
@@ -91,7 +106,7 @@ namespace Oxygen.Configuration
 
         internal static Dictionary<string, float> oxygenDepletionInWaterMoons;
 
-        internal static float oxygenDepletionInWaterMoonsValue
+        internal static float OxygenDepletionInWaterMoonsValue
         {
             get
             {

@@ -14,13 +14,15 @@ namespace Oxygen.Patches
         [HarmonyPostfix]
         private static void RoundManagerPatch_Postfix()
         {
+            MoonsDicts.greenPlanets = GetLevelValue(OxygenBase.OxygenConfig.greenPlanets.Value, 0);
+
             MoonsDicts.increasingOxygenMoons = GetLevelValue(OxygenBase.OxygenConfig.increasingOxygenMoons.Value, OxygenBase.OxygenConfig.increasingOxygen.Value);
 
             MoonsDicts.decreasingOxygenOutsideMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingOxygenOutsideMoons.Value, OxygenBase.OxygenConfig.decreasingOxygenOutside.Value);
             
             MoonsDicts.decreasingOxygenInFactoryMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingOxygenInFactoryMoons.Value, OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value);
 
-            MoonsDicts.decreasingInFearMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingInFearMoons.Value, OxygenBase.OxygenConfig.decreasingInFear.Value);
+            //MoonsDicts.decreasingInFearMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingInFearMoons.Value, OxygenBase.OxygenConfig.decreasingInFear.Value);
 
             MoonsDicts.oxygenRunningMoons = GetLevelValue(OxygenBase.OxygenConfig.oxygenRunningMoons.Value, OxygenBase.OxygenConfig.oxygenRunning.Value);
 
