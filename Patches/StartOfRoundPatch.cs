@@ -16,6 +16,14 @@ namespace Oxygen.Patches
         public static int oxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
 
         [HarmonyPostfix]
+        [HarmonyPatch(typeof(StartOfRound), "ShipHasLeft")]
+        private static void ShipHasLeft_Patch()
+        {
+            OxygenHUD.oxygenUI.fillAmount = 1f;
+            mls.LogInfo("Ship has left, oxygen was recovered >.<");
+        }
+
+        [HarmonyPostfix]
         [HarmonyPatch(typeof(StartOfRound), "Awake")]
         private static void Patch_RoundAwake()
         {

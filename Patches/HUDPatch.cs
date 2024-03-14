@@ -40,7 +40,7 @@ namespace Oxygen.Patches
         public static float decreasingOxygenInFactory => MoonsDicts.DecreasingOxygenInFactoryMoonsValue;
         public static float decreasingInFear => OxygenConfig.Instance.decreasingInFear.Value;
         //public static float decreasingInFear => MoonsDicts.DecreasingInFearMoonsValue;
-        public static float oxygenDepletionWhileRunning => MoonsDicts.OxygenDepletionInWaterMoonsValue;
+        public static float oxygenDepletionWhileRunning => MoonsDicts.OxygenRunningMoonsValue;
         public static float oxygenDepletionInWater => MoonsDicts.OxygenDepletionInWaterMoonsValue;
 
         public static float oxygenDeficiency => OxygenConfig.Instance.oxygenDeficiency.Value;
