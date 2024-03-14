@@ -39,9 +39,7 @@ namespace Oxygen
         public GameObject oxyCharger;
         public AudioClip[] oxyChargerSFX;
 
-        //public Item oxycanister;
-
-        public static Config Config { get; private set; }
+        public static OxygenConfig OxygenConfig { get; private set; }
 
         private void Awake()
         {
@@ -55,60 +53,56 @@ namespace Oxygen
             CheckForDependencies();
 
             AssetBundle oxyChargerBundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxycharger");
-            if (oxyChargerBundle == null)
-            {
-                return;
-            }
+            if (oxyChargerBundle == null) return;
 
             oxyCharger = oxyChargerBundle.LoadAsset<GameObject>("Assets/OxyCharger/OxyCharger.prefab");
             oxyChargerSFX = oxyChargerBundle.LoadAllAssets<AudioClip>();
 
             AssetBundle bundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygensounds");
-            if (bundle == null)
-            {
-                return;
-            }
+            if (bundle == null) return;
 
             inhaleSFX = bundle.LoadAllAssets<AudioClip>();
             mls.LogInfo($"Sounds are loaded.");
 
             AssetBundle oxy99 = Utilities.LoadAssetFromStream("Oxygen.Assets.oxy99");
-            if (oxy99 == null)
-            {
-                return;
-            }
+            if (oxy99 == null) return;
 
             harmony.PatchAll(typeof(HUDPatch));
             harmony.PatchAll(typeof(OxygenHUD));
             harmony.PatchAll(typeof(KillPlayerPatch));
-            harmony.PatchAll(typeof(Config));
+            harmony.PatchAll(typeof(OxygenConfig));
             harmony.PatchAll(typeof(StartOfRoundPatch));
+            harmony.PatchAll(typeof(RoundManagerPatch));
             //harmony.PatchAll(typeof(WritePlayerNotesPatch));
 
-            Config = new Config(((BaseUnityPlugin)this).Config);
-            mls.LogInfo($"Config is loaded.");
+            OxygenConfig = new(Config);
+            mls.LogInfo($"Config is loaded. (～￣▽￣)～");
 
-            if (!OxygenBase.Config.MakeItVanilla.Value)
+            if (!OxygenConfig.MakeItVanilla.Value)
             {
                 Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
                 oxycanister.itemName = "OxyBoost";
+
                 LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
                 LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
+
                 TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
                 node.clearPreviousText = true;
                 node.displayText = "Limited air supply, useful for flooded facilities.";
-                LL.Items.RegisterShopItem(oxycanister, null, null, node, Config.Instance.oxyBoost_price.Value);
+
+                LL.Items.RegisterShopItem(oxycanister, null, null, node, OxygenConfig.Instance.oxyBoost_price.Value);
+
                 mls.LogInfo("Custom items are loaded!");
             }
 
-            mls.LogInfo($"{modName} loaded!");
+            mls.LogInfo($"{modName} loaded! Yay! Don't forget to refill oxygen canisters!");
 
             //DeathBroadcaster.Initialize();
         }
 
         private void CheckForDependencies()
         {
-            mls.LogInfo((object)"Checking for soft dependencies...");
+            mls.LogInfo("Checking for soft dependencies...");
             if (Chainloader.PluginInfos.ContainsKey(LCAPIGUID))
             {
                 Chainloader.PluginInfos.TryGetValue(LCAPIGUID, out var value);

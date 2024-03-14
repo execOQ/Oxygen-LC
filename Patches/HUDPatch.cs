@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using System.Net;
+using System.Linq;
 
 namespace Oxygen.Patches
 {
@@ -27,36 +28,38 @@ namespace Oxygen.Patches
         private const float offset = -400f;
 
         // syncing with host
-        public static bool InfinityOxygenInModsPlaces => Config.Instance.InfinityOxygenInModsPlaces.Value;
+        public static bool InfinityOxygenInModsPlaces => OxygenConfig.Instance.InfinityOxygenInModsPlaces.Value;
 
-        public static int oxygenFillOption => Config.Instance.OxygenFillOption.Value;
+        public static int oxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
 
-        public static int playerDamage => Config.Instance.playerDamage.Value;
+        public static int playerDamage => OxygenConfig.Instance.playerDamage.Value;
 
-        public static float increasingOxygen => Config.Instance.increasingOxygen.Value;
-        public static float decreasingOxygen => Config.Instance.decreasingOxygen.Value;
-        public static float decreasingInFear => Config.Instance.decreasingInFear.Value;
+        public static bool IsgreenPlanet => MoonsDicts.GreenPlanetsValue;
+        public static float increasingOxygen => MoonsDicts.IncreasingOxygenMoonsValue;
+        public static float decreasingOxygenOutside => MoonsDicts.DecreasingOxygenOutsideMoonsValue;
+        public static float decreasingOxygenInFactory => MoonsDicts.DecreasingOxygenInFactoryMoonsValue;
+        public static float decreasingInFear => OxygenConfig.Instance.decreasingInFear.Value;
+        //public static float decreasingInFear => MoonsDicts.DecreasingInFearMoonsValue;
+        public static float oxygenDepletionWhileRunning => MoonsDicts.OxygenDepletionInWaterMoonsValue;
+        public static float oxygenDepletionInWater => MoonsDicts.OxygenDepletionInWaterMoonsValue;
 
-        public static float oxygenDepletionWhileRunning => Config.Instance.oxygenRunning.Value;
-        public static float oxygenDepletionInWater => Config.Instance.oxygenDepletionInWater.Value;
+        public static float oxygenDeficiency => OxygenConfig.Instance.oxygenDeficiency.Value;
 
-        public static float oxygenDeficiency => Config.Instance.oxygenDeficiency.Value;
+        public static bool oxygenConsumptionOnTheCompany => OxygenConfig.Instance.oxygenConsumptionOnTheCompany.Value;
 
-        public static bool oxygenConsumptionOnTheCompany => Config.Instance.oxygenConsumptionOnTheCompany.Value;
-
-        public static float secTimer => Config.Instance.secTimer.Value;  // number of seconds the cool down timer lasts
+        public static float secTimer => OxygenConfig.Instance.secTimer.Value;  // number of seconds the cool down timer lasts
         //
 
-        public static bool enableOxygenSFX => OxygenBase.Config.enableOxygenSFX.Value;
-        public static bool enableOxygenSFXInShip => OxygenBase.Config.enableOxygenSFXInShip.Value;
-        public static bool enableOxygenSFXOnTheCompany => OxygenBase.Config.enableOxygenSFXOnTheCompany.Value;
+        public static bool enableOxygenSFX => OxygenBase.OxygenConfig.enableOxygenSFX.Value;
+        public static bool enableOxygenSFXInShip => OxygenBase.OxygenConfig.enableOxygenSFXInShip.Value;
+        public static bool enableOxygenSFXOnTheCompany => OxygenBase.OxygenConfig.enableOxygenSFXOnTheCompany.Value;
 
         public static float secTimerInFear = 2f;
 
         private static float timeSinceLastAction = 0f;  //number of seconds since we did something
         private static float timeSinceLastFear = 0f;  //number of seconds since we were fear
 
-        public static bool isNotification => OxygenBase.Config.notifications.Value;
+        public static bool isNotification => OxygenBase.OxygenConfig.notifications.Value;
 
         internal static bool backroomsNotification = false;
         internal static bool firstNotification = false;
@@ -64,7 +67,6 @@ namespace Oxygen.Patches
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(HUDManager), "Awake")]
-        //[HarmonyPatch(typeof(StartOfRound), "SceneManager_OnLoadComplete1")]
         public static void BuildHUD(HUDManager __instance)
         {
             __instance.StartCoroutine(AwaitPlayerController());
@@ -78,7 +80,7 @@ namespace Oxygen.Patches
         {
             if (!OxygenHUD.initialized) return;
 
-            if (OxygenBase.Instance.isShyHUDFound && Config.Instance.ShyHUDSupport)
+            if (OxygenBase.Instance.isShyHUDFound && OxygenConfig.Instance.ShyHUDSupport)
             {
                 if (OxygenUI.fillAmount >= 0.55f)
                 {
@@ -92,7 +94,6 @@ namespace Oxygen.Patches
         }
 
         [HarmonyPostfix]
-        //[HarmonyPatch(typeof(PlayerControllerB), "LateUpdate")]
         [HarmonyPatch(typeof(HUDManager), "Update")]
         public static void UpdatePatch()
         {
@@ -142,13 +143,12 @@ namespace Oxygen.Patches
                 OxygenHUD.EladsOxygenUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
             }
 
-            float localDecValue = decreasingOxygen;
+            float localDecValue = 0f;
+            //if (!pController.isInsideFactory && !pController.isInHangarShipRoom) localDecValue += decreasingOxygenOutside;
+            //if (pController.isInsideFactory) localDecValue += decreasingOxygenInFactory;
 
             // can cause a problems with other mods (●'◡'●)
-            if (!pController.isInsideFactory)
-            {
-                sor.drowningTimer = OxygenUI.fillAmount;
-            }
+            sor.drowningTimer = OxygenUI.fillAmount;
 
             // just for simplification if player was teleported and unable to refill oxygen
             if (InfinityOxygenInModsPlaces && pController.serverPlayerPosition.y <= offset)
@@ -175,6 +175,7 @@ namespace Oxygen.Patches
                     {
                         if (!pController.isInHangarShipRoom || (pController.isInHangarShipRoom && enableOxygenSFXInShip))
                         {
+                            //mls.LogInfo($"Playing sound cause fearLevelIncreasing");
                             OxygenHUD.PlaySFX(pController, inhaleSFX[0]);
                         }
                     }
@@ -182,7 +183,7 @@ namespace Oxygen.Patches
                     // just unnecessary to decrease oxygen in ship ~_~
                     if (!pController.isInHangarShipRoom)
                     {
-                        mls.LogInfo($"playing sound cause fearLevelIncreasing. oxygen consumption is increased by {decreasingInFear}");
+                        mls.LogInfo($"Oxygen consumption is increased by {decreasingInFear}");
                         //mls.LogError($"fear level: {sor.fearLevel}");
 
                         localDecValue += decreasingInFear;
@@ -195,6 +196,14 @@ namespace Oxygen.Patches
 
             if (timeSinceLastAction >= secTimer)
             {
+                //mls.LogInfo($"Synced: {OxygenConfig.Synced}");
+                //mls.LogInfo($"increasingOxygen: {increasingOxygen}");
+                //mls.LogInfo($"decreasingOxygenOutside: {decreasingOxygenOutside}");
+                //mls.LogInfo($"decreasingOxygenInFactory: {decreasingOxygenInFactory}");
+                //mls.LogInfo($"decreasingInFear: {decreasingInFear}");
+                //mls.LogInfo($"oxygenDepletionWhileRunning: {oxygenDepletionWhileRunning}");
+                //mls.LogInfo($"oxygenDepletionInWater: {oxygenDepletionInWater}");
+
                 if (enableOxygenSFX && sor.fearLevel <= 0)
                 {
                     bool shouldPlaySFX = false;
@@ -223,7 +232,7 @@ namespace Oxygen.Patches
                     //mls.LogInfo($"oxyUI.fillAmount: {oxyUI.fillAmount}");
                     //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
                 }
-
+                
                 // if player running the oxygen goes away faster
                 if (pController.isSprinting)
                 {
@@ -231,25 +240,31 @@ namespace Oxygen.Patches
                     mls.LogInfo($"The player is running, oxygen consumption is increased by {oxygenDepletionWhileRunning}");
                 }
 
-                // outside and not in ship
-                if (!pController.isInsideFactory && !pController.isInHangarShipRoom)
+                // outside
+                if (!pController.isInHangarShipRoom && !pController.isInsideFactory)
                 {
-                    //isRecovering = false; // just to prevent creating a lot logs about recovering oxygen when player in ship
-
                     if (!oxygenConsumptionOnTheCompany && StartOfRound.Instance.currentLevel.levelID == 3)
                     {
-                        mls.LogInfo("Oxygen consumption on the company's planet is disabled, skipping...");
-                    } else
+                        mls.LogInfo("Oxygen consumption on the company's planet is disabled, skipping... ~_~");
+                    }
+                    else
                     {
-                        OxygenUI.fillAmount -= localDecValue;
-                        mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
+                        if (IsgreenPlanet)
+                        {
+                            mls.LogInfo("It's a green planet! Oxygen consumption is omitted");
+                        }
+                        else
+                        {
+                            OxygenUI.fillAmount -= localDecValue + decreasingOxygenOutside;
+                            mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
+                        }
                     }
                 }
 
-                // inside factory
+                // in the facility
                 if (pController.isInsideFactory)
                 {
-                    OxygenUI.fillAmount -= localDecValue;
+                    OxygenUI.fillAmount -= localDecValue + decreasingOxygenInFactory;
                     mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
                 }
 

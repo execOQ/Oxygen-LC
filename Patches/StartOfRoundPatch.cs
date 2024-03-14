@@ -13,7 +13,7 @@ namespace Oxygen.Patches
     {
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
-        public static int oxygenFillOption => Config.Instance.OxygenFillOption.Value;
+        public static int oxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(StartOfRound), "Awake")]
