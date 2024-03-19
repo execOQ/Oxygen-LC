@@ -42,9 +42,6 @@ namespace Oxygen.Configuration
         internal SyncedEntry<float> decreasingInFear;
 
         [DataMember]
-        internal SyncedEntry<string> decreasingInFearMoons;
-
-        [DataMember]
         internal SyncedEntry<float> oxygenRunning;
 
         [DataMember]
@@ -58,9 +55,6 @@ namespace Oxygen.Configuration
 
         [DataMember]
         internal SyncedEntry<float> oxygenDeficiency;
-
-        [DataMember]
-        internal SyncedEntry<bool> oxygenConsumptionOnTheCompany;
 
         [DataMember]
         internal SyncedEntry<float> secTimer;
@@ -123,7 +117,7 @@ namespace Oxygen.Configuration
             greenPlanets = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "greenPlanets", // Key
-                "March:0,Vow:0", // Default value
+                "March:0,Vow:0,Gordion:0", // Default value
                 "Disables oxygen consumption outside on listed planets. Follow the syntax of the default value. (syncing with host)" // Description
             );
 
@@ -176,13 +170,6 @@ namespace Oxygen.Configuration
                 "Increases oxygen leakage when the player is in fear and is triggered every 2 seconds. (syncing with host)" // Description
             );
 
-            /* decreasingInFearMoons = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "decreasingInFearMoons", // Key
-                string.Empty, // Default value
-                "Increases oxygen leakage when the player is in fear and is triggered every 2 seconds.\n This takes priority over the decreasingInFear config option (e.g. Experimentation:2.0,Vow:0.9,CUSTOM_MOON_NAME@10).\n Not listed moons will use the decreasingInFear config option. (syncing with host)" // Description
-            ); */
-
             oxygenRunning = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenRunning", // Key
@@ -216,13 +203,6 @@ namespace Oxygen.Configuration
                 "oxygenDeficiency", // Key
                 0.15f, // Default value
                 "Increases screen fog when the player runs out of oxygen. Depends on the secTimer variable. (syncing with host)" // Description
-            );
-
-            oxygenConsumptionOnTheCompany = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "oxygenConsumptionOnTheCompany", // Key
-                true, // Default value
-                "If true, then there will be oxygen consumption on the company's planet. (syncing with host)" // Description
             );
 
             secTimer = file.BindSyncedEntry(

@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\MoonsDicts.cs" />
+    <Compile Include="Extras\AudioController.cs" />
     <Compile Include="Items\OxyCharger.cs" />
     <Compile Include="Items\Oxy99.cs" />
     <Compile Include="Oxygen.cs" />

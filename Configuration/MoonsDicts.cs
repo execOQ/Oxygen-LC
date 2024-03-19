@@ -20,7 +20,7 @@ namespace Oxygen.Configuration
         {
             get
             {
-                if (greenPlanets != null && greenPlanets.TryGetValue(MoonName.ToLower(), out var value))
+                if (greenPlanets != null && greenPlanets.TryGetValue(MoonName.ToLower(), out var _))
                 {
                     return true;
                 }
@@ -73,21 +73,6 @@ namespace Oxygen.Configuration
                 return OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value;
             }
         }
-
-        /* internal static Dictionary<string, float> decreasingInFearMoons;
-
-        internal static float DecreasingInFearMoonsValue
-        {
-            get
-            {
-                if (decreasingInFearMoons != null && decreasingInFearMoons.TryGetValue(MoonName.ToLower(), out var value))
-                {
-                    return value;
-                }
-
-                return OxygenBase.OxygenConfig.decreasingInFear.Value;
-            }
-        } */
 
         internal static Dictionary<string, float> oxygenRunningMoons;
 

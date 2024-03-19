@@ -1,9 +1,7 @@
 ﻿using BepInEx.Logging;
-using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
 using Oxygen.Items;
-using System.ComponentModel;
 using UnityEngine;
 
 namespace Oxygen.Patches

@@ -2,20 +2,17 @@
 using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
-using Oxygen.Utils;
 using static System.Math;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
-using System.Net;
-using System.Linq;
+using Oxygen.Extras;
 
 namespace Oxygen.Patches
 {
     [HarmonyPatch]
-    internal class HUDPatch : MonoBehaviour
+    internal class HUDPatch
     {
         public static AudioClip[] inhaleSFX = OxygenBase.Instance.inhaleSFX;
 
@@ -39,13 +36,10 @@ namespace Oxygen.Patches
         public static float decreasingOxygenOutside => MoonsDicts.DecreasingOxygenOutsideMoonsValue;
         public static float decreasingOxygenInFactory => MoonsDicts.DecreasingOxygenInFactoryMoonsValue;
         public static float decreasingInFear => OxygenConfig.Instance.decreasingInFear.Value;
-        //public static float decreasingInFear => MoonsDicts.DecreasingInFearMoonsValue;
         public static float oxygenDepletionWhileRunning => MoonsDicts.OxygenRunningMoonsValue;
         public static float oxygenDepletionInWater => MoonsDicts.OxygenDepletionInWaterMoonsValue;
 
         public static float oxygenDeficiency => OxygenConfig.Instance.oxygenDeficiency.Value;
-
-        public static bool oxygenConsumptionOnTheCompany => OxygenConfig.Instance.oxygenConsumptionOnTheCompany.Value;
 
         public static float secTimer => OxygenConfig.Instance.secTimer.Value;  // number of seconds the cool down timer lasts
         //
@@ -80,6 +74,40 @@ namespace Oxygen.Patches
         {
             if (!OxygenHUD.initialized) return;
 
+            StartOfRound sor = StartOfRound.Instance;
+
+            if (__instance.isWalking)
+            {
+                AudioController.Instance.CurrentStage = AudioController.Stage.walking;
+            } 
+            else if (__instance.isSprinting)
+            {
+                AudioController.Instance.CurrentStage = AudioController.Stage.running;
+            }
+            else if (__instance.isExhausted)
+            {
+                AudioController.Instance.CurrentStage = AudioController.Stage.exhausted;
+            }
+            else if (sor.fearLevel > 0)
+            {
+                AudioController.Instance.CurrentStage = AudioController.Stage.scared;
+            } 
+            else
+            {
+                AudioController.Instance.CurrentStage = AudioController.Stage.standing;
+            }
+        }
+
+        public static void UpdateModsCompatibility()
+        {
+            if (EladsOxygenUIText != null)
+            {
+                float roundedValue = (float)Round(OxygenUI.fillAmount, 2);
+                int oxygenInPercent = (int)(roundedValue * 100);
+
+                OxygenHUD.EladsOxygenUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
+            }
+
             if (OxygenBase.Instance.isShyHUDFound && OxygenConfig.Instance.ShyHUDSupport)
             {
                 if (OxygenUI.fillAmount >= 0.55f)
@@ -89,6 +117,30 @@ namespace Oxygen.Patches
                 else
                 {
                     OxygenUI.CrossFadeAlpha(1f, 0.5f, ignoreTimeScale: false);
+                }
+            }
+        }
+
+        public static void ShowNotifications()
+        {
+            if (isNotification)
+            {
+                // notification about low level of oxygen
+                if (OxygenUI.fillAmount < 0.45 && !firstNotification)
+                {
+                    HUDManager.Instance.DisplayTip("System...", "The oxygen tanks are running low.");
+                    firstNotification = true;
+                }
+
+                // system warning
+                if (OxygenUI.fillAmount < 0.35 && !warningNotification)
+                {
+                    HUDManager.Instance.DisplayTip(
+                        "System...",
+                        "There is a critical level of oxygen in the oxygen tanks, fill it up immediately!",
+                        isWarning: true
+                    );
+                    warningNotification = true;
                 }
             }
         }
@@ -103,10 +155,10 @@ namespace Oxygen.Patches
                 return;
             }
 
-            PlayerControllerB pController = GameNetworkManager.Instance.localPlayerController;
+            PlayerControllerB pc = GameNetworkManager.Instance.localPlayerController;
             StartOfRound sor = StartOfRound.Instance;
 
-            if (pController == null)
+            if (pc == null)
             {
                 mls.LogError("PlayerControllerB is null");
                 return;
@@ -130,42 +182,20 @@ namespace Oxygen.Patches
                 return;
             }
 
-            if (pController.isPlayerDead)
+            if (pc.isPlayerDead)
             {
                 return;
             }
-
-            if (EladsOxygenUIText != null)
-            {
-                float roundedValue = (float)Round(OxygenUI.fillAmount, 2);
-                int oxygenInPercent = (int)(roundedValue * 100);
-
-                OxygenHUD.EladsOxygenUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
-            }
-
-            float localDecValue = 0f;
-            //if (!pController.isInsideFactory && !pController.isInHangarShipRoom) localDecValue += decreasingOxygenOutside;
-            //if (pController.isInsideFactory) localDecValue += decreasingOxygenInFactory;
 
             // can cause a problems with other mods (●'◡'●)
             sor.drowningTimer = OxygenUI.fillAmount;
 
-            // just for simplification if player was teleported and unable to refill oxygen
-            if (InfinityOxygenInModsPlaces && pController.serverPlayerPosition.y <= offset)
-            {
-                if (!backroomsNotification)
-                {
-                    if (isNotification)
-                    {
-                        HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
-                    }
-                    backroomsNotification = true;
-                }
+            UpdateModsCompatibility();
+            ShowNotifications();
 
-                if (pController.drunkness != 0) pController.drunkness -= increasingOxygen;
-
-                return;
-            }
+            float localDecValue = 0f;
+            if (!pc.isInsideFactory && !pc.isInHangarShipRoom) localDecValue += decreasingOxygenOutside;
+            else if (pc.isInsideFactory) localDecValue += decreasingOxygenInFactory;
 
             if (timeSinceLastFear >= secTimerInFear)
             {
@@ -173,21 +203,16 @@ namespace Oxygen.Patches
                 {
                     if (enableOxygenSFX)
                     {
-                        if (!pController.isInHangarShipRoom || (pController.isInHangarShipRoom && enableOxygenSFXInShip))
+                        if (!pc.isInHangarShipRoom || (pc.isInHangarShipRoom && enableOxygenSFXInShip))
                         {
                             //mls.LogInfo($"Playing sound cause fearLevelIncreasing");
-                            OxygenHUD.PlaySFX(pController, inhaleSFX[0]);
+                            AudioClip clip = AudioController.FindSFX(AudioController.Stage.scared);
+                            AudioController.PlaySFX(pc, clip);
                         }
                     }
 
-                    // just unnecessary to decrease oxygen in ship ~_~
-                    if (!pController.isInHangarShipRoom)
-                    {
-                        mls.LogInfo($"Oxygen consumption is increased by {decreasingInFear}");
-                        //mls.LogError($"fear level: {sor.fearLevel}");
-
-                        localDecValue += decreasingInFear;
-                    }
+                    mls.LogInfo($"Oxygen consumption is increased by {decreasingInFear}");
+                    localDecValue += decreasingInFear;
 
                     timeSinceLastFear = 0f;
                 }
@@ -196,35 +221,27 @@ namespace Oxygen.Patches
 
             if (timeSinceLastAction >= secTimer)
             {
-                //mls.LogInfo($"Synced: {OxygenConfig.Synced}");
-                //mls.LogInfo($"increasingOxygen: {increasingOxygen}");
-                //mls.LogInfo($"decreasingOxygenOutside: {decreasingOxygenOutside}");
-                //mls.LogInfo($"decreasingOxygenInFactory: {decreasingOxygenInFactory}");
-                //mls.LogInfo($"decreasingInFear: {decreasingInFear}");
-                //mls.LogInfo($"oxygenDepletionWhileRunning: {oxygenDepletionWhileRunning}");
-                //mls.LogInfo($"oxygenDepletionInWater: {oxygenDepletionInWater}");
-
                 if (enableOxygenSFX && sor.fearLevel <= 0)
                 {
                     bool shouldPlaySFX = false;
 
-                    if (enableOxygenSFXOnTheCompany && StartOfRound.Instance.currentLevel.levelID == 3 && !pController.isInHangarShipRoom)
+                    if (enableOxygenSFXOnTheCompany && StartOfRound.Instance.currentLevel.levelID == 3 && !pc.isInHangarShipRoom)
                         shouldPlaySFX = true;
-                    else if (pController.isInHangarShipRoom && enableOxygenSFXInShip)
+                    else if (pc.isInHangarShipRoom && enableOxygenSFXInShip)
                         shouldPlaySFX = true;
-                    else if (!pController.isInHangarShipRoom && StartOfRound.Instance.currentLevel.levelID != 3)
+                    else if (!pc.isInHangarShipRoom && StartOfRound.Instance.currentLevel.levelID != 3)
                         shouldPlaySFX = true;
-
+                    
                     if (shouldPlaySFX)
                     {
                         mls.LogInfo("playing oxygen SFX");
                         int index = Random.Range(0, inhaleSFX.Length);
-                        OxygenHUD.PlaySFX(pController, inhaleSFX[index]);
+                        OxygenHUD.PlaySFX(pc, inhaleSFX[index]);
                     }
                 }
 
-                if (!pController.isInsideFactory && pController.isUnderwater && pController.underwaterCollider != null &&
-                    pController.underwaterCollider.bounds.Contains(pController.gameplayCamera.transform.position))
+                if (!pc.isInsideFactory && pc.isUnderwater && pc.underwaterCollider != null &&
+                    pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
                 {
                     mls.LogInfo($"The player is underwater, oxygen consumption is increased by {oxygenDepletionInWater}");
                     localDecValue += oxygenDepletionInWater;
@@ -234,77 +251,53 @@ namespace Oxygen.Patches
                 }
                 
                 // if player running the oxygen goes away faster
-                if (pController.isSprinting)
+                if (pc.isSprinting)
                 {
                     localDecValue += oxygenDepletionWhileRunning;
                     mls.LogInfo($"The player is running, oxygen consumption is increased by {oxygenDepletionWhileRunning}");
                 }
 
-                // outside
-                if (!pController.isInHangarShipRoom && !pController.isInsideFactory)
-                {
-                    if (!oxygenConsumptionOnTheCompany && StartOfRound.Instance.currentLevel.levelID == 3)
-                    {
-                        mls.LogInfo("Oxygen consumption on the company's planet is disabled, skipping... ~_~");
-                    }
-                    else
-                    {
-                        if (IsgreenPlanet)
-                        {
-                            mls.LogInfo("It's a green planet! Oxygen consumption is omitted");
-                        }
-                        else
-                        {
-                            OxygenUI.fillAmount -= localDecValue + decreasingOxygenOutside;
-                            mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
-                        }
-                    }
-                }
-
-                // in the facility
-                if (pController.isInsideFactory)
-                {
-                    OxygenUI.fillAmount -= localDecValue + decreasingOxygenInFactory;
-                    mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
-                }
-
-                // notification about low level of oxygen
-                if (OxygenUI.fillAmount < 0.45)
-                {
-                    if (!firstNotification)
-                    {
-                        if (isNotification)
-                        {
-                            HUDManager.Instance.DisplayTip("System...", "The oxygen tanks are running low.");
-                        }
-                        firstNotification = true;
-                    }
-                }
-
-                // system warning
-                if (OxygenUI.fillAmount < 0.35)
-                {
-                    if (!warningNotification)
-                    {
-                        if (isNotification)
-                        {
-                            HUDManager.Instance.DisplayTip("System...", "There is a critical level of oxygen in the oxygen tanks, fill it up immediately!", isWarning: true);
-                        }
-                        warningNotification = true;
-                    }
-                }
-
                 // increasing drunkness
                 if (OxygenUI.fillAmount < 0.33)
                 {
-                    pController.drunkness += oxygenDeficiency;
-                    mls.LogInfo($"current oxygen deficiency level: {pController.drunkness}");
+                    pc.drunkness += oxygenDeficiency;
+                    mls.LogInfo($"current oxygen deficiency level: {pc.drunkness}");
                 }
 
                 // 0.30 is the lowest value when we see UI meter
                 if (OxygenUI.fillAmount < 0.30)
                 {              
-                    pController.DamagePlayer(playerDamage);
+                    pc.DamagePlayer(playerDamage);
+                }
+
+
+                if (IsgreenPlanet && !pc.isInHangarShipRoom && !pc.isInsideFactory)
+                {
+                    mls.LogInfo("It's a green planet. Oxygen consumption is omitted!");
+                    localDecValue = 0f;
+                }
+
+                if (!!pc.isInHangarShipRoom)
+                {
+                    // just for simplification if player was teleported and unable to refill oxygen
+                    if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= offset)
+                    {
+                        if (!backroomsNotification)
+                        {
+                            if (isNotification)
+                            {
+                                HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
+                            }
+                            backroomsNotification = true;
+                        }
+
+                        pc.drunkness = Mathf.Clamp01(pc.drunkness - increasingOxygen);
+                    } 
+                    else
+                    {
+                        OxygenUI.fillAmount = Mathf.Clamp01(OxygenUI.fillAmount - localDecValue);
+                        mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
+                    }
                 }
 
                 // timer resets
@@ -313,18 +306,18 @@ namespace Oxygen.Patches
             timeSinceLastAction += Time.deltaTime; //increment the cool down timer
 
             // in ship
-            if (pController.isInHangarShipRoom)
+            if (pc.isInHangarShipRoom)
             {
                 if (oxygenFillOption == 2)
                 {
                     if (OxygenUI.fillAmount != 1)
                     {
-                        OxygenUI.fillAmount += increasingOxygen;
+                        OxygenUI.fillAmount = Mathf.Clamp01(OxygenUI.fillAmount + increasingOxygen);
                         mls.LogInfo($"Oxygen is recovering: {OxygenUI.fillAmount}");
                     }
                 }
 
-                if (pController.drunkness != 0) pController.drunkness -= increasingOxygen;
+                pc.drunkness = Mathf.Clamp01(pc.drunkness - increasingOxygen);
             }
         }
 
