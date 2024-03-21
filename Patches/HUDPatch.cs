@@ -68,34 +68,33 @@ namespace Oxygen.Patches
             OxygenHUD.Init();
         }
 
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(PlayerControllerB), "LateUpdate")]
-        public static void LateUpdatePatch(ref PlayerControllerB __instance)
+        public static void SelectAndPlaySFX(StartOfRound sor, PlayerControllerB pc)
         {
-            if (!OxygenHUD.initialized) return;
+            AudioController.Stage stage = AudioController.Stage.standing;
 
-            StartOfRound sor = StartOfRound.Instance;
-
-            if (__instance.isWalking)
+            if (pc.isWalking)
             {
-                AudioController.Instance.CurrentStage = AudioController.Stage.walking;
-            } 
-            else if (__instance.isSprinting)
-            {
-                AudioController.Instance.CurrentStage = AudioController.Stage.running;
+                stage = AudioController.Stage.walking;
             }
-            else if (__instance.isExhausted)
+            else if (pc.isSprinting)
             {
-                AudioController.Instance.CurrentStage = AudioController.Stage.exhausted;
+                stage = AudioController.Stage.running;
+            }
+            else if (pc.isExhausted)
+            {
+                stage = AudioController.Stage.exhausted;
             }
             else if (sor.fearLevel > 0)
             {
-                AudioController.Instance.CurrentStage = AudioController.Stage.scared;
-            } 
+                stage = AudioController.Stage.scared;
+            }
             else
             {
-                AudioController.Instance.CurrentStage = AudioController.Stage.standing;
+                stage = AudioController.Stage.standing;
             }
+
+            AudioClip clip = AudioController.FindSFX(stage);
+            AudioController.PlaySFX(pc, clip);
         }
 
         public static void UpdateModsCompatibility()
@@ -190,6 +189,8 @@ namespace Oxygen.Patches
             // can cause a problems with other mods (●'◡'●)
             sor.drowningTimer = OxygenUI.fillAmount;
 
+            //SelectAndPlaySFX();
+
             UpdateModsCompatibility();
             ShowNotifications();
 
@@ -277,7 +278,7 @@ namespace Oxygen.Patches
                     localDecValue = 0f;
                 }
 
-                if (!!pc.isInHangarShipRoom)
+                if (!pc.isInHangarShipRoom)
                 {
                     // just for simplification if player was teleported and unable to refill oxygen
                     if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= offset)

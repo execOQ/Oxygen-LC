@@ -42,16 +42,20 @@ namespace Oxygen.Patches
             }
 
             str = str.Replace(" ", string.Empty);
+            mls.LogWarning($"str: {str}");
 
-            foreach (string x in str.Split(','))
+            foreach (string x in str.Split(';'))
             {
-                if (!x.Contains(":"))
+                mls.LogWarning($"x: {x}");
+                if (!x.Contains("@"))
                 {
+                    mls.LogWarning($"if: {x.ToLower().Replace(" ", string.Empty)}, {defValue}");
                     result.Add(x.ToLower().Replace(" ", string.Empty), defValue);
                 }
                 else
                 {
-                    string[] array = x.Split(':');
+                    string[] array = x.Split('@');
+                    mls.LogWarning($"array: {array}");
                     if (float.TryParse(array[1], out var value))
                     {
                         mls.LogMessage($"{array[0].ToLower().Replace(" ", string.Empty)}, {value}");
@@ -59,8 +63,7 @@ namespace Oxygen.Patches
                     }
                     else
                     {
-                        mls.LogError($"Failed to parse value, using default one... Check the syntax!");
-                        mls.LogMessage($"{array[0].ToLower().Replace(" ", string.Empty)}, {defValue}");
+                        mls.LogError($"Failed to parse value for {array[0].ToLower().Replace(" ", string.Empty)}, using default one: {defValue}. You should check the syntax in the config!");
                         result.Add(array[0].ToLower().Replace(" ", string.Empty), defValue);
                     }
                 }

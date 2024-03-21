@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <AssemblyName>Oxygen</AssemblyName>
+        <Description>Adds oxygen level as a new mechanic</Description>
+        <Version>1.5.0</Version>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Assets\oxy99" />
+      <EmbeddedResource Include="Assets\oxycharger" />
+      <EmbeddedResource Include="Assets\oxygensounds" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="0Harmony">
+        <HintPath>..\References\0Harmony.dll</HintPath>
+      </Reference>
+      <Reference Include="Assembly-CSharp" Publicize="true">
+        <HintPath>..\References\Assembly-CSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="Backrooms">
+        <HintPath>..\References\Backrooms.dll</HintPath>
+      </Reference>
+      <Reference Include="BepInEx">
+        <HintPath>..\References\BepInEx.dll</HintPath>
+      </Reference>
+      <Reference Include="BepInEx.Harmony">
+        <HintPath>..\References\BepInEx.Harmony.dll</HintPath>
+      </Reference>
+      <Reference Include="BepInEx.Preloader">
+        <HintPath>..\References\BepInEx.Preloader.dll</HintPath>
+      </Reference>
+      <Reference Include="com.sigurd.csync">
+        <HintPath>..\References\com.sigurd.csync.dll</HintPath>
+      </Reference>
+      <Reference Include="LC_API">
+        <HintPath>..\References\LC_API.dll</HintPath>
+      </Reference>
+      <Reference Include="LethalLib">
+        <HintPath>..\References\LethalLib.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.Collections">
+        <HintPath>..\References\Unity.Collections.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.Mathematics">
+        <HintPath>..\References\Unity.Mathematics.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.Netcode.Components">
+        <HintPath>..\References\Unity.Netcode.Components.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.Netcode.Runtime">
+        <HintPath>..\References\Unity.Netcode.Runtime.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.Networking.Transport">
+        <HintPath>..\References\Unity.Networking.Transport.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.TextMeshPro">
+        <HintPath>..\References\Unity.TextMeshPro.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine">
+        <HintPath>..\References\UnityEngine.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.AssetBundleModule">
+        <HintPath>..\References\UnityEngine.AssetBundleModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.AudioModule">
+        <HintPath>..\References\UnityEngine.AudioModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.UI">
+        <HintPath>..\References\UnityEngine.UI.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.UIModule">
+        <HintPath>..\References\UnityEngine.UIModule.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+</Project>
