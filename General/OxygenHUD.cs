@@ -1,8 +1,7 @@
 ﻿using BepInEx.Logging;
-using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
-using LL = LethalLib.Modules;
+using static System.Math;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,9 +18,14 @@ namespace Oxygen
 
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
-        public static float volume => OxygenBase.OxygenConfig.SFXvolume.Value;
+        public static float Volume => OxygenBase.OxygenConfig.SFXvolume.Value;
 
         public static bool diedBecauseOfOxygen = false;
+
+        public static bool IsNotification => OxygenBase.OxygenConfig.notifications.Value;
+        internal static bool backroomsNotification = false;
+        internal static bool firstNotification = false;
+        internal static bool warningNotification = false;
 
         public static void Init()
         {
@@ -133,17 +137,69 @@ namespace Oxygen
             mls.LogInfo("Oxygen UI instantiated");
         }
 
-        internal static void PlaySFX(PlayerControllerB pc, AudioClip clip)
+        public static void UpdateModsCompatibility()
         {
-            AudioSource audio = pc.waterBubblesAudio;
-            if (audio.isPlaying) audio.Stop();
+            if (EladsOxygenUIText != null)
+            {
+                float roundedValue = (float)Round(oxygenUI.fillAmount, 2);
+                int oxygenInPercent = (int)(roundedValue * 100);
 
-            audio.PlayOneShot(clip, Random.Range(volume - 0.18f, volume));
+                EladsOxygenUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
+            }
+
+            if (OxygenBase.Instance.isShyHUDFound && OxygenConfig.Instance.ShyHUDSupport)
+            {
+                if (oxygenUI.fillAmount >= 0.55f)
+                {
+                    oxygenUI.CrossFadeAlpha(0f, 5f, ignoreTimeScale: false);
+                }
+                else
+                {
+                    oxygenUI.CrossFadeAlpha(1f, 0.5f, ignoreTimeScale: false);
+                }
+            }
+        }
+
+        public static void ShowNotifications()
+        {
+            if (IsNotification)
+            {
+                // notification about low level of oxygen
+                if (oxygenUI.fillAmount < 0.45 && !firstNotification)
+                {
+                    HUDManager.Instance.DisplayTip("System...", "The oxygen tanks are running low.");
+                    firstNotification = true;
+                }
+
+                // system warning
+                if (oxygenUI.fillAmount < 0.35 && !warningNotification)
+                {
+                    HUDManager.Instance.DisplayTip(
+                        "System...",
+                        "There is a critical level of oxygen in the oxygen tanks, fill it up immediately!",
+                        isWarning: true
+                    );
+                    warningNotification = true;
+                }
+            }
+        }
+
+        // who cares how it's called...?
+        public static void ShowAnotherNotification()
+        {
+            if (!backroomsNotification)
+            {
+                if (IsNotification)
+                {
+                    HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
+                }
+                backroomsNotification = true;
+            }
         }
 
         [HarmonyPatch(typeof(GameNetworkManager), "Disconnect")]
         [HarmonyPrefix]
-        public static void UnInstantiate()
+        public static void UnInitialize()
         {
             initialized = false;
         }

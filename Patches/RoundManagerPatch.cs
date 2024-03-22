@@ -22,8 +22,6 @@ namespace Oxygen.Patches
             
             MoonsDicts.decreasingOxygenInFactoryMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingOxygenInFactoryMoons.Value, OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value);
 
-            //MoonsDicts.decreasingInFearMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingInFearMoons.Value, OxygenBase.OxygenConfig.decreasingInFear.Value);
-
             MoonsDicts.oxygenRunningMoons = GetLevelValue(OxygenBase.OxygenConfig.oxygenRunningMoons.Value, OxygenBase.OxygenConfig.oxygenRunning.Value);
 
             MoonsDicts.oxygenDepletionInWaterMoons = GetLevelValue(OxygenBase.OxygenConfig.oxygenDepletionInWaterMoons.Value, OxygenBase.OxygenConfig.oxygenDepletionInWater.Value);

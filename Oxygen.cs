@@ -6,6 +6,7 @@ using Oxygen.Configuration;
 using UnityEngine;
 using BepInEx.Bootstrap;
 using LL = LethalLib.Modules;
+using Oxygen.Extras;
 
 namespace Oxygen
 {

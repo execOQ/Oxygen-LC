@@ -3,7 +3,7 @@ using LC_API.ServerAPI;
 using Oxygen.Patches;
 using System;
 
-namespace Oxygen.Utils
+namespace Oxygen.Extras
 {
     internal class DeathBroadcaster
     {
