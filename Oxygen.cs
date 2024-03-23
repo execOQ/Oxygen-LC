@@ -35,12 +35,16 @@ namespace Oxygen
         private readonly Harmony harmony = new(modGUID);
         public ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
 
-        public AudioClip[] inhaleSFX;
+        internal AudioClip[] inhaleSFX;
 
-        public GameObject oxyCharger;
-        public AudioClip[] oxyChargerSFX;
+        internal GameObject oxyCharger;
+        internal AudioClip[] oxyChargerSFX;
+
+        internal Item oxyBoost;
 
         public static OxygenConfig OxygenConfig { get; private set; }
+
+        internal static void UpdateCustomItemPrice(Item item, int price) => LL.Items.UpdateShopItemPrice(item, price);
 
         private void Awake()
         {
@@ -82,17 +86,17 @@ namespace Oxygen
 
             if (!OxygenConfig.MakeItVanilla.Value)
             {
-                Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
-                oxycanister.itemName = "OxyBoost";
+                oxyBoost = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
+                oxyBoost.itemName = "OxyBoost";
 
-                LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
-                LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
+                LL.NetworkPrefabs.RegisterNetworkPrefab(oxyBoost.spawnPrefab);
+                LL.Utilities.FixMixerGroups(oxyBoost.spawnPrefab);
 
                 TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
                 node.clearPreviousText = true;
                 node.displayText = "Limited air supply, useful for flooded facilities.";
 
-                LL.Items.RegisterShopItem(oxycanister, null, null, node, OxygenConfig.Instance.oxyBoost_price.Value);
+                LL.Items.RegisterShopItem(oxyBoost, null, null, node, OxygenConfig.Instance.oxyBoost_price.Value);
 
                 mls.LogInfo("Custom items are loaded!");
             }

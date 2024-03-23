@@ -5,6 +5,7 @@ using CSync.Util;
 using Oxygen.Patches;
 using System;
 using System.Runtime.Serialization;
+using static Unity.Audio.Handle;
 
 namespace Oxygen.Configuration
 {
@@ -94,12 +95,16 @@ namespace Oxygen.Configuration
         void DoSomethingAfterSync(object s, EventArgs e)
         {
             mls.LogWarning("Config was synced, imma updating moons values :)");
-
-            mls.LogWarning($"Nah: {decreasingOxygenOutsideMoons}");
-
-            mls.LogWarning($"Instance: {Instance.decreasingOxygenOutsideMoons}");
-
             RoundManagerPatch.UpdateMoonsValues();
+
+            if (!MakeItVanilla.Value)
+            {
+                if (Instance.oxyBoost_price.Value != (int)Instance.oxyBoost_price.DefaultValue)
+                {
+                    mls.LogWarning("Updating price for oxyBoost");
+                    OxygenBase.UpdateCustomItemPrice(OxygenBase.Instance.oxyBoost, Instance.oxyBoost_price.Value);
+                }
+            }
         }
 
         public OxygenConfig(ConfigFile file) : base(OxygenBase.modGUID)

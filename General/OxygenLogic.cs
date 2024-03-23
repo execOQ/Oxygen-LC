@@ -19,7 +19,6 @@ namespace Oxygen.GameObjects
         public static ManualLogSource mls = OxygenBase.Instance.mls;
         public static Image OxygenUI => OxygenHUD.oxygenUI;
 
-        // syncing with host
         public static bool InfinityOxygenInModsPlaces => OxygenConfig.Instance.InfinityOxygenInModsPlaces.Value;
 
         public static int OxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
@@ -42,7 +41,6 @@ namespace Oxygen.GameObjects
         private static float timeSinceLastAction = 0f;
         private static float timeSinceLastFear = 0f;
         private static float timeSinceLastPlayedAudio = 0f;
-        //
 
         public static void RunLogic(StartOfRound sor, PlayerControllerB pc)
         {
@@ -128,14 +126,6 @@ namespace Oxygen.GameObjects
 
             if (timeSinceLastAction >= SecTimer)
             {
-                mls.LogInfo($"Synced: {OxygenConfig.Synced}");
-                //mls.LogInfo($"increasingOxygen: {IncreasingOxygen}");
-                mls.LogInfo($"decreasingOxygenOutside: {DecreasingOxygenOutside}");
-                //mls.LogInfo($"decreasingOxygenInFactory: {DecreasingOxygenInFactory}");
-                //mls.LogInfo($"decreasingInFear: {DecreasingInFear}");
-                //mls.LogInfo($"oxygenDepletionWhileRunning: {OxygenDepletionWhileRunning}");
-                //mls.LogInfo($"oxygenDepletionInWater: {OxygenDepletionInWater}");
-
                 if (!pc.isInsideFactory && pc.isUnderwater && pc.underwaterCollider != null &&
                     pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
                 {
@@ -164,7 +154,6 @@ namespace Oxygen.GameObjects
                 {
                     pc.DamagePlayer(PlayerDamage);
                 }
-
 
                 if (IsgreenPlanet && !pc.isInHangarShipRoom && !pc.isInsideFactory)
                 {
