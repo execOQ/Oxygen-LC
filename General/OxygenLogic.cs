@@ -1,7 +1,6 @@
 ﻿using BepInEx.Logging;
 using GameNetcodeStuff;
 using Oxygen.Configuration;
-using Oxygen.Extras;
 using UnityEngine;
 using UnityEngine.UI;
 using static Oxygen.Extras.AudioController;
@@ -89,7 +88,18 @@ namespace Oxygen.GameObjects
                     {
                         Stage stage = Stage.standing;
 
-                        if (sor.fearLevel > 0)
+                        // for support Immersive visor
+                        /* if ()
+                        {
+                            stage = Stage.oxygenLeak;
+                        }
+                        else 
+                        */
+                        if (OxygenUI.fillAmount < 0.27)
+                        {
+                            stage = Stage.outOfOxygen;
+                        }
+                        else if (sor.fearLevel > 0)
                         {
                             if (!pc.isInHangarShipRoom || (pc.isInHangarShipRoom && EnableOxygenSFXInShip))
                             {
@@ -126,15 +136,6 @@ namespace Oxygen.GameObjects
 
             if (timeSinceLastAction >= SecTimer)
             {
-                if (!pc.isInsideFactory && pc.isUnderwater && pc.underwaterCollider != null &&
-                    pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
-                {
-                    mls.LogInfo($"The player is underwater, oxygen consumption is increased by {OxygenDepletionInWater}");
-                    localDecValue += OxygenDepletionInWater;
-
-                    //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
-                }
-
                 // if player running the oxygen goes away faster
                 if (pc.isSprinting)
                 {
@@ -149,6 +150,15 @@ namespace Oxygen.GameObjects
                     mls.LogInfo($"current oxygen deficiency level: {pc.drunkness}");
                 }
 
+                if (!pc.isInsideFactory && pc.isUnderwater && pc.underwaterCollider != null &&
+                    pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
+                {
+                    mls.LogInfo($"The player is underwater, oxygen consumption is increased by {OxygenDepletionInWater}");
+                    OxygenUI.fillAmount = Mathf.Clamp01(OxygenUI.fillAmount - OxygenDepletionInWater);
+
+                    //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
+                }
+
                 // 0.30 is the lowest value when we see UI meter
                 if (OxygenUI.fillAmount < 0.30)
                 {
@@ -157,7 +167,7 @@ namespace Oxygen.GameObjects
 
                 if (IsgreenPlanet && !pc.isInHangarShipRoom && !pc.isInsideFactory)
                 {
-                    mls.LogInfo("It's a green planet. Oxygen consumption is omitted!");
+                    mls.LogInfo("It's a green planet and you're outside, oxygen consumption is omitted!");
                     localDecValue = 0f;
                 }
 

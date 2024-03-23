@@ -1,6 +1,5 @@
 ﻿using BepInEx.Logging;
 using GameNetcodeStuff;
-using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,7 +12,9 @@ namespace Oxygen.Extras
             walking = 5,
             running = 4,
             exhausted = 3,
-            scared = 2
+            scared = 2,
+            outOfOxygen = 3,
+            oxygenLeak = 0
         }
 
         internal static AudioClip[] InhaleSFX => OxygenBase.Instance.inhaleSFX;
