@@ -68,6 +68,9 @@ namespace Oxygen
             AssetBundle oxy99 = Utilities.LoadAssetFromStream("Oxygen.Assets.oxy99");
             if (oxy99 == null) return;
 
+            OxygenConfig = new(Config);
+            mls.LogInfo($"Config is loaded. (～￣▽￣)～");
+
             harmony.PatchAll(typeof(HUDPatch));
             harmony.PatchAll(typeof(OxygenHUD));
             harmony.PatchAll(typeof(KillPlayerPatch));
@@ -76,8 +79,6 @@ namespace Oxygen
             harmony.PatchAll(typeof(RoundManagerPatch));
             //harmony.PatchAll(typeof(WritePlayerNotesPatch));
 
-            OxygenConfig = new(Config);
-            mls.LogInfo($"Config is loaded. (～￣▽￣)～");
 
             if (!OxygenConfig.MakeItVanilla.Value)
             {

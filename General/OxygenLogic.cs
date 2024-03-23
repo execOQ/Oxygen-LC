@@ -128,6 +128,14 @@ namespace Oxygen.GameObjects
 
             if (timeSinceLastAction >= SecTimer)
             {
+                mls.LogInfo($"Synced: {OxygenConfig.Synced}");
+                //mls.LogInfo($"increasingOxygen: {IncreasingOxygen}");
+                mls.LogInfo($"decreasingOxygenOutside: {DecreasingOxygenOutside}");
+                //mls.LogInfo($"decreasingOxygenInFactory: {DecreasingOxygenInFactory}");
+                //mls.LogInfo($"decreasingInFear: {DecreasingInFear}");
+                //mls.LogInfo($"oxygenDepletionWhileRunning: {OxygenDepletionWhileRunning}");
+                //mls.LogInfo($"oxygenDepletionInWater: {OxygenDepletionInWater}");
+
                 if (!pc.isInsideFactory && pc.isUnderwater && pc.underwaterCollider != null &&
                     pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
                 {

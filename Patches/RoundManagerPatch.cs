@@ -12,22 +12,60 @@ namespace Oxygen.Patches
         [HarmonyPriority(0)]
         [HarmonyPatch(typeof(RoundManager), "Awake")]
         [HarmonyPostfix]
-        private static void RoundManagerPatch_Postfix()
+        private static void RoundManagerPatch_Postfix(RoundManager __instance)
         {
-            MoonsDicts.greenPlanets = GetLevelValue(OxygenBase.OxygenConfig.greenPlanets.Value, 0);
+            mls.LogInfo("Oxygen found the following levels, use this names in the config:\n");
+            foreach (SelectableLevel level in __instance.playersManager.levels)
+            {
+                string numberlessPlanetName = MoonsDicts.NumberLessPlanetName(level.PlanetName);
+                mls.LogInfo(numberlessPlanetName);
+            }
 
-            MoonsDicts.increasingOxygenMoons = GetLevelValue(OxygenBase.OxygenConfig.increasingOxygenMoons.Value, OxygenBase.OxygenConfig.increasingOxygen.Value);
-
-            MoonsDicts.decreasingOxygenOutsideMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingOxygenOutsideMoons.Value, OxygenBase.OxygenConfig.decreasingOxygenOutside.Value);
-            
-            MoonsDicts.decreasingOxygenInFactoryMoons = GetLevelValue(OxygenBase.OxygenConfig.decreasingOxygenInFactoryMoons.Value, OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value);
-
-            MoonsDicts.oxygenRunningMoons = GetLevelValue(OxygenBase.OxygenConfig.oxygenRunningMoons.Value, OxygenBase.OxygenConfig.oxygenRunning.Value);
-
-            MoonsDicts.oxygenDepletionInWaterMoons = GetLevelValue(OxygenBase.OxygenConfig.oxygenDepletionInWaterMoons.Value, OxygenBase.OxygenConfig.oxygenDepletionInWater.Value);
+            UpdateMoonsValues();
         }
 
-        private static Dictionary<string, float> GetLevelValue(string str, float defValue)
+        internal static void UpdateMoonsValues()
+        {
+            mls.LogInfo($"IsHost: {OxygenConfig.IsHost}");
+
+            MoonsDicts.greenPlanets = GetLevelValue(
+                OxygenConfig.Instance.greenPlanets.Value, 
+                0, 
+                "greenPlanets"
+            );
+
+            MoonsDicts.increasingOxygenMoons = GetLevelValue(
+                OxygenConfig.Instance.increasingOxygenMoons.Value, 
+                OxygenConfig.Instance.increasingOxygen.Value, 
+                "increasingOxygenMoons"
+            );
+
+            MoonsDicts.decreasingOxygenOutsideMoons = GetLevelValue(
+                OxygenConfig.Instance.decreasingOxygenOutsideMoons.Value, 
+                OxygenConfig.Instance.decreasingOxygenOutside.Value,
+                "decreasingOxygenOutsideMoons"
+            );
+
+            MoonsDicts.decreasingOxygenInFactoryMoons = GetLevelValue(
+                OxygenConfig.Instance.decreasingOxygenInFactoryMoons.Value, 
+                OxygenConfig.Instance.decreasingOxygenInFactory.Value,
+                "decreasingOxygenInFactoryMoons"
+            );
+
+            MoonsDicts.oxygenRunningMoons = GetLevelValue(
+                OxygenConfig.Instance.oxygenRunningMoons.Value, 
+                OxygenConfig.Instance.oxygenRunning.Value,
+                "oxygenRunningMoons"
+            );
+
+            MoonsDicts.oxygenDepletionInWaterMoons = GetLevelValue(
+                OxygenConfig.Instance.oxygenDepletionInWaterMoons.Value, 
+                OxygenConfig.Instance.oxygenDepletionInWater.Value,
+                "oxygenDepletionInWaterMoons"
+            );
+        }
+
+        private static Dictionary<string, float> GetLevelValue(string str, float defValue, string nameOfVariable)
         {
             Dictionary<string, float> result = [];
 
@@ -40,29 +78,29 @@ namespace Oxygen.Patches
             }
 
             str = str.Replace(" ", string.Empty);
-            mls.LogWarning($"str: {str}");
+            mls.LogDebug($"processing: {str}");
 
             foreach (string x in str.Split(';'))
             {
-                mls.LogWarning($"x: {x}");
                 if (!x.Contains("@"))
                 {
-                    mls.LogWarning($"if: {x.ToLower().Replace(" ", string.Empty)}, {defValue}");
                     result.Add(x.ToLower().Replace(" ", string.Empty), defValue);
                 }
                 else
                 {
                     string[] array = x.Split('@');
-                    mls.LogWarning($"array: {array}");
+
+                    string moonName = array[0].ToLower().Replace(" ", string.Empty);
+
                     if (float.TryParse(array[1], out var value))
                     {
-                        mls.LogMessage($"{array[0].ToLower().Replace(" ", string.Empty)}, {value}");
-                        result.Add(array[0].ToLower().Replace(" ", string.Empty), value);
+                        mls.LogMessage($"Parsed for {moonName} value {value}");
+                        result.Add(moonName, value);
                     }
                     else
                     {
-                        mls.LogError($"Failed to parse value for {array[0].ToLower().Replace(" ", string.Empty)}, using default one: {defValue}. You should check the syntax in the config!");
-                        result.Add(array[0].ToLower().Replace(" ", string.Empty), defValue);
+                        mls.LogError($"Failed to parse value for {moonName}, using default one: {defValue}.\nYou should check the syntax in the variable {nameOfVariable} in the config!");
+                        result.Add(moonName, defValue);
                     }
                 }
             }

@@ -2,6 +2,8 @@
 using BepInEx.Logging;
 using CSync.Lib;
 using CSync.Util;
+using Oxygen.Patches;
+using System;
 using System.Runtime.Serialization;
 
 namespace Oxygen.Configuration
@@ -89,9 +91,21 @@ namespace Oxygen.Configuration
 
         public static ManualLogSource mls = OxygenBase.Instance.mls;
 
+        void DoSomethingAfterSync(object s, EventArgs e)
+        {
+            mls.LogWarning("Config was synced, imma updating moons values :)");
+
+            mls.LogWarning($"Nah: {decreasingOxygenOutsideMoons}");
+
+            mls.LogWarning($"Instance: {Instance.decreasingOxygenOutsideMoons}");
+
+            RoundManagerPatch.UpdateMoonsValues();
+        }
+
         public OxygenConfig(ConfigFile file) : base(OxygenBase.modGUID)
         {
             ConfigManager.Register(this);
+            SyncComplete += DoSomethingAfterSync;
 
             MakeItVanilla = file.Bind(
                 "General", // Section
@@ -271,14 +285,14 @@ namespace Oxygen.Configuration
                 "hud disappears if oxygen value > 55 (syncing with host)" // Description
             );
 
-            XOffset = file.Bind<int>(
+            XOffset = file.Bind(
                 "Position", 
                 "XOffset", 
                 0, 
                 "Horizontal offset for the oxygenHUD position."
             );
 
-            YOffset = file.Bind<int>(
+            YOffset = file.Bind(
                 "Position", 
                 "YOffset", 
                 0,
