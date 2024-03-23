@@ -154,6 +154,10 @@ namespace Oxygen.GameObjects
                     pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
                 {
                     mls.LogInfo($"The player is underwater, oxygen consumption is increased by {OxygenDepletionInWater}");
+                    // if the planet is in the GreenPlanets variable, and there is water on the planet,
+                    // then oxygen consumption will not occur, and the person will be underwater indefinitely.
+                    // Because of that, consumption is directly deducted from fillAmount instead of being added to localDecValue.
+                    //localDecValue += OxygenDepletionInWater;
                     OxygenUI.fillAmount = Mathf.Clamp01(OxygenUI.fillAmount - OxygenDepletionInWater);
 
                     //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
