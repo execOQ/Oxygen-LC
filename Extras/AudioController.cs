@@ -23,7 +23,7 @@ namespace Oxygen.Extras
 
         public static float Volume => OxygenBase.OxygenConfig.SFXvolume.Value;
 
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > AudioController");
 
         internal static AudioClip FindSFX(Stage stage)
         {

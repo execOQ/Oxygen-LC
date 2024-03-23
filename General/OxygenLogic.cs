@@ -16,7 +16,7 @@ namespace Oxygen.GameObjects
         public static bool EnableOxygenSFXInShip => OxygenBase.OxygenConfig.enableOxygenSFXInShip.Value;
         public static bool EnableOxygenSFXOnTheCompany => OxygenBase.OxygenConfig.enableOxygenSFXOnTheCompany.Value;
 
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenLogic");
         public static Image OxygenUI => OxygenHUD.oxygenUI;
 
         public static bool InfinityOxygenInModsPlaces => OxygenConfig.Instance.InfinityOxygenInModsPlaces.Value;

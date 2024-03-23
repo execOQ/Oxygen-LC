@@ -9,7 +9,7 @@ namespace Oxygen.Patches
     [HarmonyPatch]
     internal class StartOfRoundPatch : MonoBehaviour
     {
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > StartOfRoundPatch");
 
         public static int oxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
 

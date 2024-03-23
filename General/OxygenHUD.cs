@@ -16,7 +16,7 @@ namespace Oxygen
 
         public static bool initialized = false;
 
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenHUD");
 
         public static float Volume => OxygenBase.OxygenConfig.SFXvolume.Value;
 

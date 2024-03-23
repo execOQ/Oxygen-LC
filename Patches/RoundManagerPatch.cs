@@ -7,27 +7,30 @@ namespace Oxygen.Patches
 {
     internal class RoundManagerPatch
     {
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > RoundManagerPatch");
 
-        [HarmonyPriority(0)]
         [HarmonyPatch(typeof(RoundManager), "Awake")]
         [HarmonyPostfix]
-        private static void RoundManagerPatch_Postfix(RoundManager __instance)
+        private static void RoundManagerPatch_Postfix()
         {
-            mls.LogInfo("Oxygen found the following levels, use this names in the config:\n");
+            UpdateMoonsValues();
+        }
+
+        [HarmonyPriority(0)]
+        [HarmonyPatch(typeof(RoundManager), "Start")]
+        [HarmonyPostfix]
+        private static void RoundManagerPatch_Postfix2(RoundManager __instance)
+        {
+            mls.LogInfo("Use these moons names in the config:\n");
             foreach (SelectableLevel level in __instance.playersManager.levels)
             {
                 string numberlessPlanetName = MoonsDicts.NumberLessPlanetName(level.PlanetName);
                 mls.LogInfo(numberlessPlanetName);
             }
-
-            UpdateMoonsValues();
         }
 
         internal static void UpdateMoonsValues()
         {
-            mls.LogInfo($"IsHost: {OxygenConfig.IsHost}");
-
             MoonsDicts.greenPlanets = GetLevelValue(
                 OxygenConfig.Instance.greenPlanets.Value, 
                 0, 
@@ -94,7 +97,7 @@ namespace Oxygen.Patches
 
                     if (float.TryParse(array[1], out var value))
                     {
-                        mls.LogMessage($"Parsed for {moonName} value {value}");
+                        mls.LogInfo($"Parsed {value} for {moonName}");
                         result.Add(moonName, value);
                     }
                     else

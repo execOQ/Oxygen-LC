@@ -7,7 +7,7 @@ namespace Oxygen.Extras
 {
     internal class DeathBroadcaster
     {
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > DeathBroadcaster");
 
         private const string SIGNATURE_DEATH = $"{OxygenBase.modGUID}.death";
 

@@ -15,7 +15,7 @@ namespace Oxygen.Patches
 
         public static TextMeshProUGUI EladsOxygenUIText => OxygenHUD.EladsOxygenUIText;
 
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > HUDPatch");
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(HUDManager), "Awake")]

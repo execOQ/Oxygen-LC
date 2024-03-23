@@ -5,7 +5,6 @@ using CSync.Util;
 using Oxygen.Patches;
 using System;
 using System.Runtime.Serialization;
-using static Unity.Audio.Handle;
 
 namespace Oxygen.Configuration
 {
@@ -90,7 +89,7 @@ namespace Oxygen.Configuration
 
         internal ConfigEntry<float> oxyCharger_SFXVolume;
 
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > OxygenConfig");
 
         void DoSomethingAfterSync(object s, EventArgs e)
         {
