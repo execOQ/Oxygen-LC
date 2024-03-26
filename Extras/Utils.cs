@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using System;
 
-namespace Oxygen.Patches
+namespace Oxygen.Extras
 {
     internal static class Utilities
     {
@@ -24,7 +24,7 @@ namespace Oxygen.Patches
                 {
                     string errorMessage = "Failed to get stream of resources...";
                     mls.LogError(errorMessage);
-                    return null; 
+                    return null;
                 }
 
                 AssetBundle bundle = AssetBundle.LoadFromStream(stream);
@@ -42,7 +42,7 @@ namespace Oxygen.Patches
                 string errorMessage = $"Exception: {ex.Message}";
                 mls.LogError(errorMessage);
 
-                return null; 
+                return null;
             }
         }
     }

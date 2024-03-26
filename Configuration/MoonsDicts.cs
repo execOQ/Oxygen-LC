@@ -1,12 +1,5 @@
-﻿using CSync.Lib;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Oxygen.Configuration
 {
@@ -20,7 +13,7 @@ namespace Oxygen.Configuration
         {
             get
             {
-                if (greenPlanets != null && greenPlanets.TryGetValue(MoonName.ToLower(), out var value))
+                if (greenPlanets != null && greenPlanets.TryGetValue(MoonName.ToLower(), out var _))
                 {
                     return true;
                 }
@@ -40,7 +33,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenBase.OxygenConfig.increasingOxygen.Value;
+                return OxygenConfig.Instance.increasingOxygen.Value;
             }
         }
 
@@ -55,7 +48,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenBase.OxygenConfig.decreasingOxygenOutside.Value;
+                return OxygenConfig.Instance.decreasingOxygenOutside.Value;
             }
         }
 
@@ -70,24 +63,9 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value;
+                return OxygenConfig.Instance.decreasingOxygenInFactory.Value;
             }
         }
-
-        /* internal static Dictionary<string, float> decreasingInFearMoons;
-
-        internal static float DecreasingInFearMoonsValue
-        {
-            get
-            {
-                if (decreasingInFearMoons != null && decreasingInFearMoons.TryGetValue(MoonName.ToLower(), out var value))
-                {
-                    return value;
-                }
-
-                return OxygenBase.OxygenConfig.decreasingInFear.Value;
-            }
-        } */
 
         internal static Dictionary<string, float> oxygenRunningMoons;
 
@@ -100,7 +78,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenBase.OxygenConfig.oxygenRunning.Value;
+                return OxygenConfig.Instance.oxygenRunning.Value;
             }
         }
 
@@ -115,7 +93,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenBase.OxygenConfig.oxygenDepletionInWater.Value;
+                return OxygenConfig.Instance.oxygenDepletionInWater.Value;
             }
         }
 

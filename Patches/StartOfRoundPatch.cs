@@ -1,9 +1,7 @@
 ﻿using BepInEx.Logging;
-using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Configuration;
 using Oxygen.Items;
-using System.ComponentModel;
 using UnityEngine;
 
 namespace Oxygen.Patches
@@ -11,7 +9,7 @@ namespace Oxygen.Patches
     [HarmonyPatch]
     internal class StartOfRoundPatch : MonoBehaviour
     {
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > StartOfRoundPatch");
 
         public static int oxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
 

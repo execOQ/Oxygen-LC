@@ -3,18 +3,18 @@ using LC_API.ServerAPI;
 using Oxygen.Patches;
 using System;
 
-namespace Oxygen.Utils
+namespace Oxygen.Extras
 {
     internal class DeathBroadcaster
     {
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > DeathBroadcaster");
 
         private const string SIGNATURE_DEATH = $"{OxygenBase.modGUID}.death";
 
         public static void Initialize()
         {
             mls.LogInfo("Initializing DeathBroadcaster...");
-            if (OxygenBase.Instance.isLCAPIFound)
+            if (OxygenBase.Instance.IsLCAPIFound)
             {
                 mls.LogInfo("LC_API is present! Registering signature...");
                 Networking.GetString = (Action<string, string>)Delegate.Combine(Networking.GetString, new Action<string, string>(OnBroadcastString));
@@ -40,7 +40,7 @@ namespace Oxygen.Utils
 
         public static void AttemptBroadcast(string data, string signature)
         {
-            if (OxygenBase.Instance.isLCAPIFound)
+            if (OxygenBase.Instance.IsLCAPIFound)
             {
                 mls.LogInfo("LC_API is present! Broadcasting...");
                 //LC_API.Networking.Network.Broadcast(data, signature);

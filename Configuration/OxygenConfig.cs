@@ -2,6 +2,8 @@
 using BepInEx.Logging;
 using CSync.Lib;
 using CSync.Util;
+using Oxygen.Patches;
+using System;
 using System.Runtime.Serialization;
 
 namespace Oxygen.Configuration
@@ -42,9 +44,6 @@ namespace Oxygen.Configuration
         internal SyncedEntry<float> decreasingInFear;
 
         [DataMember]
-        internal SyncedEntry<string> decreasingInFearMoons;
-
-        [DataMember]
         internal SyncedEntry<float> oxygenRunning;
 
         [DataMember]
@@ -58,9 +57,6 @@ namespace Oxygen.Configuration
 
         [DataMember]
         internal SyncedEntry<float> oxygenDeficiency;
-
-        [DataMember]
-        internal SyncedEntry<bool> oxygenConsumptionOnTheCompany;
 
         [DataMember]
         internal SyncedEntry<float> secTimer;
@@ -83,9 +79,11 @@ namespace Oxygen.Configuration
 
         internal ConfigEntry<bool> notifications;
 
-        internal ConfigEntry<float> SFXvolume;
+        internal ConfigEntry<float> walkingSFX_volume, runningSFX_volume, exhaustedSFX_volume, scaredSFX_volume;
 
         internal ConfigEntry<bool> enableOxygenSFX;
+
+        internal ConfigEntry<bool> enableInhaleSFXWhileWalking;
 
         internal ConfigEntry<bool> enableOxygenSFXInShip;
 
@@ -93,11 +91,27 @@ namespace Oxygen.Configuration
 
         internal ConfigEntry<float> oxyCharger_SFXVolume;
 
-        public static ManualLogSource mls = OxygenBase.Instance.mls;
+        public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > OxygenConfig");
+
+        void DoSomethingAfterSync(object s, EventArgs e)
+        {
+            mls.LogWarning("Config was synced, imma updating moons values :)");
+            RoundManagerPatch.UpdateMoonsValues();
+
+            if (!MakeItVanilla.Value)
+            {
+                if (Instance.oxyBoost_price.Value != (int)Instance.oxyBoost_price.DefaultValue)
+                {
+                    mls.LogWarning("Updating price for oxyBoost");
+                    OxygenBase.UpdateCustomItemPrice(OxygenBase.Instance.oxyBoost, Instance.oxyBoost_price.Value);
+                }
+            }
+        }
 
         public OxygenConfig(ConfigFile file) : base(OxygenBase.modGUID)
         {
             ConfigManager.Register(this);
+            SyncComplete += DoSomethingAfterSync;
 
             MakeItVanilla = file.Bind(
                 "General", // Section
@@ -123,8 +137,8 @@ namespace Oxygen.Configuration
             greenPlanets = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "greenPlanets", // Key
-                "March:0,Vow:0", // Default value
-                "Disables oxygen consumption outside on listed planets. Follow the syntax of the default value. (syncing with host)" // Description
+                "March@0;Vow@0;Gordion@0", // Default value
+                "Disables oxygen consumption outside on listed planets. Oxygen consumption by a player while underwater will still exist.\nFollow the syntax of the default value. (syncing with host)" // Description
             );
 
             increasingOxygen = file.BindSyncedEntry(
@@ -138,7 +152,9 @@ namespace Oxygen.Configuration
                 "Oxygen", // Section
                 "increasingOxygenMoons", // Key
                 string.Empty, // Default value
-                "How fast oxygen is recovered when OxygenFillOption is set to 2.\nThis takes priority over the increasingOxygen config option (e.g. Experimentation:2.0,Vow:0.9,CUSTOM_MOON_NAME@10).\nNot listed moons will use the increasingOxygen config option." // Description
+                "How fast oxygen is recovered when OxygenFillOption is set to 2." +
+                "\nThis takes priority over the increasingOxygen config option (e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)." +
+                "\nNot listed moons will use the increasingOxygen config option." // Description
             );
 
             decreasingOxygenOutside = file.BindSyncedEntry(
@@ -151,8 +167,10 @@ namespace Oxygen.Configuration
             decreasingOxygenOutsideMoons = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "decreasingOxygenOutsideMoons", // Key
-                "Dine:0.0086,Rend:0.0086,Titan:0.009", // Default value
-                "Indicates how much oxygen is consumed when a player is outside and is triggered every secTimer (config option) seconds.\nThis takes priority over the decreasingOxygenOutside config option (e.g. Experimentation:2.0,Vow:0.9,CUSTOM_MOON_NAME@10).\nNot listed moons will use the decreasingOxygenOutside config option. (syncing with host)" // Description
+                "Dine@0,0086;Rend@0,0086;Titan@0,009", // Default value
+                "Indicates how much oxygen is consumed when a player is outside and is triggered every secTimer (config option) seconds." +
+                "\nThis takes priority over the decreasingOxygenOutside config option (e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)." +
+                "\nNot listed moons will use the decreasingOxygenOutside config option. (syncing with host)" // Description
             );
             
             decreasingOxygenInFactory = file.BindSyncedEntry(
@@ -165,8 +183,10 @@ namespace Oxygen.Configuration
             decreasingOxygenInFactoryMoons = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "decreasingOxygenInFactoryMoons", // Key
-                "Dine:0.0086,Rend:0.0086,Titan:0.009", // Default value
-                "Indicates how much oxygen is consumed when a player is in the facility and is triggered every secTimer (config option) seconds.\nThis takes priority over the decreasingOxygenInFactory config option (e.g. Experimentation:2.0,Vow:0.9,CUSTOM_MOON_NAME@10).\nNot listed moons will use the decreasingOxygenInFactory config option. (syncing with host)" // Description
+                "Dine@0,0086;Rend@0,0086;Titan@0,009", // Default value
+                "Indicates how much oxygen is consumed when a player is in the facility and is triggered every secTimer (config option) seconds." +
+                "\nThis takes priority over the decreasingOxygenInFactory config option (e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)." +
+                "\nNot listed moons will use the decreasingOxygenInFactory config option. (syncing with host)" // Description
             );
 
             decreasingInFear = file.BindSyncedEntry(
@@ -175,13 +195,6 @@ namespace Oxygen.Configuration
                 0.02f, // Default value
                 "Increases oxygen leakage when the player is in fear and is triggered every 2 seconds. (syncing with host)" // Description
             );
-
-            /* decreasingInFearMoons = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "decreasingInFearMoons", // Key
-                string.Empty, // Default value
-                "Increases oxygen leakage when the player is in fear and is triggered every 2 seconds.\n This takes priority over the decreasingInFear config option (e.g. Experimentation:2.0,Vow:0.9,CUSTOM_MOON_NAME@10).\n Not listed moons will use the decreasingInFear config option. (syncing with host)" // Description
-            ); */
 
             oxygenRunning = file.BindSyncedEntry(
                 "Oxygen", // Section
@@ -193,8 +206,10 @@ namespace Oxygen.Configuration
             oxygenRunningMoons = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenRunningMoons", // Key
-                "Dine:0.006,Rend:0.006,Titan:0.008", // Default value
-                "Increases oxygen drain when player running and is triggered every secTimer (config option) seconds.\nThis takes priority over the oxygenRunning config option (e.g. Experimentation:2.0,Vow:0.9,CUSTOM_MOON_NAME@10).\nNot listed moons will use the oxygenRunning config option. (syncing with host)" // Description
+                "Dine@0,006;Rend@0,006;Titan@0,008", // Default value
+                "Increases oxygen drain when player running and is triggered every secTimer (config option) seconds." +
+                "\nThis takes priority over the oxygenRunning config option (e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)." +
+                "\nNot listed moons will use the oxygenRunning config option. (syncing with host)" // Description
             );
 
             oxygenDepletionInWater = file.BindSyncedEntry(
@@ -208,7 +223,9 @@ namespace Oxygen.Configuration
                 "Oxygen", // Section
                 "oxygenDepletionInWaterMoons", // Key
                 string.Empty, // Default value
-                "Increases oxygen consumption when the player is underwater and is triggered every secTimer (config option) seconds.\nThis takes priority over the oxygenDepletionInWater config option (e.g. Experimentation:2.0,Vow:0.9,CUSTOM_MOON_NAME@10).\nNot listed moons will use the oxygenDepletionInWater config option. (syncing with host)" // Description
+                "Increases oxygen consumption when the player is underwater and is triggered every secTimer (config option) seconds." +
+                "\nThis takes priority over the oxygenDepletionInWater config option (e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)." +
+                "\nNot listed moons will use the oxygenDepletionInWater config option. (syncing with host)" // Description
             );
 
             oxygenDeficiency = file.BindSyncedEntry(
@@ -216,13 +233,6 @@ namespace Oxygen.Configuration
                 "oxygenDeficiency", // Key
                 0.15f, // Default value
                 "Increases screen fog when the player runs out of oxygen. Depends on the secTimer variable. (syncing with host)" // Description
-            );
-
-            oxygenConsumptionOnTheCompany = file.BindSyncedEntry(
-                "Oxygen", // Section
-                "oxygenConsumptionOnTheCompany", // Key
-                true, // Default value
-                "If true, then there will be oxygen consumption on the company's planet. (syncing with host)" // Description
             );
 
             secTimer = file.BindSyncedEntry(
@@ -239,11 +249,39 @@ namespace Oxygen.Configuration
                 "Should mod notify you if oxygen getting low?" // Description
             );
 
-            SFXvolume = file.Bind(
+            walkingSFX_volume = file.Bind(
                 "Sounds", // Section
-                "SFXvolume", // Key
-                0.4f, // Default value
-                "volume of SFX's." // Description
+                "walkingSFX_volume", // Key
+                0.9f, // Default value
+                "volume of walking SFX." // Description
+            );
+
+            runningSFX_volume = file.Bind(
+                "Sounds", // Section
+                "runningSFX_volume", // Key
+                1f, // Default value
+                "volume of running SFX." // Description
+            );
+
+            exhaustedSFX_volume = file.Bind(
+                "Sounds", // Section
+                "exhaustedSFX_volume", // Key
+                0.3f, // Default value
+                "volume of exhausted SFX." // Description
+            );
+
+            scaredSFX_volume = file.Bind(
+                "Sounds", // Section
+                "scaredSFX_volume", // Key
+                1f, // Default value
+                "volume of scared SFX." // Description
+            );
+
+            oxyCharger_SFXVolume = file.Bind(
+                "Sounds", // Section
+                "oxyCharger_SFXVolume", // Key
+                1f, // Default value
+                "OxyCharger's SFX volume" // Description
             );
 
             enableOxygenSFX = file.Bind(
@@ -251,6 +289,13 @@ namespace Oxygen.Configuration
                 "enableOxygenSFX", // Key
                 true, // Default value
                 "Enables oxygen inhalation sounds." // Description
+            );
+
+            enableInhaleSFXWhileWalking = file.Bind(
+                "Sounds", // Section
+                "enableInhaleSFXWhileWalking", // Key
+                true, // Default value
+                "Enables oxygen inhalation sounds while walking." // Description
             );
 
             enableOxygenSFXInShip = file.Bind(
@@ -281,14 +326,14 @@ namespace Oxygen.Configuration
                 "hud disappears if oxygen value > 55 (syncing with host)" // Description
             );
 
-            XOffset = file.Bind<int>(
+            XOffset = file.Bind(
                 "Position", 
                 "XOffset", 
                 0, 
                 "Horizontal offset for the oxygenHUD position."
             );
 
-            YOffset = file.Bind<int>(
+            YOffset = file.Bind(
                 "Position", 
                 "YOffset", 
                 0,
@@ -307,13 +352,6 @@ namespace Oxygen.Configuration
                 "OxyBoost_price", // Key
                 70, // Default value
                 "OxyBoost's price" // Description
-            );
-
-            oxyCharger_SFXVolume = file.Bind(
-                "Sounds", // Section
-                "oxyCharger_SFXVolume", // Key
-                1f, // Default value
-                "oxyCharger's SFX volume" // Description
             );
         }
     }

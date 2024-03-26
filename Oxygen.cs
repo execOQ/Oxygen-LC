@@ -6,6 +6,9 @@ using Oxygen.Configuration;
 using UnityEngine;
 using BepInEx.Bootstrap;
 using LL = LethalLib.Modules;
+using Oxygen.Extras;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Oxygen
 {
@@ -27,19 +30,26 @@ namespace Oxygen
         private const string LCAPIGUID = "LC_API";
         private const string EladsHUDGUID = "me.eladnlg.customhud";
 
-        public bool isShyHUDFound { get; private set; } = false;
-        public bool isLCAPIFound { get; private set; } = false;
-        public bool isEladsHUDFound { get; private set; } = false;
+        public bool IsShyHUDFound { get; private set; } = false;
+        public bool IsLCAPIFound { get; private set; } = false;
+        public bool IsEladsHUDFound { get; private set; } = false;
 
         private readonly Harmony harmony = new(modGUID);
         public ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
 
-        public AudioClip[] inhaleSFX;
+        internal AudioClip[] inhalesSFX = [];
+        internal AudioClip[] heavyInhalesSFX = [];
 
-        public GameObject oxyCharger;
-        public AudioClip[] oxyChargerSFX;
+        internal GameObject oxyAudioExample;
+
+        internal GameObject oxyCharger;
+        internal AudioClip[] oxyChargerSFX;
+
+        internal Item oxyBoost;
 
         public static OxygenConfig OxygenConfig { get; private set; }
+
+        internal static void UpdateCustomItemPrice(Item item, int price) => LL.Items.UpdateShopItemPrice(item, price);
 
         private void Awake()
         {
@@ -52,20 +62,24 @@ namespace Oxygen
 
             CheckForDependencies();
 
+            AssetBundle oxyAudioBundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygenaudio");
+            if (oxyAudioBundle == null) return;
+            oxyAudioExample = oxyAudioBundle.LoadAsset<GameObject>("Assets/OxygenAudio/OxygenAudio.prefab");
+            inhalesSFX = oxyAudioBundle.LoadAllAssets<AudioClip>();
+
+            AssetBundle oxyHeavyInhaleBundle = Utilities.LoadAssetFromStream("Oxygen.Assets.heavyinhalesfx");
+            if (oxyHeavyInhaleBundle == null) return;
+            heavyInhalesSFX = oxyHeavyInhaleBundle.LoadAllAssets<AudioClip>();
+
             AssetBundle oxyChargerBundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxycharger");
             if (oxyChargerBundle == null) return;
-
             oxyCharger = oxyChargerBundle.LoadAsset<GameObject>("Assets/OxyCharger/OxyCharger.prefab");
             oxyChargerSFX = oxyChargerBundle.LoadAllAssets<AudioClip>();
 
-            AssetBundle bundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygensounds");
-            if (bundle == null) return;
+            mls.LogInfo($"Assets are loaded (～￣▽￣)～");
 
-            inhaleSFX = bundle.LoadAllAssets<AudioClip>();
-            mls.LogInfo($"Sounds are loaded.");
-
-            AssetBundle oxy99 = Utilities.LoadAssetFromStream("Oxygen.Assets.oxy99");
-            if (oxy99 == null) return;
+            OxygenConfig = new(Config);
+            mls.LogInfo($"Config is loaded.");
 
             harmony.PatchAll(typeof(HUDPatch));
             harmony.PatchAll(typeof(OxygenHUD));
@@ -75,22 +89,23 @@ namespace Oxygen
             harmony.PatchAll(typeof(RoundManagerPatch));
             //harmony.PatchAll(typeof(WritePlayerNotesPatch));
 
-            OxygenConfig = new(Config);
-            mls.LogInfo($"Config is loaded. (～￣▽￣)～");
 
             if (!OxygenConfig.MakeItVanilla.Value)
             {
-                Item oxycanister = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
-                oxycanister.itemName = "OxyBoost";
+                AssetBundle oxy99 = Utilities.LoadAssetFromStream("Oxygen.Assets.oxy99");
+                if (oxy99 == null) return;
 
-                LL.NetworkPrefabs.RegisterNetworkPrefab(oxycanister.spawnPrefab);
-                LL.Utilities.FixMixerGroups(oxycanister.spawnPrefab);
+                oxyBoost = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
+                oxyBoost.itemName = "OxyBoost";
+
+                LL.NetworkPrefabs.RegisterNetworkPrefab(oxyBoost.spawnPrefab);
+                LL.Utilities.FixMixerGroups(oxyBoost.spawnPrefab);
 
                 TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
                 node.clearPreviousText = true;
-                node.displayText = "Limited air supply, useful for flooded facilities.";
+                node.displayText = "Limited air supply, useful in situations when you cannot quickly refill oxygen canisters!";
 
-                LL.Items.RegisterShopItem(oxycanister, null, null, node, OxygenConfig.Instance.oxyBoost_price.Value);
+                LL.Items.RegisterShopItem(oxyBoost, null, null, node, OxygenConfig.Instance.oxyBoost_price.Value);
 
                 mls.LogInfo("Custom items are loaded!");
             }
@@ -113,7 +128,7 @@ namespace Oxygen
                 else
                 {
                     mls.LogInfo("LCAPI is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
-                    isLCAPIFound = true;
+                    IsLCAPIFound = true;
                 }
             }
             if (Chainloader.PluginInfos.ContainsKey(shyHUDGUID))
@@ -126,7 +141,7 @@ namespace Oxygen
                 else
                 {
                     mls.LogInfo("ShyHUD is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
-                    isShyHUDFound = true;
+                    IsShyHUDFound = true;
                 }
             }
             if (Chainloader.PluginInfos.ContainsKey(EladsHUDGUID))
@@ -139,7 +154,7 @@ namespace Oxygen
                 else
                 {
                     mls.LogInfo("EladsHUD is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
-                    isEladsHUDFound = true;
+                    IsEladsHUDFound = true;
                 }
             }
         }
