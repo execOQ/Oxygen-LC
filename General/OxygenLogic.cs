@@ -9,9 +9,9 @@ namespace Oxygen.GameObjects
 {
     internal class OxygenLogic : MonoBehaviour
     {
-        public static float DecreasingInFear => OxygenConfig.Instance.decreasingInFear.Value;
-
         public static bool EnableOxygenSFX => OxygenBase.OxygenConfig.enableOxygenSFX.Value;
+
+        public static bool EnableInhaleSFXWhileWalking => OxygenBase.OxygenConfig.enableInhaleSFXWhileWalking.Value;
         public static bool EnableOxygenSFXInShip => OxygenBase.OxygenConfig.enableOxygenSFXInShip.Value;
         public static bool EnableOxygenSFXOnTheCompany => OxygenBase.OxygenConfig.enableOxygenSFXOnTheCompany.Value;
 
@@ -31,6 +31,7 @@ namespace Oxygen.GameObjects
         public static float OxygenDepletionWhileRunning => MoonsDicts.OxygenRunningMoonsValue;
         public static float OxygenDepletionInWater => MoonsDicts.OxygenDepletionInWaterMoonsValue;
 
+        public static float DecreasingInFear => OxygenConfig.Instance.decreasingInFear.Value;
         public static float OxygenDeficiency => OxygenConfig.Instance.oxygenDeficiency.Value;
 
         public static float SecTimer => OxygenConfig.Instance.secTimer.Value;
@@ -53,16 +54,6 @@ namespace Oxygen.GameObjects
             {
                 if (sor.fearLevel > 0)
                 {
-                    if (EnableOxygenSFX)
-                    {
-                        if (!pc.isInHangarShipRoom || (pc.isInHangarShipRoom && EnableOxygenSFXInShip))
-                        {
-                            mls.LogInfo($"Playing sound cause fearLevelIncreasing");
-                            AudioClip clip = FindSFX(Stage.scared);
-                            PlaySFX(pc, clip);
-                        }
-                    }
-
                     mls.LogInfo($"Oxygen consumption is increased by {DecreasingInFear}");
                     localDecValue += DecreasingInFear;
 
@@ -86,47 +77,48 @@ namespace Oxygen.GameObjects
 
                     if (shouldPlaySFX)
                     {
-                        Stage stage = Stage.standing;
+                        State state = State.standing;
+                        float volume = 1f;
 
                         // for support Immersive visor
                         /* if ()
                         {
-                            stage = Stage.oxygenLeak;
+                            state = State.oxygenLeak;
                         }
-                        else 
                         */
-                        if (OxygenUI.fillAmount < 0.27)
-                        {
-                            stage = Stage.outOfOxygen;
-                        }
-                        else if (sor.fearLevel > 0)
+
+                        if (sor.fearLevel > 0)
                         {
                             if (!pc.isInHangarShipRoom || (pc.isInHangarShipRoom && EnableOxygenSFXInShip))
                             {
-                                stage = Stage.scared;
+                                state = State.scared;
+                                volume = OxygenBase.OxygenConfig.scaredSFX_volume.Value;
                             }
                         }
                         else if (pc.isSprinting)
                         {
-                            stage = Stage.running;
+                            state = State.running;
+                            volume = OxygenBase.OxygenConfig.runningSFX_volume.Value;
                         }
                         else if (pc.isExhausted)
                         {
-                            stage = Stage.exhausted;
+                            state = State.exhausted;
+                            volume = OxygenBase.OxygenConfig.exhaustedSFX_volume.Value;
                         }
-                        else if (pc.isWalking)
+                        else if (pc.isWalking && EnableInhaleSFXWhileWalking)
                         {
-                            stage = Stage.walking;
+                            state = State.walking;
+                            volume = OxygenBase.OxygenConfig.walkingSFX_volume.Value;
                         }
 
-                        if (stage != Stage.standing)
+                        if (state != State.standing)
                         {
-                            AudioClip clip = FindSFX(stage);
+                            AudioClip clip = FindSFX(state);
 
                             // updates the wait before the next playing
-                            secTimerForAudio = (int)stage;
+                            secTimerForAudio = (int)state;
 
-                            PlaySFX(pc, clip);
+                            PlaySFX(clip, volume);
                         }
                     }
                     timeSinceLastPlayedAudio = 0f;
@@ -134,49 +126,46 @@ namespace Oxygen.GameObjects
                 timeSinceLastPlayedAudio += Time.deltaTime;
             }
 
-            if (timeSinceLastAction >= SecTimer)
+            if (!pc.isInHangarShipRoom)
             {
-                // if player running the oxygen goes away faster
-                if (pc.isSprinting)
+                if (timeSinceLastAction >= SecTimer)
                 {
-                    localDecValue += OxygenDepletionWhileRunning;
-                    mls.LogInfo($"The player is running, oxygen consumption is increased by {OxygenDepletionWhileRunning}");
-                }
-                
-                // increasing drunkness
-                if (OxygenUI.fillAmount < 0.33)
-                {
-                    pc.drunkness += OxygenDeficiency;
-                    mls.LogInfo($"current oxygen deficiency level: {pc.drunkness}");
-                }
+                    // if player running the oxygen goes away faster
+                    if (pc.isSprinting)
+                    {
+                        localDecValue += OxygenDepletionWhileRunning;
+                        mls.LogInfo($"The player is running, oxygen consumption is increased by {OxygenDepletionWhileRunning}");
+                    }
 
-                if (!pc.isInsideFactory && pc.isUnderwater && pc.underwaterCollider != null &&
-                    pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
-                {
-                    mls.LogInfo($"The player is underwater, oxygen consumption is increased by {OxygenDepletionInWater}");
-                    // if the planet is in the GreenPlanets variable, and there is water on the planet,
-                    // then oxygen consumption will not occur, and the person will be underwater indefinitely.
-                    // Because of that, consumption is directly deducted from fillAmount instead of being added to localDecValue.
-                    //localDecValue += OxygenDepletionInWater;
-                    OxygenUI.fillAmount = Mathf.Clamp01(OxygenUI.fillAmount - OxygenDepletionInWater);
+                    // increasing drunkness
+                    if (OxygenUI.fillAmount < 0.33)
+                    {
+                        pc.drunkness += OxygenDeficiency;
+                        mls.LogInfo($"current oxygen deficiency level: {pc.drunkness}");
+                    }
 
-                    //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
-                }
+                    // it have to be before oxygen consumption underwater 
+                    if (IsgreenPlanet && !pc.isInsideFactory)
+                    {
+                        mls.LogInfo("It's a green planet and you're outside, oxygen consumption is omitted!");
+                        localDecValue = 0f;
+                    }
 
-                // 0.30 is the lowest value when we see UI meter
-                if (OxygenUI.fillAmount < 0.30)
-                {
-                    pc.DamagePlayer(PlayerDamage);
-                }
+                    if (!pc.isInsideFactory && pc.isUnderwater && pc.underwaterCollider != null &&
+                        pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
+                    {
+                        mls.LogInfo($"The player is underwater, oxygen consumption is increased by {OxygenDepletionInWater}");
+                        localDecValue += OxygenDepletionInWater;
 
-                if (IsgreenPlanet && !pc.isInHangarShipRoom && !pc.isInsideFactory)
-                {
-                    mls.LogInfo("It's a green planet and you're outside, oxygen consumption is omitted!");
-                    localDecValue = 0f;
-                }
+                        //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
+                    }
 
-                if (!pc.isInHangarShipRoom)
-                {
+                    // 0.30 is the lowest value when we see UI meter
+                    if (OxygenUI.fillAmount < 0.30)
+                    {
+                        pc.DamagePlayer(PlayerDamage);
+                    }
+
                     // just for simplification if player was teleported and unable to refill oxygen
                     if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -400f) // -400f is Y offset 
                     {
@@ -189,14 +178,13 @@ namespace Oxygen.GameObjects
                         OxygenUI.fillAmount = Mathf.Clamp01(OxygenUI.fillAmount - localDecValue);
                         mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
                     }
+
+                    // timer resets
+                    timeSinceLastAction = 0f;
                 }
-
-                // timer resets
-                timeSinceLastAction = 0f;
+                timeSinceLastAction += Time.deltaTime; //increment the cool down timer
             }
-            timeSinceLastAction += Time.deltaTime; //increment the cool down timer
-
-            if (pc.isInHangarShipRoom)
+            else
             {
                 if (OxygenFillOption == 2)
                 {

@@ -2,19 +2,16 @@
 using GameNetcodeStuff;
 using HarmonyLib;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using Oxygen.GameObjects;
+using Discord;
+using UnityEngine.Rendering;
 
 namespace Oxygen.Patches
 {
     [HarmonyPatch]
     internal class HUDPatch
     {
-        public static AudioClip[] inhaleSFX = OxygenBase.Instance.inhaleSFX;
-
-        public static TextMeshProUGUI EladsOxygenUIText => OxygenHUD.EladsOxygenUIText;
-
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > HUDPatch");
 
         [HarmonyPostfix]
@@ -27,12 +24,19 @@ namespace Oxygen.Patches
         }
 
         [HarmonyPostfix]
+        [HarmonyPatch(typeof(PlayerControllerB), "ConnectClientToPlayerObject")]
+        public static void AddAudioSource(PlayerControllerB __instance)
+        {
+            OxygenHUD.Init_AudioSource(__instance.playersManager.thisClientPlayerId);
+        }
+
+        [HarmonyPostfix]
         [HarmonyPatch(typeof(HUDManager), "Update")]
         public static void UpdatePatch()
         {
             if (!OxygenHUD.initialized)
             {
-                mls.LogError("OxygenHUD is still instantiating");
+                mls.LogWarning("OxygenHUD is still initializing");
                 return;
             }
 
@@ -54,12 +58,6 @@ namespace Oxygen.Patches
             if (OxygenHUD.oxygenUI == null)
             {
                 mls.LogError("oxygenUI is null");
-                return;
-            }
-
-            if (inhaleSFX == null)
-            {
-                mls.LogError("inhalerSFX is null");
                 return;
             }
 

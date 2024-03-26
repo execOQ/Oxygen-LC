@@ -5,6 +5,7 @@ using static System.Math;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using GameNetcodeStuff;
 
 namespace Oxygen
 {
@@ -18,8 +19,6 @@ namespace Oxygen
 
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenHUD");
 
-        public static float Volume => OxygenBase.OxygenConfig.SFXvolume.Value;
-
         public static bool diedBecauseOfOxygen = false;
 
         public static bool IsNotification => OxygenBase.OxygenConfig.notifications.Value;
@@ -27,20 +26,41 @@ namespace Oxygen
         internal static bool firstNotification = false;
         internal static bool warningNotification = false;
 
-        public static void Init()
+        public static AudioSource oxygenDefault;
+
+        //public static AudioSource oxygenLeak;
+
+        internal static void Init_AudioSource(int id)
+        {
+            mls.LogWarning($"Client id: {id}");
+
+            string path = (id == 0) ? "PlayersContainer/Player/Audios/" : $"PlayersContainer/Player ({id})/Audios/";
+            GameObject pc = GameObject.Find(path);
+
+            GameObject _oxygenDefault = Instantiate(OxygenBase.Instance.oxyAudioExample, pc.transform);
+            _oxygenDefault.name = "OxygenDefault";
+
+            //GameObject _oxygenLeak = Instantiate(OxygenBase.Instance.oxyAudioExample, pc.transform);
+            //_oxygenLeak.name = "OxygenLeak";
+
+            oxygenDefault = _oxygenDefault.GetComponent<AudioSource>();
+            //oxygenLeak = _oxygenLeak.GetComponent<AudioSource>();
+
+            mls.LogWarning($"Oxygen audio sources are created!");
+        }
+
+        internal static void Init()
         {
             if (!initialized)
             {
-                if (!OxygenBase.Instance.isEladsHUDFound)
+                if (!OxygenBase.Instance.IsEladsHUDFound)
                 {
                     Init_vanilla();
                 } 
                 else 
                 {
-                    Init_ElandHUD();
+                    Init_EladsHUD();
                 }
-
-                mls.LogWarning($"config synced: {OxygenConfig.Synced}");
 
                 initialized = true;
             }
@@ -53,7 +73,7 @@ namespace Oxygen
 
             if (sprintMeter == null || topLeftCorner == null)
             {
-                mls.LogError("Init_vanilla / oxygenMeter or topLeftCorner is null");
+                mls.LogError("Init_vanilla: oxygenMeter or topLeftCorner is null");
                 return;
             }
 
@@ -78,29 +98,26 @@ namespace Oxygen
 
             rectTransform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
 
-            mls.LogInfo("Oxygen UI instantiated");
-
             GameObject statusEffectHUD = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/StatusEffects");
-            if (statusEffectHUD == null)
+            if (statusEffectHUD != null)
             {
-                mls.LogError("statusEffectHUD is null");
-                return;
+                statusEffectHUD.transform.localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
+                //HUDManager.Instance.DisplayStatusEffect("Oxygen critically low!");
+
+                mls.LogInfo("statusEffectHUD is fixed");
             }
 
-            statusEffectHUD.transform.localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
-            //HUDManager.Instance.DisplayStatusEffect("Oxygen critically low!");
-
-            mls.LogInfo("statusEffectHUD is fixed");
+            mls.LogInfo("OxygenHUD instantiated");
         }
 
-        private static void Init_ElandHUD()
+        private static void Init_EladsHUD()
         {
             GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/Stamina");
             GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)");
 
             if (sprintMeter == null || topLeftCorner == null)
             {
-                mls.LogError("Init_ElandHUD / oxygenMeter or topLeftCorner is null");
+                mls.LogError("Init_EladsHUD: oxygenMeter or topLeftCorner is null");
                 return;
             }
 
@@ -134,10 +151,10 @@ namespace Oxygen
             oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
             oxygenUI.fillAmount = 1f;
 
-            mls.LogInfo("Oxygen UI instantiated");
+            mls.LogInfo("OxygenHUD instantiated");
         }
 
-        public static void UpdateModsCompatibility()
+        internal static void UpdateModsCompatibility()
         {
             if (EladsOxygenUIText != null)
             {
@@ -147,7 +164,7 @@ namespace Oxygen
                 EladsOxygenUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
             }
 
-            if (OxygenBase.Instance.isShyHUDFound && OxygenConfig.Instance.ShyHUDSupport)
+            if (OxygenBase.Instance.IsShyHUDFound && OxygenConfig.Instance.ShyHUDSupport)
             {
                 if (oxygenUI.fillAmount >= 0.55f)
                 {
@@ -160,7 +177,7 @@ namespace Oxygen
             }
         }
 
-        public static void ShowNotifications()
+        internal static void ShowNotifications()
         {
             if (IsNotification)
             {
@@ -185,7 +202,7 @@ namespace Oxygen
         }
 
         // who cares how it's called...?
-        public static void ShowAnotherNotification()
+        internal static void ShowAnotherNotification()
         {
             if (!backroomsNotification)
             {

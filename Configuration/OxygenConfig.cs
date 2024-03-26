@@ -79,9 +79,11 @@ namespace Oxygen.Configuration
 
         internal ConfigEntry<bool> notifications;
 
-        internal ConfigEntry<float> SFXvolume;
+        internal ConfigEntry<float> walkingSFX_volume, runningSFX_volume, exhaustedSFX_volume, scaredSFX_volume;
 
         internal ConfigEntry<bool> enableOxygenSFX;
+
+        internal ConfigEntry<bool> enableInhaleSFXWhileWalking;
 
         internal ConfigEntry<bool> enableOxygenSFXInShip;
 
@@ -151,7 +153,7 @@ namespace Oxygen.Configuration
                 "increasingOxygenMoons", // Key
                 string.Empty, // Default value
                 "How fast oxygen is recovered when OxygenFillOption is set to 2." +
-                "\nThis takes priority over the increasingOxygen config option (e.g. Experimentation@2.0;Vow@0.9;CUSTOM_MOON_NAME@10)." +
+                "\nThis takes priority over the increasingOxygen config option (e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)." +
                 "\nNot listed moons will use the increasingOxygen config option." // Description
             );
 
@@ -247,11 +249,39 @@ namespace Oxygen.Configuration
                 "Should mod notify you if oxygen getting low?" // Description
             );
 
-            SFXvolume = file.Bind(
+            walkingSFX_volume = file.Bind(
                 "Sounds", // Section
-                "SFXvolume", // Key
-                0.4f, // Default value
-                "volume of SFX's." // Description
+                "walkingSFX_volume", // Key
+                0.9f, // Default value
+                "volume of walking SFX." // Description
+            );
+
+            runningSFX_volume = file.Bind(
+                "Sounds", // Section
+                "runningSFX_volume", // Key
+                1f, // Default value
+                "volume of running SFX." // Description
+            );
+
+            exhaustedSFX_volume = file.Bind(
+                "Sounds", // Section
+                "exhaustedSFX_volume", // Key
+                0.3f, // Default value
+                "volume of exhausted SFX." // Description
+            );
+
+            scaredSFX_volume = file.Bind(
+                "Sounds", // Section
+                "scaredSFX_volume", // Key
+                1f, // Default value
+                "volume of scared SFX." // Description
+            );
+
+            oxyCharger_SFXVolume = file.Bind(
+                "Sounds", // Section
+                "oxyCharger_SFXVolume", // Key
+                1f, // Default value
+                "OxyCharger's SFX volume" // Description
             );
 
             enableOxygenSFX = file.Bind(
@@ -259,6 +289,13 @@ namespace Oxygen.Configuration
                 "enableOxygenSFX", // Key
                 true, // Default value
                 "Enables oxygen inhalation sounds." // Description
+            );
+
+            enableInhaleSFXWhileWalking = file.Bind(
+                "Sounds", // Section
+                "enableInhaleSFXWhileWalking", // Key
+                true, // Default value
+                "Enables oxygen inhalation sounds while walking." // Description
             );
 
             enableOxygenSFXInShip = file.Bind(
@@ -315,13 +352,6 @@ namespace Oxygen.Configuration
                 "OxyBoost_price", // Key
                 70, // Default value
                 "OxyBoost's price" // Description
-            );
-
-            oxyCharger_SFXVolume = file.Bind(
-                "Sounds", // Section
-                "oxyCharger_SFXVolume", // Key
-                1f, // Default value
-                "oxyCharger's SFX volume" // Description
             );
         }
     }

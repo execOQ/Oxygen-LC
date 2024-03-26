@@ -1,5 +1,4 @@
 ﻿using BepInEx.Logging;
-using GameNetcodeStuff;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,49 +6,51 @@ namespace Oxygen.Extras
 {
     internal class AudioController
     {
-        public enum Stage {
+        public enum State {
             standing = 0,
             walking = 5,
             running = 4,
             exhausted = 3,
             scared = 2,
-            outOfOxygen = 3,
-            oxygenLeak = 0
         }
-
-        internal static AudioClip[] InhaleSFX => OxygenBase.Instance.inhaleSFX;
-        internal static AudioClip[] RunningInhaleSFX => OxygenBase.Instance.inhaleSFX;
-        internal static AudioClip[] ExhaustedInhaleSFX => OxygenBase.Instance.inhaleSFX;
-        internal static AudioClip[] ScaredInhaleSFX => OxygenBase.Instance.inhaleSFX;
-
-        public static float Volume => OxygenBase.OxygenConfig.SFXvolume.Value;
+        
+        internal static AudioClip[] InhalesSFX => OxygenBase.Instance.inhalesSFX;
+        internal static AudioClip[] HeavyInhalesSFX => OxygenBase.Instance.heavyInhalesSFX;
 
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > AudioController");
 
-        internal static AudioClip FindSFX(Stage stage)
+        internal static AudioClip FindSFX(State stage, bool isEndOfFearOrExhausted = false)
         {
-            mls.LogWarning($"trying to find SFX");
+            mls.LogInfo($"trying to find SFX");
             AudioClip clip = stage switch
             {
-                Stage.standing => null,
-                Stage.walking => InhaleSFX[Random.Range(0, InhaleSFX.Length - 1)],
-                Stage.running => RunningInhaleSFX[Random.Range(0, RunningInhaleSFX.Length - 1)],
-                Stage.exhausted => ExhaustedInhaleSFX[Random.Range(0, ExhaustedInhaleSFX.Length - 1)],
-                Stage.scared => ScaredInhaleSFX[Random.Range(0, ScaredInhaleSFX.Length - 1)],
+                State.standing => null,
+                State.walking => InhalesSFX[Random.Range(0, InhalesSFX.Length - 1)],
+                State.running => InhalesSFX[Random.Range(0, InhalesSFX.Length - 1)],
+                State.exhausted => isEndOfFearOrExhausted ? HeavyInhalesSFX[^1] : HeavyInhalesSFX[Random.Range(0, HeavyInhalesSFX.Length - 2)],
+                State.scared => isEndOfFearOrExhausted ? HeavyInhalesSFX[^1] : HeavyInhalesSFX[Random.Range(0, HeavyInhalesSFX.Length - 2)],
                 _ => null,
             };
 
             return clip;
         }
 
-        internal static void PlaySFX(PlayerControllerB pc, AudioClip clip)
+        /* internal static void PlayLeakSFX(AudioClip clip)
         {
-            AudioSource audio = pc.waterBubblesAudio;
-            if (audio.isPlaying) return;
+            AudioSource source = OxygenHUD.oxygenLeak;
+            if (source.isPlaying) return;
 
-            mls.LogWarning($"playing SFX");
-            audio.PlayOneShot(clip, Random.Range(Mathf.Clamp01(Volume) - 0.18f, Mathf.Clamp01(Volume)));
+            mls.LogInfo($"playing SFX");
+            source.PlayOneShot(clip, Random.Range(Mathf.Clamp01(Volume) - 0.18f, Mathf.Clamp01(Volume)));
+        } */
+
+        internal static void PlaySFX(AudioClip clip, float volume)
+        {
+            AudioSource source = OxygenHUD.oxygenDefault;
+            if (source.isPlaying) return;
+
+            mls.LogInfo($"playing SFX");
+            source.PlayOneShot(clip, Random.Range(Mathf.Clamp01(volume) - 0.18f, Mathf.Clamp01(volume)));
         }
-
     }
 }

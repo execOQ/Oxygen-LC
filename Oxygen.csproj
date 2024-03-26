@@ -9,9 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Assets\heavyinhalesfx" />
+      <None Remove="Assets\oxygenaudio" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Assets\heavyinhalesfx" />
       <EmbeddedResource Include="Assets\oxy99" />
       <EmbeddedResource Include="Assets\oxycharger" />
-      <EmbeddedResource Include="Assets\oxygensounds" />
+      <EmbeddedResource Include="Assets\oxygenaudio" />
     </ItemGroup>
 	
 	<ItemGroup>

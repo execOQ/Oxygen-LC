@@ -14,7 +14,7 @@ namespace Oxygen.Extras
         public static void Initialize()
         {
             mls.LogInfo("Initializing DeathBroadcaster...");
-            if (OxygenBase.Instance.isLCAPIFound)
+            if (OxygenBase.Instance.IsLCAPIFound)
             {
                 mls.LogInfo("LC_API is present! Registering signature...");
                 Networking.GetString = (Action<string, string>)Delegate.Combine(Networking.GetString, new Action<string, string>(OnBroadcastString));
@@ -40,7 +40,7 @@ namespace Oxygen.Extras
 
         public static void AttemptBroadcast(string data, string signature)
         {
-            if (OxygenBase.Instance.isLCAPIFound)
+            if (OxygenBase.Instance.IsLCAPIFound)
             {
                 mls.LogInfo("LC_API is present! Broadcasting...");
                 //LC_API.Networking.Network.Broadcast(data, signature);
