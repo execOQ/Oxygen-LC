@@ -138,7 +138,7 @@ namespace Oxygen.Configuration
                 "Oxygen", // Section
                 "greenPlanets", // Key
                 "March@0;Vow@0;Gordion@0", // Default value
-                "Disables oxygen consumption outside on listed planets. Oxygen consumption by a player while underwater will still exist. Follow the syntax of the default value. (syncing with host)" // Description
+                "Disables oxygen consumption outside on listed planets. Oxygen consumption by a player while underwater will still exist.\nFollow the syntax of the default value. (syncing with host)" // Description
             );
 
             increasingOxygen = file.BindSyncedEntry(
