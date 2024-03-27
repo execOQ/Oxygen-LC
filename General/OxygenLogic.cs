@@ -44,25 +44,49 @@ namespace Oxygen.GameObjects
         private static float timeSinceLastFear = 0f;
         private static float timeSinceLastPlayedAudio = 0f;
 
+        internal static float low_OxygenAmount = OxygenConfig.Instance.EladsHUD_QuickFix.Value && OxygenBase.Instance.IsEladsHUDFound ? 0.25f : 0.45f;
+        internal static float critical_OxygenAmount = OxygenConfig.Instance.EladsHUD_QuickFix.Value && OxygenBase.Instance.IsEladsHUDFound ? 0.15f : 0.35f;
+        internal static float damage_OxygenAmount = OxygenConfig.Instance.EladsHUD_QuickFix.Value && OxygenBase.Instance.IsEladsHUDFound ? 0.1f : 0.3f;
+
+        public static bool IsNotification => OxygenBase.OxygenConfig.notifications.Value;
+        internal static bool breathablePlace_Notification = false;
+        internal static bool immersiveVisor_Notification = false;
+        internal static bool lowLevel_Notification = false;
+        internal static bool criticalLevel_Notification = false;
+
+        internal static void ShowNotifications()
+        {
+            if (IsNotification)
+            {
+                // notification about low level of oxygen
+                if (OxygenUI.fillAmount < low_OxygenAmount && !lowLevel_Notification)
+                {
+                    HUDManager.Instance.DisplayTip("System...", "The oxygen tanks are running low.");
+                    lowLevel_Notification = true;
+                }
+
+                // system warning
+                if (OxygenUI.fillAmount < critical_OxygenAmount && !criticalLevel_Notification)
+                {
+                    HUDManager.Instance.DisplayTip(
+                        "System...",
+                        "Oxygen tanks have a critical level of oxygen, fill them up immediately!",
+                        isWarning: true
+                    );
+                    criticalLevel_Notification = true;
+                }
+            }
+        }
+
         public static void RunLogic(StartOfRound sor, PlayerControllerB pc)
         {
+            ShowNotifications();
+
             float localDecValue = 0f;
             sor.drowningTimer = OxygenUI.fillAmount;
 
             if (!pc.isInsideFactory && !pc.isInHangarShipRoom) localDecValue += DecreasingOxygenOutside;
             else if (pc.isInsideFactory) localDecValue += DecreasingOxygenInFactory;
-
-            if (timeSinceLastFear >= secTimerInFear)
-            {
-                if (sor.fearLevel > 0)
-                {
-                    mls.LogInfo($"Oxygen consumption is increased by {DecreasingInFear}");
-                    localDecValue += DecreasingInFear;
-
-                    timeSinceLastFear = 0f;
-                }
-            }
-            timeSinceLastFear += Time.deltaTime;
 
             if (EnableOxygenSFX)
             {
@@ -133,6 +157,18 @@ namespace Oxygen.GameObjects
 
             if (!pc.isInHangarShipRoom)
             {
+                if (timeSinceLastFear >= secTimerInFear)
+                {
+                    if (sor.fearLevel > 0)
+                    {
+                        mls.LogInfo($"Oxygen consumption is increased by {DecreasingInFear}");
+                        localDecValue += DecreasingInFear;
+
+                        timeSinceLastFear = 0f;
+                    }
+                }
+                timeSinceLastFear += Time.deltaTime;
+
                 if (timeSinceLastAction >= SecTimer)
                 { 
                     // support Immersive visor
@@ -149,7 +185,7 @@ namespace Oxygen.GameObjects
                     }
 
                     // increasing drunkness
-                    if (OxygenUI.fillAmount < 0.33)
+                    if (OxygenUI.fillAmount < critical_OxygenAmount)
                     {
                         pc.drunkness += OxygenDeficiency;
                         mls.LogInfo($"current oxygen deficiency level: {pc.drunkness}");
@@ -172,7 +208,7 @@ namespace Oxygen.GameObjects
                     }
 
                     // 0.30 is the lowest value when we see UI meter
-                    if (OxygenUI.fillAmount < 0.30)
+                    if (OxygenUI.fillAmount < damage_OxygenAmount)
                     {
                         pc.DamagePlayer(PlayerDamage);
                     }
@@ -180,7 +216,11 @@ namespace Oxygen.GameObjects
                     // just for simplification if player was teleported and unable to refill oxygen
                     if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -400f) // -400f is Y offset 
                     {
-                        OxygenInit.ShowAnotherNotification();
+                        if (IsNotification && !breathablePlace_Notification)
+                        {
+                            HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
+                            breathablePlace_Notification = true;
+                        }
 
                         pc.drunkness = Mathf.Clamp01(pc.drunkness - OxygenDeficiency);
                     }
@@ -214,7 +254,15 @@ namespace Oxygen.GameObjects
         {
             if (Woecust.ImmersiveVisor.Visor.Instance.visorCrack.crackLevel.value == 2)
             {
-                OxygenInit.ShowAnotherAnotherNotification();
+                if (IsNotification && !immersiveVisor_Notification)
+                {
+                    HUDManager.Instance.DisplayTip(
+                        "System...",
+                        "The helmet is experiencing oxygen leakage due to substantial damage",
+                        isWarning: true
+                    );
+                    immersiveVisor_Notification = true;
+                }
 
                 mls.LogInfo($"The helmet is fucked, oxygen consumption is increased by {ImmersiveVisor_OxygenDecreasing}");
 

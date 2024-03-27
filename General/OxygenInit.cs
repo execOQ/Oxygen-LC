@@ -5,6 +5,7 @@ using static System.Math;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Oxygen.GameObjects;
 
 namespace Oxygen
 {
@@ -19,12 +20,6 @@ namespace Oxygen
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenInit");
 
         public static bool diedBecauseOfOxygen = false;
-
-        public static bool IsNotification => OxygenBase.OxygenConfig.notifications.Value;
-        internal static bool backroomsNotification = false;
-        internal static bool ImmersiveVisorNotification = false;
-        internal static bool firstNotification = false;
-        internal static bool warningNotification = false;
 
         public static AudioSource oxygenDefault;
 
@@ -62,10 +57,10 @@ namespace Oxygen
                     Init_EladsHUD();
                 }
 
-                backroomsNotification = false;
-                firstNotification = false;
-                warningNotification = false;
-                ImmersiveVisorNotification = false;
+                OxygenLogic.breathablePlace_Notification = false;
+                OxygenLogic.lowLevel_Notification = false;
+                OxygenLogic.criticalLevel_Notification = false;
+                OxygenLogic.immersiveVisor_Notification = false;
 
                 initialized = true;
             }
@@ -179,60 +174,6 @@ namespace Oxygen
                 {
                     oxygenUI.CrossFadeAlpha(1f, 0.5f, ignoreTimeScale: false);
                 }
-            }
-        }
-
-        internal static void ShowNotifications()
-        {
-            if (IsNotification)
-            {
-                // notification about low level of oxygen
-                if (oxygenUI.fillAmount < 0.45 && !firstNotification)
-                {
-                    HUDManager.Instance.DisplayTip("System...", "The oxygen tanks are running low.");
-                    firstNotification = true;
-                }
-
-                // system warning
-                if (oxygenUI.fillAmount < 0.35 && !warningNotification)
-                {
-                    HUDManager.Instance.DisplayTip(
-                        "System...",
-                        "There is a critical level of oxygen in the oxygen tanks, fill it up immediately!",
-                        isWarning: true
-                    );
-                    warningNotification = true;
-                }
-            }
-        }
-
-        // who cares how it's called...?
-        internal static void ShowAnotherNotification()
-        {
-            if (!backroomsNotification)
-            {
-                if (IsNotification)
-                {
-                    HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
-                }
-                backroomsNotification = true;
-            }
-        }
-
-        // now, i'm joking rlly...
-        internal static void ShowAnotherAnotherNotification()
-        {
-            if (!ImmersiveVisorNotification)
-            {
-                if (IsNotification)
-                {
-                    HUDManager.Instance.DisplayTip(
-                        "System...", 
-                        "The helmet is experiencing oxygen leakage due to substantial damage", 
-                        isWarning: true
-                    );
-                }
-                ImmersiveVisorNotification = true;
             }
         }
 

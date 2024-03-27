@@ -62,8 +62,6 @@ namespace Oxygen.Patches
             if (pc.isPlayerDead) return;
 
             OxygenInit.UpdateModsCompatibility();
-            OxygenInit.ShowNotifications();
-
             OxygenLogic.RunLogic(sor, pc);
         }
 

@@ -1,5 +1,6 @@
 ﻿using GameNetcodeStuff;
 using HarmonyLib;
+using Oxygen.GameObjects;
 using Unity.Netcode;
 
 namespace Oxygen.Patches
@@ -22,10 +23,10 @@ namespace Oxygen.Patches
                 OxygenInit.mls.LogInfo("Player is dead, oxygen recovered to 1");
 
                 // resets notifications
-                OxygenInit.backroomsNotification = false;
-                OxygenInit.firstNotification = false;
-                OxygenInit.warningNotification = false;
-                OxygenInit.ImmersiveVisorNotification = false;
+                OxygenLogic.breathablePlace_Notification = false;
+                OxygenLogic.lowLevel_Notification = false;
+                OxygenLogic.criticalLevel_Notification = false;
+                OxygenLogic.immersiveVisor_Notification = false;
             }
         }
     }

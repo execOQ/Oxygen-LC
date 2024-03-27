@@ -71,6 +71,9 @@ namespace Oxygen.Configuration
         internal SyncedEntry<bool> ImmersiveVisorSupport;
 
         [DataMember]
+        internal SyncedEntry<bool> EladsHUD_QuickFix;
+
+        [DataMember]
         internal SyncedEntry<float> ImmersiveVisor_OxygenDecreasing;
 
         [DataMember]
@@ -365,6 +368,14 @@ namespace Oxygen.Configuration
             );
 
             ImmersiveVisorSupport = file.BindSyncedEntry(
+                "Compatibility", // Section
+                "ImmersiveVisorSupport", // Key
+                true, // Default value
+                "Enables oxygen consumption when the helmet's crack level is 2." +
+                "\n(syncing with host)" // Description
+            );
+
+            EladsHUD_QuickFix = file.BindSyncedEntry(
                 "Compatibility", // Section
                 "ImmersiveVisorSupport", // Key
                 true, // Default value
