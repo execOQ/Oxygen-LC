@@ -26,7 +26,7 @@ namespace Oxygen.GameObjects
         public static int PlayerDamage => OxygenConfig.Instance.playerDamage.Value;
 
         public static bool IsgreenPlanet => MoonsDicts.GreenPlanetsValue;
-        public static float IncreasingOxygen => MoonsDicts.IncreasingOxygenMoonsValue;
+        public static float IncreasingOxygen => OxygenConfig.Instance.increasingOxygen.Value;
         public static float DecreasingOxygenOutside => MoonsDicts.DecreasingOxygenOutsideMoonsValue;
         public static float DecreasingOxygenInFactory => MoonsDicts.DecreasingOxygenInFactoryMoonsValue;
         public static float OxygenDepletionWhileRunning => MoonsDicts.OxygenRunningMoonsValue;
@@ -72,11 +72,21 @@ namespace Oxygen.GameObjects
                     bool shouldPlaySFX = false;
 
                     if (EnableOxygenSFXOnTheCompany && StartOfRound.Instance.currentLevel.levelID == 3 && !pc.isInHangarShipRoom)
+                    {
                         shouldPlaySFX = true;
+                    }
+                    else if (IsgreenPlanet && pc.isInsideFactory)
+                    {
+                        shouldPlaySFX = true;
+                    }
                     else if (pc.isInHangarShipRoom && EnableOxygenSFXInShip)
+                    {
                         shouldPlaySFX = true;
-                    else if (!pc.isInHangarShipRoom && StartOfRound.Instance.currentLevel.levelID != 3)
+                    }
+                    else if (!pc.isInHangarShipRoom && StartOfRound.Instance.currentLevel.levelID != 3 && !IsgreenPlanet)
+                    {
                         shouldPlaySFX = true;
+                    }
 
                     if (shouldPlaySFX)
                     {
@@ -173,7 +183,7 @@ namespace Oxygen.GameObjects
                     {
                         OxygenInit.ShowAnotherNotification();
 
-                        pc.drunkness = Mathf.Clamp01(pc.drunkness - IncreasingOxygen);
+                        pc.drunkness = Mathf.Clamp01(pc.drunkness - OxygenDeficiency);
                     }
                     else
                     {

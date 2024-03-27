@@ -37,11 +37,11 @@ namespace Oxygen.Patches
                 "greenPlanets"
             );
 
-            MoonsDicts.increasingOxygenMoons = GetLevelValue(
+            /* MoonsDicts.increasingOxygenMoons = GetLevelValue(
                 OxygenConfig.Instance.increasingOxygenMoons.Value, 
                 OxygenConfig.Instance.increasingOxygen.Value, 
                 "increasingOxygenMoons"
-            );
+            ); */
 
             MoonsDicts.decreasingOxygenOutsideMoons = GetLevelValue(
                 OxygenConfig.Instance.decreasingOxygenOutsideMoons.Value, 

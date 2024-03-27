@@ -22,7 +22,7 @@ namespace Oxygen.Configuration
             }
         }
 
-        internal static Dictionary<string, float> increasingOxygenMoons;
+        /* internal static Dictionary<string, float> increasingOxygenMoons;
 
         internal static float IncreasingOxygenMoonsValue
         {
@@ -35,7 +35,7 @@ namespace Oxygen.Configuration
 
                 return OxygenConfig.Instance.increasingOxygen.Value;
             }
-        }
+        } */
 
         internal static Dictionary<string, float> decreasingOxygenOutsideMoons;
 
