@@ -17,6 +17,9 @@ namespace Oxygen.Configuration
         internal SyncedEntry<int> OxygenFillOption;
 
         [DataMember]
+        internal SyncedEntry<bool> recoverOxygenOnceShipLeft;
+
+        [DataMember]
         internal SyncedEntry<int> playerDamage;
 
         [DataMember]
@@ -139,6 +142,13 @@ namespace Oxygen.Configuration
                 "\n1 - only using oxygen cylinders located in the ship;" +
                 "\n2 - only automatic oxygen filling when the player is on the ship;" +
                 "\n(syncing with host)" // Description
+            );
+
+            recoverOxygenOnceShipLeft = file.BindSyncedEntry(
+                "General", // Section
+                "recoverOxygenOnceShipLeft", // Key
+                true, // Default value
+                "If this is true, oxygen will be recovered once ship has left." // Description
             );
 
             secTimer = file.BindSyncedEntry(
