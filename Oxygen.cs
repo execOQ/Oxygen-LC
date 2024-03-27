@@ -7,8 +7,6 @@ using UnityEngine;
 using BepInEx.Bootstrap;
 using LL = LethalLib.Modules;
 using Oxygen.Extras;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Oxygen
 {
@@ -16,6 +14,7 @@ namespace Oxygen
     [BepInDependency("com.sigurd.csync")]
     [BepInDependency("evaisa.lethallib")]
     [BepInDependency(shyHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(immersiveVisorGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(LCAPIGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(EladsHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class OxygenBase : BaseUnityPlugin
@@ -26,11 +25,13 @@ namespace Oxygen
         public const string modGUID = "consequential.Oxygen";
         public const string modVersion = "1.4.0";
 
+        private const string immersiveVisorGUID = "ImmersiveVisor";
         private const string shyHUDGUID = "ShyHUD";
         private const string LCAPIGUID = "LC_API";
         private const string EladsHUDGUID = "me.eladnlg.customhud";
 
         public bool IsShyHUDFound { get; private set; } = false;
+        public bool IsImmersiveVisorFound { get; private set; } = false;
         public bool IsLCAPIFound { get; private set; } = false;
         public bool IsEladsHUDFound { get; private set; } = false;
 
@@ -82,13 +83,11 @@ namespace Oxygen
             mls.LogInfo($"Config is loaded.");
 
             harmony.PatchAll(typeof(HUDPatch));
-            harmony.PatchAll(typeof(OxygenHUD));
             harmony.PatchAll(typeof(KillPlayerPatch));
             harmony.PatchAll(typeof(OxygenConfig));
             harmony.PatchAll(typeof(StartOfRoundPatch));
             harmony.PatchAll(typeof(RoundManagerPatch));
             //harmony.PatchAll(typeof(WritePlayerNotesPatch));
-
 
             if (!OxygenConfig.MakeItVanilla.Value)
             {
@@ -118,6 +117,19 @@ namespace Oxygen
         private void CheckForDependencies()
         {
             mls.LogInfo("Checking for soft dependencies...");
+            if (Chainloader.PluginInfos.ContainsKey(immersiveVisorGUID))
+            {
+                Chainloader.PluginInfos.TryGetValue(immersiveVisorGUID, out var value);
+                if (value == null)
+                {
+                    mls.LogError("Detected ImmersiveVisor, but could not get plugin info!");
+                }
+                else
+                {
+                    mls.LogInfo("ImmersiveVisor is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
+                    IsImmersiveVisorFound = true;
+                }
+            }
             if (Chainloader.PluginInfos.ContainsKey(LCAPIGUID))
             {
                 Chainloader.PluginInfos.TryGetValue(LCAPIGUID, out var value);

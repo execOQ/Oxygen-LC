@@ -1,10 +1,4 @@
-﻿using GameNetcodeStuff;
-using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HarmonyLib;
 
 namespace Oxygen.Patches
 {
@@ -19,7 +13,7 @@ namespace Oxygen.Patches
             {
                 if (__instance.gameStats.allPlayerStats[i].isActivePlayer)
                 {
-                    if (OxygenHUD.diedBecauseOfOxygen)
+                    if (OxygenInit.diedBecauseOfOxygen)
                     {
                         OxygenBase.Instance.mls.LogError("diedBecauseOfOxygen");
 

@@ -4,8 +4,6 @@ using HarmonyLib;
 using System.Collections;
 using UnityEngine;
 using Oxygen.GameObjects;
-using Discord;
-using UnityEngine.Rendering;
 
 namespace Oxygen.Patches
 {
@@ -20,21 +18,21 @@ namespace Oxygen.Patches
         {
             __instance.StartCoroutine(AwaitPlayerController());
 
-            OxygenHUD.Init();
+            OxygenInit.Init();
         }
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(PlayerControllerB), "ConnectClientToPlayerObject")]
         public static void AddAudioSource(PlayerControllerB __instance)
         {
-            OxygenHUD.Init_AudioSource(__instance.playersManager.thisClientPlayerId);
+            OxygenInit.Init_AudioSource(__instance.playersManager.thisClientPlayerId);
         }
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(HUDManager), "Update")]
         public static void UpdatePatch()
         {
-            if (!OxygenHUD.initialized)
+            if (!OxygenInit.initialized)
             {
                 mls.LogWarning("OxygenHUD is still initializing");
                 return;
@@ -55,7 +53,7 @@ namespace Oxygen.Patches
                 return;
             }
 
-            if (OxygenHUD.oxygenUI == null)
+            if (OxygenInit.oxygenUI == null)
             {
                 mls.LogError("oxygenUI is null");
                 return;
@@ -63,8 +61,8 @@ namespace Oxygen.Patches
 
             if (pc.isPlayerDead) return;
 
-            OxygenHUD.UpdateModsCompatibility();
-            OxygenHUD.ShowNotifications();
+            OxygenInit.UpdateModsCompatibility();
+            OxygenInit.ShowNotifications();
 
             OxygenLogic.RunLogic(sor, pc);
         }

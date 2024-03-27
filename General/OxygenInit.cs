@@ -5,11 +5,10 @@ using static System.Math;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using GameNetcodeStuff;
 
 namespace Oxygen
 {
-    public class OxygenHUD : MonoBehaviour
+    public class OxygenInit : MonoBehaviour
     {
         public static Image oxygenUI;
 
@@ -17,12 +16,13 @@ namespace Oxygen
 
         public static bool initialized = false;
 
-        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenHUD");
+        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenInit");
 
         public static bool diedBecauseOfOxygen = false;
 
         public static bool IsNotification => OxygenBase.OxygenConfig.notifications.Value;
         internal static bool backroomsNotification = false;
+        internal static bool ImmersiveVisorNotification = false;
         internal static bool firstNotification = false;
         internal static bool warningNotification = false;
 
@@ -61,6 +61,11 @@ namespace Oxygen
                 {
                     Init_EladsHUD();
                 }
+
+                backroomsNotification = false;
+                firstNotification = false;
+                warningNotification = false;
+                ImmersiveVisorNotification = false;
 
                 initialized = true;
             }
@@ -211,6 +216,23 @@ namespace Oxygen
                     HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
                 }
                 backroomsNotification = true;
+            }
+        }
+
+        // now, i'm joking rlly...
+        internal static void ShowAnotherAnotherNotification()
+        {
+            if (!ImmersiveVisorNotification)
+            {
+                if (IsNotification)
+                {
+                    HUDManager.Instance.DisplayTip(
+                        "System...", 
+                        "The helmet is experiencing oxygen leakage due to substantial damage", 
+                        isWarning: true
+                    );
+                }
+                ImmersiveVisorNotification = true;
             }
         }
 
