@@ -375,20 +375,20 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            EladsHUD_QuickFix = file.BindSyncedEntry(
-                "Compatibility", // Section
-                "ImmersiveVisorSupport", // Key
-                true, // Default value
-                "Enables oxygen consumption when the helmet's crack level is 2." +
-                "\n(syncing with host)" // Description
-            );
-
             ImmersiveVisor_OxygenDecreasing = file.BindSyncedEntry(
                 "Compatibility", // Section
                 "ImmersiveVisor_OxygenDecreasing", // Key
                 0.002f, // Default value
                 "How much additional oxygen will be consumed if the helmet's crack level is 2?" +
                 "\nDepends on the secTimer variable." +
+                "\n(syncing with host)" // Description
+            );
+
+            EladsHUD_QuickFix = file.BindSyncedEntry(
+                "Compatibility", // Section
+                "EladsHUD_QuickFix", // Key
+                true, // Default value
+                "If EladsHUD is enabled, the mod will damage you by 0.1 instead of 0.3 amounts of oxygen, and it will give you slightly more oxygen" +
                 "\n(syncing with host)" // Description
             );
 
