@@ -2,7 +2,9 @@
 
 ### Information
 
-Adds oxygen level as a new mechanic. Don't forget to replenish the supply of oxygen cylinders on the ship :) 
+Adds the need to have oxygen tanks behind your back. Moving around the planet also consumes oxygen, 
+since not all planets are habitable. You can also breathe underwater! However, you have a limited amount of oxygen, 
+don't forget to replenish the supply of oxygen cylinder on the ship! 
 
 Lots of things in this mod are configurable! 
 
@@ -18,6 +20,10 @@ Lots of things in this mod are configurable!
   <summary>Compatibility with other mods</summary>
 
   Compatible with EladsHUD, ShyHUD!
+  
+  Has support for ImmersiveVisor!
+  
+  Incompatible with OopsAllFlooded...
 </details>
 
 ## Preview
