@@ -1,6 +1,7 @@
 ﻿using BepInEx.Logging;
 using GameNetcodeStuff;
 using Oxygen.Configuration;
+using Oxygen.Patches;
 using UnityEngine;
 using UnityEngine.UI;
 using static Oxygen.Extras.AudioController;
@@ -16,7 +17,7 @@ namespace Oxygen.GameObjects
         public static bool EnableOxygenSFXOnTheCompany => OxygenBase.OxygenConfig.enableOxygenSFXOnTheCompany.Value;
 
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenLogic");
-        public static Image OxygenUI => OxygenHUD.oxygenUI;
+        public static Image OxygenUI => OxygenInit.oxygenUI;
 
         public static bool InfinityOxygenInModsPlaces => OxygenConfig.Instance.InfinityOxygenInModsPlaces.Value;
 
@@ -30,6 +31,8 @@ namespace Oxygen.GameObjects
         public static float DecreasingOxygenInFactory => MoonsDicts.DecreasingOxygenInFactoryMoonsValue;
         public static float OxygenDepletionWhileRunning => MoonsDicts.OxygenRunningMoonsValue;
         public static float OxygenDepletionInWater => MoonsDicts.OxygenDepletionInWaterMoonsValue;
+
+        public static float ImmersiveVisor_OxygenDecreasing => OxygenConfig.Instance.ImmersiveVisor_OxygenDecreasing.Value;
 
         public static float DecreasingInFear => OxygenConfig.Instance.decreasingInFear.Value;
         public static float OxygenDeficiency => OxygenConfig.Instance.oxygenDeficiency.Value;
@@ -80,13 +83,6 @@ namespace Oxygen.GameObjects
                         State state = State.standing;
                         float volume = 1f;
 
-                        // for support Immersive visor
-                        /* if ()
-                        {
-                            state = State.oxygenLeak;
-                        }
-                        */
-
                         if (sor.fearLevel > 0)
                         {
                             if (!pc.isInHangarShipRoom || (pc.isInHangarShipRoom && EnableOxygenSFXInShip))
@@ -129,7 +125,13 @@ namespace Oxygen.GameObjects
             if (!pc.isInHangarShipRoom)
             {
                 if (timeSinceLastAction >= SecTimer)
-                {
+                { 
+                    // support Immersive visor
+                    if (OxygenBase.Instance.IsImmersiveVisorFound)
+                    {
+                        localDecValue += LogicForImmersiveVisor();
+                    }
+
                     // if player running the oxygen goes away faster
                     if (pc.isSprinting)
                     {
@@ -169,7 +171,7 @@ namespace Oxygen.GameObjects
                     // just for simplification if player was teleported and unable to refill oxygen
                     if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -400f) // -400f is Y offset 
                     {
-                        OxygenHUD.ShowAnotherNotification();
+                        OxygenInit.ShowAnotherNotification();
 
                         pc.drunkness = Mathf.Clamp01(pc.drunkness - IncreasingOxygen);
                     }
@@ -197,6 +199,19 @@ namespace Oxygen.GameObjects
 
                 pc.drunkness = Mathf.Clamp01(pc.drunkness - IncreasingOxygen);
             }
+        }
+
+        internal static float LogicForImmersiveVisor()
+        {
+            if (Woecust.ImmersiveVisor.Visor.Instance.visorCrack.crackLevel.value == 2)
+            {
+                OxygenInit.ShowAnotherAnotherNotification();
+
+                mls.LogInfo($"The helmet is fucked, oxygen consumption is increased by {ImmersiveVisor_OxygenDecreasing}");
+
+                return ImmersiveVisor_OxygenDecreasing;
+            }
+            return 0;
         }
     }
 }

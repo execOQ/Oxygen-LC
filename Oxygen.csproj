@@ -39,6 +39,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="ImmersiveVisor">
+		<Publicize>true</Publicize>
+	    <HintPath>..\References\ImmersiveVisor.dll</HintPath>
+	  </Reference>
 	  <Reference Include="LC_API">
 	    <HintPath>..\References\LC_API.dll</HintPath>
 	  </Reference>

@@ -11,13 +11,13 @@ namespace Oxygen.Patches
     {
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > StartOfRoundPatch");
 
-        public static int oxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
+        public static int OxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(StartOfRound), "ShipHasLeft")]
         private static void ShipHasLeft_Patch()
         {
-            OxygenHUD.oxygenUI.fillAmount = 1f;
+            OxygenInit.oxygenUI.fillAmount = 1f;
             mls.LogInfo("Ship has left, oxygen was recovered >.<");
         }
 
@@ -34,7 +34,7 @@ namespace Oxygen.Patches
             GameObject oxyCharger = Instantiate(OxygenBase.Instance.oxyCharger, suitParts.transform);
             oxyCharger.transform.position = new Vector3(5.9905f, 0.7598f, -11.2452f);
 
-            if (oxygenFillOption != 1)
+            if (OxygenFillOption != 1)
             {
                 for (int i = oxyCharger.transform.childCount - 1; i >= 0; i--)
                 {

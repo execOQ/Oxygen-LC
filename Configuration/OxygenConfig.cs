@@ -68,6 +68,12 @@ namespace Oxygen.Configuration
         internal SyncedEntry<bool> ShyHUDSupport;
 
         [DataMember]
+        internal SyncedEntry<bool> ImmersiveVisorSupport;
+
+        [DataMember]
+        internal SyncedEntry<float> ImmersiveVisor_OxygenDecreasing;
+
+        [DataMember]
         internal SyncedEntry<float> oxyBoost_increasingValue;
 
         [DataMember]
@@ -192,7 +198,7 @@ namespace Oxygen.Configuration
             decreasingInFear = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "decreasingInFear", // Key
-                0.02f, // Default value
+                0.01f, // Default value
                 "Increases oxygen leakage when the player is in fear and is triggered every 2 seconds. (syncing with host)" // Description
             );
 
@@ -324,6 +330,20 @@ namespace Oxygen.Configuration
                 "ShyHUDSupport", // Key
                 true, // Default value
                 "hud disappears if oxygen value > 55 (syncing with host)" // Description
+            );
+
+            ImmersiveVisorSupport = file.BindSyncedEntry(
+                "Compatibility", // Section
+                "ImmersiveVisorSupport", // Key
+                true, // Default value
+                "Enables oxygen consumption when the helmet's crack level is 2." // Description
+            );
+
+            ImmersiveVisor_OxygenDecreasing = file.BindSyncedEntry(
+                "Compatibility", // Section
+                "ImmersiveVisor_OxygenDecreasing", // Key
+                0.002f, // Default value
+                "How much additional oxygen will be consumed if the helmet's crack level is 2? Depends on the set Time variable. (syncing with host)" // Description
             );
 
             XOffset = file.Bind(

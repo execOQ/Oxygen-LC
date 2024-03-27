@@ -48,9 +48,9 @@ namespace Oxygen.Items
             {
                 if (previousPlayerHeldBy == GameNetworkManager.Instance.localPlayerController)
                 {
-                    float previousOxyAmount = OxygenHUD.oxygenUI.fillAmount;
+                    float previousOxyAmount = OxygenInit.oxygenUI.fillAmount;
 
-                    OxygenHUD.oxygenUI.fillAmount = Mathf.Clamp(OxygenHUD.oxygenUI.fillAmount + OxygenConfig.Instance.oxyBoost_increasingValue.Value, 0f, 1f);
+                    OxygenInit.oxygenUI.fillAmount = Mathf.Clamp(OxygenInit.oxygenUI.fillAmount + OxygenConfig.Instance.oxyBoost_increasingValue.Value, 0f, 1f);
 
                     //mls.LogInfo($"oxygen: {OxygenHUD.oxygenUI.fillAmount}");
                     //mls.LogInfo($"fuel: {fuel}");

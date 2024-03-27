@@ -15,7 +15,7 @@ namespace Oxygen.Items
 
         public static void FillOxygen()
         {
-            OxygenHUD.oxygenUI.fillAmount = 1f;
+            OxygenInit.oxygenUI.fillAmount = 1f;
 
             PlaySFX(OxyChargerSFX[Random.Range(0, OxyChargerSFX.Length)]);
 

@@ -46,7 +46,7 @@ namespace Oxygen.Extras
 
         internal static void PlaySFX(AudioClip clip, float volume)
         {
-            AudioSource source = OxygenHUD.oxygenDefault;
+            AudioSource source = OxygenInit.oxygenDefault;
             if (source.isPlaying) return;
 
             mls.LogInfo($"playing SFX");
