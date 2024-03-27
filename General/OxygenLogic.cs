@@ -1,7 +1,6 @@
 ﻿using BepInEx.Logging;
 using GameNetcodeStuff;
 using Oxygen.Configuration;
-using Oxygen.Patches;
 using UnityEngine;
 using UnityEngine.UI;
 using static Oxygen.Extras.AudioController;

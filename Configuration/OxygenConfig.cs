@@ -134,7 +134,16 @@ namespace Oxygen.Configuration
                 1, // Default value
                 "0 - without oxygen filling;" +
                 "\n1 - only using oxygen cylinders located in the ship;" +
-                "\n2 - only automatic oxygen filling when the player is on the ship;" // Description
+                "\n2 - only automatic oxygen filling when the player is on the ship;" +
+                "\n(syncing with host)" // Description
+            );
+
+            secTimer = file.BindSyncedEntry(
+                "General", // Section
+                "secTimer", // Key
+                5f, // Default value
+                "How many seconds must pass before oxygen is taken away?" +
+                "\n(syncing with host)" // Description
             );
 
             playerDamage = file.BindSyncedEntry(
@@ -264,14 +273,6 @@ namespace Oxygen.Configuration
                 0.15f, // Default value
                 "Increases screen fog when the player runs out of oxygen." +
                 "\nDepends on the secTimer variable." +
-                "\n(syncing with host)" // Description
-            );
-
-            secTimer = file.BindSyncedEntry(
-                "Timer", // Section
-                "secTimer", // Key
-                5f, // Default value
-                "How many seconds must pass before oxygen is taken away?" +
                 "\n(syncing with host)" // Description
             );
 
