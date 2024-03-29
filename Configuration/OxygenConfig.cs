@@ -207,11 +207,11 @@ namespace Oxygen.Configuration
             decreasingOxygenOutsideMoons = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "decreasingOxygenOutsideMoons", // Key
-                "Dine@0,0086;Rend@0,0086;Titan@0,009", // Default value
+                "Dine@0.0086;Rend@0.0086;Titan@0.009", // Default value
                 "Indicates how much oxygen is consumed when a player is outside and is triggered every secTimer (config option) seconds." +
                 "\nThis takes priority over the decreasingOxygenOutside config option." +
                 "\nNot listed moons will use the decreasingOxygenOutside config option." +
-                "\n(e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)" +
+                "\n(e.g. Experimentation@1.9;Vow@0.09;CUSTOM_MOON_NAME@10)" +
                 "\n(syncing with host)" // Description
             );
             
@@ -226,11 +226,11 @@ namespace Oxygen.Configuration
             decreasingOxygenInFactoryMoons = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "decreasingOxygenInFactoryMoons", // Key
-                "Dine@0,0086;Rend@0,0086;Titan@0,009", // Default value
+                "Dine@0.0086;Rend@0.0086;Titan@0.009", // Default value
                 "Indicates how much oxygen is consumed when a player is in the facility and is triggered every secTimer (config option) seconds." +
                 "\nThis takes priority over the decreasingOxygenInFactory config option." +
                 "\nNot listed moons will use the decreasingOxygenInFactory config option." +
-                "\n(e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)" +
+                "\n(e.g. Experimentation@1.9;Vow@0.09;CUSTOM_MOON_NAME@10)" +
                 "\n(syncing with host)" // Description
             );
 
@@ -253,11 +253,11 @@ namespace Oxygen.Configuration
             oxygenRunningMoons = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenRunningMoons", // Key
-                "Dine@0,006;Rend@0,006;Titan@0,008", // Default value
+                "Dine@0.006;Rend@0.006;Titan@0.008", // Default value
                 "Increases oxygen drain when player running and is triggered every secTimer (config option) seconds." +
                 "\nThis takes priority over the oxygenRunning config option." +
                 "\nNot listed moons will use the oxygenRunning config option." +
-                "\n(e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)" +
+                "\n(e.g. Experimentation@1.9;Vow@0.09;CUSTOM_MOON_NAME@10)" +
                 "\n(syncing with host)" // Description
             );
 
@@ -276,7 +276,7 @@ namespace Oxygen.Configuration
                 "Increases oxygen consumption when the player is underwater and is triggered every secTimer (config option) seconds." +
                 "\nThis takes priority over the oxygenDepletionInWater config option." +
                 "\nNot listed moons will use the oxygenDepletionInWater config option." +
-                "\n(e.g. Experimentation@2,0;Vow@0,9;CUSTOM_MOON_NAME@10)" +
+                "\n(e.g. Experimentation@1.9;Vow@0.09;CUSTOM_MOON_NAME@10)" +
                 "\n(syncing with host)" // Description
             );
 

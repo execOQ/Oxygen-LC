@@ -2,11 +2,14 @@
 using HarmonyLib;
 using Oxygen.Configuration;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Oxygen.Patches
 {
     internal class RoundManagerPatch
     {
+        private static readonly CultureInfo cultureInfo = CultureInfo.InvariantCulture; // This is important, no touchy
+
         public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > RoundManagerPatch");
 
         [HarmonyPatch(typeof(RoundManager), "Awake")]
@@ -80,8 +83,8 @@ namespace Oxygen.Patches
                 return result;
             }
 
-            str = str.Replace(" ", string.Empty);
-            mls.LogDebug($"processing: {str}");
+            str = str.Replace(" ", string.Empty).ToString(cultureInfo);
+            mls.LogInfo($"processing the variable {nameOfVariable}:\n{str}");
 
             foreach (string x in str.Split(';'))
             {
@@ -95,14 +98,20 @@ namespace Oxygen.Patches
 
                     string moonName = array[0].ToLower().Replace(" ", string.Empty);
 
-                    if (float.TryParse(array[1], out var value))
+                    if (array[1].Contains(","))
+                    {
+                        mls.LogWarning($"Found a comma in {nameOfVariable}! Change it to a period, please.");
+                        array[1] = array[1].Replace(',', '.');
+                    }
+
+                    if (float.TryParse(array[1], NumberStyles.Float, cultureInfo, out var value)) 
                     {
                         mls.LogInfo($"Parsed {value} for {moonName}");
                         result.Add(moonName, value);
                     }
                     else
                     {
-                        mls.LogError($"Failed to parse value for {moonName}, using default one: {defValue}.\nYou should check the syntax in the variable {nameOfVariable} in the config!");
+                        mls.LogError($"Failed to parse {value} for {moonName}, using default one: {defValue}.\nYou should check the syntax in the variable {nameOfVariable} in the config!");
                         result.Add(moonName, defValue);
                     }
                 }

@@ -23,7 +23,7 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.5.2";
+        public const string modVersion = "1.5.3";
 
         private const string immersiveVisorGUID = "ImmersiveVisor";
         private const string shyHUDGUID = "ShyHUD";
