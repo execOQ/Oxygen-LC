@@ -263,7 +263,7 @@ namespace Oxygen.GameObjects
                     if (OxygenUI.fillAmount != 1)
                     {
                         OxygenUI.fillAmount = Mathf.Clamp01(OxygenUI.fillAmount + IncreasingOxygen);
-                        mls.LogInfo($"Oxygen is recovering: {OxygenUI.fillAmount}");
+                        mls.LogDebug($"Oxygen is recovering: {OxygenUI.fillAmount}");
                     }
                 }
 
