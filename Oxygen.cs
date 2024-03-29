@@ -23,7 +23,7 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.5.1";
+        public const string modVersion = "1.5.2";
 
         private const string immersiveVisorGUID = "ImmersiveVisor";
         private const string shyHUDGUID = "ShyHUD";
@@ -87,6 +87,7 @@ namespace Oxygen
             harmony.PatchAll(typeof(OxygenConfig));
             harmony.PatchAll(typeof(StartOfRoundPatch));
             harmony.PatchAll(typeof(RoundManagerPatch));
+            harmony.PatchAll(typeof(PlayerPatch));
             //harmony.PatchAll(typeof(WritePlayerNotesPatch));
 
             if (!OxygenConfig.MakeItVanilla.Value)
@@ -109,7 +110,7 @@ namespace Oxygen
                 mls.LogInfo("Custom items are loaded!");
             }
 
-            mls.LogInfo($"{modName} loaded! Yay! Don't forget to refill oxygen canisters!");
+            mls.LogInfo($"{modName} loaded! Don't forget to refill oxygen canisters!");
 
             //DeathBroadcaster.Initialize();
         }

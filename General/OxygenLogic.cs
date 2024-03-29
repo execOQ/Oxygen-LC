@@ -78,9 +78,30 @@ namespace Oxygen.GameObjects
             }
         }
 
-        public static void RunLogic(StartOfRound sor, PlayerControllerB pc)
+        public static void RunLogic()
         {
-            ShowNotifications();
+            if (OxygenInit.oxygenUI == null)
+            {
+                mls.LogError("oxygenUI is null, lol...");
+                return;
+            }
+
+            StartOfRound sor = StartOfRound.Instance;
+            if (sor == null)
+            {
+                mls.LogError("StartOfRound is null");
+                return;
+            }
+
+            PlayerControllerB pc = GameNetworkManager.Instance.localPlayerController;
+            if (pc == null)
+            {
+                mls.LogError("PlayerControllerB is null");
+                return;
+            }
+            if (pc.isPlayerDead) return;
+
+            //ShowNotifications();
 
             float localDecValue = 0f;
             sor.drowningTimer = OxygenUI.fillAmount;

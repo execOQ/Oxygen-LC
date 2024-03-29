@@ -50,7 +50,7 @@ namespace Oxygen.Extras
             if (source.isPlaying) return;
 
             mls.LogInfo($"playing SFX");
-            source.PlayOneShot(clip, Random.Range(Mathf.Clamp01(volume) - 0.18f, Mathf.Clamp01(volume)));
+            source.PlayOneShot(clip, Random.Range(volume - 0.18f, volume));
         }
     }
 }

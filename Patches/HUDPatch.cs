@@ -13,11 +13,10 @@ namespace Oxygen.Patches
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > HUDPatch");
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(HUDManager), "Awake")]
-        public static void BuildHUD(HUDManager __instance)
+        [HarmonyPatch(typeof(HUDManager), "Start")]
+        public static void BuildHUD()
         {
-            __instance.StartCoroutine(AwaitPlayerController());
-
+            mls.LogInfo("Initializing HUD");
             OxygenInit.Init();
         }
 
@@ -32,42 +31,12 @@ namespace Oxygen.Patches
         [HarmonyPatch(typeof(HUDManager), "Update")]
         public static void UpdatePatch()
         {
-            if (!OxygenInit.initialized)
-            {
-                mls.LogWarning("OxygenHUD is still initializing");
-                return;
-            }
-
-            PlayerControllerB pc = GameNetworkManager.Instance.localPlayerController;
-            StartOfRound sor = StartOfRound.Instance;
-
-            if (pc == null)
-            {
-                mls.LogError("PlayerControllerB is null");
-                return;
-            }
-
-            if (sor == null)
-            {
-                mls.LogError("StartOfRound is null");
-                return;
-            }
-
-            if (OxygenInit.oxygenUI == null)
-            {
-                mls.LogError("oxygenUI is null");
-                return;
-            }
-
-            if (pc.isPlayerDead) return;
-
-            OxygenInit.UpdateModsCompatibility();
-            OxygenLogic.RunLogic(sor, pc);
+            OxygenLogic.RunLogic();
         }
 
-        private static IEnumerator AwaitPlayerController()
+        /* private static IEnumerator AwaitPlayerController()
         {
             yield return new WaitUntil(() => (Object)(object)GameNetworkManager.Instance.localPlayerController != null);
-        }
+        } */
     }
 }

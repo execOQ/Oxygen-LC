@@ -15,8 +15,6 @@ namespace Oxygen
 
         public static TextMeshProUGUI EladsOxygenUIText;
 
-        public static bool initialized = false;
-
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenInit");
 
         public static bool diedBecauseOfOxygen = false;
@@ -46,24 +44,21 @@ namespace Oxygen
 
         internal static void Init()
         {
-            if (!initialized)
+            if (!OxygenBase.Instance.IsEladsHUDFound)
             {
-                if (!OxygenBase.Instance.IsEladsHUDFound)
-                {
-                    Init_vanilla();
-                } 
-                else 
-                {
-                    Init_EladsHUD();
-                }
-
-                OxygenLogic.breathablePlace_Notification = false;
-                OxygenLogic.lowLevel_Notification = false;
-                OxygenLogic.criticalLevel_Notification = false;
-                OxygenLogic.immersiveVisor_Notification = false;
-
-                initialized = true;
+                Init_vanilla();
             }
+            else
+            {
+                Init_EladsHUD();
+            }
+
+            OxygenLogic.breathablePlace_Notification = false;
+            OxygenLogic.lowLevel_Notification = false;
+            OxygenLogic.criticalLevel_Notification = false;
+            OxygenLogic.immersiveVisor_Notification = false;
+
+            mls.LogInfo("Oxygen is initialized");
         }
 
         private static void Init_vanilla()
@@ -83,6 +78,7 @@ namespace Oxygen
 
             oxygenUI = oxygenMeter.transform.GetComponent<Image>();
             oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+            oxygenUI.fillAmount = 1f;
 
             RectTransform rectTransform = oxygenMeter.GetComponent<RectTransform>();
 
@@ -95,7 +91,6 @@ namespace Oxygen
 
             rectTransform.anchoredPosition = new Vector2((float)(131.6 + valueX), (float)(-127.3715 + valueY));
             rectTransform.localScale = new Vector3(2.0392f, 2.0392f, 1.6892f);
-
             rectTransform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
 
             GameObject statusEffectHUD = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/StatusEffects");
@@ -140,6 +135,9 @@ namespace Oxygen
             GameObject staminaBar = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/Bar/StaminaBar");
             oxygenUI = staminaBar.transform.GetComponent<Image>();
 
+            oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+            oxygenUI.fillAmount = 1f;
+
             // fixing position of health
             GameObject healthBar = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/Health");
             healthBar.transform.localPosition = new Vector3(134.9906f, -178, 0.007f);
@@ -147,9 +145,6 @@ namespace Oxygen
             // getting text field
             GameObject oxygenInfo = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/StaminaInfo");
             EladsOxygenUIText = oxygenInfo.GetComponent<TextMeshProUGUI>();
-
-            oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
-            oxygenUI.fillAmount = 1f;
 
             mls.LogInfo("OxygenHUD instantiated");
         }
@@ -175,13 +170,6 @@ namespace Oxygen
                     oxygenUI.CrossFadeAlpha(1f, 0.5f, ignoreTimeScale: false);
                 }
             }
-        }
-
-        [HarmonyPatch(typeof(GameNetworkManager), "Disconnect")]
-        [HarmonyPrefix]
-        public static void UnInitialize()
-        {
-            initialized = false;
         }
     }
 }
