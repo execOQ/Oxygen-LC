@@ -18,25 +18,25 @@ namespace Oxygen.GameObjects
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenLogic");
         public static Image OxygenUI => OxygenInit.oxygenUI;
 
-        public static bool InfinityOxygenInModsPlaces => OxygenConfig.Instance.InfinityOxygenInModsPlaces.Value;
+        public static bool InfinityOxygenInModsPlaces => OxygenBase.OxygenConfig.InfinityOxygenInModsPlaces.Value;
 
-        public static int OxygenFillOption => OxygenConfig.Instance.OxygenFillOption.Value;
+        public static int OxygenFillOption => OxygenBase.OxygenConfig.OxygenFillOption.Value;
 
-        public static int PlayerDamage => OxygenConfig.Instance.playerDamage.Value;
+        public static int PlayerDamage => OxygenBase.OxygenConfig.playerDamage.Value;
 
         public static bool IsgreenPlanet => MoonsDicts.GreenPlanetsValue;
-        public static float IncreasingOxygen => OxygenConfig.Instance.increasingOxygen.Value;
+        public static float IncreasingOxygen => OxygenBase.OxygenConfig.increasingOxygen.Value;
         public static float DecreasingOxygenOutside => MoonsDicts.DecreasingOxygenOutsideMoonsValue;
         public static float DecreasingOxygenInFactory => MoonsDicts.DecreasingOxygenInFactoryMoonsValue;
         public static float OxygenDepletionWhileRunning => MoonsDicts.OxygenRunningMoonsValue;
         public static float OxygenDepletionInWater => MoonsDicts.OxygenDepletionInWaterMoonsValue;
 
-        public static float ImmersiveVisor_OxygenDecreasing => OxygenConfig.Instance.ImmersiveVisor_OxygenDecreasing.Value;
+        public static float ImmersiveVisor_OxygenDecreasing => OxygenBase.OxygenConfig.ImmersiveVisor_OxygenDecreasing.Value;
 
-        public static float DecreasingInFear => OxygenConfig.Instance.decreasingInFear.Value;
-        public static float OxygenDeficiency => OxygenConfig.Instance.oxygenDeficiency.Value;
+        public static float DecreasingInFear => OxygenBase.OxygenConfig.decreasingInFear.Value;
+        public static float OxygenDeficiency => OxygenBase.OxygenConfig.oxygenDeficiency.Value;
 
-        public static float SecTimer => OxygenConfig.Instance.secTimer.Value;
+        public static float SecTimer => OxygenBase.OxygenConfig.secTimer.Value;
         public static float secTimerInFear = 2f;
         public static float secTimerForAudio = 5f;
 
@@ -44,9 +44,9 @@ namespace Oxygen.GameObjects
         private static float timeSinceLastFear = 0f;
         private static float timeSinceLastPlayedAudio = 0f;
 
-        internal static float low_OxygenAmount = OxygenConfig.Instance.EladsHUD_QuickFix.Value && OxygenBase.Instance.IsEladsHUDFound ? 0.25f : 0.45f;
-        internal static float critical_OxygenAmount = OxygenConfig.Instance.EladsHUD_QuickFix.Value && OxygenBase.Instance.IsEladsHUDFound ? 0.15f : 0.35f;
-        internal static float damage_OxygenAmount = OxygenConfig.Instance.EladsHUD_QuickFix.Value && OxygenBase.Instance.IsEladsHUDFound ? 0.1f : 0.3f;
+        internal static float low_OxygenAmount = OxygenBase.OxygenConfig.EladsHUD_QuickFix.Value && OxygenBase.Instance.IsEladsHUDFound ? 0.25f : 0.45f;
+        internal static float critical_OxygenAmount = OxygenBase.OxygenConfig.EladsHUD_QuickFix.Value && OxygenBase.Instance.IsEladsHUDFound ? 0.15f : 0.35f;
+        internal static float damage_OxygenAmount = OxygenBase.OxygenConfig.EladsHUD_QuickFix.Value && OxygenBase.Instance.IsEladsHUDFound ? 0.1f : 0.3f;
 
         public static bool IsNotification => OxygenBase.OxygenConfig.notifications.Value;
         internal static bool breathablePlace_Notification = false;

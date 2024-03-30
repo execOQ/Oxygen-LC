@@ -33,7 +33,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenConfig.Instance.increasingOxygen.Value;
+                return OxygenBase.OxygenConfig.increasingOxygen.Value;
             }
         } */
 
@@ -48,7 +48,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenConfig.Instance.decreasingOxygenOutside.Value;
+                return OxygenBase.OxygenConfig.decreasingOxygenOutside.Value;
             }
         }
 
@@ -63,7 +63,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenConfig.Instance.decreasingOxygenInFactory.Value;
+                return OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value;
             }
         }
 
@@ -78,7 +78,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenConfig.Instance.oxygenRunning.Value;
+                return OxygenBase.OxygenConfig.oxygenRunning.Value;
             }
         }
 
@@ -93,7 +93,7 @@ namespace Oxygen.Configuration
                     return value;
                 }
 
-                return OxygenConfig.Instance.oxygenDepletionInWater.Value;
+                return OxygenBase.OxygenConfig.oxygenDepletionInWater.Value;
             }
         }
 

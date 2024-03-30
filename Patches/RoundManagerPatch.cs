@@ -35,38 +35,38 @@ namespace Oxygen.Patches
         internal static void UpdateMoonsValues()
         {
             MoonsDicts.greenPlanets = GetLevelValue(
-                OxygenConfig.Instance.greenPlanets.Value, 
+                OxygenBase.OxygenConfig.greenPlanets.Value, 
                 0, 
                 "greenPlanets"
             );
 
             /* MoonsDicts.increasingOxygenMoons = GetLevelValue(
-                OxygenConfig.Instance.increasingOxygenMoons.Value, 
-                OxygenConfig.Instance.increasingOxygen.Value, 
+                OxygenBase.OxygenConfig.increasingOxygenMoons.Value, 
+                OxygenBase.OxygenConfig.increasingOxygen.Value, 
                 "increasingOxygenMoons"
             ); */
 
             MoonsDicts.decreasingOxygenOutsideMoons = GetLevelValue(
-                OxygenConfig.Instance.decreasingOxygenOutsideMoons.Value, 
-                OxygenConfig.Instance.decreasingOxygenOutside.Value,
+                OxygenBase.OxygenConfig.decreasingOxygenOutsideMoons.Value,
+                OxygenBase.OxygenConfig.decreasingOxygenOutside.Value,
                 "decreasingOxygenOutsideMoons"
             );
 
             MoonsDicts.decreasingOxygenInFactoryMoons = GetLevelValue(
-                OxygenConfig.Instance.decreasingOxygenInFactoryMoons.Value, 
-                OxygenConfig.Instance.decreasingOxygenInFactory.Value,
+                OxygenBase.OxygenConfig.decreasingOxygenInFactoryMoons.Value,
+                OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value,
                 "decreasingOxygenInFactoryMoons"
             );
 
             MoonsDicts.oxygenRunningMoons = GetLevelValue(
-                OxygenConfig.Instance.oxygenRunningMoons.Value, 
-                OxygenConfig.Instance.oxygenRunning.Value,
+                OxygenBase.OxygenConfig.oxygenRunningMoons.Value,
+                OxygenBase.OxygenConfig.oxygenRunning.Value,
                 "oxygenRunningMoons"
             );
 
             MoonsDicts.oxygenDepletionInWaterMoons = GetLevelValue(
-                OxygenConfig.Instance.oxygenDepletionInWaterMoons.Value, 
-                OxygenConfig.Instance.oxygenDepletionInWater.Value,
+                OxygenBase.OxygenConfig.oxygenDepletionInWaterMoons.Value,
+                OxygenBase.OxygenConfig.oxygenDepletionInWater.Value,
                 "oxygenDepletionInWaterMoons"
             );
         }

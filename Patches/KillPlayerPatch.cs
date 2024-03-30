@@ -1,7 +1,6 @@
 ﻿using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.GameObjects;
-using Unity.Netcode;
 
 namespace Oxygen.Patches
 {
@@ -20,7 +19,7 @@ namespace Oxygen.Patches
             {
                 OxygenInit.oxygenUI.fillAmount = 1;
                 __instance.drunkness = 0;
-                OxygenInit.mls.LogInfo("Player is dead, oxygen recovered to 1");
+                OxygenInit.mls.LogInfo("Player probably is dead (lol), oxygen recovered to 1");
 
                 // resets notifications
                 OxygenLogic.breathablePlace_Notification = false;
