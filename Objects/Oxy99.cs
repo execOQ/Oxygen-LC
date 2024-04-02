@@ -50,7 +50,7 @@ namespace Oxygen.Items
                 {
                     float previousOxyAmount = OxygenInit.oxygenUI.fillAmount;
 
-                    OxygenInit.oxygenUI.fillAmount = Mathf.Clamp(OxygenInit.oxygenUI.fillAmount + OxygenConfig.Instance.oxyBoost_increasingValue.Value, 0f, 1f);
+                    OxygenInit.oxygenUI.fillAmount = Mathf.Clamp(OxygenInit.oxygenUI.fillAmount + OxygenBase.OxygenConfig.oxyBoost_increasingValue.Value, 0f, 1f);
 
                     //mls.LogInfo($"oxygen: {OxygenHUD.oxygenUI.fillAmount}");
                     //mls.LogInfo($"fuel: {fuel}");

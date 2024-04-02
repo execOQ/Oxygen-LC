@@ -1,10 +1,13 @@
-﻿using HarmonyLib;
+﻿using BepInEx.Logging;
+using HarmonyLib;
 
 namespace Oxygen.Patches
 {
     [HarmonyPatch]
     internal class WritePlayerNotesPatch
     {
+        public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > WritePlayerNotesPatch");
+
         [HarmonyPatch(typeof(StartOfRound), "WritePlayerNotes")]
         [HarmonyPostfix]
         public static void WritePlayerNotes_patch(StartOfRound __instance)
@@ -15,7 +18,7 @@ namespace Oxygen.Patches
                 {
                     if (OxygenInit.diedBecauseOfOxygen)
                     {
-                        OxygenBase.Instance.mls.LogError("diedBecauseOfOxygen");
+                        mls.LogError("diedBecauseOfOxygen");
 
                         //DeathBroadcaster.BroadcastCauseOfDeath(i, "Forgets about oxygen");
                         __instance.gameStats.allPlayerStats[i].playerNotes.Add("Forgets about oxygen.");
@@ -28,7 +31,7 @@ namespace Oxygen.Patches
         {
             StartOfRound __instance = StartOfRound.Instance;
 
-            OxygenBase.Instance.mls.LogError("AddCauseOfDeath");
+            mls.LogError("AddCauseOfDeath");
             __instance.gameStats.allPlayerStats[playerindex].playerNotes.Add(causeOfDeath);
         }
     }

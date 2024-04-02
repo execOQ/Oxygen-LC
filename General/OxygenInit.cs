@@ -159,7 +159,7 @@ namespace Oxygen
                 EladsOxygenUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
             }
 
-            if (OxygenBase.Instance.IsShyHUDFound && OxygenConfig.Instance.ShyHUDSupport)
+            if (OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.ShyHUDSupport)
             {
                 if (oxygenUI.fillAmount >= 0.55f)
                 {

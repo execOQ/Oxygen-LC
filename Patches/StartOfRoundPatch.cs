@@ -15,7 +15,7 @@ namespace Oxygen.Patches
         [HarmonyPatch(typeof(StartOfRound), "ShipHasLeft")]
         private static void ShipHasLeft_Patch()
         {
-            if (OxygenConfig.Instance.recoverOxygenOnceShipLeft.Value)
+            if (OxygenBase.OxygenConfig.recoverOxygenOnceShipLeft.Value)
             {
                 OxygenInit.oxygenUI.fillAmount = 1f;
                 mls.LogInfo("Ship has left, oxygen was recovered >.<");
@@ -35,7 +35,7 @@ namespace Oxygen.Patches
             GameObject oxyCharger = Instantiate(OxygenBase.Instance.oxyCharger, suitParts.transform);
             oxyCharger.transform.position = new Vector3(5.9905f, 0.7598f, -11.2452f);
 
-            if (OxygenConfig.Instance.OxygenFillOption.Value != 1)
+            if (OxygenBase.OxygenConfig.OxygenFillOption.Value != 1)
             {
                 for (int i = oxyCharger.transform.childCount - 1; i >= 0; i--)
                 {

@@ -61,7 +61,10 @@ namespace Oxygen
             
             mls.LogInfo($"{modName} is loading...");
 
-            CheckForDependencies();
+            IsShyHUDFound = CheckForDependency(shyHUDGUID);
+            IsImmersiveVisorFound = CheckForDependency(immersiveVisorGUID);
+            IsLCAPIFound = CheckForDependency(LCAPIGUID);
+            IsEladsHUDFound = CheckForDependency(EladsHUDGUID);
 
             AssetBundle oxyAudioBundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygenaudio");
             if (oxyAudioBundle == null) return;
@@ -105,7 +108,7 @@ namespace Oxygen
                 node.clearPreviousText = true;
                 node.displayText = "Limited air supply, useful in situations when you cannot quickly refill oxygen canisters!";
 
-                LL.Items.RegisterShopItem(oxyBoost, null, null, node, OxygenConfig.Instance.oxyBoost_price.Value);
+                LL.Items.RegisterShopItem(oxyBoost, null, null, node, OxygenConfig.oxyBoost_price.Value);
 
                 mls.LogInfo("Custom items are loaded!");
             }
@@ -115,61 +118,21 @@ namespace Oxygen
             //DeathBroadcaster.Initialize();
         }
 
-        private void CheckForDependencies()
+        private bool CheckForDependency(string guid)
         {
-            mls.LogInfo("Checking for soft dependencies...");
-            if (Chainloader.PluginInfos.ContainsKey(immersiveVisorGUID))
+            mls.LogInfo($"Checking for {guid}...");
+            if (Chainloader.PluginInfos.ContainsKey(guid))
             {
-                Chainloader.PluginInfos.TryGetValue(immersiveVisorGUID, out var value);
-                if (value == null)
+                Chainloader.PluginInfos.TryGetValue(guid, out PluginInfo value);
+                if (value != null)
                 {
-                    mls.LogError("Detected ImmersiveVisor, but could not get plugin info!");
+                    mls.LogInfo($"{guid}:{value.Metadata.Version} is present!");
+                    return true;
                 }
-                else
-                {
-                    mls.LogInfo("ImmersiveVisor is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
-                    IsImmersiveVisorFound = true;
-                }
+                else mls.LogError($"Detected {guid}, but could not get plugin info...");
             }
-            if (Chainloader.PluginInfos.ContainsKey(LCAPIGUID))
-            {
-                Chainloader.PluginInfos.TryGetValue(LCAPIGUID, out var value);
-                if (value == null)
-                {
-                    mls.LogError("Detected LC_API, but could not get plugin info!");
-                }
-                else
-                {
-                    mls.LogInfo("LCAPI is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
-                    IsLCAPIFound = true;
-                }
-            }
-            if (Chainloader.PluginInfos.ContainsKey(shyHUDGUID))
-            {
-                Chainloader.PluginInfos.TryGetValue(shyHUDGUID, out var value);
-                if (value == null)
-                {
-                    mls.LogError("Detected ShyHUD, but could not get plugin info!");
-                }
-                else
-                {
-                    mls.LogInfo("ShyHUD is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
-                    IsShyHUDFound = true;
-                }
-            }
-            if (Chainloader.PluginInfos.ContainsKey(EladsHUDGUID))
-            {
-                Chainloader.PluginInfos.TryGetValue(EladsHUDGUID, out var value);
-                if (value == null)
-                {
-                    mls.LogError("Detected EladsHUD, but could not get plugin info!");
-                }
-                else
-                {
-                    mls.LogInfo("EladsHUD is present! " + value.Metadata.GUID + ":" + value.Metadata.Version);
-                    IsEladsHUDFound = true;
-                }
-            }
+
+            return false;
         }
     }
 }

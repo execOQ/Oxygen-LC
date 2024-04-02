@@ -1,7 +1,7 @@
 ﻿using BepInEx.Configuration;
 using BepInEx.Logging;
+using CSync.Extensions;
 using CSync.Lib;
-using CSync.Util;
 using Oxygen.Patches;
 using System;
 using System.Runtime.Serialization;
@@ -107,23 +107,23 @@ namespace Oxygen.Configuration
 
         void DoSomethingAfterSync(object s, EventArgs e)
         {
-            mls.LogWarning("Config was synced, imma updating moons values :)");
+            mls.LogWarning("Config was synced, i'ma updating moons value!");
             RoundManagerPatch.UpdateMoonsValues();
 
             if (!MakeItVanilla.Value)
             {
-                if (Instance.oxyBoost_price.Value != (int)Instance.oxyBoost_price.DefaultValue)
+                if (oxyBoost_price.Value != oxyBoost_price.LocalValue)
                 {
                     mls.LogWarning("Updating price for oxyBoost");
-                    OxygenBase.UpdateCustomItemPrice(OxygenBase.Instance.oxyBoost, Instance.oxyBoost_price.Value);
+                    OxygenBase.UpdateCustomItemPrice(OxygenBase.Instance.oxyBoost, oxyBoost_price.Value);
                 }
             }
-        }
+        } 
 
         public OxygenConfig(ConfigFile file) : base(OxygenBase.modGUID)
         {
             ConfigManager.Register(this);
-            SyncComplete += DoSomethingAfterSync;
+            InitialSyncCompleted += DoSomethingAfterSync;
 
             MakeItVanilla = file.Bind(
                 "General", // Section
