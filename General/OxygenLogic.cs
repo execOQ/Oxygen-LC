@@ -10,7 +10,6 @@ namespace Oxygen.GameObjects
     internal class OxygenLogic : MonoBehaviour
     {
         public static bool EnableOxygenSFX => OxygenBase.OxygenConfig.enableOxygenSFX.Value;
-
         public static bool EnableInhaleSFXWhileWalking => OxygenBase.OxygenConfig.enableInhaleSFXWhileWalking.Value;
         public static bool EnableOxygenSFXInShip => OxygenBase.OxygenConfig.enableOxygenSFXInShip.Value;
         public static bool EnableOxygenSFXOnTheCompany => OxygenBase.OxygenConfig.enableOxygenSFXOnTheCompany.Value;
