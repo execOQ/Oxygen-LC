@@ -11,7 +11,6 @@ namespace Oxygen.Configuration
     [DataContract]
     public class OxygenConfig : SyncedConfig<OxygenConfig>
     {
-        internal ConfigEntry<bool> MakeItVanilla;
 
         [DataMember]
         internal SyncedEntry<int> OxygenFillOption;
@@ -110,13 +109,10 @@ namespace Oxygen.Configuration
             mls.LogWarning("Config was synced, i'ma updating moons value!");
             RoundManagerPatch.UpdateMoonsValues();
 
-            if (!MakeItVanilla.Value)
+            if (oxyBoost_price.Value != oxyBoost_price.LocalValue)
             {
-                if (oxyBoost_price.Value != oxyBoost_price.LocalValue)
-                {
-                    mls.LogWarning("Updating price for oxyBoost");
-                    OxygenBase.UpdateCustomItemPrice(OxygenBase.Instance.oxyBoost, oxyBoost_price.Value);
-                }
+                mls.LogWarning("Updating price for oxyBoost");
+                OxygenBase.UpdateCustomItemPrice(OxygenBase.Instance.oxyBoost, oxyBoost_price.Value);
             }
         } 
 
@@ -125,11 +121,15 @@ namespace Oxygen.Configuration
             ConfigManager.Register(this);
             InitialSyncCompleted += DoSomethingAfterSync;
 
-            MakeItVanilla = file.Bind(
+            file.Bind(
                 "General", // Section
                 "MakeItVanilla", // Key
                 false, // Default value
-                "If this is true, custom items from this mod will not load. " +
+                "[Obsolete]" +
+                "\nYou can downgrade the mod to version 1.5.3 if you want this mod to run on the client side." +
+                "\nThere this option is available and not obsolete." +
+                "\n-----------------------------------------------------------" +
+                "\nIf this is true, custom items from this mod will not load. " +
                 "\nIt's not synced with the host, you need to manually change it." +
                 "\nLeave it to 'false' if you want to play with a host who hasn't enabled it." // Description
             );

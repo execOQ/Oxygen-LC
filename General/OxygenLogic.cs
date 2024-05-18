@@ -144,17 +144,17 @@ namespace Oxygen.GameObjects
                                 volume = OxygenBase.OxygenConfig.scaredSFX_volume.Value;
                             }
                         }
-                        else if (pc.isSprinting)
+                        else if (pc.isSprinting && !breathablePlace_Notification)
                         {
                             state = State.running;
                             volume = OxygenBase.OxygenConfig.runningSFX_volume.Value;
                         }
-                        else if (pc.isExhausted)
+                        else if (pc.isExhausted && !breathablePlace_Notification)
                         {
                             state = State.exhausted;
                             volume = OxygenBase.OxygenConfig.exhaustedSFX_volume.Value;
                         }
-                        else if (pc.isWalking && EnableInhaleSFXWhileWalking)
+                        else if (pc.isWalking && EnableInhaleSFXWhileWalking && !breathablePlace_Notification)
                         {
                             state = State.walking;
                             volume = OxygenBase.OxygenConfig.walkingSFX_volume.Value;
@@ -227,14 +227,15 @@ namespace Oxygen.GameObjects
                         //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
                     }
 
-                    // 0.30 is the lowest value when we see UI meter
+                    // 0.30 is the lowest value when we still see UI meter
                     if (OxygenUI.fillAmount < damage_OxygenAmount)
                     {
                         pc.DamagePlayer(PlayerDamage);
                     }
 
                     // just for simplification if player was teleported and unable to refill oxygen
-                    if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -400f) // -400f is Y offset 
+
+                    if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -480f) // -480f is Y offset 
                     {
                         if (IsNotification && !breathablePlace_Notification)
                         {
@@ -248,6 +249,8 @@ namespace Oxygen.GameObjects
                     {
                         OxygenUI.fillAmount = Mathf.Clamp01(OxygenUI.fillAmount - localDecValue);
                         mls.LogInfo($"current oxygen level: {OxygenUI.fillAmount}");
+
+                        breathablePlace_Notification = false;
                     }
 
                     // timer resets

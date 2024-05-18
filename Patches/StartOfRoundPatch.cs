@@ -1,6 +1,5 @@
 ﻿using BepInEx.Logging;
 using HarmonyLib;
-using Oxygen.Configuration;
 using Oxygen.Items;
 using UnityEngine;
 

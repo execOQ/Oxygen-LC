@@ -23,9 +23,9 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.5.4";
+        public const string modVersion = "1.5.6";
 
-        private const string immersiveVisorGUID = "ImmersiveVisor";
+        private const string immersiveVisorGUID = "ImmersiveVisor"; 
         private const string shyHUDGUID = "ShyHUD";
         private const string LCAPIGUID = "LC_API";
         private const string EladsHUDGUID = "me.eladnlg.customhud";
@@ -80,7 +80,7 @@ namespace Oxygen
             oxyCharger = oxyChargerBundle.LoadAsset<GameObject>("Assets/OxyCharger/OxyCharger.prefab");
             oxyChargerSFX = oxyChargerBundle.LoadAllAssets<AudioClip>();
 
-            mls.LogInfo($"Assets are loaded (～￣▽￣)～");
+            mls.LogInfo($"Assets are loaded!");
 
             OxygenConfig = new(Config);
             mls.LogInfo($"Config is loaded.");
@@ -93,25 +93,22 @@ namespace Oxygen
             harmony.PatchAll(typeof(PlayerPatch));
             //harmony.PatchAll(typeof(WritePlayerNotesPatch));
 
-            if (!OxygenConfig.MakeItVanilla.Value)
-            {
-                AssetBundle oxy99 = Utilities.LoadAssetFromStream("Oxygen.Assets.oxy99");
-                if (oxy99 == null) return;
+            AssetBundle oxy99 = Utilities.LoadAssetFromStream("Oxygen.Assets.oxy99");
+            if (oxy99 == null) return;
 
-                oxyBoost = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
-                oxyBoost.itemName = "OxyBoost";
+            oxyBoost = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
+            oxyBoost.itemName = "OxyBoost";
 
-                LL.NetworkPrefabs.RegisterNetworkPrefab(oxyBoost.spawnPrefab);
-                LL.Utilities.FixMixerGroups(oxyBoost.spawnPrefab);
+            LL.NetworkPrefabs.RegisterNetworkPrefab(oxyBoost.spawnPrefab);
+            LL.Utilities.FixMixerGroups(oxyBoost.spawnPrefab);
 
-                TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
-                node.clearPreviousText = true;
-                node.displayText = "Limited air supply, useful in situations when you cannot quickly refill oxygen canisters!";
+            TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
+            node.clearPreviousText = true;
+            node.displayText = "Limited air supply, useful in situations when you cannot quickly refill oxygen canisters!";
 
-                LL.Items.RegisterShopItem(oxyBoost, null, null, node, OxygenConfig.oxyBoost_price.Value);
+            LL.Items.RegisterShopItem(oxyBoost, null, null, node, OxygenConfig.oxyBoost_price.Value);
 
-                mls.LogInfo("Custom items are loaded!");
-            }
+            mls.LogInfo("Custom items are loaded!"); 
 
             mls.LogInfo($"{modName} loaded! Don't forget to refill oxygen canisters!");
 
