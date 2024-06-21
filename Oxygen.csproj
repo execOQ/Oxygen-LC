@@ -9,28 +9,26 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Assets\heavyinhalesfx" />
       <None Remove="Assets\oxygenaudio" />
+      <None Remove="Assets\oxygenprefabs" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Assets\heavyinhalesfx" />
-      <EmbeddedResource Include="Assets\oxy99" />
-      <EmbeddedResource Include="Assets\oxycharger" />
       <EmbeddedResource Include="Assets\oxygenaudio" />
+      <EmbeddedResource Include="Assets\oxygenprefabs" />
     </ItemGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
 		<PackageReference Include="BepInEx.Core" Version="5.4.21" PrivateAssets="all" />
-		<PackageReference Include="Evaisa.LethalLib" Version="0.15.0" />
+		<PackageReference Include="Evaisa.LethalLib" Version="0.16.0" />
 		<PackageReference Include="LethalCompany.GameLibs.Steam" Version="*-*" PrivateAssets="all" />
 		<PackageReference Include="PolySharp" Version="1.14.1">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="UnityEngine.Modules" Version="2022.3.9" IncludeAssets="compile" PrivateAssets="all" />
-		<PackageReference Include="Sigurd.BepInEx.CSync" Version="4.1.0" PrivateAssets="all" />
+		<PackageReference Include="Sigurd.BepInEx.CSync" Version="5.0.1" PrivateAssets="all" />
 		<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
 	</ItemGroup>
 
@@ -42,9 +40,6 @@
 	  <Reference Include="ImmersiveVisor">
 		<Publicize>true</Publicize>
 	    <HintPath>..\References\ImmersiveVisor.dll</HintPath>
-	  </Reference>
-	  <Reference Include="LC_API">
-	    <HintPath>..\References\LC_API.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 

@@ -1,13 +1,12 @@
 ﻿using BepInEx.Logging;
-using Oxygen.Configuration;
 using System.Collections;
 using UnityEngine;
 
 namespace Oxygen.Items
 {
-    class Oxy99 : TetraChemicalItem
+    class OxyBoost : TetraChemicalItem
     {
-        //public static ManualLogSource mls = OxygenBase.Instance.mls;
+        private readonly static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxyBoost");
 
         public new IEnumerator UseTZPAnimation()
         {
@@ -16,7 +15,7 @@ namespace Oxygen.Items
             yield return new WaitForSeconds(0.75f);
             emittingGas = true;
 
-            if (base.IsOwner)
+            if (IsOwner)
             {
                 localHelmetSFX.Play();
                 localHelmetSFX.PlayOneShot(twistCanSFX);
@@ -48,12 +47,12 @@ namespace Oxygen.Items
             {
                 if (previousPlayerHeldBy == GameNetworkManager.Instance.localPlayerController)
                 {
-                    float previousOxyAmount = OxygenInit.oxygenUI.fillAmount;
+                    float previousOxyAmount = OxygenInit.Percent;
 
-                    OxygenInit.oxygenUI.fillAmount = Mathf.Clamp(OxygenInit.oxygenUI.fillAmount + OxygenBase.OxygenConfig.oxyBoost_increasingValue.Value, 0f, 1f);
+                    OxygenInit.Percent = Mathf.Clamp(OxygenInit.Percent + OxygenBase.OxygenConfig.oxyBoost_increasingValue.Value, 0f, 1f);
 
-                    //mls.LogInfo($"oxygen: {OxygenHUD.oxygenUI.fillAmount}");
-                    //mls.LogInfo($"fuel: {fuel}");
+                    mls.LogDebug($"Player's oxygen: {OxygenInit.Percent}");
+                    mls.LogDebug($"OxyBoost fuel: {fuel}");
 
                     if (previousOxyAmount <= 0.3f && StartOfRound.Instance.drowningTimer > 0.3f)
                     {

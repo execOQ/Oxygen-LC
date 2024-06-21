@@ -1,6 +1,4 @@
 ﻿using BepInEx.Logging;
-using HarmonyLib;
-using Oxygen.Configuration;
 using static System.Math;
 using TMPro;
 using UnityEngine;
@@ -11,35 +9,65 @@ namespace Oxygen
 {
     public class OxygenInit : MonoBehaviour
     {
-        public static Image oxygenUI;
+        private readonly static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenInit");
 
-        public static TextMeshProUGUI EladsOxygenUIText;
+        private const float AccurateMinValue = 0.2978f;
 
-        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenInit");
+        private const float AccurateMaxValue = 0.9101f;
 
-        public static bool diedBecauseOfOxygen = false;
+        private const float AccurateValueRange = 0.6123f;
 
-        public static AudioSource oxygenDefault;
+        public static bool IsOxygenHUDInitialized => oxygenUI != null;
 
-        //public static AudioSource oxygenLeak;
+        // Elements
+        private static Image oxygenUI;
 
-        internal static void Init_AudioSource(int id)
+        private static TextMeshProUGUI eladsUIText;
+
+        // taken from DramaMask mod (https://github.com/Henit3/DramaMask/blob/main/src/UI/StealthMeter.cs)
+        public static float Percent
         {
-            mls.LogWarning($"Client id: {id}");
+            get
+            {
+                if (oxygenUI == null)
+                {
+                    return 0f;
+                }
+                return OxygenBase.Instance.IsEladsHUDFound ? oxygenUI.fillAmount : InvAdjustFillAmount(oxygenUI.fillAmount);
+            }
+            internal set
+            {
+                if (oxygenUI == null)
+                {
+                    return;
+                }
+                float adjustedFillAmount = Mathf.Clamp01(OxygenBase.Instance.IsEladsHUDFound ? value : AdjustFillAmount(value));
+                if (oxygenUI.fillAmount != adjustedFillAmount)
+                {
+                    oxygenUI.fillAmount = adjustedFillAmount;
+                    if (eladsUIText != null)
+                    {
+                        float roundedValue = (float)Round(Percent, 2);
+                        int oxygenInPercent = (int)(roundedValue * 100f);
+                        eladsUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
+                    }
+                    if (OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.shyHUDSupport)
+                    {
+                        bool toFadeOut = value >= 0.75f; // previously was 0.55f
+                        oxygenUI.CrossFadeAlpha(toFadeOut ? 0f : 1f, toFadeOut ? 5f : 0.5f, ignoreTimeScale: false);
+                    }
+                }
+            }
+        }
 
-            string path = (id == 0) ? "PlayersContainer/Player/Audios/" : $"PlayersContainer/Player ({id})/Audios/";
-            GameObject pc = GameObject.Find(path);
+        private static float AdjustFillAmount(float value)
+        {
+            return OxygenBase.OxygenConfig.accurateMeter.Value ? (value * AccurateValueRange + AccurateMinValue) : value;
+        }
 
-            GameObject _oxygenDefault = Instantiate(OxygenBase.Instance.oxyAudioExample, pc.transform);
-            _oxygenDefault.name = "OxygenDefault";
-
-            //GameObject _oxygenLeak = Instantiate(OxygenBase.Instance.oxyAudioExample, pc.transform);
-            //_oxygenLeak.name = "OxygenLeak";
-
-            oxygenDefault = _oxygenDefault.GetComponent<AudioSource>();
-            //oxygenLeak = _oxygenLeak.GetComponent<AudioSource>();
-
-            mls.LogWarning($"Oxygen audio sources are created!");
+        private static float InvAdjustFillAmount(float value)
+        {
+            return OxygenBase.OxygenConfig.accurateMeter.Value ? ((value - AccurateMinValue) / AccurateValueRange) : value;
         }
 
         internal static void Init()
@@ -58,27 +86,32 @@ namespace Oxygen
             OxygenLogic.criticalLevel_Notification = false;
             OxygenLogic.immersiveVisor_Notification = false;
 
+            Percent = 1f;
             mls.LogInfo("Oxygen is initialized");
         }
 
         private static void Init_vanilla()
         {
-            GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/SprintMeter");
-            GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
-
-            if (sprintMeter == null || topLeftCorner == null)
+            GameObject topLeftCornerUI = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
+            if (topLeftCornerUI == null)
             {
-                mls.LogError("Init_vanilla: oxygenMeter or topLeftCorner is null");
+                mls.LogError("Init_vanilla: topLeftCornerUI is null");
                 return;
             }
 
-            GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
+            GameObject sprintMeter = topLeftCornerUI.transform.Find("SprintMeter").gameObject;
+            if (sprintMeter == null)
+            {
+                mls.LogError("Init_vanilla: sprintMeter is null");
+                return;
+            }
+
+            GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCornerUI.transform);
 
             oxygenMeter.name = "OxygenMeter";
 
             oxygenUI = oxygenMeter.transform.GetComponent<Image>();
             oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
-            oxygenUI.fillAmount = 1f;
 
             RectTransform rectTransform = oxygenMeter.GetComponent<RectTransform>();
 
@@ -93,7 +126,7 @@ namespace Oxygen
             rectTransform.localScale = new Vector3(2.0392f, 2.0392f, 1.6892f);
             rectTransform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
 
-            GameObject statusEffectHUD = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/StatusEffects");
+            GameObject statusEffectHUD = topLeftCornerUI.transform.Find("StatusEffects").gameObject;
             if (statusEffectHUD != null)
             {
                 statusEffectHUD.transform.localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
@@ -101,75 +134,67 @@ namespace Oxygen
 
                 mls.LogInfo("statusEffectHUD is fixed");
             }
-
-            mls.LogInfo("OxygenHUD instantiated");
         }
 
         private static void Init_EladsHUD()
         {
-            GameObject sprintMeter = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/Stamina");
-            GameObject topLeftCorner = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)");
-
-            if (sprintMeter == null || topLeftCorner == null)
+            GameObject topLeftCornerUI = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)");
+            if (topLeftCornerUI == null)
             {
-                mls.LogError("Init_EladsHUD: oxygenMeter or topLeftCorner is null");
+                mls.LogError("Init_EladsHUD: topLeftCornerUI is null");
                 return;
             }
 
-            GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCorner.transform);
+            GameObject sprintMeter = topLeftCornerUI.transform.Find("Stamina").gameObject;
+            if (sprintMeter == null)
+            {
+                mls.LogError("Init_EladsHUD: sprintMeter is null");
+                return;
+            }
+
+            GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCornerUI.transform);
 
             oxygenMeter.name = "OxygenMeter";
-            oxygenMeter.transform.localPosition = new Vector3(135, -115, -2.8f);
+            oxygenMeter.transform.localPosition = new Vector3(134.8f, -91.2254f, -2.8f);
             //oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
             //oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
-            
-            // hm just to not duplicating)
-            GameObject carryInfo = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/CarryInfo");
-            Destroy(carryInfo);
 
-            // we're not needed in it)))
-            GameObject staminaChangeFG = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/Bar/Stamina Change FG");
-            Destroy(staminaChangeFG);
-
-            //Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/Stamina/Bar/
-            GameObject staminaBar = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/Bar/StaminaBar");
-            oxygenUI = staminaBar.transform.GetComponent<Image>();
-
+            // oxygenHUD
+            oxygenUI = oxygenMeter.transform.Find("Bar/StaminaBar").GetComponent<Image>();
             oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
-            oxygenUI.fillAmount = 1f;
+            //oxygenUI.fillAmount = 1f;
+
+            // HUD's text field
+            GameObject oxygenInfo = oxygenMeter.transform.Find("StaminaInfo").gameObject;
+            oxygenInfo.transform.localPosition = new Vector3(45.4834f, -6.4f, 2.8f);
+            eladsUIText = oxygenInfo.GetComponent<TextMeshProUGUI>();
+            eladsUIText.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+
+            // adding divider between stamina info and oxygen info
+            GameObject divider = Instantiate(oxygenInfo, oxygenMeter.transform);
+            //divider.name = "Text Divider";
+            divider.transform.localPosition = new Vector3(39.8443f, -6.4f, 2.8f);
+            TextMeshProUGUI textDivider = divider.GetComponent<TextMeshProUGUI>();
+            textDivider.text = "<size=50%><voffset=-3>•</voffset></size>";
+            textDivider.color = new Color(r: 1, g: 1, b: 1, a: 0.37f);
+
+            // just to not duplicating carryInfo :)
+            Destroy(oxygenMeter.transform.Find("CarryInfo").gameObject);
+
+            // nah, we're not needed in it :)))
+            Destroy(oxygenMeter.transform.Find("Bar/Stamina Change FG").gameObject);
+
+            // fixing position of stamina info
+            Transform staminaMeterInfo = sprintMeter.transform.Find("StaminaInfo");
+            staminaMeterInfo.localPosition = new Vector3(-0.2038f, -17.6235f, 2.7936f);
+
+            // fixing position of carry info
+            Transform carryInfo = sprintMeter.transform.Find("CarryInfo");
+            carryInfo.localPosition = new Vector3(-0.0001f, -17.901f, 2.7999f);
 
             // fixing position of health
-            GameObject healthBar = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/Health");
-            healthBar.transform.localPosition = new Vector3(134.9906f, -178, 0.007f);
-
-            // getting text field
-            GameObject oxygenInfo = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/OxygenMeter/StaminaInfo");
-            EladsOxygenUIText = oxygenInfo.GetComponent<TextMeshProUGUI>();
-
-            mls.LogInfo("OxygenHUD instantiated");
-        }
-
-        internal static void UpdateModsCompatibility()
-        {
-            if (EladsOxygenUIText != null)
-            {
-                float roundedValue = (float)Round(oxygenUI.fillAmount, 2);
-                int oxygenInPercent = (int)(roundedValue * 100);
-
-                EladsOxygenUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
-            }
-
-            if (OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.ShyHUDSupport)
-            {
-                if (oxygenUI.fillAmount >= 0.55f)
-                {
-                    oxygenUI.CrossFadeAlpha(0f, 5f, ignoreTimeScale: false);
-                }
-                else
-                {
-                    oxygenUI.CrossFadeAlpha(1f, 0.5f, ignoreTimeScale: false);
-                }
-            }
+            Transform healthBar = topLeftCornerUI.transform.Find("Health");
+            healthBar.localPosition = new Vector3(134.9906f, -178, 0.007f);
         }
     }
 }

@@ -4,6 +4,7 @@ using HarmonyLib;
 using System.Collections;
 using UnityEngine;
 using Oxygen.GameObjects;
+using Oxygen.Extras;
 
 namespace Oxygen.Patches
 {
@@ -24,7 +25,7 @@ namespace Oxygen.Patches
         [HarmonyPatch(typeof(PlayerControllerB), "ConnectClientToPlayerObject")]
         public static void AddAudioSource(PlayerControllerB __instance)
         {
-            OxygenInit.Init_AudioSource(__instance.playersManager.thisClientPlayerId);
+            AudioController.Init_AudioSource(__instance.playersManager.thisClientPlayerId);
         }
 
         [HarmonyPostfix]

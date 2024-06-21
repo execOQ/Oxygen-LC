@@ -7,6 +7,7 @@ using UnityEngine;
 using BepInEx.Bootstrap;
 using LL = LethalLib.Modules;
 using Oxygen.Extras;
+using Oxygen.Items;
 
 namespace Oxygen
 {
@@ -15,8 +16,8 @@ namespace Oxygen
     [BepInDependency("evaisa.lethallib")]
     [BepInDependency(shyHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(immersiveVisorGUID, BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency(LCAPIGUID, BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency(EladsHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(eladsHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(oopsAllFloodedGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class OxygenBase : BaseUnityPlugin
     {
         public static OxygenBase Instance { get; private set; }
@@ -27,17 +28,20 @@ namespace Oxygen
 
         private const string immersiveVisorGUID = "ImmersiveVisor"; 
         private const string shyHUDGUID = "ShyHUD";
-        private const string LCAPIGUID = "LC_API";
-        private const string EladsHUDGUID = "me.eladnlg.customhud";
+        private const string eladsHUDGUID = "me.eladnlg.customhud";
+        private const string oopsAllFloodedGUID = "squirrelboy.OopsAllFlooded";
 
         public bool IsShyHUDFound { get; private set; } = false;
         public bool IsImmersiveVisorFound { get; private set; } = false;
-        public bool IsLCAPIFound { get; private set; } = false;
         public bool IsEladsHUDFound { get; private set; } = false;
+        public bool IsOopsAllFloodedFound { get; private set; } = false;
 
         private readonly Harmony harmony = new(modGUID);
-        public ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
+        private readonly ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
 
+        public static OxygenConfig OxygenConfig { get; private set; }
+
+        // Assets
         internal AudioClip[] inhalesSFX = [];
         internal AudioClip[] heavyInhalesSFX = [];
 
@@ -47,8 +51,6 @@ namespace Oxygen
         internal AudioClip[] oxyChargerSFX;
 
         internal Item oxyBoost;
-
-        public static OxygenConfig OxygenConfig { get; private set; }
 
         internal static void UpdateCustomItemPrice(Item item, int price) => LL.Items.UpdateShopItemPrice(item, price);
 
@@ -63,22 +65,31 @@ namespace Oxygen
 
             IsShyHUDFound = CheckForDependency(shyHUDGUID);
             IsImmersiveVisorFound = CheckForDependency(immersiveVisorGUID);
-            IsLCAPIFound = CheckForDependency(LCAPIGUID);
-            IsEladsHUDFound = CheckForDependency(EladsHUDGUID);
+            IsEladsHUDFound = CheckForDependency(eladsHUDGUID);
+            IsOopsAllFloodedFound = CheckForDependency(oopsAllFloodedGUID);
 
-            AssetBundle oxyAudioBundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygenaudio");
-            if (oxyAudioBundle == null) return;
-            oxyAudioExample = oxyAudioBundle.LoadAsset<GameObject>("Assets/OxygenAudio/OxygenAudio.prefab");
-            inhalesSFX = oxyAudioBundle.LoadAllAssets<AudioClip>();
+            AssetBundle _oxyAudio = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygenaudio");
+            if (_oxyAudio == null) return;
+            inhalesSFX = Utilities.LoadAudioClips(_oxyAudio,
+                "Assets/OxygenAudio/Inhale_1.wav",
+                "Assets/OxygenAudio/Inhale_2.wav",
+                "Assets/OxygenAudio/Inhale_3.wav");
 
-            AssetBundle oxyHeavyInhaleBundle = Utilities.LoadAssetFromStream("Oxygen.Assets.heavyinhalesfx");
-            if (oxyHeavyInhaleBundle == null) return;
-            heavyInhalesSFX = oxyHeavyInhaleBundle.LoadAllAssets<AudioClip>();
+            heavyInhalesSFX = Utilities.LoadAudioClips(_oxyAudio,
+                "Assets/OxygenAudio/heavy_Inhale_1.wav",
+                "Assets/OxygenAudio/heavy_Inhale_2.wav",
+                "Assets/OxygenAudio/heavy_Inhale_end.wav");
 
-            AssetBundle oxyChargerBundle = Utilities.LoadAssetFromStream("Oxygen.Assets.oxycharger");
-            if (oxyChargerBundle == null) return;
-            oxyCharger = oxyChargerBundle.LoadAsset<GameObject>("Assets/OxyCharger/OxyCharger.prefab");
-            oxyChargerSFX = oxyChargerBundle.LoadAllAssets<AudioClip>();
+            oxyChargerSFX = Utilities.LoadAudioClips(_oxyAudio,
+                "Assets/OxyCharger/Audio/OxyChargeSFX.wav",
+                "Assets/OxyCharger/Audio/OxyChargeSFX2.wav",
+                "Assets/OxyCharger/Audio/OxyChargeSFX3.wav");
+
+            AssetBundle _oxyPrefabs = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygenprefabs");
+            if (_oxyPrefabs == null) return;
+            oxyAudioExample = _oxyPrefabs.LoadAsset<GameObject>("Assets/OxygenAudio/OxygenAudio.prefab");
+            oxyCharger = _oxyPrefabs.LoadAsset<GameObject>("Assets/OxyCharger/OxyCharger.prefab");
+            oxyBoost = _oxyPrefabs.LoadAsset<Item>("Assets/OxyBoost/OxyBoostItem.asset");
 
             mls.LogInfo($"Assets are loaded!");
 
@@ -91,14 +102,31 @@ namespace Oxygen
             harmony.PatchAll(typeof(StartOfRoundPatch));
             harmony.PatchAll(typeof(RoundManagerPatch));
             harmony.PatchAll(typeof(PlayerPatch));
-            //harmony.PatchAll(typeof(WritePlayerNotesPatch));
 
-            AssetBundle oxy99 = Utilities.LoadAssetFromStream("Oxygen.Assets.oxy99");
-            if (oxy99 == null) return;
+            RegisterItems();
 
-            oxyBoost = oxy99.LoadAsset<Item>("Assets/Oxy99/Oxy99Item.asset");
-            oxyBoost.itemName = "OxyBoost";
+            mls.LogInfo($"{modName} is loaded. Don't forget to refill oxygen canisters!");
+        }
 
+        private bool CheckForDependency(string guid)
+        {
+            mls.LogDebug($"Checking for {guid}...");
+            if (Chainloader.PluginInfos.ContainsKey(guid))
+            {
+                Chainloader.PluginInfos.TryGetValue(guid, out PluginInfo value);
+                if (value != null)
+                {
+                    mls.LogDebug($"{guid}:{value.Metadata.Version} is present!");
+                    return true;
+                }
+                else mls.LogError($"Detected {guid}, but could not get plugin info...");
+            }
+
+            return false;
+        }
+
+        private void RegisterItems()
+        {
             LL.NetworkPrefabs.RegisterNetworkPrefab(oxyBoost.spawnPrefab);
             LL.Utilities.FixMixerGroups(oxyBoost.spawnPrefab);
 
@@ -108,28 +136,7 @@ namespace Oxygen
 
             LL.Items.RegisterShopItem(oxyBoost, null, null, node, OxygenConfig.oxyBoost_price.Value);
 
-            mls.LogInfo("Custom items are loaded!"); 
-
-            mls.LogInfo($"{modName} loaded! Don't forget to refill oxygen canisters!");
-
-            //DeathBroadcaster.Initialize();
-        }
-
-        private bool CheckForDependency(string guid)
-        {
-            mls.LogInfo($"Checking for {guid}...");
-            if (Chainloader.PluginInfos.ContainsKey(guid))
-            {
-                Chainloader.PluginInfos.TryGetValue(guid, out PluginInfo value);
-                if (value != null)
-                {
-                    mls.LogInfo($"{guid}:{value.Metadata.Version} is present!");
-                    return true;
-                }
-                else mls.LogError($"Detected {guid}, but could not get plugin info...");
-            }
-
-            return false;
+            mls.LogInfo("Custom items are loaded!");
         }
     }
 }

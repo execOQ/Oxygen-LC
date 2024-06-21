@@ -1,6 +1,7 @@
 ﻿using BepInEx.Logging;
 using HarmonyLib;
 using Oxygen.Configuration;
+using Oxygen.Extras;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -24,12 +25,13 @@ namespace Oxygen.Patches
         [HarmonyPostfix]
         private static void RoundManagerPatch_Postfix2(RoundManager __instance)
         {
-            mls.LogInfo("Use these moons names in the config:\n");
+            string msg = "\nUse these moons names in the config:\n\n";
             foreach (SelectableLevel level in __instance.playersManager.levels)
             {
-                string numberlessPlanetName = MoonsDicts.NumberLessPlanetName(level.PlanetName);
-                mls.LogInfo(numberlessPlanetName);
+                msg += Utilities.NumberLessPlanetName(level.PlanetName) + "\n";
             }
+
+            mls.LogInfo(msg);
         }
 
         internal static void UpdateMoonsValues()
@@ -84,7 +86,7 @@ namespace Oxygen.Patches
             }
 
             str = str.Replace(" ", string.Empty).ToString(cultureInfo);
-            mls.LogInfo($"processing the variable {nameOfVariable}:\n{str}");
+            mls.LogInfo($"Processing the variable {nameOfVariable}:\n{str}");
 
             foreach (string x in str.Split(';'))
             {

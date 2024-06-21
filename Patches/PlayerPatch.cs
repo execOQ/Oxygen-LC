@@ -15,7 +15,6 @@ namespace Oxygen.Patches
             {
                 if (!__instance.isPlayerDead)
                 {
-                    OxygenInit.UpdateModsCompatibility();
                     OxygenLogic.ShowNotifications();
                 }
             }

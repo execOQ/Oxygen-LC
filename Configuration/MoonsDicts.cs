@@ -1,105 +1,42 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Oxygen.Extras;
+using System.Collections.Generic;
 
 namespace Oxygen.Configuration
 {
     internal class MoonsDicts
     {
-        internal static string MoonName => NumberLessPlanetName(StartOfRound.Instance.currentLevel.PlanetName);
+        private static string MoonName => Utilities.NumberLessPlanetName(StartOfRound.Instance.currentLevel.PlanetName).ToLower();
 
         internal static Dictionary<string, float> greenPlanets;
-
-        internal static bool GreenPlanetsValue
-        {
-            get
-            {
-                if (greenPlanets != null && greenPlanets.TryGetValue(MoonName.ToLower(), out var _))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
-        /* internal static Dictionary<string, float> increasingOxygenMoons;
-
-        internal static float IncreasingOxygenMoonsValue
-        {
-            get
-            {
-                if (increasingOxygenMoons != null && increasingOxygenMoons.TryGetValue(MoonName.ToLower(), out var value))
-                {
-                    return value;
-                }
-
-                return OxygenBase.OxygenConfig.increasingOxygen.Value;
-            }
-        } */
-
         internal static Dictionary<string, float> decreasingOxygenOutsideMoons;
-
-        internal static float DecreasingOxygenOutsideMoonsValue
-        {
-            get
-            {
-                if (decreasingOxygenOutsideMoons != null && decreasingOxygenOutsideMoons.TryGetValue(MoonName.ToLower(), out var value))
-                {
-                    return value;
-                }
-
-                return OxygenBase.OxygenConfig.decreasingOxygenOutside.Value;
-            }
-        }
-
         internal static Dictionary<string, float> decreasingOxygenInFactoryMoons;
-
-        internal static float DecreasingOxygenInFactoryMoonsValue
-        {
-            get
-            {
-                if (decreasingOxygenInFactoryMoons != null && decreasingOxygenInFactoryMoons.TryGetValue(MoonName.ToLower(), out var value))
-                {
-                    return value;
-                }
-
-                return OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value;
-            }
-        }
-
         internal static Dictionary<string, float> oxygenRunningMoons;
-
-        internal static float OxygenRunningMoonsValue
-        {
-            get
-            {
-                if (oxygenRunningMoons != null && oxygenRunningMoons.TryGetValue(MoonName.ToLower(), out var value))
-                {
-                    return value;
-                }
-
-                return OxygenBase.OxygenConfig.oxygenRunning.Value;
-            }
-        }
-
         internal static Dictionary<string, float> oxygenDepletionInWaterMoons;
+        // internal static Dictionary<string, float> increasingOxygenMoons;
 
-        internal static float OxygenDepletionInWaterMoonsValue
+        internal static bool GreenPlanetsValue => greenPlanets != null && greenPlanets.ContainsKey(MoonName);
+
+        private static float GetValueFromDictionary(Dictionary<string, float> dictionary, float defaultValue)
         {
-            get
+            if (dictionary != null && dictionary.TryGetValue(MoonName, out var value))
             {
-                if (oxygenDepletionInWaterMoons != null && oxygenDepletionInWaterMoons.TryGetValue(MoonName.ToLower(), out var value))
-                {
-                    return value;
-                }
-
-                return OxygenBase.OxygenConfig.oxygenDepletionInWater.Value;
+                return value;
             }
+            return defaultValue;
         }
 
-        public static string NumberLessPlanetName(string moon)
-        {
-            return new(moon.SkipWhile((char c) => !char.IsLetter(c)).ToArray());
-        }
+        internal static float DecreasingOxygenOutsideMoonsValue =>
+            GetValueFromDictionary(decreasingOxygenOutsideMoons, OxygenBase.OxygenConfig.decreasingOxygenOutside.Value);
+
+        internal static float DecreasingOxygenInFactoryMoonsValue =>
+            GetValueFromDictionary(decreasingOxygenInFactoryMoons, OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value);
+
+        internal static float OxygenRunningMoonsValue =>
+            GetValueFromDictionary(oxygenRunningMoons, OxygenBase.OxygenConfig.oxygenRunning.Value);
+
+        internal static float OxygenDepletionInWaterMoonsValue =>
+            GetValueFromDictionary(oxygenDepletionInWaterMoons, OxygenBase.OxygenConfig.oxygenDepletionInWater.Value);
+
+        // internal static float IncreasingOxygenMoonsValue => GetValueFromDictionary(increasingOxygenMoons, OxygenBase.OxygenConfig.increasingOxygen.Value);
     }
 }

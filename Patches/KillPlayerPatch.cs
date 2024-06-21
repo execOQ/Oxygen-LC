@@ -1,4 +1,5 @@
-﻿using GameNetcodeStuff;
+﻿using BepInEx.Logging;
+using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.GameObjects;
 
@@ -7,7 +8,7 @@ namespace Oxygen.Patches
     [HarmonyPatch]
     internal class KillPlayerPatch
     {
-        //private static PlayerControllerB pcB = GameNetworkManager.Instance.localPlayerController;
+        private readonly static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > KillPlayerPatch");
 
         [HarmonyPatch(typeof(PlayerControllerB), "KillPlayer")]
         [HarmonyPostfix]
@@ -17,9 +18,9 @@ namespace Oxygen.Patches
 
             if (__instance.isPlayerDead)
             {
-                OxygenInit.oxygenUI.fillAmount = 1;
+                OxygenInit.Percent = 1;
                 __instance.drunkness = 0;
-                OxygenInit.mls.LogInfo("Player probably is dead (lol), oxygen recovered to 1");
+                mls.LogInfo("Player probably is dead (lol), oxygen was recovered to 1");
 
                 // resets notifications
                 OxygenLogic.breathablePlace_Notification = false;

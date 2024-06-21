@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 using System;
+using System.Linq;
 
 namespace Oxygen.Extras
 {
@@ -15,6 +16,15 @@ namespace Oxygen.Extras
             return (T)obj.GetType().GetField(field, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(obj);
         }
 
+        public static string NumberLessPlanetName(string moon)
+        {
+            if (moon != null)
+            {
+                return new string(moon.SkipWhile((char c) => !char.IsLetter(c)).ToArray());
+            }
+            return string.Empty;
+        }
+
         internal static AssetBundle LoadAssetFromStream(string path)
         {
             try
@@ -22,16 +32,14 @@ namespace Oxygen.Extras
                 Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
                 if (stream == null)
                 {
-                    string errorMessage = "Failed to get stream of resources...";
-                    mls.LogError(errorMessage);
+                    mls.LogError("Failed to get stream of resources...");
                     return null;
                 }
 
                 AssetBundle bundle = AssetBundle.LoadFromStream(stream);
                 if (bundle == null)
                 {
-                    string errorMessage = "Failed to load audio assets...";
-                    mls.LogError(errorMessage);
+                    mls.LogError("Failed to load assets...");
                     return null;
                 }
 
@@ -39,11 +47,17 @@ namespace Oxygen.Extras
             }
             catch (Exception ex)
             {
-                string errorMessage = $"Exception: {ex.Message}";
-                mls.LogError(errorMessage);
+                mls.LogError($"Exception: {ex.Message}");
 
                 return null;
             }
+        }
+
+        internal static AudioClip[] LoadAudioClips(AssetBundle bundle, params string[] paths)
+        {
+            return paths.Select(path => bundle.LoadAsset<AudioClip>(path))
+                        .Where(clip => clip != null)
+                        .ToArray();
         }
     }
 }

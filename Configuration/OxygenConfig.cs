@@ -9,132 +9,112 @@ using System.Runtime.Serialization;
 namespace Oxygen.Configuration
 {
     [DataContract]
-    public class OxygenConfig : SyncedConfig<OxygenConfig>
+    public class OxygenConfig : SyncedConfig2<OxygenConfig>
     {
+        public readonly static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > OxygenConfig");
 
-        [DataMember]
-        internal SyncedEntry<int> OxygenFillOption;
+        // General
+        internal ConfigEntry<bool> accurateMeter;
 
-        [DataMember]
+        [SyncedEntryField]
+        internal SyncedEntry<int> oxygenFillOption;
+
+        [SyncedEntryField]
         internal SyncedEntry<bool> recoverOxygenOnceShipLeft;
 
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<int> playerDamage;
 
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<string> greenPlanets;
 
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<float> increasingOxygen;
-
         //[DataMember]
         //internal SyncedEntry<string> increasingOxygenMoons;
 
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<float> decreasingOxygenOutside;
-
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<float> decreasingOxygenInFactory;
 
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<string> decreasingOxygenOutsideMoons;
-
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<string> decreasingOxygenInFactoryMoons;
 
-        [DataMember]
-        internal SyncedEntry<float> decreasingInFear;
-
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<float> oxygenRunning;
-
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<string> oxygenRunningMoons;
 
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<float> oxygenDepletionInWater;
-
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<string> oxygenDepletionInWaterMoons;
 
-        [DataMember]
+        [SyncedEntryField]
+        internal SyncedEntry<float> decreasingInFear;
+
+        [SyncedEntryField]
         internal SyncedEntry<float> oxygenDeficiency;
 
-        [DataMember]
+        // Timer
+        [SyncedEntryField]
         internal SyncedEntry<float> secTimer;
 
-        [DataMember]
-        internal SyncedEntry<bool> InfinityOxygenInModsPlaces;
+        // Compatibilities and supports
+        [SyncedEntryField]
+        internal SyncedEntry<bool> infinityOxygenInModsPlaces;
 
-        [DataMember]
-        internal SyncedEntry<bool> ShyHUDSupport;
+        [SyncedEntryField]
+        internal SyncedEntry<bool> shyHUDSupport;
 
-        [DataMember]
-        internal SyncedEntry<bool> ImmersiveVisorSupport;
+        [SyncedEntryField]
+        internal SyncedEntry<bool> immersiveVisorSupport;
+        [SyncedEntryField]
+        internal SyncedEntry<float> immersiveVisor_OxygenDecreasing;
 
-        [DataMember]
-        internal SyncedEntry<bool> EladsHUD_QuickFix;
-
-        [DataMember]
-        internal SyncedEntry<float> ImmersiveVisor_OxygenDecreasing;
-
-        [DataMember]
+        // OxyBoost
+        [SyncedEntryField]
         internal SyncedEntry<float> oxyBoost_increasingValue;
-
-        [DataMember]
+        [SyncedEntryField]
         internal SyncedEntry<int> oxyBoost_price;
 
+        // HUD offsets
         internal ConfigEntry<int> XOffset;
-
         internal ConfigEntry<int> YOffset;
 
+        // Notifications
         internal ConfigEntry<bool> notifications;
 
-        internal ConfigEntry<float> walkingSFX_volume, runningSFX_volume, exhaustedSFX_volume, scaredSFX_volume;
-
+        // Sounds
         internal ConfigEntry<bool> enableOxygenSFX;
 
         internal ConfigEntry<bool> enableInhaleSFXWhileWalking;
-
         internal ConfigEntry<bool> enableOxygenSFXInShip;
-
         internal ConfigEntry<bool> enableOxygenSFXOnTheCompany;
-
         internal ConfigEntry<float> oxyCharger_SFXVolume;
 
-        public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > OxygenConfig");
+        internal ConfigEntry<float> walkingSFX_volume, runningSFX_volume, exhaustedSFX_volume, scaredSFX_volume;
 
         void DoSomethingAfterSync(object s, EventArgs e)
         {
-            mls.LogWarning("Config was synced, i'ma updating moons value!");
+            mls.LogInfo("Config was synced, updating moons value!");
             RoundManagerPatch.UpdateMoonsValues();
 
             if (oxyBoost_price.Value != oxyBoost_price.LocalValue)
             {
-                mls.LogWarning("Updating price for oxyBoost");
+                mls.LogInfo("Updating price for OxyBoost");
                 OxygenBase.UpdateCustomItemPrice(OxygenBase.Instance.oxyBoost, oxyBoost_price.Value);
             }
         } 
 
         public OxygenConfig(ConfigFile file) : base(OxygenBase.modGUID)
         {
-            ConfigManager.Register(this);
             InitialSyncCompleted += DoSomethingAfterSync;
 
-            file.Bind(
-                "General", // Section
-                "MakeItVanilla", // Key
-                false, // Default value
-                "[Obsolete]" +
-                "\nYou can downgrade the mod to version 1.5.3 if you want this mod to run on the client side." +
-                "\nThere this option is available and not obsolete." +
-                "\n-----------------------------------------------------------" +
-                "\nIf this is true, custom items from this mod will not load. " +
-                "\nIt's not synced with the host, you need to manually change it." +
-                "\nLeave it to 'false' if you want to play with a host who hasn't enabled it." // Description
-            );
-
-            OxygenFillOption = file.BindSyncedEntry(
+            oxygenFillOption = file.BindSyncedEntry(
                 "General", // Section
                 "OxygenFillOption", // Key
                 1, // Default value
@@ -142,6 +122,13 @@ namespace Oxygen.Configuration
                 "\n1 - only using oxygen cylinders located in the ship;" +
                 "\n2 - only automatic oxygen filling when the player is on the ship;" +
                 "\n(syncing with host)" // Description
+            );
+
+            accurateMeter = file.Bind(
+                "General", // Section
+                "accurateMeter", // Key
+                true, // Default value
+                "Whether the oxygen meter ring should be accurate or have vanilla behaviour." // Description
             );
 
             recoverOxygenOnceShipLeft = file.BindSyncedEntry(
@@ -361,7 +348,7 @@ namespace Oxygen.Configuration
                 "\nWorks if enableOxygenSFX variable is enabled." // Description
             );
 
-            InfinityOxygenInModsPlaces = file.BindSyncedEntry(
+            infinityOxygenInModsPlaces = file.BindSyncedEntry(
                 "Compatibility", // Section
                 "InfinityOxygenInModsPlaces", // Key
                 true, // Default value
@@ -369,15 +356,15 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            ShyHUDSupport = file.BindSyncedEntry(
+            shyHUDSupport = file.BindSyncedEntry(
                 "Compatibility", // Section
                 "ShyHUDSupport", // Key
                 true, // Default value
-                "HUD disappears if oxygen value > 55" +
+                "HUD disappears if oxygen value > 75" + // previously 0.55f
                 "\n(syncing with host)" // Description
             );
 
-            ImmersiveVisorSupport = file.BindSyncedEntry(
+            immersiveVisorSupport = file.BindSyncedEntry(
                 "Compatibility", // Section
                 "ImmersiveVisorSupport", // Key
                 true, // Default value
@@ -385,20 +372,12 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            ImmersiveVisor_OxygenDecreasing = file.BindSyncedEntry(
+            immersiveVisor_OxygenDecreasing = file.BindSyncedEntry(
                 "Compatibility", // Section
                 "ImmersiveVisor_OxygenDecreasing", // Key
                 0.002f, // Default value
                 "How much additional oxygen will be consumed if the helmet's crack level is 2?" +
                 "\nDepends on the secTimer variable." +
-                "\n(syncing with host)" // Description
-            );
-
-            EladsHUD_QuickFix = file.BindSyncedEntry(
-                "Compatibility", // Section
-                "EladsHUD_QuickFix", // Key
-                true, // Default value
-                "If EladsHUD is enabled, the mod will damage you by 0.1 instead of 0.3 amounts of oxygen, and it will give you slightly more oxygen" +
                 "\n(syncing with host)" // Description
             );
 
@@ -431,6 +410,8 @@ namespace Oxygen.Configuration
                 "OxyBoost's price." +
                 "\n(syncing with host)" // Description
             );
+
+            ConfigManager.Register(this);
         }
     }
 }
