@@ -64,7 +64,7 @@ namespace Oxygen.Extras
 
         private static AudioClip FindSFX(State stage, bool isEndOfFearOrExhausted)
         {
-            mls.LogDebug($"Trying to find SFX for {stage}");
+            mls.LogDebug($"Trying to find SFX for stage: {stage}");
             AudioClip clip = stage switch
             {
                 State.standing => null,
@@ -74,6 +74,8 @@ namespace Oxygen.Extras
                 State.scared => isEndOfFearOrExhausted ? HeavyInhalesSFX[^1] : HeavyInhalesSFX[Random.Range(0, HeavyInhalesSFX.Length - 2)],
                 _ => null,
             };
+
+            mls.LogDebug($"clip name: {clip.name}");
 
             return clip;
         }        

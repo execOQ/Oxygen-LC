@@ -62,6 +62,9 @@ namespace Oxygen.GameObjects
         private static bool EnableOxygenSFXInShip => OxygenBase.OxygenConfig.enableOxygenSFXInShip.Value;
         private static bool EnableOxygenSFXOnTheCompany => OxygenBase.OxygenConfig.enableOxygenSFXOnTheCompany.Value;
 
+        // uhm..
+        private static bool wasInFearOrExhaustedLastFrame = false;
+
         internal static void ShowNotifications()
         {
             if (IsNotification)
@@ -149,6 +152,7 @@ namespace Oxygen.GameObjects
                             {
                                 state = State.scared;
                                 volume = OxygenBase.OxygenConfig.scaredSFX_volume.Value;
+                                wasInFearOrExhaustedLastFrame = true;
                             }
                         }
                         else if (pc.isSprinting && !breathablePlace_Notification)
@@ -160,6 +164,7 @@ namespace Oxygen.GameObjects
                         {
                             state = State.exhausted;
                             volume = OxygenBase.OxygenConfig.exhaustedSFX_volume.Value;
+                            wasInFearOrExhaustedLastFrame = true;
                         }
                         else if (pc.isWalking && EnableInhaleSFXWhileWalking && !breathablePlace_Notification)
                         {
@@ -167,14 +172,29 @@ namespace Oxygen.GameObjects
                             volume = OxygenBase.OxygenConfig.walkingSFX_volume.Value;
                         }
 
+                        bool isEndOfFearOrExhausted = false;
+                        if (wasInFearOrExhaustedLastFrame)
+                        {
+                            if (sor.fearLevel <= 0 && state != State.scared && !pc.isExhausted && state != State.exhausted)
+                            {
+                                wasInFearOrExhaustedLastFrame = false;
+                                isEndOfFearOrExhausted = true;
+
+                                // just to bypass next if
+                                state = State.scared;
+                            }
+
+                            //mls.LogDebug(state);
+                            //mls.LogDebug($"isEndOfFearOrExhausted: {isEndOfFearOrExhausted}");
+                        }
+
                         if (state != State.standing)
                         {
-                            // updates the wait before the next playing
-                            secTimerForAudio = (int)state;
-
-                            // TODO: add usage of isEndOfFearOrExhausted here
-                            PlaySFX(state, volume);
+                            PlaySFX(state, volume, isEndOfFearOrExhausted);
                         }
+
+                        // updates the wait before the next playing
+                        secTimerForAudio = (int)state;
                     }
                     timeSinceLastPlayedAudio = 0f;
                 }
