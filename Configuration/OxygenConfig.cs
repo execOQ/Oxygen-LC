@@ -240,7 +240,7 @@ namespace Oxygen.Configuration
             runningMultiplierMoons = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "runningMultiplierMoons", // Key
-                "Dine@1.2;Rend@0.2;Titan@1.25", // Default value
+                "Dine@1.2;Rend@1.2;Titan@1.25", // Default value
                 "Multiplies oxygen drain when player is running." +
                 "\nThis takes priority over the 'runningMultiplier' config option." +
                 "\nNot listed moons will use the 'runningMultiplier' config option." +
