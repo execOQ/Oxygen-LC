@@ -17,10 +17,14 @@ namespace Oxygen
 
         private const float AccurateValueRange = 0.6123f;
 
-        public static bool IsOxygenHUDInitialized => oxygenUI != null;
+        public static bool IsOxygenHUDInitialized => oxygenHUD != null;
+
+        public static float StaminaFillAmount => staminaHUD.fillAmount;
 
         // Elements
-        private static Image oxygenUI;
+        private static Image staminaHUD;
+
+        private static Image oxygenHUD;
 
         private static TextMeshProUGUI eladsUIText;
 
@@ -29,22 +33,22 @@ namespace Oxygen
         {
             get
             {
-                if (oxygenUI == null)
+                if (oxygenHUD == null)
                 {
                     return 0f;
                 }
-                return OxygenBase.Instance.IsEladsHUDFound ? oxygenUI.fillAmount : InvAdjustFillAmount(oxygenUI.fillAmount);
+                return OxygenBase.Instance.IsEladsHUDFound ? oxygenHUD.fillAmount : InvAdjustFillAmount(oxygenHUD.fillAmount);
             }
             internal set
             {
-                if (oxygenUI == null)
+                if (oxygenHUD == null)
                 {
                     return;
                 }
                 float adjustedFillAmount = Mathf.Clamp01(OxygenBase.Instance.IsEladsHUDFound ? value : AdjustFillAmount(value));
-                if (oxygenUI.fillAmount != adjustedFillAmount)
+                if (oxygenHUD.fillAmount != adjustedFillAmount)
                 {
-                    oxygenUI.fillAmount = adjustedFillAmount;
+                    oxygenHUD.fillAmount = adjustedFillAmount;
                     if (eladsUIText != null)
                     {
                         float roundedValue = (float)Round(Percent, 2);
@@ -54,7 +58,7 @@ namespace Oxygen
                     if (OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.shyHUDSupport)
                     {
                         bool toFadeOut = value >= 0.75f; // previously was 0.55f
-                        oxygenUI.CrossFadeAlpha(toFadeOut ? 0f : 1f, toFadeOut ? 5f : 0.5f, ignoreTimeScale: false);
+                        oxygenHUD.CrossFadeAlpha(toFadeOut ? 0f : 1f, toFadeOut ? 5f : 0.5f, ignoreTimeScale: false);
                     }
                 }
             }
@@ -105,13 +109,15 @@ namespace Oxygen
                 mls.LogError("Init_vanilla: sprintMeter is null");
                 return;
             }
+            staminaHUD = sprintMeter.transform.GetComponent<Image>();
 
             GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCornerUI.transform);
 
             oxygenMeter.name = "OxygenMeter";
 
-            oxygenUI = oxygenMeter.transform.GetComponent<Image>();
-            oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+            // а нах здесь transform?
+            oxygenHUD = oxygenMeter.transform.GetComponent<Image>();
+            oxygenHUD.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
 
             RectTransform rectTransform = oxygenMeter.GetComponent<RectTransform>();
 
@@ -151,17 +157,17 @@ namespace Oxygen
                 mls.LogError("Init_EladsHUD: sprintMeter is null");
                 return;
             }
+            staminaHUD = sprintMeter.transform.Find("Bar/StaminaBar").GetComponent<Image>();
 
             GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCornerUI.transform);
-
             oxygenMeter.name = "OxygenMeter";
             oxygenMeter.transform.localPosition = new Vector3(134.8f, -91.2254f, -2.8f);
             //oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
             //oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
 
             // oxygenHUD
-            oxygenUI = oxygenMeter.transform.Find("Bar/StaminaBar").GetComponent<Image>();
-            oxygenUI.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+            oxygenHUD = oxygenMeter.transform.Find("Bar/StaminaBar").GetComponent<Image>();
+            oxygenHUD.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
             //oxygenUI.fillAmount = 1f;
 
             // HUD's text field

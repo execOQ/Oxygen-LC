@@ -44,9 +44,9 @@ namespace Oxygen.Configuration
         internal SyncedEntry<string> decreasingOxygenInFactoryMoons;
 
         [SyncedEntryField]
-        internal SyncedEntry<float> oxygenRunning;
+        internal SyncedEntry<float> runningMultiplier;
         [SyncedEntryField]
-        internal SyncedEntry<string> oxygenRunningMoons;
+        internal SyncedEntry<string> runningMultiplierMoons;
 
         [SyncedEntryField]
         internal SyncedEntry<float> oxygenDepletionInWater;
@@ -101,7 +101,7 @@ namespace Oxygen.Configuration
         void DoSomethingAfterSync(object s, EventArgs e)
         {
             mls.LogInfo("Config was synced, updating moons value!");
-            RoundManagerPatch.UpdateMoonsValues();
+            MoonsDicts.UpdateMoonsValues();
 
             if (oxyBoost_price.Value != oxyBoost_price.LocalValue)
             {
@@ -229,21 +229,21 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            oxygenRunning = file.BindSyncedEntry(
+            runningMultiplier = file.BindSyncedEntry(
                 "Oxygen", // Section
-                "oxygenRunning", // Key
-                0.004f, // Default value
-                "Increases oxygen drain when player running and is triggered every secTimer (config option) seconds." +
+                "runningMultiplier", // Key
+                1f, // Default value
+                "Multiplies oxygen drain when player is running." +
                 "\n(syncing with host)" // Description
             );
 
-            oxygenRunningMoons = file.BindSyncedEntry(
+            runningMultiplierMoons = file.BindSyncedEntry(
                 "Oxygen", // Section
-                "oxygenRunningMoons", // Key
-                "Dine@0.006;Rend@0.006;Titan@0.008", // Default value
-                "Increases oxygen drain when player running and is triggered every secTimer (config option) seconds." +
-                "\nThis takes priority over the oxygenRunning config option." +
-                "\nNot listed moons will use the oxygenRunning config option." +
+                "runningMultiplierMoons", // Key
+                "Dine@1.2;Rend@0.2;Titan@1.25", // Default value
+                "Multiplies oxygen drain when player is running." +
+                "\nThis takes priority over the 'runningMultiplier' config option." +
+                "\nNot listed moons will use the 'runningMultiplier' config option." +
                 "\n(e.g. Experimentation@1.9;Vow@0.09;CUSTOM_MOON_NAME@10)" +
                 "\n(syncing with host)" // Description
             );

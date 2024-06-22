@@ -53,6 +53,23 @@ namespace Oxygen.Patches
             } */
 
             OxyCharger.Init();
+
+
+            /* 
+            RoundManager roundManager = Object.FindFirstObjectByType<RoundManager>();
+
+            if (roundManager != null)
+            {
+                string msg2 = "\nUse these dungeons names in the config:\n\n";
+                foreach (IndoorMapType imp in roundManager.dungeonFlowTypes)
+                {
+                    msg2 += imp.dungeonFlow.name + "\n";
+                }
+
+                mls.LogInfo(msg2);
+            }
+            else mls.LogError("roundmanager is null");
+            */
         }
     }
 }

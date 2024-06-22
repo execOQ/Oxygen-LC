@@ -18,7 +18,7 @@ namespace Oxygen.GameObjects
         // Compatibilitions and supports
         private static bool InfinityOxygenInModsPlaces => OxygenBase.OxygenConfig.infinityOxygenInModsPlaces.Value;
 
-        private static bool ImmersiveVisorSupport = OxygenBase.OxygenConfig.immersiveVisorSupport.Value;
+        private static bool ImmersiveVisorSupport => OxygenBase.OxygenConfig.immersiveVisorSupport.Value;
         private static float ImmersiveVisor_OxygenDecreasing => OxygenBase.OxygenConfig.immersiveVisor_OxygenDecreasing.Value;
 
         // General
@@ -30,7 +30,7 @@ namespace Oxygen.GameObjects
         private static float IncreasingOxygen => OxygenBase.OxygenConfig.increasingOxygen.Value;
         private static float DecreasingOxygenOutside => MoonsDicts.DecreasingOxygenOutsideMoonsValue;
         private static float DecreasingOxygenInFactory => MoonsDicts.DecreasingOxygenInFactoryMoonsValue;
-        private static float OxygenDepletionWhileRunning => MoonsDicts.OxygenRunningMoonsValue;
+        private static float RunningMultiplier => MoonsDicts.RunningMultiplierMoonsValue;
         private static float OxygenDepletionInWater => MoonsDicts.OxygenDepletionInWaterMoonsValue;
 
         private static float DecreasingInFear => OxygenBase.OxygenConfig.decreasingInFear.Value;
@@ -65,6 +65,9 @@ namespace Oxygen.GameObjects
         // uhm..
         private static bool wasInFearOrExhaustedLastFrame = false;
 
+        private static bool wasRunningLastFrame = false;
+        private static float runTime = 0;
+
         internal static void ShowNotifications()
         {
             if (IsNotification)
@@ -89,35 +92,8 @@ namespace Oxygen.GameObjects
             }
         }
 
-        internal static void RunLogic()
+        private static void SFX_Logic(PlayerControllerB pc, StartOfRound sor)
         {
-            if (!OxygenInit.IsOxygenHUDInitialized)
-            {
-                mls.LogError("oxygenUI is null, lol...");
-                return;
-            }
-
-            StartOfRound sor = StartOfRound.Instance;
-            if (sor == null)
-            {
-                mls.LogError("StartOfRound is null");
-                return;
-            }
-
-            PlayerControllerB pc = GameNetworkManager.Instance.localPlayerController;
-            if (pc == null)
-            {
-                mls.LogError("PlayerControllerB is null");
-                return;
-            }
-            if (pc.isPlayerDead) return;
-
-            float localDecValue = 0f;
-            sor.drowningTimer = OxygenInit.Percent;
-
-            if (!pc.isInsideFactory && !pc.isInHangarShipRoom) localDecValue += DecreasingOxygenOutside;
-            else if (pc.isInsideFactory) localDecValue += DecreasingOxygenInFactory;
-
             if (EnableOxygenSFX)
             {
                 if (timeSinceLastPlayedAudio >= secTimerForAudio)
@@ -200,9 +176,65 @@ namespace Oxygen.GameObjects
                 }
                 timeSinceLastPlayedAudio += Time.deltaTime;
             }
+        }
+
+        internal static void RunLogic()
+        {
+            if (!OxygenInit.IsOxygenHUDInitialized)
+            {
+                mls.LogError("oxygenUI is null, lol...");
+                return;
+            }
+
+            StartOfRound sor = StartOfRound.Instance;
+            if (sor == null)
+            {
+                mls.LogError("StartOfRound is null");
+                return;
+            }
+
+            PlayerControllerB pc = GameNetworkManager.Instance.localPlayerController;
+            if (pc == null)
+            {
+                mls.LogError("PlayerControllerB is null");
+                return;
+            }
+            if (pc.isPlayerDead) return;
+
+            float localDecValue = 0f;
+            sor.drowningTimer = OxygenInit.Percent;
+
+            SFX_Logic(pc, sor);
 
             if (!pc.isInHangarShipRoom)
             {
+                if (pc.isSprinting)
+                {
+                    wasRunningLastFrame = true;
+                    runTime += Time.deltaTime;
+                }
+                else if (!pc.isSprinting && wasRunningLastFrame && runTime > 0.4)
+                {
+                    float currentStaminaFillAmount = OxygenInit.StaminaFillAmount;
+
+                    float totalOxygenConsumption = (float)(RunningMultiplier * pc.movementSpeed * runTime * (1 - currentStaminaFillAmount) / 1000);
+
+                    // if stamina has not dropped much, then we reduce oxygen consumption
+                    if (currentStaminaFillAmount > 0.8f)
+                    {
+                        totalOxygenConsumption *= 0.5f; // reduce consumption by 50% if stamina is above 80%
+                    }
+
+                    mls.LogDebug($"player was running for {runTime}");
+                    mls.LogDebug($"player's current stamina amount is {currentStaminaFillAmount}");
+                    mls.LogDebug($"total oxygen consumption: {totalOxygenConsumption}");
+
+                    localDecValue += totalOxygenConsumption;
+
+                    wasRunningLastFrame = false;
+                    runTime = 0f;
+                }
+
                 if (timeSinceLastFear >= secTimerInFear)
                 {
                     if (sor.fearLevel > 0)
@@ -216,18 +248,20 @@ namespace Oxygen.GameObjects
                 timeSinceLastFear += Time.deltaTime;
 
                 if (timeSinceLastAction >= SecTimer)
-                { 
+                {
+                    if (!pc.isInsideFactory)
+                    {
+                        localDecValue += DecreasingOxygenOutside;
+                    }
+                    else if (pc.isInsideFactory)
+                    {
+                        localDecValue += DecreasingOxygenInFactory;
+                    }
+
                     // support for Immersive visor
                     if (OxygenBase.Instance.IsImmersiveVisorFound && ImmersiveVisorSupport)
                     {
                         localDecValue += LogicForImmersiveVisor();
-                    }
-
-                    // if player running the oxygen goes away faster
-                    if (pc.isSprinting)
-                    {
-                        localDecValue += OxygenDepletionWhileRunning;
-                        mls.LogDebug($"The player is running, oxygen consumption is increased by {OxygenDepletionWhileRunning}");
                     }
 
                     // increasing drunkness
@@ -271,7 +305,7 @@ namespace Oxygen.GameObjects
                     }
                     else
                     {
-                        OxygenAmount = OxygenAmount - localDecValue;
+                        OxygenAmount -= localDecValue;
                         mls.LogDebug($"current oxygen level: {OxygenAmount}");
 
                         breathablePlace_Notification = false;
@@ -288,7 +322,7 @@ namespace Oxygen.GameObjects
                 {
                     if (OxygenAmount != 1)
                     {
-                        OxygenAmount = OxygenAmount + IncreasingOxygen;
+                        OxygenAmount += IncreasingOxygen;
                         mls.LogDebug($"Oxygen is recovering: {OxygenAmount}");
                     }
                 }
@@ -311,7 +345,7 @@ namespace Oxygen.GameObjects
                     immersiveVisor_Notification = true;
                 }
 
-                mls.LogInfo($"The helmet is fucked, oxygen consumption is increased by {ImmersiveVisor_OxygenDecreasing}");
+                mls.LogDebug($"The helmet is fucked, oxygen consumption is increased by {ImmersiveVisor_OxygenDecreasing}");
 
                 return ImmersiveVisor_OxygenDecreasing;
             }
