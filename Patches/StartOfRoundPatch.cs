@@ -1,21 +1,18 @@
 ﻿using BepInEx.Logging;
 using HarmonyLib;
-using Oxygen.Items;
-using UnityEngine;
-using LL = LethalLib.Modules;
 
 namespace Oxygen.Patches
 {
-    [HarmonyPatch]
-    internal class StartOfRoundPatch : MonoBehaviour
+    [HarmonyPatch(typeof(StartOfRound))]
+    internal class StartOfRoundPatch
     {
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > StartOfRoundPatch");
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(StartOfRound), "ShipHasLeft")]
+        [HarmonyPatch("ShipHasLeft")]
         private static void ShipHasLeft_Patch()
         {
-            if (OxygenBase.OxygenConfig.recoverOxygenOnceShipLeft.Value)
+            if (OxygenBase.OxygenConfig.recoverOxygen_ShipLeft.Value)
             {
                 OxygenInit.Percent = 1f;
                 mls.LogInfo("Ship has left, oxygen was recovered.");
@@ -23,7 +20,18 @@ namespace Oxygen.Patches
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(StartOfRound), "Awake")]
+        [HarmonyPatch("OpenShipDoors")]
+        private static void OpenShipDoors_PostFix()
+        {
+            if (OxygenBase.OxygenConfig.recoverOxygen_StartOfRound.Value)
+            {
+                OxygenInit.Percent = 1f;
+                mls.LogInfo("Round just started, oxygen was recovered.");
+            }
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch("Awake")]
         private static void Patch_RoundAwake()
         {
             // for some reasons it's not working.
@@ -52,8 +60,7 @@ namespace Oxygen.Patches
                 }
             } */
 
-            OxyCharger.Init();
-
+            OxygenInit.Init_OxyCharger();
 
             /* 
             RoundManager roundManager = Object.FindFirstObjectByType<RoundManager>();

@@ -7,7 +7,7 @@ using UnityEngine;
 using BepInEx.Bootstrap;
 using LL = LethalLib.Modules;
 using Oxygen.Extras;
-using Oxygen.Items;
+using System.Reflection;
 
 namespace Oxygen
 {
@@ -17,31 +17,31 @@ namespace Oxygen
     [BepInDependency(shyHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(immersiveVisorGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(eladsHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency(oopsAllFloodedGUID, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(LCVRGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class OxygenBase : BaseUnityPlugin
     {
-        public static OxygenBase Instance { get; private set; }
+        private readonly ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
         public const string modVersion = "1.5.6";
 
+        private readonly Harmony harmony = new(modGUID);
+        public static OxygenConfig OxygenConfig { get; private set; }
+
         private const string immersiveVisorGUID = "ImmersiveVisor"; 
         private const string shyHUDGUID = "ShyHUD";
         private const string eladsHUDGUID = "me.eladnlg.customhud";
-        private const string oopsAllFloodedGUID = "squirrelboy.OopsAllFlooded";
+        private const string LCVRGUID = "io.daxcess.lcvr";
 
+        #region Getters
         public bool IsShyHUDFound { get; private set; } = false;
         public bool IsImmersiveVisorFound { get; private set; } = false;
         public bool IsEladsHUDFound { get; private set; } = false;
-        public bool IsOopsAllFloodedFound { get; private set; } = false;
+        public bool IsLCVRFound { get; private set; } = false;
+        #endregion
 
-        private readonly Harmony harmony = new(modGUID);
-        private readonly ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
-
-        public static OxygenConfig OxygenConfig { get; private set; }
-
-        // Assets
+        #region Assets
         internal AudioClip[] inhalesSFX = [];
         internal AudioClip[] heavyInhalesSFX = [];
 
@@ -51,6 +51,9 @@ namespace Oxygen
         internal AudioClip[] oxyChargerSFX;
 
         internal Item oxyBoost;
+        #endregion
+
+        public static OxygenBase Instance { get; private set; }
 
         internal static void UpdateCustomItemPrice(Item item, int price) => LL.Items.UpdateShopItemPrice(item, price);
 
@@ -63,10 +66,12 @@ namespace Oxygen
             
             mls.LogInfo($"{modName} is loading...");
 
+            NetworkPatcher();
+
             IsShyHUDFound = CheckForDependency(shyHUDGUID);
             IsImmersiveVisorFound = CheckForDependency(immersiveVisorGUID);
             IsEladsHUDFound = CheckForDependency(eladsHUDGUID);
-            IsOopsAllFloodedFound = CheckForDependency(oopsAllFloodedGUID);
+            IsLCVRFound = CheckForDependency(LCVRGUID);
 
             AssetBundle _oxyAudio = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygenaudio");
             if (_oxyAudio == null) return;
@@ -102,10 +107,29 @@ namespace Oxygen
             harmony.PatchAll(typeof(StartOfRoundPatch));
             harmony.PatchAll(typeof(RoundManagerPatch));
             harmony.PatchAll(typeof(PlayerPatch));
-
+            harmony.PatchAll(typeof(GameNetworkManagerParch));
+            harmony.PatchAll(typeof(PlayerControllerBPatch));
+            
             RegisterItems();
 
             mls.LogInfo($"{modName} is loaded. Don't forget to refill oxygen canisters!");
+        }
+
+        private void NetworkPatcher()
+        {
+            var types = Assembly.GetExecutingAssembly().GetTypes();
+            foreach (var type in types)
+            {
+                var methods = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+                foreach (var method in methods)
+                {
+                    var attributes = method.GetCustomAttributes(typeof(RuntimeInitializeOnLoadMethodAttribute), false);
+                    if (attributes.Length > 0)
+                    {
+                        method.Invoke(null, null);
+                    }
+                }
+            }
         }
 
         private bool CheckForDependency(string guid)

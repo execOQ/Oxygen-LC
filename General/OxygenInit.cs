@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Oxygen.GameObjects;
+using System.Collections;
+using LCVR.Player;
+using DunGen;
 
 namespace Oxygen
 {
@@ -19,10 +22,10 @@ namespace Oxygen
 
         public static bool IsOxygenHUDInitialized => oxygenHUD != null;
 
-        public static float StaminaFillAmount => staminaHUD.fillAmount;
+        public static float StaminaFillAmount => sprintMeterImage.fillAmount;
 
         // Elements
-        private static Image staminaHUD;
+        private static Image sprintMeterImage;
 
         private static Image oxygenHUD;
 
@@ -55,7 +58,7 @@ namespace Oxygen
                         int oxygenInPercent = (int)(roundedValue * 100f);
                         eladsUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
                     }
-                    if (OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.shyHUDSupport)
+                    if (OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.shyHUDSupport.Value)
                     {
                         bool toFadeOut = value >= 0.75f; // previously was 0.55f
                         oxygenHUD.CrossFadeAlpha(toFadeOut ? 0f : 1f, toFadeOut ? 5f : 0.5f, ignoreTimeScale: false);
@@ -76,13 +79,29 @@ namespace Oxygen
 
         internal static void Init()
         {
+            GameObject sprintMeter = OxygenBase.Instance.IsEladsHUDFound ?
+                        GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)/Stamina") : GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner/SprintMeter");
+
+            if (sprintMeter == null)
+            {
+                mls.LogError("sprintMeter is null");
+                return;
+            }
+
+            sprintMeterImage = sprintMeter.GetComponent<Image>();
+
             if (!OxygenBase.Instance.IsEladsHUDFound)
             {
-                Init_vanilla();
+                Init_vanilla(sprintMeter);
+
+                if (OxygenBase.Instance.IsLCVRFound)
+                {
+                    CoroutineHelper.Start(Init_LCVR(sprintMeter));
+                }
             }
             else
             {
-                Init_EladsHUD();
+                Init_EladsHUD(sprintMeter);
             }
 
             OxygenLogic.breathablePlace_Notification = false;
@@ -94,29 +113,14 @@ namespace Oxygen
             mls.LogInfo("Oxygen is initialized");
         }
 
-        private static void Init_vanilla()
+        private static void Init_vanilla(GameObject sprintMeter)
         {
-            GameObject topLeftCornerUI = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/TopLeftCorner");
-            if (topLeftCornerUI == null)
-            {
-                mls.LogError("Init_vanilla: topLeftCornerUI is null");
-                return;
-            }
+            Transform sprintMeterParent = sprintMeter.transform.parent;
 
-            GameObject sprintMeter = topLeftCornerUI.transform.Find("SprintMeter").gameObject;
-            if (sprintMeter == null)
-            {
-                mls.LogError("Init_vanilla: sprintMeter is null");
-                return;
-            }
-            staminaHUD = sprintMeter.transform.GetComponent<Image>();
-
-            GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCornerUI.transform);
-
+            GameObject oxygenMeter = Instantiate(sprintMeter, sprintMeterParent);
             oxygenMeter.name = "OxygenMeter";
 
-            // а нах здесь transform?
-            oxygenHUD = oxygenMeter.transform.GetComponent<Image>();
+            oxygenHUD = oxygenMeter.GetComponent<Image>();
             oxygenHUD.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
 
             RectTransform rectTransform = oxygenMeter.GetComponent<RectTransform>();
@@ -132,34 +136,18 @@ namespace Oxygen
             rectTransform.localScale = new Vector3(2.0392f, 2.0392f, 1.6892f);
             rectTransform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
 
-            GameObject statusEffectHUD = topLeftCornerUI.transform.Find("StatusEffects").gameObject;
-            if (statusEffectHUD != null)
-            {
-                statusEffectHUD.transform.localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
-                //HUDManager.Instance.DisplayStatusEffect("Oxygen critically low!");
+            // fixes overlapping
+            sprintMeterParent.Find("StatusEffects").localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
+            sprintMeterParent.Find("WeightUI").localPosition = new Vector3(-270f, 83f, 17f);
 
-                mls.LogInfo("statusEffectHUD is fixed");
-            }
+            mls.LogInfo(OxygenBase.OxygenConfig.autoFillingOnShip_increasingOxygen);
         }
 
-        private static void Init_EladsHUD()
+        private static void Init_EladsHUD(GameObject sprintMeter)
         {
-            GameObject topLeftCornerUI = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/PlayerInfo(Clone)");
-            if (topLeftCornerUI == null)
-            {
-                mls.LogError("Init_EladsHUD: topLeftCornerUI is null");
-                return;
-            }
+            Transform sprintMeterParent = sprintMeter.transform.parent;
 
-            GameObject sprintMeter = topLeftCornerUI.transform.Find("Stamina").gameObject;
-            if (sprintMeter == null)
-            {
-                mls.LogError("Init_EladsHUD: sprintMeter is null");
-                return;
-            }
-            staminaHUD = sprintMeter.transform.Find("Bar/StaminaBar").GetComponent<Image>();
-
-            GameObject oxygenMeter = Instantiate(sprintMeter, topLeftCornerUI.transform);
+            GameObject oxygenMeter = Instantiate(sprintMeter, sprintMeterParent);
             oxygenMeter.name = "OxygenMeter";
             oxygenMeter.transform.localPosition = new Vector3(134.8f, -91.2254f, -2.8f);
             //oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
@@ -176,31 +164,85 @@ namespace Oxygen
             eladsUIText = oxygenInfo.GetComponent<TextMeshProUGUI>();
             eladsUIText.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
 
-            // adding divider between stamina info and oxygen info
+            // divider between stamina info and oxygen info
             GameObject divider = Instantiate(oxygenInfo, oxygenMeter.transform);
-            //divider.name = "Text Divider";
             divider.transform.localPosition = new Vector3(39.8443f, -6.4f, 2.8f);
+
+            // renaming breaks the object, idk why
+            //divider.name = "Text Divider";
+
             TextMeshProUGUI textDivider = divider.GetComponent<TextMeshProUGUI>();
             textDivider.text = "<size=50%><voffset=-3>•</voffset></size>";
             textDivider.color = new Color(r: 1, g: 1, b: 1, a: 0.37f);
 
-            // just to not duplicating carryInfo :)
+            // just to not duplicate carryInfo :)
             Destroy(oxygenMeter.transform.Find("CarryInfo").gameObject);
 
             // nah, we're not needed in it :)))
             Destroy(oxygenMeter.transform.Find("Bar/Stamina Change FG").gameObject);
 
-            // fixing position of stamina info
-            Transform staminaMeterInfo = sprintMeter.transform.Find("StaminaInfo");
-            staminaMeterInfo.localPosition = new Vector3(-0.2038f, -17.6235f, 2.7936f);
+            // fixes overlapping
+            sprintMeter.transform.Find("StaminaInfo").localPosition = new Vector3(-0.2038f, -17.6235f, 2.7936f);
+            sprintMeter.transform.Find("CarryInfo").localPosition = new Vector3(-0.0001f, -17.901f, 2.7999f);
+            sprintMeterParent.Find("Health").localPosition = new Vector3(134.9906f, -178, 0.007f);
+        }
 
-            // fixing position of carry info
-            Transform carryInfo = sprintMeter.transform.Find("CarryInfo");
-            carryInfo.localPosition = new Vector3(-0.0001f, -17.901f, 2.7999f);
+        private static IEnumerator Init_LCVR(GameObject sprintMeter)
+        {
+            if (!VRSession.InVR)
+            {
+                yield break; 
+            }
 
-            // fixing position of health
-            Transform healthBar = topLeftCornerUI.transform.Find("Health");
-            healthBar.localPosition = new Vector3(134.9906f, -178, 0.007f);
+            if (oxygenHUD == null)
+            {
+                mls.LogError("Init_LCVR: oxygenHUD is null, WTF...");
+                yield break;
+            }
+
+            // Wait until VR Instance exists
+            yield return new WaitUntil(() => VRSession.Instance != null);
+
+            oxygenHUD.transform.SetParent(sprintMeter.transform.parent, false);
+            
+            if (LCVR.Plugin.Config.DisableArmHUD.Value)
+            {
+                oxygenHUD.transform.localPosition = new Vector3(-279.0514f, 74.9563f, 0);
+                oxygenHUD.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                oxygenHUD.transform.localScale = new Vector3(2.55f, 2.5f, 2.5f);
+
+                sprintMeter.transform.parent.Find("WeightUI").localPosition = new Vector3(-171f, 25f, 0f);
+            } else
+            {
+                oxygenHUD.transform.localPosition = new Vector3(-45f, 95f, 70f);
+                oxygenHUD.transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
+                oxygenHUD.transform.localScale = new Vector3(1.35f, 1.25f, 1f);
+
+                sprintMeter.transform.parent.Find("WeightUI").localPosition = new Vector3(-50f, 60f, 67f);
+            }
+
+            mls.LogInfo("OxygenHUD initialized (VR)");
+        }
+
+        internal static void Init_OxyCharger()
+        {
+            if (OxygenBase.OxygenConfig.oxyCharger_Enabled.Value)
+            {
+                GameObject suitParts = GameObject.Find("Environment/HangarShip/ScavengerModelSuitParts");
+                if (suitParts == null)
+                {
+                    mls.LogError("suitParts are null");
+                    return;
+                }
+
+                GameObject oxyCylinders = suitParts.transform.Find("Circle.002").gameObject;
+
+                GameObject go = Instantiate(OxygenBase.Instance.oxyCharger, suitParts.transform);
+                go.transform.rotation = oxyCylinders.transform.rotation;
+                go.transform.position = new Vector3(5.9905f, 0.7598f, -11.2452f);
+
+                Destroy(oxyCylinders);
+            }
         }
     }
 }

@@ -3,6 +3,8 @@ using GameNetcodeStuff;
 using Oxygen.Configuration;
 using UnityEngine;
 using static Oxygen.Extras.AudioController;
+using static Oxygen.Configuration.OxygenConfig;
+using Oxygen.Items;
 
 namespace Oxygen.GameObjects
 {
@@ -15,19 +17,20 @@ namespace Oxygen.GameObjects
             set => OxygenInit.Percent = value;
         }
 
-        // Compatibilitions and supports
+        #region Supports
         private static bool InfinityOxygenInModsPlaces => OxygenBase.OxygenConfig.infinityOxygenInModsPlaces.Value;
 
         private static bool ImmersiveVisorSupport => OxygenBase.OxygenConfig.immersiveVisorSupport.Value;
         private static float ImmersiveVisor_OxygenDecreasing => OxygenBase.OxygenConfig.immersiveVisor_OxygenDecreasing.Value;
+        #endregion
 
-        // General
-        private static int OxygenFillOption => OxygenBase.OxygenConfig.oxygenFillOption.Value;
+        #region General
+        private static AutoFillingOnShip AutoFillingOnShip => OxygenBase.OxygenConfig.autoFillingOnShip.Value;
 
         private static int PlayerDamage => OxygenBase.OxygenConfig.playerDamage.Value;
 
         private static bool IsgreenPlanet => MoonsDicts.GreenPlanetsValue;
-        private static float IncreasingOxygen => OxygenBase.OxygenConfig.increasingOxygen.Value;
+        private static float IncreasingOxygen => OxygenBase.OxygenConfig.autoFillingOnShip_increasingOxygen.Value;
         private static float DecreasingOxygenOutside => MoonsDicts.DecreasingOxygenOutsideMoonsValue;
         private static float DecreasingOxygenInFactory => MoonsDicts.DecreasingOxygenInFactoryMoonsValue;
         private static float RunningMultiplier => MoonsDicts.RunningMultiplierMoonsValue;
@@ -35,8 +38,9 @@ namespace Oxygen.GameObjects
 
         private static float DecreasingInFear => OxygenBase.OxygenConfig.decreasingInFear.Value;
         private static float OxygenDeficiency => OxygenBase.OxygenConfig.oxygenDeficiency.Value;
+        #endregion
 
-        // Timer
+        #region Timer
         private static float SecTimer => OxygenBase.OxygenConfig.secTimer.Value;
         private static float secTimerInFear = 2f;
         private static float secTimerForAudio = 5f;
@@ -44,8 +48,9 @@ namespace Oxygen.GameObjects
         private static float timeSinceLastAction = 0f;
         private static float timeSinceLastFear = 0f;
         private static float timeSinceLastPlayedAudio = 0f;
+        #endregion
 
-        // Notifications
+        #region Notifications
         private static bool IsNotification => OxygenBase.OxygenConfig.notifications.Value;
         private static readonly float low_OxygenAmount = 0.25f;
         private static readonly float critical_OxygenAmount = 0.1f;
@@ -55,12 +60,14 @@ namespace Oxygen.GameObjects
         internal static bool immersiveVisor_Notification = false;
         internal static bool lowLevel_Notification = false;
         internal static bool criticalLevel_Notification = false;
+        #endregion
 
-        // Sounds
+        #region Sounds
         private static bool EnableOxygenSFX => OxygenBase.OxygenConfig.enableOxygenSFX.Value;
         private static bool EnableInhaleSFXWhileWalking => OxygenBase.OxygenConfig.enableInhaleSFXWhileWalking.Value;
         private static bool EnableOxygenSFXInShip => OxygenBase.OxygenConfig.enableOxygenSFXInShip.Value;
         private static bool EnableOxygenSFXOnTheCompany => OxygenBase.OxygenConfig.enableOxygenSFXOnTheCompany.Value;
+        #endregion
 
         // uhm..
         private static bool wasInFearOrExhaustedLastFrame = false;
@@ -216,7 +223,6 @@ namespace Oxygen.GameObjects
                 else if (!pc.isSprinting && wasRunningLastFrame && runTime > 0.4)
                 {
                     float currentStaminaFillAmount = OxygenInit.StaminaFillAmount;
-
                     float totalOxygenConsumption = (float)(RunningMultiplier * pc.movementSpeed * runTime * (1 - currentStaminaFillAmount) / 1000);
 
                     // if stamina has not dropped much, then we reduce oxygen consumption
@@ -249,15 +255,6 @@ namespace Oxygen.GameObjects
 
                 if (timeSinceLastAction >= SecTimer)
                 {
-                    if (!pc.isInsideFactory)
-                    {
-                        localDecValue += DecreasingOxygenOutside;
-                    }
-                    else if (pc.isInsideFactory)
-                    {
-                        localDecValue += DecreasingOxygenInFactory;
-                    }
-
                     // support for Immersive visor
                     if (OxygenBase.Instance.IsImmersiveVisorFound && ImmersiveVisorSupport)
                     {
@@ -277,6 +274,14 @@ namespace Oxygen.GameObjects
                         mls.LogDebug("It's a green planet and you're outside, oxygen consumption is omitted!");
                         localDecValue = 0f;
                     }
+                    else if (!pc.isInsideFactory) // means outside
+                    {
+                        localDecValue += DecreasingOxygenOutside;
+                    }
+                    else if (pc.isInsideFactory)
+                    {
+                        localDecValue += DecreasingOxygenInFactory;
+                    }
 
                     if (pc.isUnderwater && pc.underwaterCollider != null && pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
                     {
@@ -286,13 +291,13 @@ namespace Oxygen.GameObjects
                         //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
                     }
 
-                    // 0.30 is the lowest value when we still see UI meter
+                    // 0.30 is the lowest value when we still see UI meter (without AccurateMeter enabled)
                     if (OxygenAmount <= damage_OxygenAmount)
                     {
                         pc.DamagePlayer(PlayerDamage);  
                     }
 
-                    // just for simplification if player was teleported and unable to refill oxygen
+                    // if player was teleported and unable to refill oxygen
                     if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -480f) // -480f is Y offset 
                     {
                         if (IsNotification && !breathablePlace_Notification)
@@ -311,18 +316,17 @@ namespace Oxygen.GameObjects
                         breathablePlace_Notification = false;
                     }
 
-                    // timer resets
                     timeSinceLastAction = 0f;
                 }
-                timeSinceLastAction += Time.deltaTime; //increment the cool down timer
+                timeSinceLastAction += Time.deltaTime;
             }
             else
             {
-                if (OxygenFillOption == 2)
+                if ((AutoFillingOnShip == AutoFillingOnShip.WhenDoorsClosed && sor.hangarDoorsClosed) || (AutoFillingOnShip == AutoFillingOnShip.WhenPlayerOnShip))
                 {
-                    if (OxygenAmount != 1)
+                    if (OxygenAmount < 1)
                     {
-                        OxygenAmount += IncreasingOxygen;
+                        OxyCharger.Instance.AutoRefillOxygen();
                         mls.LogDebug($"Oxygen is recovering: {OxygenAmount}");
                     }
                 }

@@ -11,14 +11,13 @@ namespace Oxygen.Configuration
 
         public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > ConfigHandler");
 
-        private static string MoonName => Utilities.NumberLessPlanetName(StartOfRound.Instance.currentLevel.PlanetName).ToLower();
+        private static string MoonName => Utilities.GetNumberlessPlanetName(StartOfRound.Instance.currentLevel.PlanetName).ToLower();
 
         internal static Dictionary<string, float> greenPlanets;
         internal static Dictionary<string, float> decreasingOxygenOutsideMoons;
         internal static Dictionary<string, float> decreasingOxygenInFactoryMoons;
         internal static Dictionary<string, float> runningMultiplierMoons; 
         internal static Dictionary<string, float> oxygenDepletionInWaterMoons;
-        // internal static Dictionary<string, float> increasingOxygenMoons;
 
         internal static bool GreenPlanetsValue => greenPlanets != null && greenPlanets.ContainsKey(MoonName);
 
@@ -33,8 +32,6 @@ namespace Oxygen.Configuration
 
         internal static float OxygenDepletionInWaterMoonsValue =>
             GetValueFromDictionary(oxygenDepletionInWaterMoons, OxygenBase.OxygenConfig.oxygenDepletionInWater.Value);
-
-        // internal static float IncreasingOxygenMoonsValue => GetValueFromDictionary(increasingOxygenMoons, OxygenBase.OxygenConfig.increasingOxygen.Value);
 
         private static float GetValueFromDictionary(Dictionary<string, float> dictionary, float defaultValue)
         {
@@ -53,12 +50,6 @@ namespace Oxygen.Configuration
                 "greenPlanets"
             );
 
-            /* MoonsDicts.increasingOxygenMoons = GetLevelValue(
-                OxygenBase.OxygenConfig.increasingOxygenMoons.Value, 
-                OxygenBase.OxygenConfig.increasingOxygen.Value, 
-                "increasingOxygenMoons"
-            ); */
-
             decreasingOxygenOutsideMoons = GetLevelValue(
                 OxygenBase.OxygenConfig.decreasingOxygenOutsideMoons.Value,
                 OxygenBase.OxygenConfig.decreasingOxygenOutside.Value,
@@ -74,7 +65,7 @@ namespace Oxygen.Configuration
             runningMultiplierMoons = GetLevelValue(
                 OxygenBase.OxygenConfig.runningMultiplierMoons.Value,
                 OxygenBase.OxygenConfig.runningMultiplier.Value,
-                "oxygenRunningMoons"
+                "runningMultiplierMoons"
             );
 
             oxygenDepletionInWaterMoons = GetLevelValue(

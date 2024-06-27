@@ -11,18 +11,42 @@ namespace Oxygen.Extras
     {
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource($"{OxygenBase.modName} > Utils");
 
-        public static T GetPrivateField<T>(this object obj, string field)
+        internal static T GetPrivateField<T>(this object obj, string field)
         {
             return (T)obj.GetType().GetField(field, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(obj);
         }
 
-        public static string NumberLessPlanetName(string moon)
+        internal static string GetLLLNameOfLevel(string levelName)
         {
-            if (moon != null)
+            string text = StripSpecialCharacters(GetNumberlessPlanetName(levelName));
+            if (!text.EndsWith("Level"))
             {
-                return new string(moon.SkipWhile((char c) => !char.IsLetter(c)).ToArray());
+                text += "Level";
+            }
+            return text;
+        }
+
+        internal static string GetNumberlessPlanetName(string planetName)
+        {
+            if (planetName != null)
+            {
+                return new string(planetName.SkipWhile((char c) => !char.IsLetter(c)).ToArray());
             }
             return string.Empty;
+        }
+
+        private static string StripSpecialCharacters(string input)
+        {
+            string text = string.Empty;
+            for (int i = 0; i < input.Length; i++)
+            {
+                char c = input[i];
+                if ((!".,?!@#$%^&*()_+-=';:'\"".ToCharArray().Contains(c) && char.IsLetterOrDigit(c)) || c.ToString() == " ")
+                {
+                    text += c;
+                }
+            }
+            return text;
         }
 
         internal static AssetBundle LoadAssetFromStream(string path)

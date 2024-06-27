@@ -5,13 +5,13 @@ using Oxygen.GameObjects;
 
 namespace Oxygen.Patches
 {
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(PlayerControllerB))]
     internal class KillPlayerPatch
     {
         private readonly static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > KillPlayerPatch");
 
-        [HarmonyPatch(typeof(PlayerControllerB), "KillPlayer")]
         [HarmonyPostfix]
+        [HarmonyPatch("KillPlayer")]
         public static void KillPlayer_patch(PlayerControllerB __instance)
         {
             if (__instance == null) return;
