@@ -102,11 +102,9 @@ namespace Oxygen
             mls.LogInfo($"Config is loaded.");
 
             harmony.PatchAll(typeof(HUDPatch));
-            harmony.PatchAll(typeof(KillPlayerPatch));
             harmony.PatchAll(typeof(OxygenConfig));
             harmony.PatchAll(typeof(StartOfRoundPatch));
             harmony.PatchAll(typeof(RoundManagerPatch));
-            harmony.PatchAll(typeof(PlayerPatch));
             harmony.PatchAll(typeof(GameNetworkManagerParch));
             harmony.PatchAll(typeof(PlayerControllerBPatch));
             

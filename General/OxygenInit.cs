@@ -104,10 +104,7 @@ namespace Oxygen
                 Init_EladsHUD(sprintMeter);
             }
 
-            OxygenLogic.breathablePlace_Notification = false;
-            OxygenLogic.lowLevel_Notification = false;
-            OxygenLogic.criticalLevel_Notification = false;
-            OxygenLogic.immersiveVisor_Notification = false;
+            OxygenLogic.ResetAllNotifications();
 
             Percent = 1f;
             mls.LogInfo("Oxygen is initialized");

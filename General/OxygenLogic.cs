@@ -12,6 +12,10 @@ namespace Oxygen.GameObjects
     {
         private readonly static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > OxygenLogic");
 
+        public const float low_OxygenAmount = 0.2f;
+        public const float critical_OxygenAmount = 0.1f;
+        public const float damage_OxygenAmount = 0f;
+
         private static float OxygenAmount {
             get => OxygenInit.Percent;
             set => OxygenInit.Percent = value;
@@ -50,54 +54,11 @@ namespace Oxygen.GameObjects
         private static float timeSinceLastPlayedAudio = 0f;
         #endregion
 
-        #region Notifications
-        private static bool IsNotification => OxygenBase.OxygenConfig.notifications.Value;
-        private static readonly float low_OxygenAmount = 0.25f;
-        private static readonly float critical_OxygenAmount = 0.1f;
-        private static readonly float damage_OxygenAmount = 0f;
-
-        internal static bool breathablePlace_Notification = false;
-        internal static bool immersiveVisor_Notification = false;
-        internal static bool lowLevel_Notification = false;
-        internal static bool criticalLevel_Notification = false;
-        #endregion
-
-        #region Sounds
+        #region Audio
         private static bool EnableOxygenSFX => OxygenBase.OxygenConfig.enableOxygenSFX.Value;
         private static bool EnableInhaleSFXWhileWalking => OxygenBase.OxygenConfig.enableInhaleSFXWhileWalking.Value;
         private static bool EnableOxygenSFXInShip => OxygenBase.OxygenConfig.enableOxygenSFXInShip.Value;
         private static bool EnableOxygenSFXOnTheCompany => OxygenBase.OxygenConfig.enableOxygenSFXOnTheCompany.Value;
-        #endregion
-
-        // uhm..
-        private static bool wasInFearOrExhaustedLastFrame = false;
-
-        private static bool wasRunningLastFrame = false;
-        private static float runTime = 0;
-
-        internal static void ShowNotifications()
-        {
-            if (IsNotification)
-            {
-                // notification about low level of oxygen
-                if (OxygenAmount < low_OxygenAmount && !lowLevel_Notification)
-                {
-                    HUDManager.Instance.DisplayTip("System...", "The oxygen tanks are running low.");
-                    lowLevel_Notification = true;
-                }
-
-                // system warning
-                if (OxygenAmount < critical_OxygenAmount && !criticalLevel_Notification)
-                {
-                    HUDManager.Instance.DisplayTip(
-                        "System...",
-                        "Oxygen tanks have a critical level of oxygen, fill them up immediately!",
-                        isWarning: true
-                    );
-                    criticalLevel_Notification = true;
-                }
-            }
-        }
 
         private static void SFX_Logic(PlayerControllerB pc, StartOfRound sor)
         {
@@ -185,6 +146,112 @@ namespace Oxygen.GameObjects
             }
         }
 
+        #endregion
+
+        #region Notifications
+        private static bool IsNotification => OxygenBase.OxygenConfig.notifications.Value;
+
+        private static bool breathablePlace_Notification = false;
+        private static bool immersiveVisor_Notification = false;
+        private static bool lowLevel_Notification = false;
+        private static bool criticalLevel_Notification = false;
+
+        internal static void ShowNotifications(PlayerControllerB pc)
+        {
+            if (IsNotification)
+            {
+                // notification about low level of oxygen
+                if (OxygenAmount < low_OxygenAmount)
+                {
+                    if (!lowLevel_Notification)
+                    {
+                        HUDManager.Instance.DisplayTip(
+                            "System...", 
+                            "The oxygen tanks are running low."
+                        );
+                        lowLevel_Notification = true;
+                    }
+                } else
+                {
+                    lowLevel_Notification = false;
+                }
+
+                // system warning
+                if (OxygenAmount < critical_OxygenAmount)
+                {
+                    if (!criticalLevel_Notification)
+                    {
+                        HUDManager.Instance.DisplayTip(
+                            "System...",
+                            "Oxygen tanks have a critical level of oxygen, fill them up immediately!",
+                            isWarning: true
+                        );
+                        criticalLevel_Notification = true;
+                    }
+                } else
+                {
+                    criticalLevel_Notification = false;
+                }
+
+                if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -480f) // -480f is Y offset 
+                {
+                    if (!breathablePlace_Notification)
+                    {
+                        HUDManager.Instance.DisplayTip(
+                            "System...", 
+                            "Oxygen outside is breathable, oxygen supply through cylinders is turned off"
+                        );
+                        breathablePlace_Notification = true;
+                    }
+                } else
+                {
+                    breathablePlace_Notification = false;
+                }
+
+                if (OxygenBase.Instance.IsImmersiveVisorFound && ImmersiveVisorSupport)
+                {
+                    Notification_ImmersiveVisor();
+                }
+            }
+        }
+
+        internal static void ResetAllNotifications()
+        {
+            breathablePlace_Notification = false;
+            immersiveVisor_Notification = false;
+            lowLevel_Notification = false;
+            criticalLevel_Notification = false;
+        }
+
+        private static void Notification_ImmersiveVisor()
+        {
+            if (Woecust.ImmersiveVisor.Visor.Instance.visorCrack.crackLevel.value == 2)
+            {
+                if (!immersiveVisor_Notification)
+                {
+                    HUDManager.Instance.DisplayTip(
+                        "System...",
+                        "The helmet is experiencing oxygen leakage due to substantial damage",
+                        isWarning: true
+                    );
+                    immersiveVisor_Notification = true;
+                }
+            }
+            else
+            {
+                immersiveVisor_Notification = false;
+            }
+        }
+
+        #endregion
+
+        #region Other
+        private static bool wasInFearOrExhaustedLastFrame = false;
+        private static bool wasRunningLastFrame = false;
+        private static float runTime = 0;
+
+        #endregion
+
         internal static void RunLogic()
         {
             if (!OxygenInit.IsOxygenHUDInitialized)
@@ -209,7 +276,7 @@ namespace Oxygen.GameObjects
             if (pc.isPlayerDead) return;
 
             float localDecValue = 0f;
-            sor.drowningTimer = OxygenInit.Percent;
+            sor.drowningTimer = OxygenAmount;
 
             SFX_Logic(pc, sor);
 
@@ -255,19 +322,6 @@ namespace Oxygen.GameObjects
 
                 if (timeSinceLastAction >= SecTimer)
                 {
-                    // support for Immersive visor
-                    if (OxygenBase.Instance.IsImmersiveVisorFound && ImmersiveVisorSupport)
-                    {
-                        localDecValue += LogicForImmersiveVisor();
-                    }
-
-                    // increasing drunkness
-                    if (OxygenAmount < critical_OxygenAmount)
-                    {
-                        pc.drunkness = Mathf.Clamp01(pc.drunkness + OxygenDeficiency);
-                        mls.LogDebug($"current oxygen deficiency level: {pc.drunkness}");
-                    }
-
                     // it has to be before oxygen consumption underwater 
                     if (IsgreenPlanet && !pc.isInsideFactory)
                     {
@@ -281,6 +335,19 @@ namespace Oxygen.GameObjects
                     else if (pc.isInsideFactory)
                     {
                         localDecValue += DecreasingOxygenInFactory;
+                    }
+
+                    // support for Immersive visor
+                    if (OxygenBase.Instance.IsImmersiveVisorFound && ImmersiveVisorSupport)
+                    {
+                        localDecValue += LogicForImmersiveVisor();
+                    }
+
+                    // increasing drunkness
+                    if (OxygenAmount < critical_OxygenAmount)
+                    {
+                        pc.drunkness = Mathf.Clamp01(pc.drunkness + OxygenDeficiency);
+                        mls.LogDebug($"current oxygen deficiency level: {pc.drunkness}");
                     }
 
                     if (pc.isUnderwater && pc.underwaterCollider != null && pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
@@ -300,20 +367,12 @@ namespace Oxygen.GameObjects
                     // if player was teleported and unable to refill oxygen
                     if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -480f) // -480f is Y offset 
                     {
-                        if (IsNotification && !breathablePlace_Notification)
-                        {
-                            HUDManager.Instance.DisplayTip("System...", "Oxygen outside is breathable, oxygen supply through cylinders is turned off");
-                            breathablePlace_Notification = true;
-                        }
-
                         pc.drunkness = Mathf.Clamp01(pc.drunkness - OxygenDeficiency);
                     }
                     else
                     {
                         OxygenAmount -= localDecValue;
                         mls.LogDebug($"current oxygen level: {OxygenAmount}");
-
-                        breathablePlace_Notification = false;
                     }
 
                     timeSinceLastAction = 0f;
@@ -339,16 +398,6 @@ namespace Oxygen.GameObjects
         {
             if (Woecust.ImmersiveVisor.Visor.Instance.visorCrack.crackLevel.value == 2)
             {
-                if (IsNotification && !immersiveVisor_Notification)
-                {
-                    HUDManager.Instance.DisplayTip(
-                        "System...",
-                        "The helmet is experiencing oxygen leakage due to substantial damage",
-                        isWarning: true
-                    );
-                    immersiveVisor_Notification = true;
-                }
-
                 mls.LogDebug($"The helmet is fucked, oxygen consumption is increased by {ImmersiveVisor_OxygenDecreasing}");
 
                 return ImmersiveVisor_OxygenDecreasing;

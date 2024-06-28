@@ -1,10 +1,6 @@
 ﻿using BepInEx.Logging;
-using GameNetcodeStuff;
 using HarmonyLib;
-using System.Collections;
-using UnityEngine;
 using Oxygen.GameObjects;
-using Oxygen.Extras;
 
 namespace Oxygen.Patches
 {
