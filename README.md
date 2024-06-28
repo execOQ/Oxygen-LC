@@ -13,7 +13,7 @@ don't forget to replenish the supply of oxygen cylinder on the ship!
   
   * EladsHUD (screenshot below)
   * ShyHUD (HUD disappears if a oxygen value is > 75)
-  * LCVR (screenshot below)
+  * LCVR (screenshot below). Works with Arm HUD enabled and disabled
   * ImmersiveVisor (Additional oxygen consumption if the helmet is cracked)
 
 
@@ -51,7 +51,7 @@ don't forget to replenish the supply of oxygen cylinder on the ship!
 <details open>
     <summary>OxyBoost</summary>
     <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/uvktf0C.png" width=350 height=auto>
+    &nbsp;&nbsp;<img src="https://i.imgur.com/uvktf0C.png" width=350 height=auto>
   </details>
 
 ### Ways to refill oxygen
@@ -61,7 +61,7 @@ don't forget to replenish the supply of oxygen cylinder on the ship!
  - using OxyBoost
  - using oxygen cylinders located on the ship
 
-    <img src="https://i.imgur.com/3ADR8tN.png" width=350 height=auto>
+    <img src="https://i.imgur.com/UUKqrrt.png" width=350 height=auto>
 
 ## Installation 
 
