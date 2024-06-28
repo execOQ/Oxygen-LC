@@ -61,6 +61,9 @@ namespace Oxygen.Items
 
         public static OxyCharger Instance { get; private set; }
 
+        // resets the variable to the default user value from the config
+        public void ResetRemainedOxygenAmount() => RemainedOxygenAmount = OxygenBase.OxygenConfig.oxyCharger_RemainedOxygen.Value;
+
         public void Awake()
         {
             Instance = this;

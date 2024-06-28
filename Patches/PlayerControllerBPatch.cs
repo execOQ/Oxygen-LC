@@ -1,9 +1,6 @@
 ﻿using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Extras;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Oxygen.Patches
 {

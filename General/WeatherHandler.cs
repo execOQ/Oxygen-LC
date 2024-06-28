@@ -1,5 +1,6 @@
 ﻿using BepInEx.Logging;
 using Oxygen.Extras;
+using Oxygen.Items;
 
 namespace Oxygen.General
 {
@@ -13,6 +14,8 @@ namespace Oxygen.General
 
         internal static void UpdateWeatherType(SelectableLevel level)
         {
+            OxyCharger.Instance.ResetRemainedOxygenAmount();
+
             IsOxygenOnShipLimited = false;
 
             if (level == null)
@@ -29,11 +32,11 @@ namespace Oxygen.General
             debugString += "\nPlanet name: " + Utilities.GetLLLNameOfLevel(level.PlanetName);
             debugString += "\nCurrent weather: " + level.currentWeather.ToString();
             debugString += "\n\n";
-
             mls.LogInfo(debugString);
 
             if (weatherType == LevelWeatherType.Eclipsed && OxygenBase.OxygenConfig.eclipsed_LimitOxygen.Value)
             {
+                mls.LogInfo("The weather on the planet is \"Eclipsed\", the oxygen on the ship has now become limited.");
                 IsOxygenOnShipLimited = true;
             }
         }
