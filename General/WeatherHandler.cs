@@ -10,7 +10,28 @@ namespace Oxygen.General
 
         internal static LevelWeatherType weatherType = LevelWeatherType.None;
 
-        public static bool IsOxygenOnShipLimited { get; private set; }
+        private static bool _isOxygenOnShipLimited;
+
+        public static bool IsOxygenOnShipLimited
+        {
+            get
+            {
+                StartOfRound sor = StartOfRound.Instance;
+                if (sor != null)
+                {
+                    // if the ship is on the orbit there's no need to limit oxygen
+                    if (sor.shipIsLeaving)
+                    {
+                        return false;
+                    }
+                }
+                return _isOxygenOnShipLimited;
+            }
+            private set
+            {
+                _isOxygenOnShipLimited = value;
+            } 
+        }
 
         internal static void UpdateWeatherType(SelectableLevel level)
         {
