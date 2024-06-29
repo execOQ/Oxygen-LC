@@ -67,7 +67,22 @@ namespace Oxygen.Items
 
             audioSource = GetComponent<AudioSource>();
 
-            mls.LogInfo("Oxygen cylinders were replaced");
+            if (!OxygenBase.OxygenConfig.oxyCharger_Enabled)
+            {
+                for (int i = transform.childCount - 1; i >= 0; i--)
+                {
+                    mls.LogDebug($"{transform.GetChild(i).gameObject.tag}");
+
+                    if (transform.GetChild(i).gameObject.tag == "InteractTrigger")
+                    {
+                        Destroy(transform.GetChild(i).gameObject);
+                        mls.LogInfo("InteractTrigger was deleted");
+                    }
+                }
+            } else
+            {
+                mls.LogInfo("Oxygen cylinders were replaced");
+            }
         }
 
         public void FillOxygen(bool playSound = true) // "playSound" variable is for the OxyCharger object

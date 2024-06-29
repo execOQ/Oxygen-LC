@@ -373,7 +373,7 @@ namespace Oxygen.Configuration
             enableOxygenSFXOnTheCompany = file.Bind(
                 "Sounds", // Section
                 "enableOxygenSFXOnTheCompany", // Key
-                true, // Default value
+                false, // Default value
                 "Remains oxygen inhalation sounds when player on the Gordion (The Company) planet." +
                 "\nWorks if enableOxygenSFX variable is enabled." // Description
             );
@@ -426,7 +426,7 @@ namespace Oxygen.Configuration
             );
 
             eclipsed_LimitedOxygenAmount = file.BindSyncedEntry(
-                "OxyCharger", // Section
+                "Weather Complications", // Section
                 "LimitedOxygenAmountOnEclipsed", // Key
                 10f, // Default value
                 "How much oxygen you will have in such rounds if \"eclipsed_LimitOxygen\" is enabled." +

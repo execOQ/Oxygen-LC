@@ -223,23 +223,20 @@ namespace Oxygen
 
         internal static void Init_OxyCharger()
         {
-            if (OxygenBase.OxygenConfig.oxyCharger_Enabled.Value)
+            GameObject suitParts = GameObject.Find("Environment/HangarShip/ScavengerModelSuitParts");
+            if (suitParts == null)
             {
-                GameObject suitParts = GameObject.Find("Environment/HangarShip/ScavengerModelSuitParts");
-                if (suitParts == null)
-                {
-                    mls.LogError("suitParts are null");
-                    return;
-                }
-
-                GameObject oxyCylinders = suitParts.transform.Find("Circle.002").gameObject;
-
-                GameObject go = Instantiate(OxygenBase.Instance.oxyCharger, suitParts.transform);
-                go.transform.rotation = oxyCylinders.transform.rotation;
-                go.transform.position = new Vector3(5.9905f, 0.7598f, -11.2452f);
-
-                Destroy(oxyCylinders);
+                mls.LogError("suitParts are null");
+                return;
             }
+
+            GameObject oxyCylinders = suitParts.transform.Find("Circle.002").gameObject;
+
+            GameObject go = Instantiate(OxygenBase.Instance.oxyCharger, suitParts.transform);
+            go.transform.rotation = oxyCylinders.transform.rotation;
+            go.transform.position = new Vector3(5.9905f, 0.7598f, -11.2452f);
+
+            Destroy(oxyCylinders);
         }
     }
 }
