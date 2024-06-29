@@ -315,8 +315,6 @@ namespace Oxygen.Configuration
         #region OxyCharger
         [SyncedEntryField]
         internal SyncedEntry<bool> oxyCharger_Enabled;
-        [SyncedEntryField]
-        internal SyncedEntry<float> oxyCharger_RemainedOxygen;
 
         internal ConfigEntry<float> oxyCharger_SFXVolume;
 
@@ -324,17 +322,9 @@ namespace Oxygen.Configuration
         {
             oxyCharger_Enabled = file.BindSyncedEntry(
                 "OxyCharger", // Section
-                "oxyCharger_Enabled", // Key
+                "EnableOxyCharger", // Key
                 true, // Default value
                 "Should the oxyCharger be enabled? (oxygen canisters on the ship)" +
-                "\n(syncing with host)" // Description
-            );
-
-            oxyCharger_RemainedOxygen = file.BindSyncedEntry(
-                "OxyCharger", // Section
-                "oxyCharger_RemainedOxygen", // Key
-                10f, // Default value
-                "In some cases oxyCharger's oxygen amount can be limited (for example on the eclipsed moon). Here you can set this limit." +
                 "\n(syncing with host)" // Description
             );
 
@@ -422,14 +412,24 @@ namespace Oxygen.Configuration
         #region Weather complications
         [SyncedEntryField]
         internal SyncedEntry<bool> eclipsed_LimitOxygen;
+        [SyncedEntryField]
+        internal SyncedEntry<float> eclipsed_LimitedOxygenAmount;
 
         private void BindWeatherComplicationsEntries(ConfigFile file)
         {
             eclipsed_LimitOxygen = file.BindSyncedEntry(
                 "Weather Complications", // Section
-                "eclipsed_LimitOxygen", // Key
+                "LimitOxygenOnEclipsed", // Key
                 true, // Default value
-                "The oxygen recovery ability will be limited by 'oxyCharger_RemainingOxygen' option if the weather on the current level is eclipsed." +
+                "The oxygen recovery ability will be limited by 'oxyCharger_RemainedOxygenAmount' option if the weather on the current level is eclipsed." +
+                "\n(syncing with host)" // Description
+            );
+
+            eclipsed_LimitedOxygenAmount = file.BindSyncedEntry(
+                "OxyCharger", // Section
+                "LimitedOxygenAmountOnEclipsed", // Key
+                10f, // Default value
+                "How much oxygen you will have in such rounds if \"eclipsed_LimitOxygen\" is enabled." +
                 "\n(syncing with host)" // Description
             );
         }

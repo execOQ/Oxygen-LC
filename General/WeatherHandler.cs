@@ -35,8 +35,6 @@ namespace Oxygen.General
 
         internal static void UpdateWeatherType(SelectableLevel level)
         {
-            OxyCharger.Instance.ResetRemainedOxygenAmount();
-
             IsOxygenOnShipLimited = false;
 
             if (level == null)
@@ -58,6 +56,9 @@ namespace Oxygen.General
             if (weatherType == LevelWeatherType.Eclipsed && OxygenBase.OxygenConfig.eclipsed_LimitOxygen.Value)
             {
                 mls.LogInfo("The weather on the planet is \"Eclipsed\", the oxygen on the ship has now become limited.");
+                OxyCharger.Instance.RemainedOxygenAmount = OxygenBase.OxygenConfig.eclipsed_LimitedOxygenAmount.Value;
+
+
                 IsOxygenOnShipLimited = true;
             }
         }

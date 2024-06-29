@@ -15,7 +15,7 @@ namespace Oxygen.Items
 
         private AudioSource audioSource;
 
-        private NetworkVariable<float> _remainedOxygenAmount;
+        private NetworkVariable<float> _remainedOxygenAmount = new();
 
         public float RemainedOxygenAmount
         {
@@ -27,7 +27,7 @@ namespace Oxygen.Items
                 }
                 return _remainedOxygenAmount.Value;
             }
-            private set
+            internal set
             {
                 if (_remainedOxygenAmount == null)
                 {
@@ -61,15 +61,11 @@ namespace Oxygen.Items
 
         public static OxyCharger Instance { get; private set; }
 
-        // resets the variable to the default user value from the config
-        public void ResetRemainedOxygenAmount() => RemainedOxygenAmount = OxygenBase.OxygenConfig.oxyCharger_RemainedOxygen.Value;
-
-        public void Awake()
+        private void Awake()
         {
             Instance = this;
 
             audioSource = GetComponent<AudioSource>();
-            _remainedOxygenAmount = new(OxygenBase.OxygenConfig.oxyCharger_RemainedOxygen.Value);
 
             mls.LogInfo("Oxygen cylinders were replaced");
         }
