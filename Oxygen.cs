@@ -24,7 +24,7 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.6.0";
+        public const string modVersion = "1.6.1";
 
         private readonly Harmony harmony = new(modGUID);
         public static OxygenConfig OxygenConfig { get; private set; }
