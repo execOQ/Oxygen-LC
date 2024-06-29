@@ -1,19 +1,16 @@
 ﻿using BepInEx.Logging;
-using GameNetcodeStuff;
 using HarmonyLib;
-using System.Collections;
-using UnityEngine;
 using Oxygen.GameObjects;
 
 namespace Oxygen.Patches
 {
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(HUDManager))]
     internal class HUDPatch
     {
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > HUDPatch");
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(HUDManager), "Start")]
+        [HarmonyPatch("Start")]
         public static void BuildHUD()
         {
             mls.LogInfo("Initializing HUD");
@@ -21,14 +18,7 @@ namespace Oxygen.Patches
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(PlayerControllerB), "ConnectClientToPlayerObject")]
-        public static void AddAudioSource(PlayerControllerB __instance)
-        {
-            OxygenInit.Init_AudioSource(__instance.playersManager.thisClientPlayerId);
-        }
-
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(HUDManager), "Update")]
+        [HarmonyPatch("Update")]
         public static void UpdatePatch()
         {
             OxygenLogic.RunLogic();

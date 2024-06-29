@@ -1,56 +1,82 @@
 ﻿using BepInEx.Logging;
 using HarmonyLib;
-using Oxygen.Items;
-using UnityEngine;
 
 namespace Oxygen.Patches
 {
-    [HarmonyPatch]
-    internal class StartOfRoundPatch : MonoBehaviour
+    [HarmonyPatch(typeof(StartOfRound))]
+    internal class StartOfRoundPatch
     {
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > StartOfRoundPatch");
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(StartOfRound), "ShipHasLeft")]
+        [HarmonyPatch("ShipHasLeft")]
         private static void ShipHasLeft_Patch()
         {
-            if (OxygenBase.OxygenConfig.recoverOxygenOnceShipLeft.Value)
+            if (OxygenBase.OxygenConfig.recoverOxygen_ShipLeft.Value)
             {
-                OxygenInit.oxygenUI.fillAmount = 1f;
-                mls.LogInfo("Ship has left, oxygen was recovered >.<");
+                OxygenInit.Percent = 1f;
+                mls.LogInfo("Ship has left, oxygen was recovered.");
             }
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(StartOfRound), "Awake")]
+        [HarmonyPatch("OpenShipDoors")]
+        private static void OpenShipDoors_PostFix()
+        {
+            if (OxygenBase.OxygenConfig.recoverOxygen_StartOfRound.Value)
+            {
+                OxygenInit.Percent = 1f;
+                mls.LogInfo("Round just started, oxygen was recovered.");
+            }
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch("Awake")]
         private static void Patch_RoundAwake()
         {
-            GameObject OxyCylinders = GameObject.Find("Environment/HangarShip/ScavengerModelSuitParts/Circle.002");
-            GameObject suitParts = GameObject.Find("Environment/HangarShip/ScavengerModelSuitParts");
+            // for some reasons it's not working.
 
-            OxyCylinders.SetActive(false);
-            OxygenBase.Instance.oxyCharger.transform.rotation = OxyCylinders.transform.rotation;
-
-            GameObject oxyCharger = Instantiate(OxygenBase.Instance.oxyCharger, suitParts.transform);
-            oxyCharger.transform.position = new Vector3(5.9905f, 0.7598f, -11.2452f);
-
-            if (OxygenBase.OxygenConfig.OxygenFillOption.Value != 1)
+            // removing OxyCanister from the "Oops! All Flooded" mod cuz it's not working with the Oxygen mod whose overwriting the "drowningTimer" variable
+            /* if (OxygenBase.Instance.IsOopsAllFloodedFound)
             {
-                for (int i = oxyCharger.transform.childCount - 1; i >= 0; i--)
+                foreach (LL.Items.ShopItem item in LL.Items.shopItems)
                 {
-                    mls.LogInfo($"{oxyCharger.transform.GetChild(i).gameObject.tag}");
-
-                    if (oxyCharger.transform.GetChild(i).gameObject.tag == "InteractTrigger")
+                    mls.LogDebug($"Mod name: {item.modName} | GameObject name: {item.item.name} | Item name: {item.item.itemName}");
+                    if (item != null)
                     {
-                        Destroy(oxyCharger.transform.GetChild(i).gameObject);
-                        mls.LogInfo("InteractTrigger was deleted");
+                        mls.LogInfo("1");
+                        if (item.item.itemName == "Oxy-Canister")
+                        {
+                            mls.LogInfo("2");
+                            LL.Items.RemoveShopItem(item.item);
+                            mls.LogInfo("3");
+                            if (item.wasRemoved)
+                            {
+                                mls.LogInfo("Deleted Oxy-canister from the 'Oops! All Flooded' mod.");
+                            }
+                            break;
+                        }
                     }
                 }
+            } */
+
+            OxygenInit.Init_OxyCharger();
+
+            /* 
+            RoundManager roundManager = Object.FindFirstObjectByType<RoundManager>();
+
+            if (roundManager != null)
+            {
+                string msg2 = "\nUse these dungeons names in the config:\n\n";
+                foreach (IndoorMapType imp in roundManager.dungeonFlowTypes)
+                {
+                    msg2 += imp.dungeonFlow.name + "\n";
+                }
+
+                mls.LogInfo(msg2);
             }
-
-            OxyCharger.audioSource = oxyCharger.GetComponent<AudioSource>();
-
-            mls.LogInfo("Oxygen cylinders were replaced");
+            else mls.LogError("roundmanager is null");
+            */
         }
     }
 }

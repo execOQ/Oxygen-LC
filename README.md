@@ -1,4 +1,4 @@
-# <img src="https://i.imgur.com/1sRCXFX.png" width=40 height=40> Oxygen 
+# <img src="https://i.imgur.com/0znYXqH.png" width=40 height=40> Oxygen 
 
 ### Information
 
@@ -6,45 +6,62 @@ Adds the need to have oxygen tanks behind your back. Moving around the planet al
 since not all planets are habitable. You can also breathe underwater! However, you have a limited amount of oxygen, 
 don't forget to replenish the supply of oxygen cylinder on the ship! 
 
-Lots of things in this mod are configurable! 
-
 <details>
-  <summary>Spoiler</summary>
+  <summary>Compatibility with other mods</summary>
+  
+  #### Compatible with: 
+  
+  * EladsHUD (screenshot below)
+  * ShyHUD (HUD disappears if a oxygen value is > 75)
+  * LCVR (screenshot below). Works with Arm HUD enabled and disabled
+  * ImmersiveVisor (Additional oxygen consumption if the helmet is cracked)
 
-  ```
-  There is an SFX of inhaling included. You can disable it in the config.
-  ```
+
+  > Probably compatible with OopsAllFlooded but you'll find two oxygen canisters. One is from the Oxygen mod (OxyBoost) and one is from the OopsAllFlooded mod (Oxy-Canister). The working one is from this mod and is called OxyBoost.
 </details>
 
 <details>
-  <summary>Compatibility with other mods</summary>
-
-  Compatible with EladsHUD, ShyHUD!
+  <summary>Spoiler</summary>
   
-  Has support for ImmersiveVisor!
-  
-  Incompatible with OopsAllFlooded...
+  ```
+  Check the config file, there are plenty of settings :)
+  ```
 </details>
 
 ## Preview
 ### HUD
-<img src="https://i.imgur.com/MAMfxmS.png" width=350 height=auto>
+<details open>
+  <summary>Vanilla</summary>
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/MAMfxmS.png" width=350 height=auto>
+</details>
 <details>
-  <summary>Compatible with EladsHUD</summary>
-
-  <img src="https://i.imgur.com/NHJ4IUV.png" width=350 height=auto>
+  <summary>EladsHUD</summary>
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/awUutxH.png" width=350 height=auto>
+</details>
+<details>
+  <summary>LCVR</summary>
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/q19VwnN.png" width=650 height=auto>
 </details>
 
 
 ### Items
-
-<img src="https://i.imgur.com/0w3LaWn.png" width=350 height=auto>
+<details open>
+    <summary>OxyBoost</summary>
+    <br>
+    &nbsp;&nbsp;<img src="https://i.imgur.com/uvktf0C.png" width=350 height=auto>
+  </details>
 
 ### Ways to refill oxygen
- - only automatic oxygen filling when the player is on the ship
- - using oxygen cylinders located in the ship
+ - automatic oxygen refilling
+    - when the player is on the ship
+    - when the player on the ship and doors are closed (default)
+ - using OxyBoost
+ - using oxygen cylinders located on the ship
 
-    <img src="https://i.imgur.com/3ADR8tN.png" width=350 height=auto>
+    <img src="https://i.imgur.com/UUKqrrt.png" width=350 height=auto>
 
 ## Installation 
 
