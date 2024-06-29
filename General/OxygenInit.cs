@@ -88,7 +88,7 @@ namespace Oxygen
                 return;
             }
 
-            sprintMeterImage = sprintMeter.GetComponent<Image>();
+            sprintMeterImage = OxygenBase.Instance.IsEladsHUDFound ? sprintMeter.transform.Find("Bar/StaminaBar").GetComponent<Image>() : sprintMeter.GetComponent<Image>();
 
             if (!OxygenBase.Instance.IsEladsHUDFound)
             {
@@ -146,7 +146,7 @@ namespace Oxygen
 
             GameObject oxygenMeter = Instantiate(sprintMeter, sprintMeterParent);
             oxygenMeter.name = "OxygenMeter";
-            oxygenMeter.transform.localPosition = new Vector3(134.8f, -91.2254f, -2.8f);
+            oxygenMeter.transform.localPosition = new Vector3(135f, -91.2254f, 0f);
             //oxygenMeter.transform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
             //oxygenMeter.transform.localScale = new Vector3(2.0164f, 2.0018f, 1f);
 
@@ -163,7 +163,7 @@ namespace Oxygen
 
             // divider between stamina info and oxygen info
             GameObject divider = Instantiate(oxygenInfo, oxygenMeter.transform);
-            divider.transform.localPosition = new Vector3(39.8443f, -6.4f, 2.8f);
+            divider.transform.localPosition = new Vector3(39.2f, -6.4f, 2.8f);
 
             // renaming breaks the object, idk why
             //divider.name = "Text Divider";
@@ -179,9 +179,9 @@ namespace Oxygen
             Destroy(oxygenMeter.transform.Find("Bar/Stamina Change FG").gameObject);
 
             // fixes overlapping
-            sprintMeter.transform.Find("StaminaInfo").localPosition = new Vector3(-0.2038f, -17.6235f, 2.7936f);
-            sprintMeter.transform.Find("CarryInfo").localPosition = new Vector3(-0.0001f, -17.901f, 2.7999f);
-            sprintMeterParent.Find("Health").localPosition = new Vector3(134.9906f, -178, 0.007f);
+            sprintMeter.transform.Find("StaminaInfo").localPosition = new Vector3(0f, -15.4f, 0f);
+            sprintMeter.transform.Find("CarryInfo").localPosition = new Vector3(0f, -15.4f, 0f);
+            sprintMeterParent.Find("Health").localPosition = new Vector3(135f, -160, 0f);
         }
 
         private static IEnumerator Init_LCVR(GameObject sprintMeter)
