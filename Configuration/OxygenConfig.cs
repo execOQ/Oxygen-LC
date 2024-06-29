@@ -146,7 +146,7 @@ namespace Oxygen.Configuration
             decreasingOxygenOutside = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "decreasingOxygenOutside", // Key
-                0.0083f, // Default value
+                0.0075f, // Default value
                 "Indicates how much oxygen is consumed when a player is outside and is triggered every secTimer (config option) seconds." +
                 "\n(syncing with host)" // Description
             );
@@ -165,7 +165,7 @@ namespace Oxygen.Configuration
             decreasingOxygenInFactory = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "decreasingOxygenInFactory", // Key
-                0.0083f, // Default value
+                0.007f, // Default value
                 "Indicates how much oxygen is consumed when a player is in the facility and is triggered every secTimer (config option) seconds." +
                 "\n(syncing with host)" // Description
             );
@@ -211,7 +211,7 @@ namespace Oxygen.Configuration
             oxygenDepletionInWater = file.BindSyncedEntry(
                 "Oxygen", // Section
                 "oxygenDepletionInWater", // Key
-                0.020f, // Default value
+                0.018f, // Default value
                 "Increases oxygen consumption when the player is underwater and is triggered every secTimer (config option) seconds." +
                 "\n(syncing with host)" // Description
             );
