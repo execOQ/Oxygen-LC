@@ -58,7 +58,7 @@ namespace Oxygen
                         int oxygenInPercent = (int)(roundedValue * 100f);
                         eladsUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
                     }
-                    if (OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.shyHUDSupport.Value)
+                    if ((OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.autoHideHUD.Value) || OxygenBase.OxygenConfig.autoHideHUD.Value)
                     {
                         bool toFadeOut = value >= 0.75f; // previously was 0.55f
                         oxygenHUD.CrossFadeAlpha(toFadeOut ? 0f : 1f, toFadeOut ? 5f : 0.5f, ignoreTimeScale: false);

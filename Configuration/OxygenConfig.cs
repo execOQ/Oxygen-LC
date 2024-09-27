@@ -24,6 +24,8 @@ namespace Oxygen.Configuration
         #region General
         internal ConfigEntry<bool> accurateMeter;
 
+        internal ConfigEntry<bool> autoHideHUD;
+
         [SyncedEntryField]
         internal SyncedEntry<AutoFillingOnShip> autoFillingOnShip;
         [SyncedEntryField]
@@ -48,10 +50,10 @@ namespace Oxygen.Configuration
                 "autoFillingOnShip", // Key
                 AutoFillingOnShip.WhenDoorsClosed, // Default value
                 "Usually, on the ship, you use oxygen canisters to refill the oxygen, but with this option, you can choose some additional ways." +
-                "\n\"WhenDoorsClosed\" - Auto filling works only if the ship's doors are closed." +
-                "\"WhenPlayerOnShip\" - Works in both situations (doors are open or closed), the player just needs to be on the ship." +
-                "\"Off\" - Disabled." +
-                "\n(syncing with host)" // Description
+                "\n\n\"WhenDoorsClosed\" - Auto filling works only if the ship's doors are closed." +
+                "\n\"WhenPlayerOnShip\" - Works in both situations (doors are open or closed), the player just needs to be on the ship." +
+                "\n\"Off\" - Disabled." +
+                "\n\n(syncing with host)" // Description
             );
 
             autoFillingOnShip_increasingOxygen = file.BindSyncedEntry(
@@ -67,6 +69,14 @@ namespace Oxygen.Configuration
                 "accurateMeter", // Key
                 true, // Default value
                 "Whether the oxygen meter ring should be accurate or have vanilla behaviour." // Description
+            );
+
+            autoHideHUD = file.Bind(
+                "General", // Section
+                "autoHideHUD", // Key
+                false, // Default value
+                "If true, the oxygen HUD disappears if the oxygen value > 75. " +
+                "\nWorks without installing ShyHUD. If ShyHUD is installed, but this option is not enabled, the HUD won't disappear" // Description
             );
 
             recoverOxygen_ShipLeft = file.BindSyncedEntry(
@@ -257,13 +267,6 @@ namespace Oxygen.Configuration
                 true, // Default value
                 "Oxygen becomes infinite when the player teleports to mod's places to simplificate gameplay." +
                 "\n(syncing with host)" // Description
-            );
-
-            shyHUDSupport = file.Bind(
-                "Compatibility", // Section
-                "ShyHUDSupport", // Key
-                true, // Default value
-                "HUD disappears if oxygen value > 75" // previously 0.55f
             );
 
             immersiveVisorSupport = file.BindSyncedEntry(
