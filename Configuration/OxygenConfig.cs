@@ -85,7 +85,7 @@ namespace Oxygen.Configuration
                 "General", // Section
                 "autoHideHUD_value", // Key
                 0.75f, // Default value
-                "the oxygen HUD disappears if the oxygen value > 'autoHideHUD_value' setting (value from 0 to 1.0)." +
+                "The oxygen HUD disappears if the oxygen value > 'autoHideHUD_value' setting (value from 0 to 1.0)." +
                 "\nYou can completely hide the oxygen HUD by setting the 'autoHideHUD_value' to 0." +
                 "\nIf you set the value to 1, this will prevent the oxygen HUD from disappearing." // Description
             );
