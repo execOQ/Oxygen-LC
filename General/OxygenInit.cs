@@ -60,8 +60,10 @@ namespace Oxygen
                     }
                     if ((OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.autoHideHUD.Value) || OxygenBase.OxygenConfig.autoHideHUD.Value)
                     {
-                        bool toFadeOut = value >= 0.75f; // previously was 0.55f
-                        oxygenHUD.CrossFadeAlpha(toFadeOut ? 0f : 1f, toFadeOut ? 5f : 0.5f, ignoreTimeScale: false);
+                        float hideValue = OxygenBase.OxygenConfig.autoHideHUD_value.Value > 1 ? 1f : OxygenBase.OxygenConfig.autoHideHUD_value.Value;
+
+                        bool toFadeOut = value >= hideValue; // previously was 0.55f
+                        oxygenHUD.CrossFadeAlpha(toFadeOut ? 0f : 1f, toFadeOut ? 3f : 0.5f, ignoreTimeScale: false);
                     }
                 }
             }

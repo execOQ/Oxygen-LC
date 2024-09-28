@@ -26,6 +26,8 @@ namespace Oxygen.Configuration
 
         internal ConfigEntry<bool> autoHideHUD;
 
+        internal ConfigEntry<float> autoHideHUD_value;
+
         [SyncedEntryField]
         internal SyncedEntry<AutoFillingOnShip> autoFillingOnShip;
         [SyncedEntryField]
@@ -75,8 +77,17 @@ namespace Oxygen.Configuration
                 "General", // Section
                 "autoHideHUD", // Key
                 false, // Default value
-                "If true, the oxygen HUD disappears if the oxygen value > 75. " +
+                "If true, the oxygen HUD disappears if the oxygen value > 'autoHideHUD_value' setting. " +
                 "\nWorks without installing ShyHUD. If ShyHUD is installed, but this option is not enabled, the HUD won't disappear" // Description
+            );
+
+            autoHideHUD_value = file.Bind(
+                "General", // Section
+                "autoHideHUD_value", // Key
+                0.75f, // Default value
+                "the oxygen HUD disappears if the oxygen value > 'autoHideHUD_value' setting (value from 0 to 1.0)." +
+                "\nYou can completely hide the oxygen HUD by setting the 'autoHideHUD_value' to 0." +
+                "\nIf you set the value to 1, this will prevent the oxygen HUD from disappearing." // Description
             );
 
             recoverOxygen_ShipLeft = file.BindSyncedEntry(
