@@ -52,6 +52,12 @@
 	  <Reference Include="LCVR">
 	    <HintPath>..\Assets\References\LCVR.dll</HintPath>
 	  </Reference>
+	  <Reference Include="LethalCompanyInputUtils">
+	    <HintPath>..\Assets\References\LethalCompanyInputUtils.dll</HintPath>
+	  </Reference>
+	  <Reference Include="LethalConfig">
+	    <HintPath>..\Assets\References\LethalConfig.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 	<Target Name="NetcodePatch" AfterTargets="PostBuildEvent">

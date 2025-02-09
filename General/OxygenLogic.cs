@@ -6,7 +6,7 @@ using static Oxygen.Extras.AudioController;
 using static Oxygen.Configuration.OxygenConfig;
 using Oxygen.Items;
 
-namespace Oxygen.GameObjects
+namespace Oxygen.General
 {
     internal class OxygenLogic : MonoBehaviour
     {
@@ -46,12 +46,15 @@ namespace Oxygen.GameObjects
 
         #region Timer
         private static float SecTimer => OxygenBase.OxygenConfig.secTimer.Value;
-        private static float secTimerInFear = 2f;
+        private static readonly float secTimerInFear = 2f;
         private static float secTimerForAudio = 5f;
 
         private static float timeSinceLastAction = 0f;
         private static float timeSinceLastFear = 0f;
         private static float timeSinceLastPlayedAudio = 0f;
+
+        private static float timeSinceBeingUnderwater = 0f;
+        private static float timeSinceTriggeredDieButton = 0f;
         #endregion
 
         #region Audio
@@ -246,10 +249,12 @@ namespace Oxygen.GameObjects
         #endregion
 
         #region Other
+        private static bool EnableDieEarlyUI => OxygenBase.OxygenConfig.enableDieEarlyUI.Value;
+        private static float DieEarlyUI_Timer => OxygenBase.OxygenConfig.dieEarlyUI_Timer.Value;
+
         private static bool wasInFearOrExhaustedLastFrame = false;
         private static bool wasRunningLastFrame = false;
         private static float runTime = 0;
-
         #endregion
 
         internal static void RunLogic()
@@ -276,110 +281,12 @@ namespace Oxygen.GameObjects
             if (pc.isPlayerDead) return;
 
             float localDecValue = 0f;
+
             sor.drowningTimer = OxygenAmount;
 
             SFX_Logic(pc, sor);
 
-            if (!pc.isInHangarShipRoom)
-            {
-                if (pc.isSprinting)
-                {
-                    wasRunningLastFrame = true;
-                    runTime += Time.deltaTime;
-                }
-                else if (!pc.isSprinting && wasRunningLastFrame && runTime > 0.4)
-                {
-                    float currentStaminaFillAmount = OxygenInit.StaminaFillAmount;
-                    float totalOxygenConsumption = (float)(RunningMultiplier * pc.movementSpeed * runTime * (1 - currentStaminaFillAmount) / 1000);
-
-                    // if stamina has not dropped much, then we reduce oxygen consumption
-                    if (currentStaminaFillAmount > 0.8f)
-                    {
-                        totalOxygenConsumption *= 0.5f; // reduce consumption by 50% if stamina is above 80%
-                    }
-
-                    mls.LogDebug($"player was running for {runTime}");
-                    mls.LogDebug($"player's current stamina amount is {currentStaminaFillAmount}");
-                    mls.LogDebug($"total oxygen consumption: {totalOxygenConsumption}");
-
-                    localDecValue += totalOxygenConsumption;
-
-                    wasRunningLastFrame = false;
-                    runTime = 0f;
-                }
-
-                if (timeSinceLastFear >= secTimerInFear)
-                {
-                    if (sor.fearLevel > 0)
-                    {
-                        mls.LogDebug($"Oxygen consumption is increased by {DecreasingInFear}");
-                        localDecValue += DecreasingInFear;
-
-                        timeSinceLastFear = 0f;
-                    }
-                }
-                timeSinceLastFear += Time.deltaTime;
-
-                if (timeSinceLastAction >= SecTimer)
-                {
-                    // it has to be before oxygen consumption underwater 
-                    if (IsgreenPlanet && !pc.isInsideFactory)
-                    {
-                        mls.LogDebug("It's a green planet and you're outside, oxygen consumption is omitted!");
-                        localDecValue = 0f;
-                    }
-                    else if (!pc.isInsideFactory) // means outside
-                    {
-                        localDecValue += DecreasingOxygenOutside;
-                    }
-                    else if (pc.isInsideFactory)
-                    {
-                        localDecValue += DecreasingOxygenInFactory;
-                    }
-
-                    // support for Immersive visor
-                    if (OxygenBase.Instance.IsImmersiveVisorFound && ImmersiveVisorSupport)
-                    {
-                        localDecValue += LogicForImmersiveVisor();
-                    }
-
-                    // increasing drunkness
-                    if (OxygenAmount < critical_OxygenAmount)
-                    {
-                        pc.drunkness = Mathf.Clamp01(pc.drunkness + OxygenDeficiency);
-                        mls.LogDebug($"current oxygen deficiency level: {pc.drunkness}");
-                    }
-
-                    if (pc.isUnderwater && pc.underwaterCollider != null && pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position))
-                    {
-                        mls.LogDebug($"The player is underwater, oxygen consumption is increased by {OxygenDepletionInWater}");
-                        localDecValue += OxygenDepletionInWater;
-
-                        //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
-                    }
-
-                    // 0.30 is the lowest value when we still see UI meter (without AccurateMeter enabled)
-                    if (OxygenAmount <= damage_OxygenAmount)
-                    {
-                        pc.DamagePlayer(PlayerDamage);  
-                    }
-
-                    // if player was teleported and unable to refill oxygen
-                    if (InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -480f) // -480f is Y offset 
-                    {
-                        pc.drunkness = Mathf.Clamp01(pc.drunkness - OxygenDeficiency);
-                    }
-                    else
-                    {
-                        OxygenAmount -= localDecValue;
-                        mls.LogDebug($"current oxygen level: {OxygenAmount}");
-                    }
-
-                    timeSinceLastAction = 0f;
-                }
-                timeSinceLastAction += Time.deltaTime;
-            }
-            else
+            if (pc.isInHangarShipRoom)
             {
                 if ((AutoFillingOnShip == AutoFillingOnShip.WhenDoorsClosed && sor.hangarDoorsClosed) || (AutoFillingOnShip == AutoFillingOnShip.WhenPlayerOnShip))
                 {
@@ -389,9 +296,153 @@ namespace Oxygen.GameObjects
                         mls.LogDebug($"Oxygen is recovering: {OxygenAmount}");
                     }
                 }
-
                 pc.drunkness = Mathf.Clamp01(pc.drunkness - IncreasingOxygen);
+
+                return;
             }
+
+            if (pc.isSprinting)
+            {
+                wasRunningLastFrame = true;
+                runTime += Time.deltaTime;
+            }
+            else if (!pc.isSprinting && wasRunningLastFrame && runTime > 0.4)
+            {
+                float currentStaminaFillAmount = OxygenInit.StaminaFillAmount;
+                float totalOxygenConsumption = (float)(RunningMultiplier * pc.movementSpeed * runTime * (1 - currentStaminaFillAmount) / 1000);
+
+                // if stamina has not dropped much, then we reduce oxygen consumption
+                if (currentStaminaFillAmount > 0.8f)
+                {
+                    totalOxygenConsumption *= 0.5f; // reduce consumption by 50% if stamina is above 80%
+                }
+
+                mls.LogDebug($"player was running for {runTime}");
+                mls.LogDebug($"player's current stamina amount is {currentStaminaFillAmount}");
+                mls.LogDebug($"total oxygen consumption: {totalOxygenConsumption}");
+
+                localDecValue += totalOxygenConsumption;
+
+                wasRunningLastFrame = false;
+                runTime = 0f;
+            }
+
+            if (timeSinceLastFear >= secTimerInFear)
+            {
+                if (sor.fearLevel > 0)
+                {
+                    mls.LogDebug($"Oxygen consumption is increased by {DecreasingInFear}");
+                    localDecValue += DecreasingInFear;
+
+                    timeSinceLastFear = 0f;
+                }
+            }
+            timeSinceLastFear += Time.deltaTime;
+
+            bool isUnderwater = pc.isUnderwater && pc.underwaterCollider != null && pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position);
+
+            if (EnableDieEarlyUI) 
+            {
+                if (timeSinceBeingUnderwater >= DieEarlyUI_Timer)
+                {
+                    if (isUnderwater != DieEarly.isDieEarlyUIEnabled)
+                    {
+                        DieEarly.DisplayDieEarlyMeter(isUnderwater);
+                    }
+                }
+
+                if (isUnderwater)
+                {
+                    if (timeSinceBeingUnderwater >= 5f)
+                    {
+                        if (DieEarly.dieEarlyMeterFillAmount == 1f)
+                        {
+                            pc.KillPlayer(Vector3.zero);
+                        }
+
+                        if (OxygenBase.InputActionsInstance.DieEarlyButton.IsPressed())
+                        {
+                            //mls.LogWarning("Pressing");
+                            timeSinceTriggeredDieButton += Time.deltaTime;
+                            DieEarly.SetDieEarlyMeterValue(timeSinceTriggeredDieButton);
+                        }
+                        else
+                        {
+                            timeSinceTriggeredDieButton = 0f;
+                            DieEarly.SetDieEarlyMeterValue(0f);
+                        }
+                    }
+                    timeSinceBeingUnderwater += Time.deltaTime;
+                }
+                else
+                {
+                    timeSinceBeingUnderwater = 0f;
+                }
+            }
+
+            if (timeSinceLastAction >= SecTimer)
+            {
+                // should be before IsgreenPlanet checker
+                // support for Immersive visor
+                if (OxygenBase.Instance.IsImmersiveVisorFound && ImmersiveVisorSupport)
+                {
+                    localDecValue += LogicForImmersiveVisor();
+                }
+
+                if (pc.isInsideFactory)
+                {
+                    localDecValue += DecreasingOxygenInFactory;
+                }
+                else // outside
+                {
+                    // should be before oxygen consumption underwater
+                    if (IsgreenPlanet)
+                    {
+                        mls.LogDebug("It's a green planet and you're outside, oxygen consumption is omitted!");
+                        localDecValue = 0f;
+                    } else
+                    {
+                        localDecValue += DecreasingOxygenOutside;
+                    }
+                }
+
+                if (isUnderwater)
+                {
+                    mls.LogDebug($"The player is underwater, oxygen consumption is increased by {OxygenDepletionInWater}");
+                    localDecValue += OxygenDepletionInWater;
+
+                    //mls.LogInfo($"sor.drowningTimer: {sor.drowningTimer}");
+                }
+
+                // increasing drunkness
+                if (OxygenAmount < critical_OxygenAmount)
+                {
+                    pc.drunkness = Mathf.Clamp01(pc.drunkness + OxygenDeficiency);
+                    mls.LogDebug($"current oxygen deficiency level: {pc.drunkness}");
+                }
+
+                bool isPlayerInModsPlace = InfinityOxygenInModsPlaces && pc.serverPlayerPosition.y <= -480f; // -480f is a Y offset
+
+                // 0.30 is the lowest value when we still see UI meter (without AccurateMeter enabled)
+                if (OxygenAmount <= damage_OxygenAmount && !isPlayerInModsPlace)
+                {
+                    pc.DamagePlayer(PlayerDamage);
+                }
+
+                // if player was teleported and unable to refill oxygen
+                if (isPlayerInModsPlace)
+                {
+                    pc.drunkness = Mathf.Clamp01(pc.drunkness - OxygenDeficiency);
+                }
+                else
+                {
+                    OxygenAmount -= localDecValue;
+                    mls.LogDebug($"current oxygen level: {OxygenAmount}");
+                }
+
+                timeSinceLastAction = 0f;
+            }
+            timeSinceLastAction += Time.deltaTime;
         }
 
         private static float LogicForImmersiveVisor()

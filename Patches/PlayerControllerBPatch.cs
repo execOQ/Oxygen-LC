@@ -2,7 +2,7 @@
 using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Extras;
-using Oxygen.GameObjects;
+using Oxygen.General;
 
 namespace Oxygen.Patches
 {
@@ -31,6 +31,7 @@ namespace Oxygen.Patches
                 mls.LogInfo("Player is dead. Oxygen level was recovered");
 
                 OxygenLogic.ResetAllNotifications();
+                DieEarly.DisplayDieEarlyMeter(false);
             }
         }
 

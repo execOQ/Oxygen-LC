@@ -2,13 +2,12 @@
 using static System.Math;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using Oxygen.GameObjects;
 using System.Collections;
 using LCVR.Player;
 using DunGen;
+using Image = UnityEngine.UI.Image;
 
-namespace Oxygen
+namespace Oxygen.General
 {
     public class OxygenInit : MonoBehaviour
     {
@@ -136,8 +135,8 @@ namespace Oxygen
             rectTransform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
 
             // fixes overlapping
-            sprintMeterParent.Find("StatusEffects").localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f);
-            sprintMeterParent.Find("WeightUI").localPosition = new Vector3(-270f, 83f, 17f);
+            sprintMeterParent.Find("StatusEffects").localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f); 
+            sprintMeterParent.Find("WeightUI").localPosition = new Vector3(-254f, 83f, 17f);
 
             mls.LogInfo(OxygenBase.OxygenConfig.autoFillingOnShip_increasingOxygen);
         }

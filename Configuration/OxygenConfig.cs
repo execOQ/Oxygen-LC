@@ -456,6 +456,10 @@ namespace Oxygen.Configuration
         internal ConfigEntry<int> XOffset;
         internal ConfigEntry<int> YOffset;
 
+        [SyncedEntryField]
+        internal SyncedEntry<bool> enableDieEarlyUI;
+        internal ConfigEntry<float> dieEarlyUI_Timer;
+
         private void BindOtherEntries(ConfigFile file)
         {
             notifications = file.Bind(
@@ -477,6 +481,21 @@ namespace Oxygen.Configuration
                 "YOffset",
                 0,
                 "Vertical offset for the oxygenHUD position."
+            );
+
+            enableDieEarlyUI = file.BindSyncedEntry(
+                "Other", // Section
+                "EnableDieEarlyUI", // Key
+                true, // Default value
+                "If you can't get out from under the water for a long time, you could just kill yourself :)" +
+                "\n(syncing with host)" // Description
+            );
+
+            dieEarlyUI_Timer = file.Bind(
+                "Other", // Section
+                "dieEarlyUI_Timer", // Key
+                60f, // Default value
+                "After selected number of seconds the UI to die early would appear." // Description
             );
         }
         #endregion

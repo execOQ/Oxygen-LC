@@ -8,12 +8,23 @@ using BepInEx.Bootstrap;
 using LL = LethalLib.Modules;
 using Oxygen.Extras;
 using System.Reflection;
+using LethalCompanyInputUtils.Api;
+using LethalCompanyInputUtils.BindingPathEnums;
+using UnityEngine.InputSystem;
 
 namespace Oxygen
 {
+    public class OxygenInputClass : LcInputActions
+    {
+        [InputAction(KeyboardControl.Equals, Name = "Hold to die underwater")]
+        public InputAction DieEarlyButton { get; set; }
+    }
+
     [BepInPlugin(modGUID, modName, modVersion)]
     [BepInDependency("com.sigurd.csync")]
     [BepInDependency("evaisa.lethallib")]
+    [BepInDependency("com.rune580.LethalCompanyInputUtils", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("ainavt.lc.lethalconfig", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(shyHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(immersiveVisorGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(eladsHUDGUID, BepInDependency.DependencyFlags.SoftDependency)]
@@ -28,6 +39,8 @@ namespace Oxygen
 
         private readonly Harmony harmony = new(modGUID);
         public static OxygenConfig OxygenConfig { get; private set; }
+
+        internal static OxygenInputClass InputActionsInstance;
 
         private const string immersiveVisorGUID = "ImmersiveVisor"; 
         private const string shyHUDGUID = "ShyHUD";
@@ -98,6 +111,7 @@ namespace Oxygen
 
             mls.LogInfo($"Assets are loaded!");
 
+            InputActionsInstance = new OxygenInputClass();
             OxygenConfig = new(Config);
             mls.LogInfo($"Config is loaded.");
 

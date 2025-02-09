@@ -1,6 +1,6 @@
 ﻿using BepInEx.Logging;
 using HarmonyLib;
-using Oxygen.GameObjects;
+using Oxygen.General;
 
 namespace Oxygen.Patches
 {
@@ -15,6 +15,7 @@ namespace Oxygen.Patches
         {
             mls.LogInfo("Initializing HUD");
             OxygenInit.Init();
+            DieEarly.Init();
         }
 
         [HarmonyPostfix]

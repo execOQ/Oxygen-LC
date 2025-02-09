@@ -1,5 +1,6 @@
 ﻿using BepInEx.Logging;
 using HarmonyLib;
+using Oxygen.General;
 
 namespace Oxygen.Patches
 {
@@ -15,6 +16,7 @@ namespace Oxygen.Patches
             if (OxygenBase.OxygenConfig.recoverOxygen_ShipLeft.Value)
             {
                 OxygenInit.Percent = 1f;
+                DieEarly.DisplayDieEarlyMeter(false);
                 mls.LogInfo("Ship has left, oxygen was recovered.");
             }
         }
