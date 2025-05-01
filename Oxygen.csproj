@@ -45,6 +45,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="EladsHUD">
+	    <Publicize>true</Publicize>
+	    <HintPath>..\Assets\References\EladsHUD.dll</HintPath>
+	  </Reference>
 	  <Reference Include="ImmersiveVisor">
 		<Publicize>true</Publicize>
 	    <HintPath>..\Assets\References\ImmersiveVisor.dll</HintPath>

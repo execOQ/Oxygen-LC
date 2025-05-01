@@ -6,6 +6,8 @@ using System.Collections;
 using LCVR.Player;
 using DunGen;
 using Image = UnityEngine.UI.Image;
+using EladsHUD;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Oxygen.General
 {
@@ -143,6 +145,21 @@ namespace Oxygen.General
 
         private static void Init_EladsHUD(GameObject sprintMeter)
         {
+            // values for PercentageOnly value
+            Vector3? dividerLocalPosition = new(39.2f, -6.4f, 2.8f);
+            Vector3 textLocalPosition = new(45.4834f, -6.4f, 2.8f);
+
+            if (CustomHUD.Plugin.detailedStamina.Value == StaminaTextOptions.Full)
+            {
+                dividerLocalPosition = new(137.3247f, -6.4f, 2.8f);
+                textLocalPosition = new(145.0977f, -6.4f, 2.8f);
+            }
+            else if (CustomHUD.Plugin.detailedStamina.Value == StaminaTextOptions.Disabled)
+            {
+                dividerLocalPosition = null;
+                textLocalPosition = new(-5f, -6.4f, 2.8f);
+            }
+
             Transform sprintMeterParent = sprintMeter.transform.parent;
 
             GameObject oxygenMeter = Instantiate(sprintMeter, sprintMeterParent);
@@ -154,24 +171,26 @@ namespace Oxygen.General
             // oxygenHUD
             oxygenHUD = oxygenMeter.transform.Find("Bar/StaminaBar").GetComponent<Image>();
             oxygenHUD.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
-            //oxygenUI.fillAmount = 1f;
+            oxygenHUD.fillAmount = 1f;
 
             // HUD's text field
             GameObject oxygenInfo = oxygenMeter.transform.Find("StaminaInfo").gameObject;
-            oxygenInfo.transform.localPosition = new Vector3(45.4834f, -6.4f, 2.8f);
+            oxygenInfo.transform.localPosition = textLocalPosition;
             eladsUIText = oxygenInfo.GetComponent<TextMeshProUGUI>();
             eladsUIText.color = new Color(r: 0.593f, g: 0.667f, b: 1, a: 1);
+            eladsUIText.text = $"100<size=75%><voffset=1>%</voffset></size>";
 
             // divider between stamina info and oxygen info
-            GameObject divider = Instantiate(oxygenInfo, oxygenMeter.transform);
-            divider.transform.localPosition = new Vector3(39.2f, -6.4f, 2.8f);
+            if (dividerLocalPosition != null)
+            {
+                GameObject divider = Instantiate(oxygenInfo, oxygenMeter.transform);
+                divider.name = "StaminaDivider";
+                divider.transform.localPosition = (Vector3)dividerLocalPosition;
 
-            // renaming breaks the object, idk why
-            //divider.name = "Text Divider";
-
-            TextMeshProUGUI textDivider = divider.GetComponent<TextMeshProUGUI>();
-            textDivider.text = "<size=50%><voffset=-3>•</voffset></size>";
-            textDivider.color = new Color(r: 1, g: 1, b: 1, a: 0.37f);
+                TextMeshProUGUI textDivider = divider.GetComponent<TextMeshProUGUI>();
+                textDivider.text = "<size=50%><voffset=-3>•</voffset></size>";
+                textDivider.color = new Color(r: 1, g: 1, b: 1, a: 0.37f);
+            }
 
             // just to not duplicate carryInfo :)
             Destroy(oxygenMeter.transform.Find("CarryInfo").gameObject);
