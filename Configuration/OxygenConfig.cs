@@ -300,6 +300,7 @@ namespace Oxygen.Configuration
         #endregion
 
         #region OxyBoost
+        internal ConfigEntry<bool> enable_OxyBoost;
         [SyncedEntryField]
         internal SyncedEntry<float> oxyBoost_increasingValue;
         [SyncedEntryField]
@@ -307,6 +308,13 @@ namespace Oxygen.Configuration
 
         private void BindOxyBoostEntries(ConfigFile file)
         {
+            enable_OxyBoost = file.Bind(
+                "OxyBoost", // Section
+                "EnableOxyBoost", // Key
+                true, // Default value
+                "Enables the OxyBoost" // Description
+            );
+
             oxyBoost_increasingValue = file.BindSyncedEntry(
                 "OxyBoost", // Section
                 "OxyBoost_increasingValue", // Key

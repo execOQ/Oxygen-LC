@@ -122,7 +122,9 @@ namespace Oxygen
             harmony.PatchAll(typeof(GameNetworkManagerParch));
             harmony.PatchAll(typeof(PlayerControllerBPatch));
             
-            RegisterItems();
+            if (OxygenConfig.enable_OxyBoost.Value) { 
+                RegisterItems();
+            }
 
             mls.LogInfo($"{modName} is loaded. Don't forget to refill oxygen canisters!");
         }
