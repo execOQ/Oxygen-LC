@@ -263,8 +263,6 @@ namespace Oxygen.Configuration
         [SyncedEntryField]
         internal SyncedEntry<bool> infinityOxygenInModsPlaces;
 
-        internal ConfigEntry<bool> shyHUDSupport;
-
         [SyncedEntryField]
         internal SyncedEntry<bool> immersiveVisorSupport;
         [SyncedEntryField]

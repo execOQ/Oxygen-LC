@@ -16,7 +16,7 @@ namespace Oxygen.General
         private static Image dieEarlyMeterFrame;
 
         public static bool isDieEarlyUIEnabled = false;
-        public static float dieEarlyMeterFillAmount => dieEarlyMeter.fillAmount;
+        public static float DieEarlyMeterFillAmount => dieEarlyMeter.fillAmount;
 
         internal static void Init()
         {

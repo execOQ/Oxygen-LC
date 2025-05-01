@@ -355,7 +355,7 @@ namespace Oxygen.General
                 {
                     if (timeSinceBeingUnderwater >= 5f)
                     {
-                        if (DieEarly.dieEarlyMeterFillAmount == 1f)
+                        if (DieEarly.DieEarlyMeterFillAmount == 1f)
                         {
                             pc.KillPlayer(Vector3.zero);
                         }

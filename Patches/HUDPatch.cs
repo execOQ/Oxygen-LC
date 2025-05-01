@@ -7,7 +7,7 @@ namespace Oxygen.Patches
     [HarmonyPatch(typeof(HUDManager))]
     internal class HUDPatch
     {
-        public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > HUDPatch");
+        public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > HUDPatch");
 
         [HarmonyPostfix]
         [HarmonyPatch("Start")]

@@ -3,19 +3,29 @@ using GameNetcodeStuff;
 using HarmonyLib;
 using Oxygen.Extras;
 using Oxygen.General;
+using UnityEngine;
 
 namespace Oxygen.Patches
 {
     [HarmonyPatch(typeof(PlayerControllerB))]
-    internal class PlayerControllerBPatch
+    internal class PlayerControllerBPatch : MonoBehaviour
     {
-        private readonly static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > PlayerControllerBPatch");
+        private readonly static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > PlayerControllerBPatch");
 
         [HarmonyPostfix]
         [HarmonyPatch("ConnectClientToPlayerObject")]
+        [HarmonyPriority(Priority.Last)]
         public static void ConnectClientToPlayerObject_Postfix(PlayerControllerB __instance)
         {
             AudioController.Init_AudioSource(__instance.playersManager.thisClientPlayerId);
+
+            // TooManyEmotes mod copies GameObject with ControlTips and because of it DieEarly object is also copied, which causes it to show while dancing
+            GameObject endGameEarlyUI = GameObject.Find("Systems/UI/Canvas/IngamePlayerHUD/ThirdPersonEmotesControlTips/DieEarly/");
+            if (endGameEarlyUI != null)
+            {
+                mls.LogDebug("DieEarly object was copied, destroying it.");
+                Destroy(endGameEarlyUI);
+            }
         }
 
         [HarmonyPostfix]
