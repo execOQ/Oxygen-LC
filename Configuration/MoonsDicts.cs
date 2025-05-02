@@ -11,7 +11,7 @@ namespace Oxygen.Configuration
 
         public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > ConfigHandler");
 
-        private static string MoonName => Utilities.GetNumberlessPlanetName(StartOfRound.Instance.currentLevel.PlanetName).ToLower();
+        private static string MoonName => Utilities.GetNumberlessPlanetName(StartOfRound.Instance.currentLevel.PlanetName).ToLower().Replace(" ", string.Empty);
 
         internal static Dictionary<string, float> greenPlanets;
         internal static Dictionary<string, float> decreasingOxygenOutsideMoons;
@@ -79,7 +79,7 @@ namespace Oxygen.Configuration
         {
             Dictionary<string, float> result = [];
 
-            // for simplification my work...
+            // to simplify my work...
             result.Add("default", defValue);
 
             if (string.IsNullOrEmpty(str))
