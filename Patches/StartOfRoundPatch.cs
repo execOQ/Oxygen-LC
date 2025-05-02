@@ -36,8 +36,9 @@ namespace Oxygen.Patches
         [HarmonyPatch("Awake")]
         private static void Patch_RoundAwake()
         {
-            // for some reasons it's not working.
+            OxygenInit.Init_OxyCharger();
 
+            // for some reasons it's not working.
             // removing OxyCanister from the "Oops! All Flooded" mod cuz it's not working with the Oxygen mod whose overwriting the "drowningTimer" variable
             /* if (OxygenBase.Instance.IsOopsAllFloodedFound)
             {
@@ -61,8 +62,6 @@ namespace Oxygen.Patches
                     }
                 }
             } */
-
-            OxygenInit.Init_OxyCharger();
 
             /* 
             RoundManager roundManager = Object.FindFirstObjectByType<RoundManager>();

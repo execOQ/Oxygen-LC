@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using CSync.Extensions;
 using CSync.Lib;
+using Oxygen.General;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -607,6 +608,9 @@ namespace Oxygen.Configuration
                 mls.LogInfo("Updating price for OxyBoost");
                 OxygenBase.UpdateCustomItemPrice(OxygenBase.Instance.oxyBoost, oxyBoost_price.Value);
             }
+
+            // Updating OxyCharger visibility to match with host
+            OxygenInit.UpdateVisability_OxyCharger(oxyCharger_Enabled.Value);
         } 
 
         public OxygenConfig(ConfigFile file) : base(OxygenBase.modGUID)
