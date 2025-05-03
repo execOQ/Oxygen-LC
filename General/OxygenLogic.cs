@@ -298,10 +298,9 @@ namespace Oxygen.General
                         OxyCharger.Instance.AutoRefillOxygen();
                         mls.LogDebug($"Oxygen is recovering: {OxygenAmount}");
                     }
-                }
-                pc.drunkness = Mathf.Clamp01(pc.drunkness - IncreasingOxygen);
-
-                return;
+                    pc.drunkness = Mathf.Clamp01(pc.drunkness - IncreasingOxygen);
+                    return;
+                } 
             }
 
             localDecValue += SprintingLogic(pc);

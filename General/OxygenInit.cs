@@ -63,12 +63,15 @@ namespace Oxygen.General
                         int oxygenInPercent = (int)(roundedValue * 100f);
                         eladsUIText.text = $"{oxygenInPercent}<size=75%><voffset=1>%</voffset></size>";
                     }
-                    if ((OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.autoHideHUD.Value) || OxygenBase.OxygenConfig.autoHideHUD.Value)
+                    if (!OxygenBase.Instance.IsEladsHUDFound)
                     {
-                        float hideValue = OxygenBase.OxygenConfig.autoHideHUD_value.Value > 1 ? 1f : OxygenBase.OxygenConfig.autoHideHUD_value.Value;
+                        if ((OxygenBase.Instance.IsShyHUDFound && OxygenBase.OxygenConfig.autoHideHUD.Value) || OxygenBase.OxygenConfig.autoHideHUD.Value)
+                        {
+                            float hideValue = OxygenBase.OxygenConfig.autoHideHUD_value.Value > 1 ? 1f : OxygenBase.OxygenConfig.autoHideHUD_value.Value;
 
-                        bool toFadeOut = value >= hideValue; // previously was 0.55f
-                        oxygenHUD.CrossFadeAlpha(toFadeOut ? 0f : 1f, toFadeOut ? 3f : 0.5f, ignoreTimeScale: false);
+                            bool toFadeOut = value >= hideValue; // previously was 0.55f
+                            oxygenHUD.CrossFadeAlpha(toFadeOut ? 0f : 1f, toFadeOut ? 3f : 0.5f, ignoreTimeScale: false);
+                        }
                     }
                 }
             }
