@@ -4,12 +4,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections;
 using LCVR.Player;
-using DunGen;
 using Image = UnityEngine.UI.Image;
-using EladsHUD;
-using static UnityEngine.Rendering.DebugUI;
-using Oxygen.Configuration;
-using Unity.Netcode;
 
 namespace Oxygen.General
 {
@@ -106,7 +101,7 @@ namespace Oxygen.General
 
                 if (OxygenBase.Instance.IsLCVRFound)
                 {
-                    CoroutineHelper.Start(Init_LCVR(sprintMeter));
+                    OxygenBase.Instance.StartCoroutine(Init_LCVR(sprintMeter));
                 }
             }
             else

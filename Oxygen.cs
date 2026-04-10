@@ -35,7 +35,7 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.6.5";
+        public const string modVersion = "1.6.7";
 
         private readonly Harmony harmony = new(modGUID);
         public static OxygenConfig OxygenConfig { get; private set; }
@@ -89,25 +89,25 @@ namespace Oxygen
             AssetBundle _oxyAudio = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygenaudio");
             if (_oxyAudio == null) return;
             inhalesSFX = Utilities.LoadAudioClips(_oxyAudio,
-                "Assets/OxygenAudio/Inhale_1.wav",
-                "Assets/OxygenAudio/Inhale_2.wav",
-                "Assets/OxygenAudio/Inhale_3.wav");
+                "Assets/Oxygen/OxygenAudio/Inhale_1.wav",
+                "Assets/Oxygen/OxygenAudio/Inhale_2.wav",
+                "Assets/Oxygen/OxygenAudio/Inhale_3.wav");
 
             heavyInhalesSFX = Utilities.LoadAudioClips(_oxyAudio,
-                "Assets/OxygenAudio/heavy_Inhale_1.wav",
-                "Assets/OxygenAudio/heavy_Inhale_2.wav",
-                "Assets/OxygenAudio/heavy_Inhale_end.wav");
+                "Assets/Oxygen/OxygenAudio/heavy_Inhale_1.wav",
+                "Assets/Oxygen/OxygenAudio/heavy_Inhale_2.wav",
+                "Assets/Oxygen/OxygenAudio/heavy_Inhale_end.wav");
 
             oxyChargerSFX = Utilities.LoadAudioClips(_oxyAudio,
-                "Assets/OxyCharger/Audio/OxyChargeSFX.wav",
-                "Assets/OxyCharger/Audio/OxyChargeSFX2.wav",
-                "Assets/OxyCharger/Audio/OxyChargeSFX3.wav");
+                "Assets/Oxygen/OxyCharger/Audio/OxyChargeSFX.wav",
+                "Assets/Oxygen/OxyCharger/Audio/OxyChargeSFX2.wav",
+                "Assets/Oxygen/OxyCharger/Audio/OxyChargeSFX3.wav");
 
             AssetBundle _oxyPrefabs = Utilities.LoadAssetFromStream("Oxygen.Assets.oxygenprefabs");
             if (_oxyPrefabs == null) return;
-            oxyAudioExample = _oxyPrefabs.LoadAsset<GameObject>("Assets/OxygenAudio/OxygenAudio.prefab");
-            oxyCharger = _oxyPrefabs.LoadAsset<GameObject>("Assets/OxyCharger/OxyCharger.prefab");
-            oxyBoost = _oxyPrefabs.LoadAsset<Item>("Assets/OxyBoost/OxyBoostItem.asset");
+            oxyAudioExample = _oxyPrefabs.LoadAsset<GameObject>("Assets/Oxygen/OxygenAudio/OxygenAudio.prefab");
+            oxyCharger = _oxyPrefabs.LoadAsset<GameObject>("Assets/Oxygen/OxyCharger/OxyCharger.prefab");
+            oxyBoost = _oxyPrefabs.LoadAsset<Item>("Assets/Oxygen/OxyBoost/OxyBoostItem.asset");
 
             mls.LogInfo($"Assets are loaded!");
 
@@ -165,6 +165,18 @@ namespace Oxygen
 
         private void RegisterItems()
         {
+            if (oxyBoost == null)
+            {
+                mls.LogError("Could not register OxyBoost item because its asset failed to load.");
+                return;
+            }
+
+            if (oxyBoost.spawnPrefab == null)
+            {
+                mls.LogError("Could not register OxyBoost item because its spawn prefab is missing.");
+                return;
+            }
+
             LL.NetworkPrefabs.RegisterNetworkPrefab(oxyBoost.spawnPrefab);
             LL.Utilities.FixMixerGroups(oxyBoost.spawnPrefab);
 
