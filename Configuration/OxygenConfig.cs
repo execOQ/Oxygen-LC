@@ -348,15 +348,16 @@ namespace Oxygen.Configuration
                 "Sounds",
                 "enableLowOxygenAlarm",
                 true,
-                "Plays a local alarm below 20% oxygen every 5 seconds, and below 10% every 2 seconds." +
+                "Enables the repeating low-oxygen alarm. Set to false to stop and completely disable this alarm." +
+                "\nPlays below 20% oxygen every 5 seconds, and below 10% every 2 seconds." +
                 "\nWorks with the HUD hidden and independently of inhalation sounds and notifications."
             );
 
             lowOxygenAlarm_volume = file.Bind(
                 "Sounds",
                 "lowOxygenAlarm_volume",
-                0.65f,
-                new ConfigDescription("Volume of the low-oxygen alarm.", new AcceptableValueRange<float>(0f, 1f))
+                0.1f,
+                new ConfigDescription("Volume of the low-oxygen alarm. 0 = muted, 1 = maximum volume. Default: 0.1 (10%).", new AcceptableValueRange<float>(0f, 1f))
             );
 
             enableOxygenSFX = file.Bind(
