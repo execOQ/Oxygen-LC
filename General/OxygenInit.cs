@@ -138,11 +138,19 @@ namespace Oxygen.General
             rectTransform.localScale = new Vector3(2.0392f, 2.0392f, 1.6892f);
             rectTransform.rotation = Quaternion.Euler(0f, 323.3253f, 0f);
 
-            // fixes overlapping
-            sprintMeterParent.Find("StatusEffects").localPosition = new Vector3(20.1763f, -4.0355f, 0.0046f); 
-            sprintMeterParent.Find("WeightUI").localPosition = new Vector3(-254f, 83f, 17f);
+            // Preserve the original 16:9 layout using offsets from the meters' top-left anchor.
+            // Center-relative local positions drift into the meters when the HUD size changes.
+            SetTopLeftPosition(sprintMeterParent.Find("StatusEffects"), new Vector3(470.1763f, -258.2728f, 0.0046f));
+            SetTopLeftPosition(sprintMeterParent.Find("WeightUI"), new Vector3(196f, -171.2373f, 17f));
 
             mls.LogInfo(OxygenBase.OxygenConfig.autoFillingOnShip_increasingOxygen);
+        }
+
+        private static void SetTopLeftPosition(Transform target, Vector3 position)
+        {
+            if (target is not RectTransform rectTransform) return;
+            rectTransform.anchorMin = rectTransform.anchorMax = new Vector2(0f, 1f);
+            rectTransform.anchoredPosition3D = position;
         }
 
         private static void Init_EladsHUD(GameObject sprintMeter)
