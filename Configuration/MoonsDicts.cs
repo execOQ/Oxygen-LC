@@ -1,7 +1,8 @@
-﻿using BepInEx.Logging;
+using BepInEx.Logging;
 using Oxygen.Extras;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 
 namespace Oxygen.Configuration
 {
@@ -11,7 +12,7 @@ namespace Oxygen.Configuration
 
         public static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > ConfigHandler");
 
-        private static string MoonName => Utilities.GetNumberlessPlanetName(StartOfRound.Instance.currentLevel.PlanetName).ToLower().Replace(" ", string.Empty);
+        private static string MoonName => Utilities.GetNumberlessPlanetName(StartOfRound.Instance.currentLevel.PlanetName).ToLowerInvariant().Replace(" ", string.Empty);
 
         internal static Dictionary<string, float> greenPlanets;
         internal static Dictionary<string, float> decreasingOxygenOutsideMoons;
@@ -42,39 +43,41 @@ namespace Oxygen.Configuration
             return defaultValue;
         }
 
-        internal static void UpdateMoonsValues()
+        internal sealed class PreparedValues
         {
-            greenPlanets = GetLevelValue(
-                OxygenBase.OxygenConfig.greenPlanets.Value,
-                0,
-                "greenPlanets"
-            );
-
-            decreasingOxygenOutsideMoons = GetLevelValue(
-                OxygenBase.OxygenConfig.decreasingOxygenOutsideMoons.Value,
-                OxygenBase.OxygenConfig.decreasingOxygenOutside.Value,
-                "decreasingOxygenOutsideMoons"
-            );
-
-            decreasingOxygenInFactoryMoons = GetLevelValue(
-                OxygenBase.OxygenConfig.decreasingOxygenInFactoryMoons.Value,
-                OxygenBase.OxygenConfig.decreasingOxygenInFactory.Value,
-                "decreasingOxygenInFactoryMoons"
-            );
-
-            runningMultiplierMoons = GetLevelValue(
-                OxygenBase.OxygenConfig.runningMultiplierMoons.Value,
-                OxygenBase.OxygenConfig.runningMultiplier.Value,
-                "runningMultiplierMoons"
-            );
-
-            oxygenDepletionInWaterMoons = GetLevelValue(
-                OxygenBase.OxygenConfig.oxygenDepletionInWaterMoons.Value,
-                OxygenBase.OxygenConfig.oxygenDepletionInWater.Value,
-                "oxygenDepletionInWaterMoons"
-            );
+            internal Dictionary<string, float> Green, Outside, Inside, Running, Water;
         }
 
+        internal static PreparedValues Prepare(OxygenConfig config,
+            IReadOnlyDictionary<IHostConfigEntry, object> overrides = null)
+        {
+            T Value<T>(HostConfigEntry<T> entry) => overrides == null ? entry.Value : (T)overrides[entry];
+            return new PreparedValues
+            {
+                Green = GetLevelValue(Value(config.greenPlanets), 0, "greenPlanets"),
+                Outside = GetLevelValue(Value(config.decreasingOxygenOutsideMoons), Value(config.decreasingOxygenOutside), "decreasingOxygenOutsideMoons"),
+                Inside = GetLevelValue(Value(config.decreasingOxygenInFactoryMoons), Value(config.decreasingOxygenInFactory), "decreasingOxygenInFactoryMoons"),
+                Running = GetLevelValue(Value(config.runningMultiplierMoons), Value(config.runningMultiplier), "runningMultiplierMoons"),
+                Water = GetLevelValue(Value(config.oxygenDepletionInWaterMoons), Value(config.oxygenDepletionInWater), "oxygenDepletionInWaterMoons")
+            };
+        }
+
+        internal static void UpdateMoonsValues()
+        {
+            // Parse every list before replacing any active dictionary.
+            var values = Prepare(OxygenBase.OxygenConfig);
+            greenPlanets = values.Green;
+            decreasingOxygenOutsideMoons = values.Outside;
+            decreasingOxygenInFactoryMoons = values.Inside;
+            runningMultiplierMoons = values.Running;
+            oxygenDepletionInWaterMoons = values.Water;
+        }
+
+        internal static void Clear()
+        {
+            greenPlanets = decreasingOxygenOutsideMoons = decreasingOxygenInFactoryMoons =
+                runningMultiplierMoons = oxygenDepletionInWaterMoons = null;
+        }
         private static Dictionary<string, float> GetLevelValue(string str, float defValue, string nameOfVariable)
         {
             Dictionary<string, float> result = [];
@@ -92,15 +95,22 @@ namespace Oxygen.Configuration
 
             foreach (string x in str.Split(';'))
             {
+                if (string.IsNullOrWhiteSpace(x)) continue;
                 if (!x.Contains("@"))
                 {
-                    result.Add(x.ToLower().Replace(" ", string.Empty), defValue);
+                    if (result.ContainsKey(x.ToLowerInvariant()))
+                        throw new InvalidDataException($"Duplicate moon '{x}' in {nameOfVariable}.");
+                    result.Add(x.ToLowerInvariant().Replace(" ", string.Empty), defValue);
                 }
                 else
                 {
                     string[] array = x.Split('@');
 
-                    string moonName = array[0].ToLower().Replace(" ", string.Empty);
+                    string moonName = array[0].ToLowerInvariant().Replace(" ", string.Empty);
+                    if (string.IsNullOrEmpty(moonName) || array.Length != 2)
+                        throw new InvalidDataException($"Invalid moon entry '{x}' in {nameOfVariable}.");
+                    if (result.ContainsKey(moonName))
+                        throw new InvalidDataException($"Duplicate moon '{moonName}' in {nameOfVariable}.");
 
                     if (array[1].Contains(","))
                     {
@@ -110,6 +120,8 @@ namespace Oxygen.Configuration
 
                     if (float.TryParse(array[1], NumberStyles.Float, cultureInfo, out var value))
                     {
+                        if (float.IsNaN(value) || float.IsInfinity(value))
+                            throw new InvalidDataException($"Non-finite moon value in {nameOfVariable}: '{x}'.");
                         mls.LogInfo($"Parsed {value} for {moonName}");
                         result.Add(moonName, value);
                     }

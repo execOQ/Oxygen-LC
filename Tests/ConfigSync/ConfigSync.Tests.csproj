@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Configuration/ConfigSnapshot.cs" Link="ConfigSnapshot.cs" />
+    <Compile Include="../../Configuration/ConfigSync.cs" Link="ConfigSync.cs" />
+    <Compile Include="../../Configuration/HostConfigEntry.cs" Link="HostConfigEntry.cs" />
+    <Compile Include="../../Configuration/OxyBoostShop.cs" Link="OxyBoostShop.cs" />
+    <Compile Include="../../Configuration/MoonsDicts.cs" Link="MoonsDicts.cs" />
+    <Compile Include="../../General/VanillaCanisters.cs" Link="VanillaCanisters.cs" />
+    <Compile Include="../../General/WeatherHandler.cs" Link="WeatherHandler.cs" />
+    <Compile Include="../../General/ShipRefill.cs" Link="ShipRefill.cs" />
+  </ItemGroup>
+</Project>

@@ -1,4 +1,4 @@
-﻿using BepInEx.Logging;
+using BepInEx.Logging;
 using HarmonyLib;
 using Oxygen.General;
 
@@ -8,6 +8,20 @@ namespace Oxygen.Patches
     internal class StartOfRoundPatch
     {
         public static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > StartOfRoundPatch");
+
+        [HarmonyPrefix]
+        [HarmonyPatch("SpawnUnlockable")]
+        private static bool BeforeSpawn(StartOfRound __instance, int unlockableIndex)
+            => ChargerUnlockable.BeforeSpawn(__instance, unlockableIndex);
+
+        [HarmonyPrefix]
+        [HarmonyPatch("ReturnUnlockableFromStorageServerRpc")]
+        private static bool BeforeReturnFromStorage(StartOfRound __instance, int unlockableID)
+            => ChargerUnlockable.CanReturnFromStorage(__instance, unlockableID);
+
+        [HarmonyPostfix]
+        [HarmonyPatch("ResetShipFurniture")]
+        private static void AfterFurnitureReset() => ChargerUnlockable.ResetFurniture();
 
         [HarmonyPostfix]
         [HarmonyPatch("ShipHasLeft")]
@@ -33,10 +47,11 @@ namespace Oxygen.Patches
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch("Awake")]
-        private static void Patch_RoundAwake()
+        [HarmonyPatch("Start")]
+        private static void Patch_RoundStart(StartOfRound __instance)
         {
-            OxygenInit.Init_OxyCharger();
+            ChargerUnlockable.StartRound(__instance);
+            OxygenBase.OxygenConfig.RefreshEffects();
 
             // for some reasons it's not working.
             // removing OxyCanister from the "Oops! All Flooded" mod cuz it's not working with the Oxygen mod whose overwriting the "drowningTimer" variable

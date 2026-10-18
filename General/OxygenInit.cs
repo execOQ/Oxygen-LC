@@ -1,4 +1,4 @@
-﻿using BepInEx.Logging;
+using BepInEx.Logging;
 using static System.Math;
 using TMPro;
 using UnityEngine;
@@ -23,7 +23,7 @@ namespace Oxygen.General
         public static float StaminaFillAmount => sprintMeterImage.fillAmount;
 
         // Elements
-        private static GameObject oxyCharger;
+        internal static GameObject oxyCharger;
 
         private static Image sprintMeterImage;
 
@@ -241,54 +241,6 @@ namespace Oxygen.General
             }
 
             mls.LogInfo("OxygenHUD initialized (VR)");
-        }
-
-        internal static void Init_OxyCharger()
-        {
-            GameObject suitParts = GameObject.Find("Environment/HangarShip/ScavengerModelSuitParts");
-            if (suitParts == null)
-            {
-                mls.LogError("suitParts are null");
-                return;
-            }
-
-            GameObject oxyCylinders = suitParts.transform.Find("Circle.002").gameObject;
-
-            oxyCharger = Instantiate(OxygenBase.Instance.oxyCharger, suitParts.transform);
-            oxyCharger.name = "OxyCharger";
-            oxyCharger.transform.rotation = oxyCylinders.transform.rotation;
-            oxyCharger.transform.position = new Vector3(5.9905f, 0.7598f, -11.2452f);
-
-            oxyCylinders.SetActive(false);
-
-            mls.LogInfo("Oxygen cylinders were replaced");
-        }
-
-        // This is a workaround to fix the issue with the OxyCharger not disabling with SetActive(value) on client side 
-        internal static void UpdateVisability_OxyCharger(bool value)
-        {
-            mls.LogDebug($"Updating OxyCharger visability: {value}");
-
-            if (oxyCharger == null)
-            {
-                mls.LogError("Oxycharger is null");
-                return;
-            }
-
-            if (!value)
-            {
-                Destroy(oxyCharger);
-            }
-
-            GameObject oxyCylinders = GameObject.Find("Environment/HangarShip/ScavengerModelSuitParts/Circle.002");
-            if (oxyCylinders == null)
-            {
-                mls.LogWarning("Original oxygen canisters GameObject is null. It could be deleted by tweaks mods");
-                return;
-            }
-
-            oxyCylinders.SetActive(!value);
-            mls.LogDebug($"Original oxygen canisters GameObject is set to {!value}");
         }
     }
 }

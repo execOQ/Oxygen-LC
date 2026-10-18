@@ -259,26 +259,14 @@ namespace Oxygen.General
 
         internal static void RunLogic()
         {
-            if (!OxygenInit.IsOxygenHUDInitialized)
-            {
-                mls.LogError("oxygenUI is null, lol");
-                return;
-            }
-
+            // HUD updates begin before the local player is assigned and continue during teardown.
+            // Resolve the current session every frame so joining/reconnecting resumes naturally.
+            var network = GameNetworkManager.Instance;
+            if (network == null) return;
             StartOfRound sor = StartOfRound.Instance;
-            if (sor == null)
-            {
-                mls.LogError("StartOfRound is null");
-                return;
-            }
-
-            PlayerControllerB pc = GameNetworkManager.Instance.localPlayerController;
-            if (pc == null)
-            {
-                mls.LogError("PlayerControllerB is null");
-                return;
-            }
-            if (pc.isPlayerDead) return;
+            if (sor == null) return;
+            PlayerControllerB pc = network.localPlayerController;
+            if (pc == null || pc.isPlayerDead || !OxygenInit.IsOxygenHUDInitialized) return;
 
             float localDecValue = 0f;
             bool isUnderwater = pc.isUnderwater && pc.underwaterCollider != null && pc.underwaterCollider.bounds.Contains(pc.gameplayCamera.transform.position);
@@ -295,7 +283,7 @@ namespace Oxygen.General
                 {
                     if (OxygenAmount < 1)
                     {
-                        OxyCharger.Instance.AutoRefillOxygen();
+                        ShipRefill.Refill();
                         mls.LogDebug($"Oxygen is recovering: {OxygenAmount}");
                     }
                     pc.drunkness = Mathf.Clamp01(pc.drunkness - IncreasingOxygen);

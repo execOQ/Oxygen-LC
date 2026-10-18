@@ -1,4 +1,4 @@
-﻿using BepInEx.Logging;
+using BepInEx.Logging;
 using Oxygen.General;
 using Unity.Netcode;
 using UnityEngine;
@@ -15,50 +15,29 @@ namespace Oxygen.Items
 
         private AudioSource audioSource;
 
-        private NetworkVariable<float> _remainedOxygenAmount = new();
+        private readonly NetworkVariable<float> _remainedOxygenAmount = new();
+        private float? _queuedServerRemainedOxygenAmount;
 
         public float RemainedOxygenAmount
         {
             get
             {
-                if (_remainedOxygenAmount == null)
+                if (!IsSpawned)
                 {
-                    return 0f;
+                    return _queuedServerRemainedOxygenAmount ?? 0f;
                 }
+
                 return _remainedOxygenAmount.Value;
             }
             internal set
             {
-                if (_remainedOxygenAmount == null)
-                {
-                    return;
-                }
-
-                mls.LogDebug("RemainedOxygenAmount before: " + RemainedOxygenAmount);
-
-                float newValue = value < 0 ? 0 : value;
-
-                if (_remainedOxygenAmount.Value != newValue)
-                {
-                    if (IsHost || IsServer)
-                    {
-                        _remainedOxygenAmount.Value = newValue;
-                    }
-                    else
-                    {
-                        UpdateRemainedOxygenAmountServerRpc(newValue);
-                    }
-                }
-
-                mls.LogDebug("RemainedOxygenAmount after: " + RemainedOxygenAmount);
-
-                if (IsClient && !(IsHost || IsServer))
-                {
-                    mls.LogDebug("RemainedOxygenAmount (after) value will be displayed without updating on the client-side, but actually it should be updated");
-                }
+                // Only host initialization/allocation may change the shared reserve.
+                if (!IsServer || float.IsNaN(value) || float.IsInfinity(value)) return;
+                float amount = Mathf.Max(0f, value);
+                if (IsSpawned) _remainedOxygenAmount.Value = amount;
+                else _queuedServerRemainedOxygenAmount = amount;
             }
         }
-
         public static OxyCharger Instance { get; private set; }
 
         private void Awake()
@@ -66,114 +45,104 @@ namespace Oxygen.Items
             Instance = this;
 
             audioSource = GetComponent<AudioSource>();
-
             if (audioSource == null)
             {
                 mls.LogError("Audio source was not found");
-            } else
-            {
-                mls.LogWarning("Audio source was found");
             }
         }
 
-        public void FillOxygen(bool playSound = true) // "playSound" variable is for the OxyCharger object
+        public override void OnNetworkSpawn()
         {
-            if (OxygenInit.Percent < 1)
+            base.OnNetworkSpawn();
+            OxygenInit.oxyCharger = gameObject;
+
+            if (IsServer)
             {
-                if (WeatherHandler.IsOxygenOnShipLimited)
-                {
-                    mls.LogDebug("Oxygen is limited.");
-                    if (RemainedOxygenAmount <= 0f) return;
-
-                    float amountToFill = 1 - OxygenInit.Percent;
-
-                    if (RemainedOxygenAmount >= amountToFill)
-                    {
-                        OxygenInit.Percent = 1f;
-                        RemainedOxygenAmount -= amountToFill;
-                    } else
-                    {
-                        OxygenInit.Percent += RemainedOxygenAmount;
-                        RemainedOxygenAmount = 0f;
-                    }
-                } else 
-                {
-                    OxygenInit.Percent = 1f;
-                }
+                float startValue = _queuedServerRemainedOxygenAmount ?? _remainedOxygenAmount.Value;
+                _remainedOxygenAmount.Value = Mathf.Max(0f, startValue);
+                _queuedServerRemainedOxygenAmount = null;
+                mls.LogDebug($"OnNetworkSpawn initialized RemainedOxygenAmount={_remainedOxygenAmount.Value}");
             }
 
-            //RemainedOxygenAmount += 1f;
-            
-            if (playSound) PlaySFX();
-            
-            mls.LogInfo("Oxygen was recovered");
+            VanillaCanisters.SetVisible(false);
+            WeatherHandler.RefreshLimit();
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+                // IsSpawned may already be false here; read the variable directly, not the pre-spawn getter.
+                WeatherHandler.ChargerDespawned(_remainedOxygenAmount.Value);
+            }
+            if (OxygenInit.oxyCharger == gameObject) OxygenInit.oxyCharger = null;
+            VanillaCanisters.SetVisible(true);
+            base.OnNetworkDespawn();
+        }
+
+        public void FillOxygen(bool playSound = true)
+        {
+            OxygenBase.Instance.Refills.Request(1f - OxygenInit.Percent, false, playSound);
         }
 
         public void AutoRefillOxygen()
         {
-            if (OxygenInit.Percent < 1)
-            {
-                if (WeatherHandler.IsOxygenOnShipLimited)
-                {
-                    mls.LogDebug("Oxygen is limited.");
-                    if (RemainedOxygenAmount <= 0f) return;
-
-                    if (RemainedOxygenAmount >= IncreasingOxygen)
-                    {
-                        OxygenInit.Percent += IncreasingOxygen;
-                        RemainedOxygenAmount -= IncreasingOxygen;
-                    }
-                    else
-                    {
-                        OxygenInit.Percent += RemainedOxygenAmount;
-                        RemainedOxygenAmount = 0f;
-                    }
-                }
-                else
-                {
-                    OxygenInit.Percent += IncreasingOxygen;
-                }
-            }
+            OxygenBase.Instance.Refills.Request(1f - OxygenInit.Percent, true, false);
         }
 
-        private void PlaySFX()
+        internal float AllocateOxygen(float requested, bool automatic, int ticks)
         {
-            if (IsHost || IsServer)
+            if (!IsServer || !IsSpawned || !OxygenBase.OxygenConfig.oxyCharger_Enabled.Value ||
+                float.IsNaN(requested) || float.IsInfinity(requested) || requested <= 0f) return 0f;
+            float amount = Mathf.Min(1f, requested);
+            if (automatic)
             {
-                PlaySFXClientRpc();
+                var mode = OxygenBase.OxygenConfig.autoFillingOnShip.Value;
+                if (mode == Configuration.OxygenConfig.AutoFillingOnShip.Off ||
+                    (mode == Configuration.OxygenConfig.AutoFillingOnShip.WhenDoorsClosed &&
+                    !StartOfRound.Instance.hangarDoorsClosed)) return 0f;
+                amount = Mathf.Min(amount, Mathf.Max(0f, IncreasingOxygen) * ticks);
             }
-            else
+            if (WeatherHandler.IsOxygenOnShipLimited)
             {
-                PlaySFXServerRpc();
+                amount = Mathf.Min(amount, _remainedOxygenAmount.Value);
+                _remainedOxygenAmount.Value -= amount;
             }
+            return amount;
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        private void PlaySFXServerRpc()
+        internal void PlayGrantedSFX()
         {
-            PlaySFXClientRpc();
+            if (IsServer && IsSpawned) PlaySFXClientRpc();
         }
-
         [ClientRpc]
         private void PlaySFXClientRpc()
         {
             if (audioSource == null)
             {
                 mls.LogError("Audio source was not found");
+                return;
+            }
+
+            if (OxyChargerSFX == null || OxyChargerSFX.Length == 0)
+            {
+                mls.LogError("OxyCharger SFX references are missing.");
+                return;
             }
 
             if (audioSource.isPlaying) audioSource.Stop();
 
             AudioClip clip = OxyChargerSFX[Random.Range(0, OxyChargerSFX.Length)];
+            if (clip == null)
+            {
+                mls.LogError("Selected OxyCharger clip is null.");
+                return;
+            }
 
             audioSource.PlayOneShot(clip, Volume);
             mls.LogDebug("Playing sound");
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        private void UpdateRemainedOxygenAmountServerRpc(float newValue)
-        {
-            RemainedOxygenAmount = newValue;
-        }
     }
 }

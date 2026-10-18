@@ -1,8 +1,9 @@
-﻿using BepInEx;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Oxygen.Patches;
 using Oxygen.Configuration;
+using Oxygen.General;
 using UnityEngine;
 using BepInEx.Bootstrap;
 using LL = LethalLib.Modules;
@@ -21,7 +22,6 @@ namespace Oxygen
     }
 
     [BepInPlugin(modGUID, modName, modVersion)]
-    [BepInDependency("com.sigurd.csync")]
     [BepInDependency("evaisa.lethallib")]
     [BepInDependency("com.rune580.LethalCompanyInputUtils", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("ainavt.lc.lethalconfig", BepInDependency.DependencyFlags.SoftDependency)]
@@ -31,6 +31,8 @@ namespace Oxygen
     [BepInDependency(LCVRGUID, BepInDependency.DependencyFlags.SoftDependency)]
     public class OxygenBase : BaseUnityPlugin
     {
+        internal RefillSync Refills => OxygenConfig.Sync.Refills;
+        private void Update() => OxygenConfig?.Sync.Refills.Tick();
         private readonly ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
 
         public const string modName = "Oxygen";
@@ -116,15 +118,16 @@ namespace Oxygen
             mls.LogInfo($"Config is loaded.");
 
             harmony.PatchAll(typeof(HUDPatch));
-            harmony.PatchAll(typeof(OxygenConfig));
+            harmony.PatchAll(typeof(ConfigNetworkManagerPatch));
+            harmony.PatchAll(typeof(ConfigTerminalPatch));
             harmony.PatchAll(typeof(StartOfRoundPatch));
             harmony.PatchAll(typeof(RoundManagerPatch));
             harmony.PatchAll(typeof(GameNetworkManagerParch));
             harmony.PatchAll(typeof(PlayerControllerBPatch));
+            harmony.PatchAll(typeof(ShipBuildModeManagerPatch));
             
-            if (OxygenConfig.enable_OxyBoost.Value) { 
-                RegisterItems();
-            }
+            ChargerUnlockable.Register(oxyCharger);
+            RegisterItems();
 
             mls.LogInfo($"{modName} is loaded. Don't forget to refill oxygen canisters!");
         }
@@ -188,5 +191,8 @@ namespace Oxygen
 
             mls.LogInfo("Custom items are loaded!");
         }
+
+        internal void UpdateOxyBoostShop() => OxyBoostShop.Update(oxyBoost,
+            OxygenConfig.enable_OxyBoost.Value, OxygenConfig.oxyBoost_price.Value);
     }
 }

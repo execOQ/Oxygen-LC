@@ -51,6 +51,7 @@ namespace Oxygen.Patches
         {
             if (__instance.IsOwner && (!__instance.IsServer || __instance.isHostPlayerObject))
             {
+                LowOxygenAlarm.Update(__instance);
                 if (!__instance.isPlayerDead)
                 {
                     OxygenLogic.ShowNotifications(__instance);

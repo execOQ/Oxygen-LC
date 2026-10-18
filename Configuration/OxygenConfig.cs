@@ -1,17 +1,13 @@
-﻿using BepInEx.Configuration;
+using BepInEx.Configuration;
 using BepInEx.Logging;
-using CSync.Extensions;
-using CSync.Lib;
 using Oxygen.General;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 namespace Oxygen.Configuration
 {
-    [DataContract]
-    public class OxygenConfig : SyncedConfig2<OxygenConfig>
+    public class OxygenConfig
     {
         public readonly static ManualLogSource mls = Logger.CreateLogSource(OxygenBase.modName + " > OxygenConfig");
 
@@ -29,26 +25,20 @@ namespace Oxygen.Configuration
 
         internal ConfigEntry<float> autoHideHUD_value;
 
-        [SyncedEntryField]
-        internal SyncedEntry<AutoFillingOnShip> autoFillingOnShip;
-        [SyncedEntryField]
-        internal SyncedEntry<float> autoFillingOnShip_increasingOxygen;
+        internal HostConfigEntry<AutoFillingOnShip> autoFillingOnShip;
+        internal HostConfigEntry<float> autoFillingOnShip_increasingOxygen;
 
-        [SyncedEntryField]
-        internal SyncedEntry<bool> recoverOxygen_ShipLeft;
+        internal HostConfigEntry<bool> recoverOxygen_ShipLeft;
 
-        [SyncedEntryField]
-        internal SyncedEntry<bool> recoverOxygen_StartOfRound;
+        internal HostConfigEntry<bool> recoverOxygen_StartOfRound;
 
-        [SyncedEntryField]
-        internal SyncedEntry<float> secTimer;
+        internal HostConfigEntry<float> secTimer;
 
-        [SyncedEntryField]
-        internal SyncedEntry<int> playerDamage;
+        internal HostConfigEntry<int> playerDamage;
 
         private void BindGeneralEntries(ConfigFile file)
         {
-            autoFillingOnShip = file.BindSyncedEntry(
+            autoFillingOnShip = BindHostEntry(file,
                 "General", // Section
                 "autoFillingOnShip", // Key
                 AutoFillingOnShip.WhenDoorsClosed, // Default value
@@ -59,7 +49,7 @@ namespace Oxygen.Configuration
                 "\n\n(syncing with host)" // Description
             );
 
-            autoFillingOnShip_increasingOxygen = file.BindSyncedEntry(
+            autoFillingOnShip_increasingOxygen = BindHostEntry(file,
                 "General", // Section
                 "autoFillingOnShip_increasingOxygen", // Key
                 0.002f, // Default value
@@ -91,21 +81,21 @@ namespace Oxygen.Configuration
                 "\nIf you set the value to 1, this will prevent the oxygen HUD from disappearing." // Description
             );
 
-            recoverOxygen_ShipLeft = file.BindSyncedEntry(
+            recoverOxygen_ShipLeft = BindHostEntry(file,
                 "General", // Section
                 "recoverOxygen_ShipLeft", // Key
                 true, // Default value
                 "If this is set to TRUE, oxygen will be recovered once ship has left." // Description
             );
 
-            recoverOxygen_StartOfRound = file.BindSyncedEntry(
+            recoverOxygen_StartOfRound = BindHostEntry(file,
                 "General", // Section
                 "recoverOxygen_StartOfRound", // Key
                 true, // Default value
                 "If this is set to TRUE, oxygen will be recovered as soon as the round has started." // Description
             );
 
-            secTimer = file.BindSyncedEntry(
+            secTimer = BindHostEntry(file,
                 "General", // Section
                 "secTimer", // Key
                 5f, // Default value
@@ -113,7 +103,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            playerDamage = file.BindSyncedEntry(
+            playerDamage = BindHostEntry(file,
                 "General", // Section
                 "playerDamage", // Key
                 15, // Default value
@@ -124,38 +114,27 @@ namespace Oxygen.Configuration
         #endregion
 
         #region Oxygen
-        [SyncedEntryField]
-        internal SyncedEntry<string> greenPlanets;
+        internal HostConfigEntry<string> greenPlanets;
 
-        [SyncedEntryField]
-        internal SyncedEntry<float> decreasingOxygenOutside;
-        [SyncedEntryField]
-        internal SyncedEntry<float> decreasingOxygenInFactory;
+        internal HostConfigEntry<float> decreasingOxygenOutside;
+        internal HostConfigEntry<float> decreasingOxygenInFactory;
 
-        [SyncedEntryField]
-        internal SyncedEntry<string> decreasingOxygenOutsideMoons;
-        [SyncedEntryField]
-        internal SyncedEntry<string> decreasingOxygenInFactoryMoons;
+        internal HostConfigEntry<string> decreasingOxygenOutsideMoons;
+        internal HostConfigEntry<string> decreasingOxygenInFactoryMoons;
 
-        [SyncedEntryField]
-        internal SyncedEntry<float> runningMultiplier;
-        [SyncedEntryField]
-        internal SyncedEntry<string> runningMultiplierMoons;
+        internal HostConfigEntry<float> runningMultiplier;
+        internal HostConfigEntry<string> runningMultiplierMoons;
 
-        [SyncedEntryField]
-        internal SyncedEntry<float> oxygenDepletionInWater;
-        [SyncedEntryField]
-        internal SyncedEntry<string> oxygenDepletionInWaterMoons;
+        internal HostConfigEntry<float> oxygenDepletionInWater;
+        internal HostConfigEntry<string> oxygenDepletionInWaterMoons;
 
-        [SyncedEntryField]
-        internal SyncedEntry<float> decreasingInFear;
+        internal HostConfigEntry<float> decreasingInFear;
 
-        [SyncedEntryField]
-        internal SyncedEntry<float> oxygenDeficiency;
+        internal HostConfigEntry<float> oxygenDeficiency;
 
         private void BindOxygenEntries(ConfigFile file)
         {
-            greenPlanets = file.BindSyncedEntry(
+            greenPlanets = BindHostEntry(file,
                 "Oxygen", // Section
                 "greenPlanets", // Key
                 "March@0;Vow@0;Gordion@0", // Default value
@@ -165,7 +144,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            decreasingOxygenOutside = file.BindSyncedEntry(
+            decreasingOxygenOutside = BindHostEntry(file,
                 "Oxygen", // Section
                 "decreasingOxygenOutside", // Key
                 0.0075f, // Default value
@@ -173,7 +152,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            decreasingOxygenOutsideMoons = file.BindSyncedEntry(
+            decreasingOxygenOutsideMoons = BindHostEntry(file,
                 "Oxygen", // Section
                 "decreasingOxygenOutsideMoons", // Key
                 "Dine@0.0086;Rend@0.0086;Titan@0.009", // Default value
@@ -184,7 +163,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            decreasingOxygenInFactory = file.BindSyncedEntry(
+            decreasingOxygenInFactory = BindHostEntry(file,
                 "Oxygen", // Section
                 "decreasingOxygenInFactory", // Key
                 0.007f, // Default value
@@ -192,7 +171,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            decreasingOxygenInFactoryMoons = file.BindSyncedEntry(
+            decreasingOxygenInFactoryMoons = BindHostEntry(file,
                 "Oxygen", // Section
                 "decreasingOxygenInFactoryMoons", // Key
                 "Dine@0.0086;Rend@0.0086;Titan@0.009", // Default value
@@ -203,7 +182,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            decreasingInFear = file.BindSyncedEntry(
+            decreasingInFear = BindHostEntry(file,
                 "Oxygen", // Section
                 "decreasingInFear", // Key
                 0.01f, // Default value
@@ -211,7 +190,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            runningMultiplier = file.BindSyncedEntry(
+            runningMultiplier = BindHostEntry(file,
                 "Oxygen", // Section
                 "runningMultiplier", // Key
                 1f, // Default value
@@ -219,7 +198,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            runningMultiplierMoons = file.BindSyncedEntry(
+            runningMultiplierMoons = BindHostEntry(file,
                 "Oxygen", // Section
                 "runningMultiplierMoons", // Key
                 "Dine@1.2;Rend@1.2;Titan@1.25", // Default value
@@ -230,7 +209,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            oxygenDepletionInWater = file.BindSyncedEntry(
+            oxygenDepletionInWater = BindHostEntry(file,
                 "Oxygen", // Section
                 "oxygenDepletionInWater", // Key
                 0.018f, // Default value
@@ -238,7 +217,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            oxygenDepletionInWaterMoons = file.BindSyncedEntry(
+            oxygenDepletionInWaterMoons = BindHostEntry(file,
                 "Oxygen", // Section
                 "oxygenDepletionInWaterMoons", // Key
                 string.Empty, // Default value
@@ -249,7 +228,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            oxygenDeficiency = file.BindSyncedEntry(
+            oxygenDeficiency = BindHostEntry(file,
                 "Oxygen", // Section
                 "oxygenDeficiency", // Key
                 0.15f, // Default value
@@ -261,17 +240,14 @@ namespace Oxygen.Configuration
         #endregion
 
         #region Compatibilities
-        [SyncedEntryField]
-        internal SyncedEntry<bool> infinityOxygenInModsPlaces;
+        internal HostConfigEntry<bool> infinityOxygenInModsPlaces;
 
-        [SyncedEntryField]
-        internal SyncedEntry<bool> immersiveVisorSupport;
-        [SyncedEntryField]
-        internal SyncedEntry<float> immersiveVisor_OxygenDecreasing;
+        internal HostConfigEntry<bool> immersiveVisorSupport;
+        internal HostConfigEntry<float> immersiveVisor_OxygenDecreasing;
 
         private void BindCompatibilitiesEntries(ConfigFile file)
         {
-            infinityOxygenInModsPlaces = file.BindSyncedEntry(
+            infinityOxygenInModsPlaces = BindHostEntry(file,
                 "Compatibility", // Section
                 "InfinityOxygenInModsPlaces", // Key
                 true, // Default value
@@ -279,7 +255,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            immersiveVisorSupport = file.BindSyncedEntry(
+            immersiveVisorSupport = BindHostEntry(file,
                 "Compatibility", // Section
                 "ImmersiveVisorSupport", // Key
                 true, // Default value
@@ -287,7 +263,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            immersiveVisor_OxygenDecreasing = file.BindSyncedEntry(
+            immersiveVisor_OxygenDecreasing = BindHostEntry(file,
                 "Compatibility", // Section
                 "ImmersiveVisor_OxygenDecreasing", // Key
                 0.002f, // Default value
@@ -299,22 +275,20 @@ namespace Oxygen.Configuration
         #endregion
 
         #region OxyBoost
-        internal ConfigEntry<bool> enable_OxyBoost;
-        [SyncedEntryField]
-        internal SyncedEntry<float> oxyBoost_increasingValue;
-        [SyncedEntryField]
-        internal SyncedEntry<int> oxyBoost_price;
+        internal HostConfigEntry<bool> enable_OxyBoost;
+        internal HostConfigEntry<float> oxyBoost_increasingValue;
+        internal HostConfigEntry<int> oxyBoost_price;
 
         private void BindOxyBoostEntries(ConfigFile file)
         {
-            enable_OxyBoost = file.Bind(
+            enable_OxyBoost = BindHostEntry(file,
                 "OxyBoost", // Section
                 "EnableOxyBoost", // Key
                 true, // Default value
                 "Enables the OxyBoost" // Description
             );
 
-            oxyBoost_increasingValue = file.BindSyncedEntry(
+            oxyBoost_increasingValue = BindHostEntry(file,
                 "OxyBoost", // Section
                 "OxyBoost_increasingValue", // Key
                 0.001f, // Default value
@@ -322,7 +296,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            oxyBoost_price = file.BindSyncedEntry(
+            oxyBoost_price = BindHostEntry(file,
                 "OxyBoost", // Section
                 "OxyBoost_price", // Key
                 70, // Default value
@@ -334,14 +308,13 @@ namespace Oxygen.Configuration
         #endregion
 
         #region OxyCharger
-        [SyncedEntryField]
-        internal SyncedEntry<bool> oxyCharger_Enabled;
+        internal HostConfigEntry<bool> oxyCharger_Enabled;
 
         internal ConfigEntry<float> oxyCharger_SFXVolume;
 
         private void BindOxyChargerEntries(ConfigFile file)
         {
-            oxyCharger_Enabled = file.BindSyncedEntry(
+            oxyCharger_Enabled = BindHostEntry(file,
                 "OxyCharger", // Section
                 "EnableOxyCharger", // Key
                 true, // Default value
@@ -360,6 +333,8 @@ namespace Oxygen.Configuration
 
         #region Sounds
         internal ConfigEntry<bool> enableOxygenSFX;
+        internal ConfigEntry<bool> enableLowOxygenAlarm;
+        internal ConfigEntry<float> lowOxygenAlarm_volume;
 
         internal ConfigEntry<bool> enableInhaleSFXWhileWalking;
         internal ConfigEntry<bool> enableOxygenSFXInShip;
@@ -369,6 +344,21 @@ namespace Oxygen.Configuration
 
         private void BindSoundsEntries(ConfigFile file)
         {
+            enableLowOxygenAlarm = file.Bind(
+                "Sounds",
+                "enableLowOxygenAlarm",
+                true,
+                "Plays a local alarm below 20% oxygen every 5 seconds, and below 10% every 2 seconds." +
+                "\nWorks with the HUD hidden and independently of inhalation sounds and notifications."
+            );
+
+            lowOxygenAlarm_volume = file.Bind(
+                "Sounds",
+                "lowOxygenAlarm_volume",
+                0.65f,
+                new ConfigDescription("Volume of the low-oxygen alarm.", new AcceptableValueRange<float>(0f, 1f))
+            );
+
             enableOxygenSFX = file.Bind(
                 "Sounds", // Section
                 "enableOxygenSFX", // Key
@@ -431,14 +421,12 @@ namespace Oxygen.Configuration
         #endregion
 
         #region Weather complications
-        [SyncedEntryField]
-        internal SyncedEntry<bool> eclipsed_LimitOxygen;
-        [SyncedEntryField]
-        internal SyncedEntry<float> eclipsed_LimitedOxygenAmount;
+        internal HostConfigEntry<bool> eclipsed_LimitOxygen;
+        internal HostConfigEntry<float> eclipsed_LimitedOxygenAmount;
 
         private void BindWeatherComplicationsEntries(ConfigFile file)
         {
-            eclipsed_LimitOxygen = file.BindSyncedEntry(
+            eclipsed_LimitOxygen = BindHostEntry(file,
                 "Weather Complications", // Section
                 "LimitOxygenOnEclipsed", // Key
                 true, // Default value
@@ -446,7 +434,7 @@ namespace Oxygen.Configuration
                 "\n(syncing with host)" // Description
             );
 
-            eclipsed_LimitedOxygenAmount = file.BindSyncedEntry(
+            eclipsed_LimitedOxygenAmount = BindHostEntry(file,
                 "Weather Complications", // Section
                 "LimitedOxygenAmountOnEclipsed", // Key
                 10f, // Default value
@@ -463,8 +451,7 @@ namespace Oxygen.Configuration
         internal ConfigEntry<int> XOffset;
         internal ConfigEntry<int> YOffset;
 
-        [SyncedEntryField]
-        internal SyncedEntry<bool> enableDieEarlyUI;
+        internal HostConfigEntry<bool> enableDieEarlyUI;
         internal ConfigEntry<float> dieEarlyUI_Timer;
 
         private void BindOtherEntries(ConfigFile file)
@@ -490,7 +477,7 @@ namespace Oxygen.Configuration
                 "Vertical offset for the oxygenHUD position."
             );
 
-            enableDieEarlyUI = file.BindSyncedEntry(
+            enableDieEarlyUI = BindHostEntry(file,
                 "Other", // Section
                 "EnableDieEarlyUI", // Key
                 true, // Default value
@@ -598,24 +585,40 @@ namespace Oxygen.Configuration
             cfg.Save();
         }
 
-        void DoSomethingAfterSync(object s, EventArgs e)
+        internal ConfigSync Sync { get; private set; }
+        private readonly List<IHostConfigEntry> hostEntries = new List<IHostConfigEntry>();
+
+        private HostConfigEntry<T> BindHostEntry<T>(ConfigFile file, string section, string key, T defaultValue, string description)
         {
-            mls.LogInfo("Config was synced, updating moons value!");
+            var entry = new HostConfigEntry<T>(file.Bind(section, key, defaultValue, description));
+            hostEntries.Add(entry);
+            entry.Entry.SettingChanged += (sender, args) => Sync?.OnLocalSettingChanged();
+            return entry;
+        }
+
+        internal void RefreshEffects(bool updateCharger = true)
+        {
             MoonsDicts.UpdateMoonsValues();
+            if (OxygenBase.Instance == null || StartOfRound.Instance == null) return;
+            OxygenBase.Instance.UpdateOxyBoostShop();
+            if (!updateCharger) return;
+            ChargerUnlockable.Refresh();
+            WeatherHandler.RefreshLimit();
+        }
 
-            if (oxyBoost_price.Value != oxyBoost_price.LocalValue)
-            {
-                mls.LogInfo("Updating price for OxyBoost");
-                OxygenBase.UpdateCustomItemPrice(OxygenBase.Instance.oxyBoost, oxyBoost_price.Value);
-            }
+        internal void ValidateHostSettings(IReadOnlyDictionary<IHostConfigEntry, object> values)
+            => MoonsDicts.Prepare(this, values);
 
-            // Updating OxyCharger visibility to match with host
-            OxygenInit.UpdateVisability_OxyCharger(oxyCharger_Enabled.Value);
-        } 
-
-        public OxygenConfig(ConfigFile file) : base(OxygenBase.modGUID)
+        internal void ResetSessionState()
         {
-            InitialSyncCompleted += DoSomethingAfterSync;
+            MoonsDicts.Clear();
+            WeatherHandler.Reset();
+            ChargerUnlockable.Reset();
+            VanillaCanisters.Reset();
+            OxyBoostShop.Reset();
+        }
+        public OxygenConfig(ConfigFile file)
+        {
 
             BindGeneralEntries(file);
             BindOxygenEntries(file);
@@ -628,7 +631,7 @@ namespace Oxygen.Configuration
 
             RemoveOldConfigEntries(file);
 
-            ConfigManager.Register(this);
+            Sync = new ConfigSync(this, hostEntries);
         }
     }
 }
