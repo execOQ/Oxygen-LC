@@ -1,4 +1,4 @@
-## Unreleased:
+## Version 1.7.1:
 
  - Reduced the default low-oxygen alarm volume from 65% to 10%.
  - Clarified the alarm config options: `lowOxygenAlarm_volume` adjusts volume from 0 to 1, and `enableLowOxygenAlarm = false` completely disables the repeating alarm.
