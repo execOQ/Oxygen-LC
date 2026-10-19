@@ -1,3 +1,9 @@
+## Version 1.7.2:
+
+ - Fixed malformed moon config entries causing all host settings to fall back to defaults, including correctly configured green moons.
+ - Invalid entries are now skipped with a warning while valid entries and other host settings still apply. This covers green moons, outside and indoor oxygen drain, running multipliers, and underwater oxygen drain.
+ - Duplicate moon names keep the first valid value. Invalid and non-finite numbers are ignored, and affected moons use the general setting instead.
+
 ## Version 1.7.1:
 
  - Reduced the default low-oxygen alarm volume from 65% to 10%.
