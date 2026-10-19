@@ -138,8 +138,9 @@ namespace BepInEx.Logging
 {
     public sealed class ManualLogSource
     {
+        internal readonly List<string> Warnings = new();
         public void LogInfo(object message) { }
-        public void LogWarning(object message) { }
+        public void LogWarning(object message) => Warnings.Add(message.ToString());
         public void LogError(object message) { }
     }
     public static class Logger { public static ManualLogSource CreateLogSource(string name) => new(); }

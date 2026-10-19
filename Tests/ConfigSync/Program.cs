@@ -52,7 +52,9 @@ static class Program
                 Config.runningMultiplierMoons, Config.oxygenDepletionInWaterMoons, Config.decreasingOxygenInFactory,
                 Config.runningMultiplier, Config.oxygenDepletionInWater });
             Sync = new(Config, Entries);
-            Moons.Entry.SettingChanged += (_, _) => Sync.OnLocalSettingChanged();
+            foreach (var entry in new[] { Moons, Config.greenPlanets, Config.decreasingOxygenInFactoryMoons,
+                Config.runningMultiplierMoons, Config.oxygenDepletionInWaterMoons })
+                entry.Entry.SettingChanged += (_, _) => Sync.OnLocalSettingChanged();
             Price.Entry.SettingChanged += (_, _) => Sync.OnLocalSettingChanged();
             Enabled.Entry.SettingChanged += (_, _) => Sync.OnLocalSettingChanged();
             Drain.Entry.SettingChanged += (_, _) => Sync.OnLocalSettingChanged();
@@ -262,7 +264,7 @@ static class Program
         var oldOutside = client.Config.OutsideMoons;
         var invalid = hostB.Values();
         invalid[hostB.Config.greenPlanets.Key] = "March@0";
-        invalid[hostB.Config.decreasingOxygenInFactoryMoons.Key] = "Repeated@1;Repeated@2";
+        invalid[hostB.Drain.Key] = "NaN";
         DeliverValues(network, invalid);
         Assert(client.Price.Value == 70 && ReferenceEquals(client.Config.OutsideMoons, oldOutside),
             "Invalid late-join snapshot partially changed scalar/moon settings.");
@@ -340,17 +342,18 @@ static class Program
         Assert(host.Drain.Value == client.Drain.Value && host.FillMode.Value == client.FillMode.Value &&
             host.FillMode.LocalValue == Mode.OnShip && CustomMessagingManager.Pending.Count == 0,
             "Non-finite/invalid enum host edit changed active settings or broadcast invalid data.");
-        host.Moons.LocalValue = "Titan@1;Titan@2";
-        Assert(host.Moons.Value == "Titan@0.01" && host.Moons.LocalValue == "Titan@0.01" &&
-            host.Config.OutsideMoons["titan"] == 0.01f && CustomMessagingManager.Pending.Count == 0,
-            "Rejected duplicate moon edit was not rolled back on the host.");
+        host.Moons.LocalValue = "Titan@1;Titan@2"; CustomMessagingManager.Pump();
+        Assert(host.Moons.Value == client.Moons.Value && host.Config.OutsideMoons["titan"] == 1 &&
+            client.Config.OutsideMoons["titan"] == 1,
+            "Duplicate moon edit did not keep the first value consistently on host and client.");
         host.Price.LocalValue = 500; CustomMessagingManager.Pump();
         Assert(host.Price.Value == 500 && client.Price.Value == 500,
-            "Rejected moon edit blocked the next valid price update.");
-        host.Moons.LocalValue = "Titan@NaN";
-        Assert(host.Moons.LocalValue == "Titan@0.01", "Non-finite moon value was accepted.");
+            "Duplicate moon edit blocked the next valid price update.");
+        host.Moons.LocalValue = "Titan@NaN"; CustomMessagingManager.Pump();
+        Assert(!host.Config.OutsideMoons.ContainsKey("titan") && !client.Config.OutsideMoons.ContainsKey("titan"),
+            "Non-finite moon value reached an active dictionary.");
         host.Moons.LocalValue = new string('x', ConfigSnapshot.MaxBytes);
-        Assert(host.Moons.LocalValue == "Titan@0.01" && CustomMessagingManager.Pending.Count == 0,
+        Assert(host.Moons.LocalValue == "Titan@NaN" && CustomMessagingManager.Pending.Count == 0,
             "Oversized host edit changed gameplay before enforcing the wire limit.");
         host.Config.RefreshFailuresRemaining = 1;
         host.Enabled.LocalValue = false;
@@ -367,6 +370,121 @@ static class Program
         Assert(late.Price.Value == 500 && late.Drain.Value == host.Drain.Value && late.Moons.Value == host.Moons.Value,
             "Late join received rejected host-file settings.");
         lateNetwork.Stop(); network.Stop(); server.Stop(); CustomMessagingManager.Pending.Clear();
+    }
+
+    private static void MalformedMoonEntryChecks()
+    {
+        var peer = new Peer("", 120, false, 0.0028f, Mode.Off);
+        var lists = new[] { peer.Config.greenPlanets, peer.Moons, peer.Config.decreasingOxygenInFactoryMoons,
+            peer.Config.runningMultiplierMoons, peer.Config.oxygenDepletionInWaterMoons };
+        var malformed = new[] { "Desolation@0.0045:Titan@0.005", "Gloom@0.38Gratar@0.38", "@0.1",
+            "Bad@NaN", "Bad@Infinity", "Bad@-Infinity", "Bad@1e999", "Bad@no-number", "Bad@" };
+        CultureInfo original = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("ru-RU");
+            foreach (var list in lists)
+            {
+                foreach (string broken in malformed)
+                {
+                    list.LocalValue = $"Before@0.1;{broken};After@0.2;BEFORE@0.9;Comma@0,25;Bare;;";
+                    MoonsDicts.mls.Warnings.Clear();
+                    var values = MoonsDicts.Prepare(peer.Config);
+                    var dictionaries = new[] { values.Green, values.Outside, values.Inside, values.Running, values.Water };
+                    var active = dictionaries[Array.IndexOf(lists, list)];
+                    Assert(active["before"] == 0.1f && active["after"] == 0.2f && active["comma"] == 0.25f &&
+                        active["bare"] == active["default"] && active.Count == 5,
+                        $"Malformed entry or duplicate discarded valid entries in {list.Key}: {broken}");
+                    Assert(MoonsDicts.mls.Warnings.Any(w => w.Contains(broken) && w.Contains("Skipping invalid moon entry")),
+                        "Skipped entry was not identified in the log.");
+                }
+                list.LocalValue = "Bad@NaN;@0.1;Broken@1@2";
+                peer.Config.RefreshEffects();
+                var empty = MoonsDicts.Prepare(peer.Config);
+                var emptyLists = new[] { empty.Green, empty.Outside, empty.Inside, empty.Running, empty.Water };
+                Assert(emptyLists[Array.IndexOf(lists, list)].Count == 1,
+                    "An entirely invalid moon list retained stale or non-finite entries.");
+                string previousMoon = StartOfRound.Instance.currentLevel.PlanetName;
+                try
+                {
+                    StartOfRound.Instance.currentLevel.PlanetName = "Bad";
+                    Assert(!MoonsDicts.GreenPlanetsValue && MoonsDicts.DecreasingOxygenOutsideMoonsValue == peer.Drain.Value &&
+                        MoonsDicts.DecreasingOxygenInFactoryMoonsValue == peer.Config.decreasingOxygenInFactory.Value &&
+                        MoonsDicts.RunningMultiplierMoonsValue == peer.Config.runningMultiplier.Value &&
+                        MoonsDicts.OxygenDepletionInWaterMoonsValue == peer.Config.oxygenDepletionInWater.Value,
+                        "A skipped moon did not use the scalar fallback/normal non-green behavior.");
+                }
+                finally { StartOfRound.Instance.currentLevel.PlanetName = previousMoon; }
+            }
+        }
+        finally { CultureInfo.CurrentCulture = original; }
+    }
+
+    private static void ModpackConfigRegressionChecks()
+    {
+        CustomMessagingManager.Pending.Clear(); CustomMessagingManager.Peers.Clear();
+        const string green = "March@0;Vow@0;Gordion@0;Junic@0;Galetry@0;Filitrios@0;Gloom@0;Gratar@0;Roart@0;Release@0;Faith@0;Adamance@0";
+        const string outside = "Calist@0.006;Asteroid13@0.004;Hyx@0.007;Desolation@0.0045:Titan@0.005";
+        const string running = "March@0.38;Vow@0.38;Gordion@0;Junic@0.38;Galetry@0;Filitrios@0.38;Gloom@0.38Gratar@0.38;Roart@0.38;Release@0.38;Faith@0.38;Adamance@0.38";
+        var host = new Peer(outside, 120, false, 0.0028f, Mode.Off);
+        host.Config.greenPlanets.LocalValue = green;
+        host.Config.decreasingOxygenInFactoryMoons.LocalValue = "Calist@0.0083;Hyx@0.0087";
+        host.Config.runningMultiplierMoons.LocalValue = running;
+        host.Config.oxygenDepletionInWaterMoons.LocalValue = "Atlantica@0.025;Thalasso@0.025;Junic@0.025";
+        var server = new NetworkManager(0, true);
+        host.Sync.StartSession(server);
+        void Verify(Peer peer)
+        {
+            var values = MoonsDicts.Prepare(peer.Config);
+            Assert(peer.Price.Value == 120 && peer.Drain.Value == 0.0028f && !peer.Enabled.Value && peer.FillMode.Value == Mode.Off,
+                "Malformed modpack list reset unrelated host settings.");
+            Assert(values.Green.Count == 13 && values.Green.ContainsKey("junic") && values.Green.ContainsKey("gratar"),
+                "Malformed outside/running list reset the valid custom green list.");
+            Assert(values.Outside["calist"] == 0.006f && values.Outside["hyx"] == 0.007f &&
+                !values.Outside.ContainsKey("desolation") && !values.Outside.ContainsKey("titan"),
+                "Malformed outside entry discarded valid neighbors or guessed values.");
+            Assert(values.Running["junic"] == 0.38f && values.Running["roart"] == 0.38f &&
+                !values.Running.ContainsKey("gloom") && !values.Running.ContainsKey("gratar"),
+                "Malformed running entry discarded valid neighbors or guessed values.");
+            Assert(values.Inside["hyx"] == 0.0087f && values.Water["junic"] == 0.025f,
+                "Malformed list reset another valid list.");
+        }
+        Verify(host);
+        // A late join receives the same raw lists and produces the same usable entries.
+        var client = new Peer("Local@1", 999, true, 0.9f, Mode.OnShip);
+        var network = new NetworkManager(1, false); server.ConnectedClients.Add(1, new());
+        client.Sync.StartSession(network); CustomMessagingManager.Pump(); Verify(client);
+        Assert(host.Moons.LocalValue == outside && client.Moons.LocalValue == "Local@1" && client.Volume.Value == 0.25f,
+            "Tolerant parsing rewrote host config or client preferences.");
+        // Fixing the saved entries live restores those moons on both peers.
+        host.Moons.LocalValue = outside.Replace(':', ';');
+        host.Config.runningMultiplierMoons.LocalValue = running.Replace("Gloom@0.38Gratar", "Gloom@0.38;Gratar");
+        CustomMessagingManager.Pump();
+        foreach (var peer in new[] { host, client })
+        {
+            var values = MoonsDicts.Prepare(peer.Config);
+            Assert(values.Outside["desolation"] == 0.0045f && values.Outside["titan"] == 0.005f &&
+                values.Running["gloom"] == 0.38f && values.Running["gratar"] == 0.38f,
+                "Corrected host entries did not recover without restarting.");
+        }
+        // Introducing the original errors again must not poison subsequent edits/late joins.
+        host.Moons.LocalValue = outside; host.Config.runningMultiplierMoons.LocalValue = running;
+        CustomMessagingManager.Pump(); Verify(host); Verify(client);
+        var late = new Peer("Late@9", 9, true, 9, Mode.OnShip);
+        var lateNetwork = new NetworkManager(2, false); server.ConnectedClients.Add(2, new());
+        late.Sync.StartSession(lateNetwork); CustomMessagingManager.Pump(); Verify(late);
+        lateNetwork.Stop(); network.Stop(); server.Stop(); CustomMessagingManager.Pending.Clear();
+        var otherHost = new Peer("Other@0.4", 250, true, 0.04f, Mode.OnShip);
+        otherHost.Config.greenPlanets.LocalValue = "OtherGreen@0";
+        var otherServer = new NetworkManager(0, true); otherServer.ConnectedClients.Add(1, new());
+        otherHost.Sync.StartSession(otherServer);
+        network.IsListening = true; network.IsConnectedClient = true;
+        client.Sync.StartSession(network); CustomMessagingManager.Pump();
+        var otherValues = MoonsDicts.Prepare(client.Config);
+        Assert(client.Price.Value == 250 && otherValues.Outside["other"] == 0.4f &&
+            !otherValues.Outside.ContainsKey("hyx") && otherValues.Green.ContainsKey("othergreen") && !otherValues.Green.ContainsKey("junic"),
+            "Reconnecting retained modpack settings from the previous host.");
+        network.Stop(); otherServer.Stop(); CustomMessagingManager.Pending.Clear();
     }
 
     private static void SlowTransferChecks()
@@ -551,7 +669,8 @@ static class Program
     {
         string longList = string.Join(";", Enumerable.Range(0, 3000).Select(i => $"Moon{i}@0.002")) + ";LastMoon@0.123";
         CodecChecks(longList); OverrideChecks(); SessionChecks(longList); SessionRegressionChecks(longList);
-        HostEditRegressionChecks(); SlowTransferChecks(); CanisterChecks(); ShopChecks(); WeatherAndRefillChecks();
+        HostEditRegressionChecks(); MalformedMoonEntryChecks(); ModpackConfigRegressionChecks();
+        SlowTransferChecks(); CanisterChecks(); ShopChecks(); WeatherAndRefillChecks();
         Console.WriteLine($"Passed {checks} config sync checks (production codec, overrides, and transport with engine doubles).");
     }
 }

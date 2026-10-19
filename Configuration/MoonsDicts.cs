@@ -2,7 +2,6 @@ using BepInEx.Logging;
 using Oxygen.Extras;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 
 namespace Oxygen.Configuration
 {
@@ -96,41 +95,33 @@ namespace Oxygen.Configuration
             foreach (string x in str.Split(';'))
             {
                 if (string.IsNullOrWhiteSpace(x)) continue;
-                if (!x.Contains("@"))
+                // A bad moon entry must not reject the whole host snapshot on either peer.
+                string[] parts = x.Split('@');
+                string moonName = parts[0].ToLowerInvariant();
+                string reason = null;
+                float value = defValue;
+                if (string.IsNullOrWhiteSpace(moonName) || parts.Length > 2)
+                    reason = "expected Moon or Moon@value; separate entries with ';'";
+                else if (result.ContainsKey(moonName))
+                    reason = "duplicate moon; keeping the first value";
+                else if (parts.Length == 2)
                 {
-                    if (result.ContainsKey(x.ToLowerInvariant()))
-                        throw new InvalidDataException($"Duplicate moon '{x}' in {nameOfVariable}.");
-                    result.Add(x.ToLowerInvariant().Replace(" ", string.Empty), defValue);
-                }
-                else
-                {
-                    string[] array = x.Split('@');
-
-                    string moonName = array[0].ToLowerInvariant().Replace(" ", string.Empty);
-                    if (string.IsNullOrEmpty(moonName) || array.Length != 2)
-                        throw new InvalidDataException($"Invalid moon entry '{x}' in {nameOfVariable}.");
-                    if (result.ContainsKey(moonName))
-                        throw new InvalidDataException($"Duplicate moon '{moonName}' in {nameOfVariable}.");
-
-                    if (array[1].Contains(","))
+                    if (parts[1].Contains(","))
                     {
                         mls.LogWarning($"Found a comma in {nameOfVariable}! Change it to a period, please.");
-                        array[1] = array[1].Replace(',', '.');
+                        parts[1] = parts[1].Replace(',', '.');
                     }
-
-                    if (float.TryParse(array[1], NumberStyles.Float, cultureInfo, out var value))
-                    {
-                        if (float.IsNaN(value) || float.IsInfinity(value))
-                            throw new InvalidDataException($"Non-finite moon value in {nameOfVariable}: '{x}'.");
-                        mls.LogInfo($"Parsed {value} for {moonName}");
-                        result.Add(moonName, value);
-                    }
-                    else
-                    {
-                        mls.LogError($"Failed to parse {value} for {moonName}, using default one: {defValue}.\nYou should check the syntax in the variable {nameOfVariable} in the config!");
-                        result.Add(moonName, defValue);
-                    }
+                    if (!float.TryParse(parts[1], NumberStyles.Float, cultureInfo, out value) ||
+                        float.IsNaN(value) || float.IsInfinity(value))
+                        reason = "expected a finite number";
                 }
+                if (reason != null)
+                {
+                    mls.LogWarning($"Skipping invalid moon entry '{x}' in {nameOfVariable}: {reason}. Other entries and host settings will still apply.");
+                    continue;
+                }
+                result.Add(moonName, value);
+                mls.LogInfo($"Parsed {value} for {moonName}");
             }
 
             return result;
