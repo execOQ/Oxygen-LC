@@ -1,3 +1,7 @@
+## Version 1.7.3:
+
+ - Fixed the missing "Fill oxygen" prompt that prevented manual refilling at OxyCharger on the ship (#39).
+
 ## Version 1.7.2:
 
  - Fixed malformed moon config entries causing all host settings to fall back to defaults, including correctly configured green moons.

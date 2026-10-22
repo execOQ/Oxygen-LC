@@ -13,6 +13,11 @@ namespace Oxygen.General
         internal static void Register(GameObject prefab)
         {
             if (prefab == null) return;
+            // The bundled charger has its refill child disabled. Repair the prefab
+            // on every peer before registration so spawned and stored chargers
+            // expose the existing hold interaction and its serialized callback.
+            foreach (var trigger in prefab.GetComponentsInChildren<InteractTrigger>(true))
+                trigger.gameObject.SetActive(true);
             item = new UnlockableItem
             {
                 unlockableName = "OxyCharger",

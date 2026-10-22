@@ -1,39 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <AssemblyName>Oxygen</AssemblyName>
-        <Description>Don't forget to refill oxygen canisters!</Description>
-        <Version>1.7.2</Version>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<AssemblyName>Oxygen</AssemblyName>
+		<Description>Don't forget to refill oxygen canisters!</Description>
+		<Version>1.7.3</Version>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <DebugType>embedded</DebugType>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-      <DebugType>embedded</DebugType>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
 
-    <ItemGroup>
-      <Compile Remove="Tests\**\*.cs" />
-      <None Remove="Assets\oxygenaudio" />
-      <None Remove="Assets\oxygenprefabs" />
-    </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Tests\**\*.cs" />
+		<None Remove="Assets\oxygenaudio" />
+		<None Remove="Assets\oxygenprefabs" />
+	</ItemGroup>
 
-    <ItemGroup>
-      <EmbeddedResource Include="Assets\oxygenaudio" />
-      <EmbeddedResource Include="Assets\oxygenprefabs" />
-    </ItemGroup>
-	
+	<ItemGroup>
+		<EmbeddedResource Include="Assets\oxygenaudio" />
+		<EmbeddedResource Include="Assets\oxygenprefabs" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="BepInEx.BaseLib" Version="5.4.20" PrivateAssets="all" />
 		<PackageReference Include="Evaisa.LethalLib" Version="1.2.0" />
 		<PackageReference Include="LethalCompany.GameLibs.Steam" Version="*-*" PrivateAssets="all" />
 		<PackageReference Include="PolySharp" Version="1.15.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
 	</ItemGroup>
@@ -43,23 +43,23 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="EladsHUD">
-	    <Publicize>true</Publicize>
-	    <HintPath>..\Assets\References\EladsHUD.dll</HintPath>
-	  </Reference>
-	  <Reference Include="ImmersiveVisor">
-		<Publicize>true</Publicize>
-	    <HintPath>..\Assets\References\ImmersiveVisor.dll</HintPath>
-	  </Reference>
-	  <Reference Include="LCVR">
-	    <HintPath>..\Assets\References\LCVR.dll</HintPath>
-	  </Reference>
-	  <Reference Include="LethalCompanyInputUtils">
-	    <HintPath>..\Assets\References\LethalCompanyInputUtils.dll</HintPath>
-	  </Reference>
-	  <Reference Include="LethalConfig">
-	    <HintPath>..\Assets\References\LethalConfig.dll</HintPath>
-	  </Reference>
+		<Reference Include="EladsHUD">
+			<Publicize>true</Publicize>
+			<HintPath>..\Assets\References\EladsHUD.dll</HintPath>
+		</Reference>
+		<Reference Include="ImmersiveVisor">
+			<Publicize>true</Publicize>
+			<HintPath>..\Assets\References\ImmersiveVisor.dll</HintPath>
+		</Reference>
+		<Reference Include="LCVR">
+			<HintPath>..\Assets\References\LCVR.dll</HintPath>
+		</Reference>
+		<Reference Include="LethalCompanyInputUtils">
+			<HintPath>..\Assets\References\LethalCompanyInputUtils.dll</HintPath>
+		</Reference>
+		<Reference Include="LethalConfig">
+			<HintPath>..\Assets\References\LethalConfig.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 	<Target Name="NetcodePatch" AfterTargets="PostBuildEvent">

@@ -101,11 +101,15 @@ namespace UnityEngine
         public Transform transform;
         public List<object> Components = new();
         public bool Destroyed;
+        public bool activeSelf = true;
+        public void SetActive(bool active) => activeSelf = active;
         public GameObject() => transform = new() { gameObject = this };
         public static GameObject Find(string path) => SuitParts;
         public T GetComponent<T>() where T : class => Components.OfType<T>().FirstOrDefault();
         public T GetComponentInChildren<T>() where T : class => GetComponent<T>();
-        public T[] GetComponentsInChildren<T>(bool includeInactive) => Components.OfType<T>().ToArray();
+        public T[] GetComponentsInChildren<T>(bool includeInactive) => Components.OfType<T>()
+            .Where(component => includeInactive || component is not InteractTrigger trigger || trigger.gameObject.activeSelf)
+            .ToArray();
     }
 }
 namespace Unity.Netcode
@@ -191,6 +195,10 @@ public class TerminalNode : UnityEngine.ScriptableObject
     public bool clearPreviousText, returnFromStorage;
     public string displayText;
     public int shipUnlockableID;
+}
+public class InteractTrigger
+{
+    public UnityEngine.GameObject gameObject;
 }
 public class PlaceableShipObject
 {

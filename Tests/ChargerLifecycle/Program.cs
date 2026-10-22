@@ -189,6 +189,12 @@ static class Program
         BuildModeGeometryRegressions();
         NetworkManager.Singleton = new() { IsServer = true };
         var prefab = new GameObject();
+        // The shipped bundle contains an inactive refill child. Include it in
+        // registration so every subsequent clone can be hovered and used.
+        var refillObject = new GameObject();
+        refillObject.SetActive(false);
+        var refillTrigger = new InteractTrigger { gameObject = refillObject };
+        prefab.Components.Add(refillTrigger);
         var placeable = new PlaceableShipObject { unlockableID = 34 };
         var parent = new AutoParentToShip { unlockableID = 34 };
         prefab.Components.Add(placeable);
@@ -198,6 +204,7 @@ static class Program
         GameObject.Cylinders.transform.position = new() { x = 12 };
         OxygenBase.OxygenConfig.oxyCharger_Enabled.Value = false;
         ChargerUnlockable.Register(prefab);
+        Assert(refillObject.activeSelf, "Registration must activate the bundled refill interaction even while the charger is disabled.");
         var item = Unlockables.Registered;
         Assert(Unlockables.Registrations == 1, "Disabled charger must still register on every peer.");
         Assert(item.alreadyUnlocked && item.IsPlaceable && item.spawnPrefab && item.canBeStored,

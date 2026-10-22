@@ -1,17 +1,17 @@
+using System.Reflection;
 using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using HarmonyLib;
-using Oxygen.Patches;
-using Oxygen.Configuration;
-using Oxygen.General;
-using UnityEngine;
-using BepInEx.Bootstrap;
-using LL = LethalLib.Modules;
-using Oxygen.Extras;
-using System.Reflection;
 using LethalCompanyInputUtils.Api;
 using LethalCompanyInputUtils.BindingPathEnums;
+using Oxygen.Configuration;
+using Oxygen.Extras;
+using Oxygen.General;
+using Oxygen.Patches;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using LL = LethalLib.Modules;
 
 namespace Oxygen
 {
@@ -37,14 +37,14 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.7.2";
+        public const string modVersion = "1.7.3";
 
         private readonly Harmony harmony = new(modGUID);
         public static OxygenConfig OxygenConfig { get; private set; }
 
         internal static OxygenInputClass InputActionsInstance;
 
-        private const string immersiveVisorGUID = "ImmersiveVisor"; 
+        private const string immersiveVisorGUID = "ImmersiveVisor";
         private const string shyHUDGUID = "ShyHUD";
         private const string eladsHUDGUID = "me.eladnlg.customhud";
         private const string LCVRGUID = "io.daxcess.lcvr";
@@ -74,11 +74,16 @@ namespace Oxygen
 
         private void Awake()
         {
+            // Unity can unload the shared plugin manager during startup even in
+            // DontDestroyOnLoad. Preserve Oxygen and its LethalLib dependency
+            // without hiding the manager or changing the user's BepInEx config.
+            gameObject.hideFlags |= HideFlags.DontSave;
+
             if (Instance == null)
             {
                 Instance = this;
             }
-            
+
             mls.LogInfo($"{modName} is loading...");
 
             NetworkPatcher();
@@ -125,7 +130,7 @@ namespace Oxygen
             harmony.PatchAll(typeof(GameNetworkManagerParch));
             harmony.PatchAll(typeof(PlayerControllerBPatch));
             harmony.PatchAll(typeof(ShipBuildModeManagerPatch));
-            
+
             ChargerUnlockable.Register(oxyCharger);
             RegisterItems();
 
