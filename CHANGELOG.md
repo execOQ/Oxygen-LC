@@ -1,4 +1,4 @@
-## Unreleased:
+## Version 1.8.0:
 
  - Share oxygen with a teammate! Hold Interact while aiming at a teammate's backpack from behind. Check their current oxygen level on the backpack gauge.
  - Added a host-synced transfer rate setting (5% of tank capacity per second by default).
