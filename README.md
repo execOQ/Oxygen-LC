@@ -23,7 +23,7 @@ A gauge on each player's backpack shows their current oxygen level, even when th
 
 > Transfers oxygen without loss, at 5% of tank capacity per second by default. The host can change the transfer rate in the config.
 
-![Backpack oxygen gauge](https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/oxygen-sharing/07-gauge-closeup.jpg)
+<img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/oxygen-sharing/07-gauge-closeup.jpg" width="400" alt="Backpack oxygen gauge">
 
 ### Oxygen management
 

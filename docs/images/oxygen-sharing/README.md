@@ -3,7 +3,9 @@
 Web-optimized JPEG previews of screenshots captured in Lethal Company v81 on
 Experimentation and inside its generated facility. The source captures are
 1920 × 1080; previews are resized to 1600 pixels wide and compressed for faster
-loading. The original PNGs remain in Git history.
+loading. The original PNGs remain in Git history. Only the selected gauge preview is
+retained in the current documentation; the [full earlier gallery](https://github.com/execOQ/Oxygen-LC/blob/2a88fe2/docs/images/oxygen-sharing/README.md)
+is available in Git history.
 
 ## Backpack gauge
 
@@ -15,40 +17,22 @@ The rough, worn case receives scene lighting. Its fitting, saddle and curved
 clamp seat against the tank. The dial sits clear of the stock harness and follows
 the upper spine's animated position and orientation, including crouching.
 
-![Backpack gauge in daylight on Experimentation](01-moon-backpack.jpg)
-
-![Backpack gauge inside the facility, with the HUD hidden](02-complex-backpack.jpg)
-
 ![Close view of the gauge and its elongated level marks](07-gauge-closeup.jpg)
-
-![Side view showing the gauge seated against the tank](08-mount-side.jpg)
-
-![Angled view of the case and its contact with the tank](09-mount-angle.jpg)
-
-![The gauge follows the tank when the teammate crouches](10-gauge-crouched.jpg)
 
 ## How to share oxygen
 
 **1. Approach from behind and aim at the backpack.** The Interact prompt appears
 when the teammate is in range and the path is clear.
 
-![Approaching a teammate from behind](03-approach-from-behind.jpg)
-
 **2. Hold Interact.** The prompt changes to “Transferring oxygen…”, the teammate's
 blue arc grows and your own HUD oxygen arc decreases.
-
-![Holding Interact to transfer oxygen](04-hold-to-transfer.jpg)
 
 **3. Release to stop.** The teammate keeps the received oxygen. In this sequence,
 the recipient starts at 20% and finishes at about 60% after eight seconds at the
 default rate of 5% of a tank per second.
 
-![Releasing Interact stops the transfer](05-release-to-stop.jpg)
-
 **A full tank stops the transfer automatically.** The blue arc reaches its last
 mark and the transfer prompt disappears.
-
-![A full tank with no transfer prompt](06-full-tank-stops-transfer.jpg)
 
 Interact is E by default. These captures use an English US keyboard layout, so
 the native prompt displays **E**. It shows a single keyboard binding, without
@@ -77,5 +61,5 @@ The screenshots are prepared locally for GitHub; this does not publish a release
 or push repository changes. These captures validate the current visual changes
 and the demonstrated transfer; they do not rerun all earlier compatibility tests.
 
-The source filename for the preview `10-gauge-crouched.jpg` is `diagnostic-crouch.png` in
+The historical crouched-gauge capture used the filename `diagnostic-crouch.png` in
 the source run and its capture evidence.
