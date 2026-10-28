@@ -23,9 +23,7 @@ A gauge on each player's backpack shows their current oxygen level, even when th
 
 > Transfers oxygen without loss, at 5% of tank capacity per second by default. The host can change the transfer rate in the config.
 
-![Backpack oxygen gauge inside the facility](https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/oxygen-sharing/02-complex-backpack.png)
-
-[More in-game screenshots](https://github.com/execOQ/Oxygen-LC/blob/master/docs/images/oxygen-sharing/README.md)
+![Backpack oxygen gauge](https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/oxygen-sharing/07-gauge-closeup.jpg)
 
 ### Oxygen management
 
@@ -53,7 +51,7 @@ Displays your remaining oxygen.
       <img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/hud/eladshud.png" width="300" alt="Oxygen with EladsHUD">
     </td>
     <td align="center" width="33%">
-      <img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/hud/lcvr.png" width="300" alt="Oxygen HUD in LCVR">
+      <img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/hud/lcvr.jpg" width="300" alt="Oxygen HUD in LCVR">
     </td>
   </tr>
   <tr>
@@ -77,7 +75,7 @@ A portable oxygen refill item available from the terminal store.
 
 > Configurable price and refill amount. Can be enabled or disabled in the config.
 
-<img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/items/oxyboost.png" width="350" alt="OxyBoost">
+<img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/items/oxyboost.jpg" width="350" alt="OxyBoost">
 
 ### OxyCharger
 
