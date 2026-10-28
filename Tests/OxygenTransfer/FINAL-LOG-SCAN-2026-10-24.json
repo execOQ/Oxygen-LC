@@ -1,0 +1,443 @@
+{
+  "bepInExErrors": [],
+  "productionOxygenErrors": [],
+  "fixtureCommandErrors": [
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:24:47.6151709Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:25:23.9766598Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:26:19.0620661Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:26:59.1505898Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:27:14.3535625Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:27:34.2516357Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:27:49.2474281Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:28:46.0576853Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:29:14.6495909Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:29:59.5967056Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:30:01.3748743Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:31:50.0080470Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:33:20.2957037Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:34:00.5025973Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "line": "2026-10-24T18:34:50.5559246Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:24:25.9204192Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:25:08.9377997Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:26:24.0732948Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:26:24.0793149Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:26:34.7521151Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:27:19.2617006Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:27:49.2960566Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:28:24.3598337Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:28:54.4404951Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:30:49.7783764Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:32:07.2874340Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:32:40.2072029Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:33:10.2670064Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:33:40.3498955Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:34:05.4374975Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:34:05.4445119Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "2026-10-24T18:34:25.5295059Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:24:44.3550354Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:24:57.5213210Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:00.7777445Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:00.7827719Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:00.7877865Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:00.7938016Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:00.7998154Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:00.8058220Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:23.9796776Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:25.9667833Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:34.0527233Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:39.0276471Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:39.0828088Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:54.0153430Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:54.0193581Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:54.0233661Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:54.0293929Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:25:54.0363998Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:26:34.7541125Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:26:36.3761098Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:27:34.2330726Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:27:34.2376047Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:27:34.2426139Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:27:34.2476272Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:27:39.6241665Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:27:41.1664203Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:27:44.2414015Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:28:09.3874062Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:28:09.3924159Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:28:14.3952133Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:28:14.4002341Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:28:21.6257069Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:28:39.4287606Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:29:54.5839234Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:30:19.6457402Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:30:21.7377063Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:30:34.7314244Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:30:59.7624826Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:31:11.7121793Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:31:11.7177028Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:31:19.9521002Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:31:29.8599922Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:31:39.9628841Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:32:10.4286850Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:32:20.0964388Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:33:15.3331373Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:34:25.5365276Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:34:30.5531549Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:34:30.5581614Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:34:30.5631742Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:34:45.6329989Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:34:51.0861371Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "2026-10-24T18:36:19.2060095Z ERROR System.IO.IOException: Sharing violation on path F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2\\transfer-command.txt"
+    }
+  ],
+  "bareNativeExceptions": [
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "line": "NullReferenceException: Object reference not set to an instance of an object"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "line": "NullReferenceException: Object reference not set to an instance of an object"
+    }
+  ]
+}

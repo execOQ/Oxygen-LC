@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="LiveProbe/**/*.cs" />
+    <Compile Include="../../General/OxygenLedger.cs" Link="OxygenLedger.cs" />
+    <Compile Include="../../General/OxygenPrediction.cs" Link="OxygenPrediction.cs" />
+  </ItemGroup>
+</Project>

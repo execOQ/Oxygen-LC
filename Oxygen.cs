@@ -32,12 +32,17 @@ namespace Oxygen
     public class OxygenBase : BaseUnityPlugin
     {
         internal RefillSync Refills => OxygenConfig.Sync.Refills;
-        private void Update() => OxygenConfig?.Sync.Refills.Tick();
+        internal OxygenTransfer Transfers { get; } = new OxygenTransfer();
+        private void Update()
+        {
+            OxygenConfig?.Sync.Refills.Tick();
+            if (OxygenConfig != null) Transfers.Tick();
+        }
         private readonly ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(modName);
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.7.3";
+        public const string modVersion = "1.8.0";
 
         private readonly Harmony harmony = new(modGUID);
         public static OxygenConfig OxygenConfig { get; private set; }
@@ -114,6 +119,7 @@ namespace Oxygen
             if (_oxyPrefabs == null) return;
             oxyAudioExample = _oxyPrefabs.LoadAsset<GameObject>("Assets/Oxygen/OxygenAudio/OxygenAudio.prefab");
             oxyCharger = _oxyPrefabs.LoadAsset<GameObject>("Assets/Oxygen/OxyCharger/OxyCharger.prefab");
+            oxyCharger.AddComponent<ChargerVisuals>();
             oxyBoost = _oxyPrefabs.LoadAsset<Item>("Assets/Oxygen/OxyBoost/OxyBoostItem.asset");
 
             mls.LogInfo($"Assets are loaded!");
@@ -129,6 +135,7 @@ namespace Oxygen
             harmony.PatchAll(typeof(RoundManagerPatch));
             harmony.PatchAll(typeof(GameNetworkManagerParch));
             harmony.PatchAll(typeof(PlayerControllerBPatch));
+            if (IsLCVRFound) harmony.PatchAll(typeof(VrTransferHoverPatch));
             harmony.PatchAll(typeof(ShipBuildModeManagerPatch));
 
             ChargerUnlockable.Register(oxyCharger);

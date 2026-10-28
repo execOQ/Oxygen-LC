@@ -1,0 +1,365 @@
+{
+  "date": "2026-10-24",
+  "game": "Lethal Company v81",
+  "oxygenDllSha256": "406B766DE984CCD542A1556638A45CF4221080E58B235AE2570A3E88105ABAE5",
+  "automated": {
+    "OxygenTransfer": 230,
+    "ChargerLifecycle": 168,
+    "ConfigSync": 372,
+    "BepInExConfig": 12,
+    "total": 782
+  },
+  "nativeFinalChecks": 113,
+  "nativeFinalFailed": 0,
+  "phases": [
+    {
+      "run": "reliability-network-20261024",
+      "file": "assertions-basic.json",
+      "sha256": "DF56932A727FB3302AC47D15E954B969CDE5596297114181919FEADE1642538F",
+      "checks": 18,
+      "failed": 0,
+      "assertions": [
+        "Host and remote client initialized with two synchronized tanks",
+        "Native held Interact starts server transfer",
+        "Pump audio plays during confirmed transfer",
+        "Transfer rate is approximately five percent per second",
+        "Native transfer conserves total oxygen",
+        "Releasing Interact stops transfer",
+        "Remote HUD matches server tank",
+        "Side approach has no transfer prompt",
+        "Side approach cannot start transfer",
+        "Front approach has no transfer prompt",
+        "Front approach cannot start transfer",
+        "Aiming away has no transfer prompt",
+        "Aiming away cannot start transfer",
+        "Solid wall blocks rear targeting",
+        "Cannot transfer through a wall",
+        "Recipient turn preserves an active transfer",
+        "Moving outside range stops transfer while input remains held",
+        "Captured native backpack gauge screenshot"
+      ]
+    },
+    {
+      "run": "reliability-network-20261024",
+      "file": "assertions-edges.json",
+      "sha256": "FAC4CDD9724011C7915ADAB37BA984061F3926C1E83B0C01042D446039CCA33C",
+      "checks": 6,
+      "failed": 0,
+      "assertions": [
+        "Host and remote client initialized with two synchronized tanks",
+        "Empty donor stops with no negative oxygen",
+        "Recipient full stops without overflow",
+        "Remote client can donate to the host",
+        "Opening terminal stops remote donation",
+        "Missing donor heartbeats expire on server"
+      ]
+    },
+    {
+      "run": "reliability-network-20261024",
+      "file": "assertions-network.json",
+      "sha256": "E8E41B89ED256A6CC25B56043E336AD37DDF91E5CF4E89163C1A4A77B69F4D87",
+      "checks": 14,
+      "failed": 0,
+      "assertions": [
+        "Host and remote client initialized with two synchronized tanks",
+        "Remote transfer progresses under 200 ms RTT, jitter and packet loss",
+        "Impaired transport preserves total oxygen",
+        "Release reaches server over delayed lossy transport",
+        "Remote transfer active before simulated outage",
+        "Server expires remote transfer during complete packet loss",
+        "No further oxygen moves while donor is unreachable",
+        "Connection recovery does not duplicate or resume a released transfer",
+        "A new wall interrupts an existing transfer",
+        "Prompt reflects rebound Interact key and keyboard layout",
+        "Rebound native Interact donates oxygen",
+        "Gauge follows the animated spine while crouching",
+        "Crouched recipient remains reachable from behind",
+        "Donor death stops the native transfer"
+      ]
+    },
+    {
+      "run": "reliability-network-20261024",
+      "file": "assertions-rejoin.json",
+      "sha256": "9B639D93FC365109BB51EB387AB515B5D13235E9447C465BFBD8BE904D7C9F6F",
+      "checks": 6,
+      "failed": 0,
+      "assertions": [
+        "Disconnect removes old player tank and gauge",
+        "Reconnect registers a fresh living client identity",
+        "Host oxygen survives remote death and reconnect unchanged",
+        "Both peers recreate current gauges without the disconnected tank",
+        "Reconnecting client receives the existing host tank amount",
+        "Fresh remote client can donate, release and conserve oxygen after reconnect"
+      ]
+    },
+    {
+      "run": "reliability-network-20261024",
+      "file": "assertions-suits.json",
+      "sha256": "175A9A31FA39E2E21B256EDD2AAA5849C1E154B93932C0E10FFC538F1AD07AED",
+      "checks": 4,
+      "failed": 0,
+      "assertions": [
+        "More Suits 1.5.4 loaded on both native peers",
+        "Additional suit materials exist on both peers",
+        "Both avatars wear the selected extra suits on both peers",
+        "Changing suits preserves both visible oxygen gauges"
+      ]
+    },
+    {
+      "run": "reliability-concurrent-20261024",
+      "file": "assertions-boost.json",
+      "sha256": "9812B853485CC8BBAF181A36955E788590F1B328C7BE64CC7078A13F3CDFA49E",
+      "checks": 5,
+      "failed": 0,
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Production OxyBoost emits while its owner donates",
+        "OxyBoost adds oxygen and consumes real item fuel",
+        "Only measured OxyBoost output increases total tank oxygen",
+        "OxyBoost use does not interrupt recipient oxygen gain"
+      ]
+    },
+    {
+      "run": "reliability-concurrent-20261024",
+      "file": "assertions-death.json",
+      "sha256": "D09A25EEAF5E95280682E042AFE79C8A2182D53D6E6B889B2E28DC4FF43ED5E3",
+      "checks": 3,
+      "failed": 0,
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Recipient death stops both remote donors on the host",
+        "Both clients clear their dead recipient"
+      ]
+    },
+    {
+      "run": "reliability-concurrent-20261024",
+      "file": "assertions-inputs.json",
+      "sha256": "0B6B9FCCB70A506E81688FBF9F3840B5B9B0141893762191DE9976E1635E14F8",
+      "checks": 5,
+      "failed": 0,
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Gamepad West binding starts native transfer",
+        "Gamepad hold transfers and release stops",
+        "Opening chat stops remote donation",
+        "Opening menu stops remote donation"
+      ]
+    },
+    {
+      "run": "reliability-concurrent-20261024",
+      "file": "assertions-parallel.json",
+      "sha256": "9D35F5095B3FDDC4FA33C92D08CC8054B7C713704311F77A62C9FF0CE81FC10C",
+      "checks": 9,
+      "failed": 0,
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Two remote donors transfer simultaneously to the host",
+        "Two-donor transfer conserves oxygen",
+        "Both donors decrease while recipient increases",
+        "All three peers have exactly three gauges",
+        "Competing donors stop at recipient capacity",
+        "Competing allocation neither duplicates nor overdraws oxygen",
+        "Late remote client can donate to an earlier remote client",
+        "Remote-to-remote donation conserves oxygen on host"
+      ]
+    },
+    {
+      "run": "reliability-concurrent-20261024",
+      "file": "assertions-refill.json",
+      "sha256": "58A74176AF5ED63BAF71E3FF690D09CE95D98DE3D10770011A97E97F66227FB8",
+      "checks": 5,
+      "failed": 0,
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Finite charger reserve prepared on host",
+        "Native refill grant completes while donation continues",
+        "Charger plus three player tanks conserve total oxygen",
+        "All peers agree on remaining charger reserve"
+      ]
+    },
+    {
+      "run": "reliability-concurrent-20261024",
+      "file": "assertions-soak.json",
+      "sha256": "FF57B78CF13E798A9726EB058128B0992A61053D7A31EFAE3A56002D220320E4",
+      "checks": 38,
+      "failed": 0,
+      "assertions": [
+        "Three live peers begin repeated-transfer soak",
+        "Cycle 1/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 2/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 3/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 4/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 5/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 6/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 7/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 8/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 9/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 10/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 11/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 12/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 13/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 14/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 15/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 16/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 17/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 18/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 19/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 20/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 21/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 22/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 23/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 24/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 25/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 26/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 27/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 28/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 29/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 30/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 31/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 32/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 33/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 34/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 35/36: transfer, conservation, release and all-peer agreement",
+        "Cycle 36/36: transfer, conservation, release and all-peer agreement",
+        "Repeated-transfer soak ends idle without oxygen drift"
+      ]
+    }
+  ],
+  "initialFixtureFailuresRetained": [
+    {
+      "file": ".multiplayer-test/reliability-network-20261024/assertions-rejoin-initial.json",
+      "sha256": "8BDD88901E95D83A5C582FE9B8BB6318E105A71B992A213DBD388738AAED2D6D",
+      "failedAssertions": [
+        "Fresh remote client can donate, release and conserve oxygen after reconnect"
+      ]
+    },
+    {
+      "file": ".multiplayer-test/reliability-concurrent-20261024/assertions-soak-initial.json",
+      "sha256": "98222BB70EFBB34B1BA5688BA856F4711C541DAEF33C9089D9649E3FB6720AA1",
+      "failedAssertions": [
+        "Cycle 1/36: transfer, conservation, release and all-peer agreement"
+      ]
+    }
+  ],
+  "processManifests": [
+    {
+      "file": ".multiplayer-test/reliability-network-20261024/client-process.json",
+      "id": 37676,
+      "started": "2026-10-24T00:50:27.7274589Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\reliability-network-20261024\\client",
+      "dllSha256": "406B766DE984CCD542A1556638A45CF4221080E58B235AE2570A3E88105ABAE5"
+    },
+    {
+      "file": ".multiplayer-test/reliability-network-20261024/host-process.json",
+      "id": 51564,
+      "started": "2026-10-24T00:46:23.2667092Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\reliability-network-20261024\\host",
+      "dllSha256": "406B766DE984CCD542A1556638A45CF4221080E58B235AE2570A3E88105ABAE5"
+    },
+    {
+      "file": ".multiplayer-test/reliability-concurrent-20261024/client-process.json",
+      "id": 42516,
+      "started": "2026-10-24T00:53:58.9975293Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\reliability-concurrent-20261024\\client",
+      "dllSha256": "406B766DE984CCD542A1556638A45CF4221080E58B235AE2570A3E88105ABAE5"
+    },
+    {
+      "file": ".multiplayer-test/reliability-concurrent-20261024/client2-process.json",
+      "id": 45512,
+      "started": "2026-10-24T00:54:45.9823475Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\reliability-concurrent-20261024\\client2",
+      "dllSha256": "406B766DE984CCD542A1556638A45CF4221080E58B235AE2570A3E88105ABAE5"
+    },
+    {
+      "file": ".multiplayer-test/reliability-concurrent-20261024/host-process.json",
+      "id": 48524,
+      "started": "2026-10-24T00:53:09.9935908Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\reliability-concurrent-20261024\\host",
+      "dllSha256": "406B766DE984CCD542A1556638A45CF4221080E58B235AE2570A3E88105ABAE5"
+    }
+  ],
+  "proxyFirstRouteFinalCounters": {
+    "port": 17778,
+    "target": 7777,
+    "received": 9323,
+    "forwarded": 7858,
+    "dropped": 1465,
+    "rule": {
+      "delayMs": 0,
+      "jitterMs": 0,
+      "dropPercent": 0
+    },
+    "utc": "2026-10-24T00:52:45.3561597Z"
+  },
+  "soak": {
+    "cycles": 36,
+    "elapsedSeconds": 181.5066561,
+    "tanks": [
+      {
+        "id": 0,
+        "amount": 0.725295961,
+        "revision": 212
+      },
+      {
+        "id": 1,
+        "amount": 0.5,
+        "revision": 45
+      },
+      {
+        "id": 2,
+        "amount": 0.27470395,
+        "revision": 41
+      }
+    ]
+  },
+  "resources": {
+    "resources-after-soak": [
+      {
+        "role": "host",
+        "id": 48524,
+        "privateBytes": 3963351040,
+        "workingSet": 1853411328,
+        "handles": 2727
+      },
+      {
+        "role": "client",
+        "id": 42516,
+        "privateBytes": 3956264960,
+        "workingSet": 1789771776,
+        "handles": 2737
+      },
+      {
+        "role": "client2",
+        "id": 45512,
+        "privateBytes": 3976855552,
+        "workingSet": 1897127936,
+        "handles": 2705
+      }
+    ],
+    "resources-before-soak": [
+      {
+        "role": "host",
+        "id": 48524,
+        "privateBytes": 3963396096,
+        "workingSet": 1849827328,
+        "handles": 2729
+      },
+      {
+        "role": "client",
+        "id": 42516,
+        "privateBytes": 3957264384,
+        "workingSet": 1786863616,
+        "handles": 2762
+      },
+      {
+        "role": "client2",
+        "id": 45512,
+        "privateBytes": 3969658880,
+        "workingSet": 2494119936,
+        "handles": 2716
+      }
+    ]
+  },
+  "cleanup": "Both runs stopped recorded games and restored/verified three original saves; proxy exited.",
+  "limitations": "Controlled native LAN fixture; 181.51-second repetition test, not multi-hour/manual/internet/VR/modpack certification."
+}

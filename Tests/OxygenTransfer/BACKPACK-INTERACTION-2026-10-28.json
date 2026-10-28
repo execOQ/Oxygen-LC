@@ -1,0 +1,703 @@
+{
+  "automatedChecks": 782,
+  "physicalVrFixVerified": true,
+  "interactiveRunRoot": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\physical-vr-fixed-20261028",
+  "latestSha256": "C16A0A8518322132646BC40BBEED409DABE752CF57E4F6402D20C4B6986BD85E",
+  "blocker": null,
+  "candidateSha256": "00A443E5AA62BF86B7AE531FAA2272893B7274837A555D21716403A0283E319C",
+  "date": "2026-10-28",
+  "candidateNativeCount": 52,
+  "latestNormalDrain": {
+    "timeStart": 235.939392,
+    "timeEnd": 253.439987,
+    "before": 0.6700003,
+    "after": 0.6400003,
+    "tickSeconds": 5.0,
+    "registered": true
+  },
+  "candidateNativeAssertions": [
+    {
+      "phase": "basic",
+      "name": "Host and remote client initialized with two synchronized tanks",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Native held Interact starts server transfer",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Pump audio plays during confirmed transfer",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Transfer rate is approximately five percent per second",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Native transfer conserves total oxygen",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Releasing Interact stops transfer",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Remote HUD matches server tank",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Side approach has no transfer prompt",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Side approach cannot start transfer",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Front approach has no transfer prompt",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Front approach cannot start transfer",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Aiming away has no transfer prompt",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Aiming away cannot start transfer",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Solid wall blocks rear targeting",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Cannot transfer through a wall",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Recipient turn preserves an active transfer",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Moving outside range stops transfer while input remains held",
+      "pass": true
+    },
+    {
+      "phase": "basic",
+      "name": "Captured native backpack gauge screenshot",
+      "pass": true
+    },
+    {
+      "phase": "edges",
+      "name": "Host and remote client initialized with two synchronized tanks",
+      "pass": true
+    },
+    {
+      "phase": "edges",
+      "name": "Empty donor stops with no negative oxygen",
+      "pass": true
+    },
+    {
+      "phase": "edges",
+      "name": "Recipient full stops without overflow",
+      "pass": true
+    },
+    {
+      "phase": "edges",
+      "name": "Remote client can donate to the host",
+      "pass": true
+    },
+    {
+      "phase": "edges",
+      "name": "Opening terminal stops remote donation",
+      "pass": true
+    },
+    {
+      "phase": "edges",
+      "name": "Missing donor heartbeats expire on server",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "host: virtual Gamepad West starts native interaction",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "host: controller prompt uses a single X binding",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "host: hold drains donor HUD and release stops",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "host: transfer conserves oxygen",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "host: oxygen remains stable after release",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "host: removing a held gamepad stops transfer",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "client: virtual Gamepad West starts native interaction",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "client: controller prompt uses a single X binding",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "client: hold drains donor HUD and release stops",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "client: transfer conserves oxygen",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "client: oxygen remains stable after release",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "client: removing a held gamepad stops transfer",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Gamepad cannot start transfer while menu is open",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Opening menu cancels held gamepad transfer",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Gamepad cannot start transfer while chat is open",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Opening chat cancels held gamepad transfer",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Gamepad cannot start transfer while terminal is open",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Opening terminal cancels held gamepad transfer",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Original West button stops working after rebinding",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Rebound South button starts transfer and displays A",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Rebound gamepad release stops transfer",
+      "pass": true
+    },
+    {
+      "phase": "gamepad",
+      "name": "Keyboard interaction works after switching from gamepad",
+      "pass": true
+    },
+    {
+      "phase": "ray-safety",
+      "name": "Actual visible gauge aim accepted",
+      "pass": true
+    },
+    {
+      "phase": "ray-safety",
+      "name": "Aim away rejected",
+      "pass": true
+    },
+    {
+      "phase": "ray-safety",
+      "name": "Zero direction rejected",
+      "pass": true
+    },
+    {
+      "phase": "ray-safety",
+      "name": "Nonfinite origin rejected",
+      "pass": true
+    },
+    {
+      "phase": "ray-safety",
+      "name": "Remote origin spoof rejected",
+      "pass": true
+    },
+    {
+      "phase": "ray-safety",
+      "name": "Excessive origin height rejected",
+      "pass": true
+    }
+  ],
+  "nativeVrAssertions": [
+    {
+      "name": "Real LCVR gameplay session runs without emulated VR activation",
+      "pass": true,
+      "evidence": {
+        "time": 263.402679,
+        "server": false,
+        "oxygenTickSeconds": 5.0,
+        "vrControllerHover": false,
+        "cursorActive": true,
+        "cursorEnabled": true,
+        "transferAimOrigin": "(4.642, 1.471, -13.718)",
+        "transferAimDirection": "(0.524, -0.844, 0.111)",
+        "targetBounds": "Center: (3.684, 2.328, -14.848), Extents: (0.400, 0.500, 0.325)",
+        "hitTank": false,
+        "tankDistance": 0.0,
+        "bodyDistance": 1.30740571,
+        "rearCosine": -0.999632,
+        "vrPluginVersion": "1.5.0",
+        "vrActiveNative": true,
+        "vrReadyNative": true,
+        "xrDisplayRunning": true,
+        "stereoCamera": true,
+        "startEligibility": [
+          {
+            "from": 0,
+            "to": 1,
+            "allowed": false
+          },
+          {
+            "from": 1,
+            "to": 0,
+            "allowed": false
+          }
+        ],
+        "inputBlocked": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "io.daxcess.lcvr",
+          "consequential.Oxygen",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "boostHolders": [],
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.262499958,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 0.770000041,
+            "revision": 40
+          },
+          {
+            "id": 1,
+            "amount": 0.2625,
+            "revision": 16
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(4.648, 0.325, -13.465)",
+        "remotePosition": "(3.986, 0.325, -14.592)",
+        "bodyPosition": "(4.648, 0.325, -13.465)",
+        "bodyName": "Player (1)",
+        "localForward": "(0.228, 0.000, 0.974)",
+        "remoteForward": "(0.530, 0.000, 0.848)",
+        "camera": "(4.693, 2.438, -13.663)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000419",
+        "interactKey": "У",
+        "usingController": false,
+        "xrMode": false,
+        "xrPressed": false,
+        "xrUsePressed": false,
+        "xrActivatePressed": false,
+        "xrControl": null,
+        "xrControls": [
+          "/OculusTouchControllerOpenXR1/grippressed"
+        ],
+        "xrBindingMask": "[Oculus]",
+        "actionControls": [
+          "/OculusTouchControllerOpenXR1/grippressed"
+        ],
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(3.631, 2.328, -14.932)",
+            "parent": "spine.003",
+            "anchorPosition": "(3.945, 2.163, -14.658)",
+            "forward": "(0.507, -0.294, 0.810)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.64, 2.33, -14.93), Extents: (0.09, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.62, 2.33, -14.95), Extents: (0.07, 0.07, 0.06)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.63, 2.33, -14.94), Extents: (0.09, 0.09, 0.08)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.66, 2.31, -14.89), Extents: (0.03, 0.02, 0.04)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.65, 2.32, -14.90), Extents: (0.03, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.66, 2.31, -14.89), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.69, 2.30, -14.84), Extents: (0.07, 0.07, 0.07)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.72, 2.28, -14.79), Extents: (0.12, 0.03, 0.10)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.64, 2.30, -14.85), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.64, 2.31, -14.85), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.70, 2.30, -14.89), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.70, 2.31, -14.89), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.62, 2.34, -14.95), Extents: (0.06, 0.05, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (3.62, 2.34, -14.95), Extents: (0.07, 0.06, 0.05)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(4.354, 2.360, -13.833)",
+            "parent": "spine.003",
+            "anchorPosition": "(4.631, 2.162, -13.540)",
+            "forward": "(0.423, -0.344, 0.838)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.36, 2.36, -13.83), Extents: (0.10, 0.09, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.35, 2.37, -13.85), Extents: (0.08, 0.08, 0.06)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.35, 2.36, -13.84), Extents: (0.10, 0.09, 0.08)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.38, 2.34, -13.78), Extents: (0.03, 0.02, 0.04)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.37, 2.35, -13.80), Extents: (0.03, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.38, 2.34, -13.79), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.40, 2.32, -13.74), Extents: (0.07, 0.07, 0.07)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.43, 2.30, -13.69), Extents: (0.12, 0.04, 0.10)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.35, 2.34, -13.75), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.35, 2.34, -13.75), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.42, 2.33, -13.78), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.42, 2.33, -13.79), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.30, 2.36, -13.83), Extents: (0.02, 0.04, 0.02)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (4.35, 2.38, -13.85), Extents: (0.07, 0.06, 0.05)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Both peers initially use the normal five-second oxygen interval",
+      "pass": true,
+      "evidence": 5.0
+    },
+    {
+      "name": "LCVR native hover pass leaves a visible oxygen prompt",
+      "pass": true,
+      "evidence": {
+        "rayOrigin": "(5.066, 2.115, -13.786)",
+        "vrHover": true,
+        "prompt": "Transfer oxygen : [Hold gripButton]"
+      }
+    },
+    {
+      "name": "Desktop host accepts the native LCVR hand ray over command v2",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.305050671,
+          "revision": 42
+        },
+        {
+          "id": 1,
+          "amount": 0.794949353,
+          "revision": 17
+        }
+      ]
+    },
+    {
+      "name": "VR donation drains donor HUD, fills host and stops on release",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.4555954,
+          "revision": 42
+        },
+        {
+          "id": 1,
+          "amount": 0.6444046,
+          "revision": 17
+        }
+      ]
+    },
+    {
+      "name": "VR hand-ray transfer conserves oxygen",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.4555954,
+          "revision": 42
+        },
+        {
+          "id": 1,
+          "amount": 0.6444046,
+          "revision": 17
+        }
+      ]
+    },
+    {
+      "name": "Native VR HUD oxygen matches the authoritative donor tank",
+      "pass": true,
+      "evidence": 0.6444046
+    },
+    {
+      "name": "LCVR displays a full-tank explanation instead of hiding interaction",
+      "pass": true,
+      "evidence": "Oxygen tank is full"
+    },
+    {
+      "name": "Desktop camera can target the visible VR-player gauge",
+      "pass": true,
+      "evidence": "Transfer oxygen : [Hold У]"
+    },
+    {
+      "name": "Desktop-to-VR donation changes both HUD values and stops on release",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.6496092,
+          "revision": 44
+        },
+        {
+          "id": 1,
+          "amount": 0.450390667,
+          "revision": 18
+        }
+      ]
+    },
+    {
+      "name": "Desktop-to-VR transfer conserves oxygen",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.6496092,
+          "revision": 44
+        },
+        {
+          "id": 1,
+          "amount": 0.450390667,
+          "revision": 18
+        }
+      ]
+    },
+    {
+      "name": "Normal oxygen consumption restored on both peers",
+      "pass": true,
+      "evidence": 5.0
+    }
+  ],
+  "nativeVrCount": 12,
+  "physicalControllerButtonsVerified": false,
+  "nativeVrScope": "Real headset, LCVR and hover; staged hand ray and software grip/gamepad input; manual physical button check pending",
+  "manualTransferObservedAfterRemovingSyntheticInput": true
+}

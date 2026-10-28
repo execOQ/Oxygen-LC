@@ -3,7 +3,6 @@ using static System.Math;
 using TMPro;
 using UnityEngine;
 using System.Collections;
-using LCVR.Player;
 using Image = UnityEngine.UI.Image;
 
 namespace Oxygen.General
@@ -44,6 +43,7 @@ namespace Oxygen.General
             }
             internal set
             {
+                if (OxygenBase.Instance != null && OxygenBase.Instance.Transfers.ChangeLocal(value)) return;
                 if (oxygenHUD == null)
                 {
                     return;
@@ -216,7 +216,7 @@ namespace Oxygen.General
 
         private static IEnumerator Init_LCVR(GameObject sprintMeter)
         {
-            if (!VRSession.InVR)
+            if (!VrCompatibility.Active)
             {
                 yield break; 
             }
@@ -228,11 +228,11 @@ namespace Oxygen.General
             }
 
             // Wait until VR Instance exists
-            yield return new WaitUntil(() => VRSession.Instance != null);
+            yield return new WaitUntil(() => VrCompatibility.Ready);
 
             oxygenHUD.transform.SetParent(sprintMeter.transform.parent, false);
             
-            if (LCVR.Plugin.Config.DisableArmHUD.Value)
+            if (VrCompatibility.DisableArmHud)
             {
                 oxygenHUD.transform.localPosition = new Vector3(-279.0514f, 74.9563f, 0);
                 oxygenHUD.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);

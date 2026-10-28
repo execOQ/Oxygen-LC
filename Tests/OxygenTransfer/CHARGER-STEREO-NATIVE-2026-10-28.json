@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-28",
+  "physicalHeadsetDepthConfirmedByUser": true,
+  "userConfirmation": "Да, теперь объёмный",
+  "peers": [
+    {
+      "role": "host",
+      "dllSha256": "67BE54A552AFF5A71C0018295AE8D8FE1C1F4AFC369EF1FA0F5B2F61CC483F05",
+      "checks": {
+        "renderer": "Circle.002",
+        "shader": "HDRP/Lit",
+        "usesGameShader": true,
+        "replacesBundledShader": true,
+        "texturePreserved": true,
+        "colorPreserved": true,
+        "smoothnessPreserved": true,
+        "meshPreserved": true,
+        "meshBounds": "Center: (0.00, 0.00, 0.29), Extents: (1.78, 0.94, 2.51)",
+        "worldBounds": "Center: (5.99, 0.61, -11.18), Extents: (0.41, 0.57, 0.45)",
+        "stereo": false
+      }
+    },
+    {
+      "role": "client",
+      "dllSha256": "67BE54A552AFF5A71C0018295AE8D8FE1C1F4AFC369EF1FA0F5B2F61CC483F05",
+      "checks": {
+        "renderer": "Circle.002",
+        "shader": "HDRP/Lit",
+        "usesGameShader": true,
+        "replacesBundledShader": true,
+        "texturePreserved": true,
+        "colorPreserved": true,
+        "smoothnessPreserved": true,
+        "meshPreserved": true,
+        "meshBounds": "Center: (0.00, 0.00, 0.29), Extents: (1.78, 0.94, 2.51)",
+        "worldBounds": "Center: (5.99, 0.61, -11.18), Extents: (0.41, 0.57, 0.45)",
+        "stereo": true
+      }
+    }
+  ]
+}

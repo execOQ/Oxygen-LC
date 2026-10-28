@@ -13,6 +13,16 @@ namespace Oxygen.Patches
         private readonly static ManualLogSource mls = BepInEx.Logging.Logger.CreateLogSource(OxygenBase.modName + " > PlayerControllerBPatch");
 
         [HarmonyPostfix]
+        [HarmonyPatch("SetHoverTipAndCurrentInteractTrigger")]
+        private static void TransferHover(PlayerControllerB __instance)
+            => OxygenBase.Instance?.Transfers.Hover(__instance);
+
+        [HarmonyPrefix]
+        [HarmonyPatch("Interact_performed")]
+        private static bool TransferInteract(PlayerControllerB __instance)
+            => OxygenBase.Instance?.Transfers.BeginInteraction(__instance) != true;
+
+        [HarmonyPostfix]
         [HarmonyPatch("ConnectClientToPlayerObject")]
         [HarmonyPriority(Priority.Last)]
         public static void ConnectClientToPlayerObject_Postfix(PlayerControllerB __instance)
@@ -34,7 +44,7 @@ namespace Oxygen.Patches
         {
             if (__instance == null) return;
 
-            if (__instance.isPlayerDead)
+            if (__instance.isPlayerDead && __instance.IsOwner)
             {
                 OxygenInit.Percent = 1;
                 __instance.drunkness = 0;

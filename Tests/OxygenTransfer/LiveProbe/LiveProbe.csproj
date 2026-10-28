@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework><LangVersion>latest</LangVersion>
+    <GameManagedDir Condition="'$(GameManagedDir)' == ''">E:/Games/SteamLibrary/steamapps/common/Lethal Company/Lethal Company_Data/Managed</GameManagedDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="UnityEngine.AssetBundleModule"><HintPath>$(GameManagedDir)/UnityEngine.AssetBundleModule.dll</HintPath></Reference>
+    <Reference Include="UnityEngine.XRModule"><HintPath>$(GameManagedDir)/UnityEngine.XRModule.dll</HintPath></Reference>
+    <Reference Include="UnityEngine.SubsystemsModule"><HintPath>$(GameManagedDir)/UnityEngine.SubsystemsModule.dll</HintPath></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(GameManagedDir)/UnityEngine.UI.dll</HintPath></Reference>
+    <Reference Include="UnityEngine"><HintPath>../../../../Assets/References/UnityEngine.dll</HintPath></Reference>
+    <Reference Include="BepInEx"><HintPath>../../../../Assets/References/BepInEx.dll</HintPath></Reference>
+    <Reference Include="0Harmony"><HintPath>../../../../Assets/References/0Harmony.dll</HintPath></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>$(GameManagedDir)/Assembly-CSharp.dll</HintPath></Reference>
+    <Reference Include="Unity.Netcode.Runtime"><HintPath>../../../../Assets/References/Unity.Netcode.Runtime.dll</HintPath></Reference>
+    <Reference Include="Unity.InputSystem"><HintPath>$(GameManagedDir)/Unity.InputSystem.dll</HintPath></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>../../../../Assets/References/UnityEngine.CoreModule.dll</HintPath></Reference>
+    <Reference Include="UnityEngine.PhysicsModule"><HintPath>../../../../Assets/References/UnityEngine.PhysicsModule.dll</HintPath></Reference>
+    <Reference Include="UnityEngine.AudioModule"><HintPath>../../../../Assets/References/UnityEngine.AudioModule.dll</HintPath></Reference>
+    <Reference Include="UnityEngine.ImageConversionModule"><HintPath>$(GameManagedDir)/UnityEngine.ImageConversionModule.dll</HintPath></Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule"><HintPath>$(GameManagedDir)/UnityEngine.ScreenCaptureModule.dll</HintPath></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>../../../../Assets/References/Unity.TextMeshPro.dll</HintPath></Reference>
+    <Reference Include="Newtonsoft.Json"><HintPath>../../../../Assets/References/Newtonsoft.Json.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>

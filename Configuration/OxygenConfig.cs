@@ -35,9 +35,13 @@ namespace Oxygen.Configuration
         internal HostConfigEntry<float> secTimer;
 
         internal HostConfigEntry<int> playerDamage;
+        internal HostConfigEntry<float> transferRate;
 
         private void BindGeneralEntries(ConfigFile file)
         {
+            transferRate = BindHostEntry(file, "Oxygen transfer", "transferRate", 0.05f,
+                "Fraction of a tank transferred per second (0.001-1). Synced with host; default 5% per second.",
+                new AcceptableValueRange<float>(0.001f, 1f));
             autoFillingOnShip = BindHostEntry(file,
                 "General", // Section
                 "autoFillingOnShip", // Key
@@ -589,9 +593,10 @@ namespace Oxygen.Configuration
         internal ConfigSync Sync { get; private set; }
         private readonly List<IHostConfigEntry> hostEntries = new List<IHostConfigEntry>();
 
-        private HostConfigEntry<T> BindHostEntry<T>(ConfigFile file, string section, string key, T defaultValue, string description)
+        private HostConfigEntry<T> BindHostEntry<T>(ConfigFile file, string section, string key, T defaultValue, string description,
+            AcceptableValueBase range = null)
         {
-            var entry = new HostConfigEntry<T>(file.Bind(section, key, defaultValue, description));
+            var entry = new HostConfigEntry<T>(file.Bind(section, key, defaultValue, new ConfigDescription(description, range)));
             hostEntries.Add(entry);
             entry.Entry.SettingChanged += (sender, args) => Sync?.OnLocalSettingChanged();
             return entry;

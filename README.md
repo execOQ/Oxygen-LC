@@ -13,6 +13,27 @@ Under `Sounds` in the config, set `enableLowOxygenAlarm = false` to completely d
 `lowOxygenAlarm_volume` to adjust its volume (0–1, default 0.1; 0 mutes the alarm).
 Existing configs keep their saved volume; set it to `0.1` for the quieter level.
 
+### Sharing oxygen
+
+Approach a teammate from behind, aim at their backpack and hold the game's Interact
+button (E by default) to share oxygen. Release to stop. Both players must be alive,
+within range and have an unobstructed connection. Turning after a transfer starts
+does not cancel it. Transfers stop when the donor is empty or the recipient is full.
+A white dial with a blue arc on each backpack shows the owner's oxygen, even with
+the HUD hidden. Longer marks span the blue band at 0%, 50% and 100%; shorter edge
+marks indicate 25% and 75%. The arc fills from left to right.
+A quiet pump loop plays while oxygen is moving.
+
+![Backpack oxygen gauge inside the facility](docs/images/oxygen-sharing/02-complex-backpack.png)
+
+[In-game screenshots: approach, hold to transfer, release, and full tank](docs/images/oxygen-sharing/README.md)
+
+The host controls `transferRate` (default `0.05`, or 5% of a tank per second) under
+`Oxygen transfer`. Sharing is lossless and limited to a fixed distance of 2 metres.
+All peers must update to Oxygen 1.8.0 to share oxygen.
+In LCVR, point the primary controller at a teammate's backpack and hold Grip
+to transfer oxygen.
+
 <details>
   <summary>Compatibility with other mods</summary>
   

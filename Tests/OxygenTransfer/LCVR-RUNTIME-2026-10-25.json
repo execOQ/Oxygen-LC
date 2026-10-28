@@ -1,0 +1,290 @@
+{
+  "dllSha256": "47F154C938588768DE88400C15D0CBC8FD7A2A823EC28F908809206999680E11",
+  "nativeActivationOverridden": false,
+  "softwareButtonAssertions": [
+    {
+      "name": "host: LCVR 1.5.0 Interact is right grip",
+      "pass": true,
+      "evidence": [
+        {
+          "name": "",
+          "id": "2cf85fec-32a6-453b-b8c2-58ea23401366",
+          "path": "<XRController>{RightHand}/gripButton",
+          "interactions": "",
+          "processors": "",
+          "groups": "Oculus;HP Reverb;HTC Vive;Valve Index;WMR;Meta Quest",
+          "action": "Interact",
+          "isComposite": false,
+          "isPartOfComposite": false
+        }
+      ]
+    },
+    {
+      "name": "host: triggerButton activates Use/ActivateItem without Interact",
+      "pass": true,
+      "evidence": {
+        "interact": false,
+        "activateItem": true,
+        "use": true
+      }
+    },
+    {
+      "name": "host: triggerButton alone does not transfer oxygen",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.8,
+          "revision": 1
+        },
+        {
+          "id": 1,
+          "amount": 0.199999988,
+          "revision": 1
+        }
+      ]
+    },
+    {
+      "name": "host: trigger activates Use/ActivateItem without Interact",
+      "pass": true,
+      "evidence": {
+        "interact": false,
+        "activateItem": true,
+        "use": true
+      }
+    },
+    {
+      "name": "host: trigger alone does not transfer oxygen",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.8,
+          "revision": 1
+        },
+        {
+          "id": 1,
+          "amount": 0.199999988,
+          "revision": 1
+        }
+      ]
+    },
+    {
+      "name": "host: grip transfers independently of item trigger",
+      "pass": true,
+      "evidence": {
+        "amount": 0.784612656,
+        "prompt": "Transferring oxygen... [Hold gripButton]"
+      }
+    },
+    {
+      "name": "host: grip hold drains donor HUD and release stops transfer",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.6521915,
+          "revision": 1
+        },
+        {
+          "id": 1,
+          "amount": 0.34780845,
+          "revision": 1
+        }
+      ]
+    },
+    {
+      "name": "host: grip transfer conserves oxygen",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.6521915,
+          "revision": 1
+        },
+        {
+          "id": 1,
+          "amount": 0.34780845,
+          "revision": 1
+        }
+      ]
+    },
+    {
+      "name": "client: LCVR 1.5.0 Interact is right grip",
+      "pass": true,
+      "evidence": [
+        {
+          "name": "",
+          "id": "2cf85fec-32a6-453b-b8c2-58ea23401366",
+          "path": "<XRController>{RightHand}/gripButton",
+          "interactions": "",
+          "processors": "",
+          "groups": "Oculus;HP Reverb;HTC Vive;Valve Index;WMR;Meta Quest",
+          "action": "Interact",
+          "isComposite": false,
+          "isPartOfComposite": false
+        }
+      ]
+    },
+    {
+      "name": "client: triggerButton activates Use/ActivateItem without Interact",
+      "pass": true,
+      "evidence": {
+        "interact": false,
+        "activateItem": true,
+        "use": true
+      }
+    },
+    {
+      "name": "client: triggerButton alone does not transfer oxygen",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.199999928,
+          "revision": 2
+        },
+        {
+          "id": 1,
+          "amount": 0.8,
+          "revision": 2
+        }
+      ]
+    },
+    {
+      "name": "client: trigger activates Use/ActivateItem without Interact",
+      "pass": true,
+      "evidence": {
+        "interact": false,
+        "activateItem": true,
+        "use": true
+      }
+    },
+    {
+      "name": "client: trigger alone does not transfer oxygen",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.199999928,
+          "revision": 2
+        },
+        {
+          "id": 1,
+          "amount": 0.8,
+          "revision": 2
+        }
+      ]
+    },
+    {
+      "name": "client: grip transfers independently of item trigger",
+      "pass": true,
+      "evidence": {
+        "amount": 0.7898499,
+        "prompt": "Transferring oxygen... [Hold gripButton]"
+      }
+    },
+    {
+      "name": "client: grip hold drains donor HUD and release stops transfer",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.347247958,
+          "revision": 2
+        },
+        {
+          "id": 1,
+          "amount": 0.6527519,
+          "revision": 2
+        }
+      ]
+    },
+    {
+      "name": "client: grip transfer conserves oxygen",
+      "pass": true,
+      "evidence": [
+        {
+          "id": 0,
+          "amount": 0.347247958,
+          "revision": 2
+        },
+        {
+          "id": 1,
+          "amount": 0.6527519,
+          "revision": 2
+        }
+      ]
+    }
+  ],
+  "softwareButtonAssertionsCount": 16,
+  "cleanControlPluginCount": 1,
+  "nativeInitializationPassed": true,
+  "cleanup": {
+    "runningVrProcesses": 0,
+    "runningGames": 0,
+    "checkedUtc": "2026-10-25T13:51:31.417278Z",
+    "restoredSaves": 3,
+    "originalVrConfigUnchanged": true
+  },
+  "lcvrVersion": "1.5.0",
+  "nativeRuntime": "SteamVR/OpenXR 2.18.4",
+  "nativeBlocker": "LCVR.Managers.InitSceneManager.Awake:26 NullReferenceException",
+  "date": "2026-10-25",
+  "inGameVrVerified": false,
+  "reproducedWithoutOxygen": true,
+  "nativeSnapshot": {
+    "time": 184.974762,
+    "server": null,
+    "vrPluginVersion": "1.5.0",
+    "vrActiveNative": true,
+    "vrReadyNative": false,
+    "xrDisplayRunning": true,
+    "stereoCamera": null,
+    "startEligibility": null,
+    "inputBlocked": true,
+    "plugins": [
+      "com.rune580.LethalCompanyInputUtils",
+      "evaisa.lethallib",
+      "io.daxcess.lcvr",
+      "consequential.Oxygen",
+      "oxygen.test.transfer"
+    ],
+    "suits": null,
+    "wornSuits": null,
+    "reserve": null,
+    "boostAdded": 0.0,
+    "boostGas": null,
+    "boostFuel": null,
+    "boostHolders": [],
+    "connected": null,
+    "id": null,
+    "controlled": null,
+    "dead": null,
+    "registered": false,
+    "amount": 0.0,
+    "tanks": [],
+    "target": 18446744073709551615,
+    "sessionCount": 0,
+    "localPosition": null,
+    "remotePosition": null,
+    "bodyPosition": null,
+    "bodyName": null,
+    "localForward": null,
+    "remoteForward": null,
+    "camera": null,
+    "eligible": false,
+    "prompt": null,
+    "keyboardLayout": "00000419",
+    "interactKey": "У",
+    "usingController": null,
+    "xrMode": false,
+    "xrPressed": null,
+    "xrControl": null,
+    "xrControls": null,
+    "xrBindingMask": null,
+    "actionControls": null,
+    "pressed": null,
+    "gauges": []
+  }
+}

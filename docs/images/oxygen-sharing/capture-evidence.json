@@ -1,0 +1,5173 @@
+{
+  "date": "2026-10-24",
+  "game": "Lethal Company v81",
+  "moon": "41 Experimentation",
+  "seed": 24680,
+  "sourceRun": ".multiplayer-test/gauge-mount-animated-20261024",
+  "keyboardLayout": "English US (00000409)",
+  "promptTextEdited": false,
+  "design": "Worn lit case; saddle seated against tank; elongated edge marks; left-to-right fill.",
+  "oxygenDllSha256": "1FAB4CF001BB631893D1223E45A88A756CE33BF885152B85AD239B4B9052F15E",
+  "nearCaptureSnapshots": {
+    "01-moon-backpack": {
+      "host": {
+        "time": 140.446457,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 1.0,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-112.700, 3.061, -17.654)",
+        "remotePosition": "(-111.000, 3.061, -17.654)",
+        "bodyPosition": "(-112.700, 3.061, -17.654)",
+        "bodyName": "Player",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-112.687, 5.412, -17.654)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-113.184, 5.053, -17.534)",
+            "parent": "spine.003",
+            "anchorPosition": "(-112.777, 4.908, -17.654)",
+            "forward": "(0.969, -0.246, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.18, 5.05, -17.53), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.20, 5.06, -17.53), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.19, 5.06, -17.53), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.13, 5.04, -17.53), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.15, 5.04, -17.53), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.13, 5.04, -17.53), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.08, 5.03, -17.53), Extents: (0.04, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.02, 5.01, -17.53), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.11, 5.03, -17.50), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.11, 5.03, -17.50), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.11, 5.03, -17.57), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.11, 5.03, -17.57), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.20, 5.07, -17.53), Extents: (0.01, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.20, 5.07, -17.53), Extents: (0.01, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-111.505, 4.965, -17.534)",
+            "parent": "spine.003",
+            "anchorPosition": "(-111.077, 4.906, -17.654)",
+            "forward": "(0.999, -0.044, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.50, 4.96, -17.53), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.52, 4.97, -17.53), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.51, 4.97, -17.53), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.45, 4.96, -17.53), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.47, 4.96, -17.53), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.45, 4.96, -17.53), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.40, 4.96, -17.53), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.33, 4.96, -17.53), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.43, 4.96, -17.49), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.43, 4.96, -17.49), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.43, 4.96, -17.57), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.43, 4.96, -17.57), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.53, 4.98, -17.52), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.53, 4.98, -17.53), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 77.7174,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.650000036,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-111.000, 3.061, -17.654)",
+        "remotePosition": "(-112.700, 3.061, -17.654)",
+        "bodyPosition": "(-111.000, 3.061, -17.654)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-110.987, 5.412, -17.654)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-113.184, 5.053, -17.534)",
+            "parent": "spine.003",
+            "anchorPosition": "(-112.777, 4.909, -17.654)",
+            "forward": "(0.970, -0.245, -0.001)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.18, 5.05, -17.53), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.20, 5.06, -17.53), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.19, 5.05, -17.53), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.13, 5.04, -17.53), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.15, 5.04, -17.53), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.13, 5.04, -17.53), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.08, 5.03, -17.53), Extents: (0.04, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.02, 5.01, -17.53), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.11, 5.03, -17.49), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.11, 5.03, -17.49), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.11, 5.03, -17.57), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.11, 5.03, -17.57), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.20, 5.07, -17.53), Extents: (0.01, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-113.20, 5.07, -17.53), Extents: (0.01, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-111.505, 4.964, -17.534)",
+            "parent": "spine.003",
+            "anchorPosition": "(-111.077, 4.905, -17.654)",
+            "forward": "(0.999, -0.044, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.50, 4.96, -17.53), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.52, 4.96, -17.53), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.51, 4.96, -17.53), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.45, 4.96, -17.53), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.47, 4.96, -17.53), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.45, 4.96, -17.53), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.40, 4.96, -17.53), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.33, 4.96, -17.53), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.43, 4.96, -17.50), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.43, 4.96, -17.50), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.43, 4.96, -17.57), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.43, 4.96, -17.57), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.53, 4.97, -17.52), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-111.53, 4.98, -17.53), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "02-complex-backpack": {
+      "host": {
+        "time": 145.425278,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 1.0,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-14.000, -219.462, 66.250)",
+        "remotePosition": "(-12.300, -219.462, 65.891)",
+        "bodyPosition": "(-14.000, -219.462, 66.250)",
+        "bodyName": "Player",
+        "localForward": "(0.970, 0.000, -0.242)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-13.987, -217.111, 66.247)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.440, -217.491, 66.484)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.075, -217.636, 66.269)",
+            "forward": "(0.940, -0.248, -0.235)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.49, 66.48), Extents: (0.06, 0.08, 0.09)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.46, -217.49, 66.49), Extents: (0.04, 0.07, 0.08)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.45, -217.49, 66.49), Extents: (0.06, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.39, -217.51, 66.47), Extents: (0.04, 0.02, 0.02)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 66.47), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.39, -217.50, 66.47), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.34, -217.52, 66.46), Extents: (0.06, 0.07, 0.06)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.28, -217.53, 66.44), Extents: (0.07, 0.02, 0.12)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.36, -217.51, 66.50), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.36, -217.51, 66.50), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.38, -217.51, 66.43), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.38, -217.51, 66.43), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.46, -217.48, 66.49), Extents: (0.03, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.46, -217.48, 66.49), Extents: (0.03, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.804, -217.571, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.377, -217.635, 65.891)",
+            "forward": "(0.998, -0.056, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.57, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.57, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.57, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.57, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.57, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.57, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.69, -217.58, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -217.58, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.72, -217.58, 66.05), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.72, -217.58, 65.97), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.02), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 82.85201,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.650000036,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.300, -219.462, 65.891)",
+        "remotePosition": "(-14.000, -219.462, 66.250)",
+        "bodyPosition": "(-12.300, -219.462, 65.891)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(0.970, 0.000, -0.242)",
+        "camera": "(-12.287, -217.111, 65.891)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.440, -217.487, 66.484)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.075, -217.633, 66.269)",
+            "forward": "(0.939, -0.250, -0.235)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.49, 66.48), Extents: (0.06, 0.08, 0.09)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.46, -217.48, 66.49), Extents: (0.04, 0.07, 0.08)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.45, -217.48, 66.49), Extents: (0.06, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.39, -217.50, 66.47), Extents: (0.04, 0.02, 0.02)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 66.47), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.39, -217.50, 66.47), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.34, -217.51, 66.46), Extents: (0.06, 0.07, 0.06)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.28, -217.53, 66.44), Extents: (0.07, 0.02, 0.12)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.36, -217.51, 66.50), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.36, -217.51, 66.50), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.37, -217.51, 66.43), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.38, -217.51, 66.43), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.46, -217.47, 66.49), Extents: (0.03, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.46, -217.47, 66.49), Extents: (0.03, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.804, -217.563, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.377, -217.627, 65.891)",
+            "forward": "(0.998, -0.056, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.56, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.56, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.56, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.57, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.57, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.57, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.69, -217.57, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -217.57, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.72, -217.57, 66.05), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.72, -217.57, 65.97), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.55, 66.02), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "07-gauge-closeup": {
+      "host": {
+        "time": 149.148392,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 1.0,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-13.350, -219.462, 66.160)",
+        "remotePosition": "(-12.300, -219.462, 65.891)",
+        "bodyPosition": "(-13.350, -219.462, 66.160)",
+        "bodyName": "Player",
+        "localForward": "(0.946, 0.000, -0.324)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-13.337, -217.111, 66.156)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-13.756, -217.448, 66.426)",
+            "parent": "spine.003",
+            "anchorPosition": "(-13.423, -217.628, 66.185)",
+            "forward": "(0.893, -0.330, -0.305)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.75, -217.45, 66.42), Extents: (0.07, 0.08, 0.09)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.77, -217.44, 66.43), Extents: (0.05, 0.07, 0.08)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.76, -217.44, 66.43), Extents: (0.07, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.70, -217.47, 66.41), Extents: (0.04, 0.02, 0.02)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.72, -217.46, 66.41), Extents: (0.02, 0.02, 0.03)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.71, -217.47, 66.41), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.66, -217.48, 66.39), Extents: (0.06, 0.07, 0.07)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.60, -217.51, 66.37), Extents: (0.08, 0.03, 0.12)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.67, -217.47, 66.44), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.68, -217.47, 66.44), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.70, -217.47, 66.36), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.70, -217.47, 66.37), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.77, -217.43, 66.43), Extents: (0.04, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.77, -217.43, 66.43), Extents: (0.04, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.804, -217.575, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.377, -217.638, 65.891)",
+            "forward": "(0.999, -0.054, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.58, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.57, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.57, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.58, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.58, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.58, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.69, -217.58, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -217.58, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 66.05), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 65.97), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.02), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 86.51386,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.650000036,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.300, -219.462, 65.891)",
+        "remotePosition": "(-13.350, -219.462, 66.160)",
+        "bodyPosition": "(-12.300, -219.462, 65.891)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(0.951, 0.000, -0.309)",
+        "camera": "(-12.287, -217.111, 65.891)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-13.760, -217.458, 66.420)",
+            "parent": "spine.003",
+            "anchorPosition": "(-13.423, -217.638, 66.184)",
+            "forward": "(0.898, -0.330, -0.292)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.75, -217.46, 66.42), Extents: (0.07, 0.08, 0.09)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.78, -217.45, 66.42), Extents: (0.05, 0.07, 0.08)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.77, -217.46, 66.42), Extents: (0.07, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.71, -217.48, 66.40), Extents: (0.04, 0.02, 0.02)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.73, -217.47, 66.41), Extents: (0.02, 0.02, 0.03)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.71, -217.48, 66.40), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.66, -217.49, 66.39), Extents: (0.06, 0.07, 0.06)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.60, -217.52, 66.37), Extents: (0.08, 0.03, 0.12)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.68, -217.48, 66.43), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.68, -217.48, 66.44), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.70, -217.48, 66.36), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.71, -217.48, 66.36), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.78, -217.44, 66.43), Extents: (0.04, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.78, -217.44, 66.43), Extents: (0.04, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.804, -217.573, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.377, -217.637, 65.891)",
+            "forward": "(0.998, -0.056, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.57, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.57, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.57, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.58, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.58, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.58, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.69, -217.58, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -217.58, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.72, -217.58, 66.05), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.72, -217.58, 65.97), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.02), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "08-mount-side": {
+      "host": {
+        "time": 152.791275,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 1.0,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.800, -219.462, 66.700)",
+        "remotePosition": "(-12.300, -219.462, 65.891)",
+        "bodyPosition": "(-12.800, -219.462, 66.700)",
+        "bodyName": "Player",
+        "localForward": "(0.281, 0.000, -0.960)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-12.796, -217.111, 66.687)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-12.817, -217.442, 67.187)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.822, -217.616, 66.774)",
+            "forward": "(0.266, -0.317, -0.910)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.44, 67.18), Extents: (0.09, 0.08, 0.06)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.44, 67.20), Extents: (0.08, 0.07, 0.05)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.44, 67.20), Extents: (0.09, 0.09, 0.07)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.46, 67.13), Extents: (0.02, 0.02, 0.04)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.45, 67.15), Extents: (0.03, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.46, 67.14), Extents: (0.02, 0.02, 0.01)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.79, -217.48, 67.09), Extents: (0.06, 0.07, 0.06)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.50, 67.03), Extents: (0.12, 0.03, 0.08)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.76, -217.47, 67.13), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.76, -217.47, 67.13), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.47, 67.10), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.84, -217.47, 67.11), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.43, 67.20), Extents: (0.07, 0.05, 0.04)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.43, 67.21), Extents: (0.07, 0.06, 0.04)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.805, -217.569, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.377, -217.630, 65.891)",
+            "forward": "(0.999, -0.049, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.57, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.57, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.57, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.57, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.57, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.57, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.69, -217.57, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -217.58, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.02), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 90.1459351,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.650000036,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.300, -219.462, 65.891)",
+        "remotePosition": "(-12.800, -219.462, 66.700)",
+        "bodyPosition": "(-12.300, -219.462, 65.891)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(0.292, 0.000, -0.956)",
+        "camera": "(-12.287, -217.111, 65.891)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-12.823, -217.455, 67.187)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.823, -217.629, 66.774)",
+            "forward": "(0.277, -0.317, -0.907)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.46, 67.18), Extents: (0.09, 0.08, 0.07)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.45, 67.20), Extents: (0.08, 0.07, 0.05)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.45, 67.20), Extents: (0.09, 0.09, 0.07)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.47, 67.13), Extents: (0.02, 0.02, 0.04)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.47, 67.15), Extents: (0.03, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.47, 67.14), Extents: (0.02, 0.02, 0.01)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.79, -217.49, 67.09), Extents: (0.06, 0.07, 0.06)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.51, 67.03), Extents: (0.12, 0.03, 0.08)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.76, -217.48, 67.13), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.48, 67.13), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.84, -217.48, 67.10), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.84, -217.48, 67.11), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.44, 67.20), Extents: (0.07, 0.05, 0.04)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.44, 67.20), Extents: (0.07, 0.06, 0.04)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.805, -217.572, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.377, -217.634, 65.891)",
+            "forward": "(0.999, -0.051, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.57, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.57, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.57, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.58, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.57, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.58, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.69, -217.58, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -217.58, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.58, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.02), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.56, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "09-mount-angle": {
+      "host": {
+        "time": 156.5199,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 1.0,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-13.100, -219.462, 66.400)",
+        "remotePosition": "(-12.300, -219.462, 65.891)",
+        "bodyPosition": "(-13.100, -219.462, 66.400)",
+        "bodyName": "Player",
+        "localForward": "(0.725, 0.000, -0.688)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-13.090, -217.111, 66.391)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-13.357, -217.429, 66.809)",
+            "parent": "spine.003",
+            "anchorPosition": "(-13.156, -217.614, 66.453)",
+            "forward": "(0.682, -0.343, -0.647)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.35, -217.43, 66.80), Extents: (0.09, 0.08, 0.09)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.37, -217.42, 66.82), Extents: (0.07, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.36, -217.43, 66.81), Extents: (0.09, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.32, -217.45, 66.77), Extents: (0.03, 0.02, 0.03)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.33, -217.44, 66.78), Extents: (0.03, 0.02, 0.03)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.32, -217.45, 66.77), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.28, -217.47, 66.74), Extents: (0.07, 0.07, 0.07)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.24, -217.49, 66.70), Extents: (0.11, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.28, -217.46, 66.79), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.28, -217.45, 66.79), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.33, -217.46, 66.73), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.33, -217.45, 66.73), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.37, -217.41, 66.82), Extents: (0.06, 0.05, 0.06)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.37, -217.41, 66.82), Extents: (0.06, 0.06, 0.06)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.805, -217.560, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.377, -217.619, 65.891)",
+            "forward": "(0.999, -0.045, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.56, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.56, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.56, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.56, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.56, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.56, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.70, -217.57, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -217.57, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.56, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.56, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.56, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.56, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.55, 66.02), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 93.8458252,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.650000036,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.300, -219.462, 65.891)",
+        "remotePosition": "(-13.100, -219.462, 66.400)",
+        "bodyPosition": "(-12.300, -219.462, 65.891)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(0.731, 0.000, -0.682)",
+        "camera": "(-12.287, -217.111, 65.891)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-13.360, -217.434, 66.807)",
+            "parent": "spine.003",
+            "anchorPosition": "(-13.156, -217.619, 66.453)",
+            "forward": "(0.686, -0.343, -0.641)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.35, -217.44, 66.80), Extents: (0.09, 0.08, 0.09)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.37, -217.43, 66.82), Extents: (0.07, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.37, -217.43, 66.81), Extents: (0.09, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.32, -217.45, 66.77), Extents: (0.03, 0.02, 0.03)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.33, -217.45, 66.78), Extents: (0.03, 0.02, 0.03)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.32, -217.45, 66.77), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.28, -217.47, 66.74), Extents: (0.07, 0.07, 0.07)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.24, -217.49, 66.70), Extents: (0.11, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.28, -217.46, 66.78), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.28, -217.46, 66.79), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.33, -217.46, 66.73), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.34, -217.46, 66.73), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.37, -217.42, 66.82), Extents: (0.06, 0.05, 0.06)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.37, -217.42, 66.82), Extents: (0.06, 0.06, 0.06)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.805, -217.564, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.377, -217.624, 65.891)",
+            "forward": "(0.999, -0.047, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.56, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.56, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.56, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.57, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.57, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.75, -217.57, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.69, -217.57, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -217.57, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.73, -217.57, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.55, 66.02), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.83, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "diagnostic-crouch": {
+      "host": {
+        "time": 159.115585,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 1.0,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-13.100, -219.462, 66.400)",
+        "remotePosition": "(-12.300, -219.462, 65.891)",
+        "bodyPosition": "(-13.100, -219.462, 66.400)",
+        "bodyName": "Player",
+        "localForward": "(0.725, 0.000, -0.688)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-13.090, -217.111, 66.391)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-13.333, -217.385, 66.787)",
+            "parent": "spine.003",
+            "anchorPosition": "(-13.156, -217.627, 66.453)",
+            "forward": "(0.636, -0.480, -0.604)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.33, -217.39, 66.78), Extents: (0.10, 0.08, 0.10)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.34, -217.38, 66.80), Extents: (0.08, 0.07, 0.08)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.34, -217.38, 66.79), Extents: (0.10, 0.08, 0.10)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.30, -217.41, 66.75), Extents: (0.03, 0.03, 0.03)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.31, -217.40, 66.76), Extents: (0.03, 0.02, 0.03)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.30, -217.41, 66.75), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.26, -217.44, 66.72), Extents: (0.08, 0.07, 0.08)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.22, -217.47, 66.68), Extents: (0.11, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.26, -217.42, 66.77), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.26, -217.42, 66.77), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.31, -217.42, 66.71), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.31, -217.42, 66.71), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.34, -217.37, 66.80), Extents: (0.07, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.34, -217.37, 66.80), Extents: (0.07, 0.05, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.662, -218.307, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.316, -218.565, 65.891)",
+            "forward": "(0.854, -0.521, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.66, -218.31, 66.01), Extents: (0.06, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -218.30, 66.01), Extents: (0.04, 0.06, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.67, -218.30, 66.01), Extents: (0.06, 0.08, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.61, -218.34, 66.01), Extents: (0.03, 0.03, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -218.33, 66.01), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.62, -218.33, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.57, -218.36, 66.01), Extents: (0.06, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.51, -218.40, 66.01), Extents: (0.05, 0.04, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.59, -218.35, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.60, -218.35, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.59, -218.35, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.60, -218.35, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -218.29, 66.02), Extents: (0.03, 0.05, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -218.29, 66.01), Extents: (0.03, 0.05, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 96.4314957,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.650000036,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 1.0,
+            "revision": 0
+          },
+          {
+            "id": 1,
+            "amount": 0.65,
+            "revision": 1
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.300, -219.462, 65.891)",
+        "remotePosition": "(-13.100, -219.462, 66.400)",
+        "bodyPosition": "(-12.300, -219.462, 65.891)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(0.731, 0.000, -0.682)",
+        "camera": "(-12.266, -218.330, 65.891)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-13.335, -217.394, 66.784)",
+            "parent": "spine.003",
+            "anchorPosition": "(-13.156, -217.637, 66.453)",
+            "forward": "(0.640, -0.483, -0.598)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.33, -217.40, 66.78), Extents: (0.10, 0.08, 0.10)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.35, -217.39, 66.80), Extents: (0.08, 0.07, 0.08)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.34, -217.39, 66.79), Extents: (0.10, 0.08, 0.10)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.30, -217.42, 66.75), Extents: (0.03, 0.03, 0.03)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.31, -217.41, 66.76), Extents: (0.03, 0.02, 0.03)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.30, -217.42, 66.75), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.27, -217.45, 66.72), Extents: (0.08, 0.07, 0.08)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.22, -217.48, 66.68), Extents: (0.11, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.26, -217.43, 66.77), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.26, -217.43, 66.77), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.31, -217.43, 66.71), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.31, -217.43, 66.71), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.35, -217.37, 66.79), Extents: (0.06, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.35, -217.37, 66.79), Extents: (0.07, 0.05, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.661, -218.307, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.315, -218.565, 65.891)",
+            "forward": "(0.854, -0.520, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.65, -218.31, 66.01), Extents: (0.06, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -218.30, 66.01), Extents: (0.04, 0.06, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.67, -218.30, 66.01), Extents: (0.06, 0.08, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.61, -218.34, 66.01), Extents: (0.03, 0.03, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.63, -218.33, 66.01), Extents: (0.02, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.62, -218.33, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.57, -218.36, 66.01), Extents: (0.06, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.51, -218.40, 66.01), Extents: (0.05, 0.04, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.59, -218.35, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.60, -218.35, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.59, -218.35, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.60, -218.35, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -218.29, 66.02), Extents: (0.03, 0.05, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -218.29, 66.01), Extents: (0.03, 0.05, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "03-approach-from-behind": {
+      "host": {
+        "time": 163.077042,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.9,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 0.9,
+            "revision": 1
+          },
+          {
+            "id": 1,
+            "amount": 0.199999928,
+            "revision": 2
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-14.000, -219.462, 65.891)",
+        "remotePosition": "(-12.300, -219.462, 65.891)",
+        "bodyPosition": "(-14.000, -219.462, 65.891)",
+        "bodyName": "Player",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-13.987, -217.111, 65.891)",
+        "eligible": true,
+        "prompt": "Transfer oxygen : [Hold E]",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.479, -217.467, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.077, -217.626, 65.891)",
+            "forward": "(0.960, -0.280, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.47, -217.47, 66.01), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.01), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.46, 66.01), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.42, -217.48, 66.01), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.44, -217.48, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.48, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.37, -217.50, 66.01), Extents: (0.05, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.31, -217.52, 66.01), Extents: (0.05, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.49, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.49, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.49, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.49, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.45, 66.01), Extents: (0.02, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.45, 66.01), Extents: (0.02, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-13.124, -217.560, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.696, -217.622, 65.891)",
+            "forward": "(0.999, -0.052, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.12, -217.56, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.14, -217.56, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.13, -217.56, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.07, -217.56, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.09, -217.56, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.07, -217.56, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.01, -217.57, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.95, -217.57, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.04, -217.56, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.05, -217.56, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.04, -217.56, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.05, -217.56, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.15, -217.58, 66.06), Extents: (0.00, 0.03, 0.02)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.15, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 100.435539,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.199999928,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 0.9,
+            "revision": 1
+          },
+          {
+            "id": 1,
+            "amount": 0.199999928,
+            "revision": 2
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.300, -219.462, 65.891)",
+        "remotePosition": "(-14.000, -219.462, 65.891)",
+        "bodyPosition": "(-12.300, -219.462, 65.891)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-12.335, -217.111, 65.891)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.478, -217.478, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.077, -217.637, 65.891)",
+            "forward": "(0.959, -0.282, -0.001)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.47, -217.48, 66.01), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.47, 66.01), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.47, 66.01), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.42, -217.49, 66.01), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.44, -217.49, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.49, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.37, -217.51, 66.01), Extents: (0.05, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.31, -217.53, 66.01), Extents: (0.05, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.50, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.50, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.01), Extents: (0.02, 0.05, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.01), Extents: (0.02, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.854, -217.555, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.426, -217.614, 65.891)",
+            "forward": "(0.999, -0.044, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.85, -217.56, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.87, -217.55, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.86, -217.56, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.56, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.56, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.56, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.74, -217.56, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -217.56, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.56, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.78, -217.56, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.56, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.78, -217.56, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.88, -217.57, 66.06), Extents: (0.00, 0.03, 0.02)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.88, -217.54, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "04-hold-to-transfer": {
+      "host": {
+        "time": 166.616837,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.723103464,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 0.723103464,
+            "revision": 1
+          },
+          {
+            "id": 1,
+            "amount": 0.3768966,
+            "revision": 2
+          }
+        ],
+        "target": 1,
+        "sessionCount": 1,
+        "localPosition": "(-14.000, -219.462, 65.891)",
+        "remotePosition": "(-12.300, -219.462, 65.891)",
+        "bodyPosition": "(-14.000, -219.462, 65.891)",
+        "bodyName": "Player",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-13.987, -217.111, 65.891)",
+        "eligible": true,
+        "prompt": "Transferring oxygen... [Hold E]",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": true,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.478, -217.454, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.077, -217.614, 65.891)",
+            "forward": "(0.959, -0.283, 0.000)",
+            "pump": true,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.47, -217.46, 66.01), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.45, 66.01), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.45, 66.01), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.42, -217.47, 66.01), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.44, -217.46, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.47, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.37, -217.48, 66.01), Extents: (0.05, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.31, -217.50, 66.01), Extents: (0.05, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.48, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.47, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.48, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.47, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.44, 66.02), Extents: (0.02, 0.05, 0.06)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.44, 66.01), Extents: (0.02, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-13.123, -217.573, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.696, -217.637, 65.891)",
+            "forward": "(0.998, -0.055, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.12, -217.57, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.14, -217.57, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.13, -217.57, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.07, -217.58, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.08, -217.58, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.07, -217.58, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.01, -217.58, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.95, -217.58, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.04, -217.58, 66.05), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.05, -217.58, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.04, -217.58, 65.97), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.05, -217.58, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.15, -217.57, 66.06), Extents: (0.00, 0.05, 0.02)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.15, -217.56, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 103.993523,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.371336281,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 0.728663743,
+            "revision": 1
+          },
+          {
+            "id": 1,
+            "amount": 0.371336281,
+            "revision": 2
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.300, -219.462, 65.891)",
+        "remotePosition": "(-14.000, -219.462, 65.891)",
+        "bodyPosition": "(-12.300, -219.462, 65.891)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-12.335, -217.111, 65.891)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.480, -217.467, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.077, -217.624, 65.891)",
+            "forward": "(0.961, -0.275, -0.001)",
+            "pump": true,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.47, -217.47, 66.01), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.01), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.46, 66.01), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.42, -217.48, 66.01), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.44, -217.48, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.48, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.37, -217.50, 66.01), Extents: (0.05, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.31, -217.52, 66.01), Extents: (0.05, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.49, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.49, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.49, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.49, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.45, 66.02), Extents: (0.02, 0.05, 0.06)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.45, 66.01), Extents: (0.02, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.853, -217.564, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.426, -217.627, 65.891)",
+            "forward": "(0.998, -0.055, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.85, -217.56, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.87, -217.56, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.86, -217.56, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.57, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.81, -217.57, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.57, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.74, -217.57, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -217.57, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.57, 66.05), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.78, -217.57, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.57, 65.97), Extents: (0.00, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.78, -217.57, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.88, -217.56, 66.06), Extents: (0.00, 0.05, 0.02)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.88, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "05-release-to-stop": {
+      "host": {
+        "time": 173.469574,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.4984574,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 0.498457432,
+            "revision": 1
+          },
+          {
+            "id": 1,
+            "amount": 0.6015426,
+            "revision": 2
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-14.000, -219.462, 65.891)",
+        "remotePosition": "(-12.300, -219.462, 65.891)",
+        "bodyPosition": "(-14.000, -219.462, 65.891)",
+        "bodyName": "Player",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-13.987, -217.111, 65.891)",
+        "eligible": true,
+        "prompt": "Transfer oxygen : [Hold E]",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.477, -217.475, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.077, -217.637, 65.891)",
+            "forward": "(0.957, -0.289, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.47, -217.48, 66.01), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.47, 66.01), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.47, 66.01), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.42, -217.49, 66.01), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.44, -217.49, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.49, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.37, -217.51, 66.01), Extents: (0.05, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.31, -217.52, 66.01), Extents: (0.05, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.50, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.50, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.04), Extents: (0.02, 0.05, 0.03)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.01), Extents: (0.02, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-13.124, -217.553, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.696, -217.613, 65.891)",
+            "forward": "(0.999, -0.048, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.12, -217.55, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.14, -217.55, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.13, -217.55, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.07, -217.56, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.09, -217.55, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.07, -217.56, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.01, -217.56, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.95, -217.56, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.04, -217.56, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.05, -217.56, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.04, -217.56, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.05, -217.56, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.15, -217.54, 66.03), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.15, -217.54, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 110.842766,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.6015426,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 0.498457432,
+            "revision": 1
+          },
+          {
+            "id": 1,
+            "amount": 0.6015426,
+            "revision": 2
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.300, -219.462, 65.891)",
+        "remotePosition": "(-14.000, -219.462, 65.891)",
+        "bodyPosition": "(-12.300, -219.462, 65.891)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-12.335, -217.111, 65.891)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.477, -217.473, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.077, -217.635, 65.891)",
+            "forward": "(0.958, -0.288, -0.001)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.47, -217.48, 66.01), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.47, 66.01), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.47, 66.01), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.42, -217.49, 66.01), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.44, -217.48, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.49, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.37, -217.50, 66.01), Extents: (0.05, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.31, -217.52, 66.01), Extents: (0.05, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.49, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.49, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.04), Extents: (0.02, 0.05, 0.03)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.01), Extents: (0.02, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.854, -217.558, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.426, -217.617, 65.891)",
+            "forward": "(0.999, -0.044, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.85, -217.56, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.87, -217.56, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.86, -217.56, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.56, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.56, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.56, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.74, -217.56, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -217.57, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.56, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.78, -217.56, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.56, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.78, -217.56, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.88, -217.55, 66.03), Extents: (0.00, 0.06, 0.05)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.88, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "06-full-tank-stops-transfer": {
+      "host": {
+        "time": 175.0797,
+        "server": true,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 0,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 0.4984574,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 0.498457432,
+            "revision": 1
+          },
+          {
+            "id": 1,
+            "amount": 1.0,
+            "revision": 3
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-14.000, -219.462, 65.891)",
+        "remotePosition": "(-12.300, -219.462, 65.891)",
+        "bodyPosition": "(-14.000, -219.462, 65.891)",
+        "bodyName": "Player",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-13.987, -217.111, 65.891)",
+        "eligible": true,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.479, -217.467, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.077, -217.626, 65.891)",
+            "forward": "(0.960, -0.280, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.47, -217.47, 66.01), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.01), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.46, 66.01), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.42, -217.48, 66.01), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.44, -217.48, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.48, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.37, -217.50, 66.01), Extents: (0.05, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.31, -217.52, 66.01), Extents: (0.05, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.49, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.49, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.49, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.49, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.45, 66.04), Extents: (0.02, 0.05, 0.03)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.45, 66.01), Extents: (0.02, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-13.124, -217.561, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.696, -217.623, 65.891)",
+            "forward": "(0.999, -0.052, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.12, -217.56, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.14, -217.56, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.13, -217.56, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.07, -217.56, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.09, -217.56, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.07, -217.56, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.01, -217.57, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.95, -217.57, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.04, -217.56, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.05, -217.56, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.04, -217.56, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.05, -217.56, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.15, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-13.15, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      },
+      "client": {
+        "time": 112.36364,
+        "server": false,
+        "plugins": [
+          "com.rune580.LethalCompanyInputUtils",
+          "evaisa.lethallib",
+          "consequential.Oxygen",
+          "dev.flero.lethal.FastStartup",
+          "DevelopmentStartup",
+          "oxygen.test.transfer"
+        ],
+        "suits": [
+          "Orange suit",
+          "Green suit",
+          "Hazard suit",
+          "Pajama suit",
+          "Purple Suit",
+          "Bee Suit",
+          "Bunny Suit"
+        ],
+        "wornSuits": [
+          {
+            "id": 0,
+            "suit": 0
+          },
+          {
+            "id": 1,
+            "suit": 0
+          }
+        ],
+        "reserve": 0.0,
+        "boostAdded": 0.0,
+        "boostGas": null,
+        "boostFuel": null,
+        "connected": true,
+        "id": 1,
+        "controlled": true,
+        "dead": false,
+        "registered": true,
+        "amount": 1.0,
+        "tanks": [
+          {
+            "id": 0,
+            "amount": 0.498457432,
+            "revision": 1
+          },
+          {
+            "id": 1,
+            "amount": 1.0,
+            "revision": 3
+          }
+        ],
+        "target": 18446744073709551615,
+        "sessionCount": 0,
+        "localPosition": "(-12.300, -219.462, 65.891)",
+        "remotePosition": "(-14.000, -219.462, 65.891)",
+        "bodyPosition": "(-12.300, -219.462, 65.891)",
+        "bodyName": "Player (1)",
+        "localForward": "(1.000, 0.000, 0.000)",
+        "remoteForward": "(1.000, 0.000, 0.000)",
+        "camera": "(-12.335, -217.111, 65.891)",
+        "eligible": false,
+        "prompt": "",
+        "keyboardLayout": "00000409",
+        "interactKey": "E",
+        "pressed": false,
+        "gauges": [
+          {
+            "id": 0,
+            "position": "(-14.479, -217.476, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-14.077, -217.635, 65.891)",
+            "forward": "(0.960, -0.280, -0.001)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.47, -217.48, 66.01), Extents: (0.04, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.47, 66.01), Extents: (0.02, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.49, -217.47, 66.01), Extents: (0.04, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.42, -217.49, 66.01), Extents: (0.03, 0.02, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.44, -217.49, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.43, -217.49, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.37, -217.51, 66.01), Extents: (0.05, 0.07, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.31, -217.53, 66.01), Extents: (0.05, 0.03, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 66.05), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.50, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.40, -217.50, 65.97), Extents: (0.01, 0.01, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.41, -217.50, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.04), Extents: (0.02, 0.05, 0.03)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-14.50, -217.46, 66.01), Extents: (0.02, 0.06, 0.07)"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "position": "(-12.854, -217.557, 66.011)",
+            "parent": "spine.003",
+            "anchorPosition": "(-12.426, -217.616, 65.891)",
+            "forward": "(0.999, -0.046, 0.000)",
+            "pump": false,
+            "renderers": [
+              {
+                "name": "Pressure gauge case",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.85, -217.56, 66.01), Extents: (0.02, 0.08, 0.08)"
+              },
+              {
+                "name": "Recessed enamel dial",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.87, -217.56, 66.01), Extents: (0.01, 0.07, 0.07)"
+              },
+              {
+                "name": "Chipped bevelled bezel",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.86, -217.56, 66.01), Extents: (0.02, 0.09, 0.09)"
+              },
+              {
+                "name": "Threaded pressure stem",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.56, 66.01), Extents: (0.03, 0.01, 0.01)"
+              },
+              {
+                "name": "Hex union",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.82, -217.56, 66.01), Extents: (0.01, 0.02, 0.02)"
+              },
+              {
+                "name": "Fitting seal",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.80, -217.56, 66.01), Extents: (0.00, 0.02, 0.02)"
+              },
+              {
+                "name": "Steel mounting saddle",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.74, -217.56, 66.01), Extents: (0.03, 0.06, 0.05)"
+              },
+              {
+                "name": "Curved tank clamp",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.68, -217.56, 66.01), Extents: (0.05, 0.02, 0.11)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.56, 66.05), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.78, -217.56, 66.05), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Saddle bolt",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.77, -217.56, 65.97), Extents: (0.00, 0.00, 0.01)"
+              },
+              {
+                "name": "Screw slot",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.78, -217.56, 65.97), Extents: (0.00, 0.00, 0.00)"
+              },
+              {
+                "name": "Blue oxygen arc",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.88, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              },
+              {
+                "name": "Level ticks 0 25 50 75 100",
+                "enabled": true,
+                "shader": "HDRP/Lit",
+                "bounds": "Center: (-12.88, -217.55, 66.01), Extents: (0.00, 0.06, 0.07)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

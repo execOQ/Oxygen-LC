@@ -1,0 +1,600 @@
+{
+  "date": "2026-10-24",
+  "game": "Lethal Company v81",
+  "oxygenDllSha256": "DF3F39CBCB7FF5915A8CAB887E018842D387C391B88765C7B6904776455CC6E8",
+  "automatedChecks": {
+    "transfer": 230,
+    "charger": 168,
+    "configSync": 372,
+    "bepInExConfig": 12,
+    "total": 782
+  },
+  "nativeAssertionChecks": 198,
+  "nativeFinalFailed": 0,
+  "phases": [
+    {
+      "run": "release-network-final-20261024",
+      "phase": "basic",
+      "checks": 18,
+      "sha256": "516B9F4ABCD2BCE189CB677E0D03A64C001630AEA3C53B5067B9A134F5287426",
+      "assertions": [
+        "Host and remote client initialized with two synchronized tanks",
+        "Native held Interact starts server transfer",
+        "Pump audio plays during confirmed transfer",
+        "Transfer rate is approximately five percent per second",
+        "Native transfer conserves total oxygen",
+        "Releasing Interact stops transfer",
+        "Remote HUD matches server tank",
+        "Side approach has no transfer prompt",
+        "Side approach cannot start transfer",
+        "Front approach has no transfer prompt",
+        "Front approach cannot start transfer",
+        "Aiming away has no transfer prompt",
+        "Aiming away cannot start transfer",
+        "Solid wall blocks rear targeting",
+        "Cannot transfer through a wall",
+        "Recipient turn preserves an active transfer",
+        "Moving outside range stops transfer while input remains held",
+        "Captured native backpack gauge screenshot"
+      ]
+    },
+    {
+      "run": "release-network-final-20261024",
+      "phase": "edges",
+      "checks": 6,
+      "sha256": "707309C919BCF83EEBFD745E9A51EE4245E0394C8DE14270199D7DCCA97423F4",
+      "assertions": [
+        "Host and remote client initialized with two synchronized tanks",
+        "Empty donor stops with no negative oxygen",
+        "Recipient full stops without overflow",
+        "Remote client can donate to the host",
+        "Opening terminal stops remote donation",
+        "Missing donor heartbeats expire on server"
+      ]
+    },
+    {
+      "run": "release-network-final-20261024",
+      "phase": "network",
+      "checks": 14,
+      "sha256": "E080DC43AF352F69ED6603BB5FB0FB6C5632170D5F1DFADE6AA5C5538144A418",
+      "assertions": [
+        "Host and remote client initialized with two synchronized tanks",
+        "Remote transfer progresses under 200 ms RTT, jitter and packet loss",
+        "Impaired transport preserves total oxygen",
+        "Release reaches server over delayed lossy transport",
+        "Remote transfer active before simulated outage",
+        "Server expires remote transfer during complete packet loss",
+        "No further oxygen moves while donor is unreachable",
+        "Connection recovery does not duplicate or resume a released transfer",
+        "A new wall interrupts an existing transfer",
+        "Prompt reflects rebound Interact key and keyboard layout",
+        "Rebound native Interact donates oxygen",
+        "Gauge follows the animated spine while crouching",
+        "Crouched recipient remains reachable from behind",
+        "Donor death stops the native transfer"
+      ]
+    },
+    {
+      "run": "release-network-final-20261024",
+      "phase": "suits",
+      "checks": 4,
+      "sha256": "65862EDF0E9B3CE531BC516B6CCA93257A9FF4908818E42FC1E690726BD3968C",
+      "assertions": [
+        "More Suits 1.5.4 loaded on both native peers",
+        "Additional suit materials exist on both peers",
+        "Both avatars wear the selected extra suits on both peers",
+        "Changing suits preserves both visible oxygen gauges"
+      ]
+    },
+    {
+      "run": "release-network-final-20261024",
+      "phase": "rejoin",
+      "checks": 6,
+      "sha256": "041215A202CF47A9D5A056602EDE16CF6CC0A36058B3678E5036A372E5FCD7F9",
+      "assertions": [
+        "Disconnect removes old player tank and gauge",
+        "Reconnect registers a fresh living client identity",
+        "Host oxygen survives remote death and reconnect unchanged",
+        "Both peers recreate current gauges without the disconnected tank",
+        "Reconnecting client receives the existing host tank amount",
+        "Fresh remote client can donate, release and conserve oxygen after reconnect"
+      ]
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "phase": "parallel",
+      "checks": 9,
+      "sha256": "E7D5AE70AE52D6EE23EF8D75233B9531672A07A6F2E1E35C2A7181D2D0593CF5",
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Two remote donors transfer simultaneously to the host",
+        "Two-donor transfer conserves oxygen",
+        "Both donors decrease while recipient increases",
+        "All three peers have exactly three gauges",
+        "Competing donors stop at recipient capacity",
+        "Competing allocation neither duplicates nor overdraws oxygen",
+        "Late remote client can donate to an earlier remote client",
+        "Remote-to-remote donation conserves oxygen on host"
+      ]
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "phase": "refill",
+      "checks": 5,
+      "sha256": "EA0EE27D207CB1C45C0C8F834270AF2001B8D653D8E6C9133C86B936CD4D6B5E",
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Finite charger reserve prepared on host",
+        "Native refill grant completes while donation continues",
+        "Charger plus three player tanks conserve total oxygen",
+        "All peers agree on remaining charger reserve"
+      ]
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "phase": "inputs",
+      "checks": 5,
+      "sha256": "0DB67D81195D996135B4D102962235CC9E107313A8B9E5D39C981FD1675C5B0A",
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Gamepad West binding starts native transfer",
+        "Gamepad hold transfers and release stops",
+        "Opening chat stops remote donation",
+        "Opening menu stops remote donation"
+      ]
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "phase": "soak",
+      "checks": 122,
+      "sha256": "01A99B0202992727746C5E3AF4E1F5BC79EA95899CC87CD70EE95106EDD43D51",
+      "assertions": [
+        "Three live peers begin repeated-transfer soak",
+        "Cycle 1/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 2/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 3/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 4/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 5/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 6/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 7/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 8/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 9/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 10/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 11/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 12/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 13/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 14/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 15/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 16/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 17/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 18/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 19/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 20/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 21/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 22/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 23/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 24/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 25/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 26/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 27/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 28/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 29/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 30/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 31/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 32/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 33/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 34/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 35/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 36/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 37/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 38/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 39/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 40/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 41/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 42/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 43/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 44/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 45/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 46/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 47/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 48/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 49/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 50/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 51/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 52/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 53/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 54/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 55/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 56/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 57/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 58/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 59/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 60/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 61/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 62/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 63/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 64/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 65/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 66/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 67/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 68/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 69/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 70/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 71/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 72/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 73/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 74/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 75/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 76/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 77/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 78/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 79/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 80/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 81/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 82/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 83/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 84/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 85/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 86/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 87/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 88/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 89/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 90/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 91/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 92/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 93/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 94/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 95/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 96/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 97/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 98/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 99/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 100/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 101/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 102/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 103/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 104/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 105/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 106/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 107/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 108/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 109/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 110/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 111/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 112/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 113/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 114/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 115/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 116/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 117/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 118/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 119/120: transfer, conservation, release and all-peer agreement",
+        "Cycle 120/120: transfer, conservation, release and all-peer agreement",
+        "Repeated-transfer soak ends idle without oxygen drift"
+      ]
+    },
+    {
+      "run": "release-item-followup-20261024",
+      "phase": "boost",
+      "checks": 6,
+      "sha256": "4E8439CC235244E1468EAFED9C4B8CF1D5228DBF9E61FFEAAD5D6BEE6666A681",
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Native pickup replicates OxyBoost holder on all three peers",
+        "Production OxyBoost emits while its owner donates",
+        "OxyBoost adds oxygen and consumes real item fuel",
+        "Only measured OxyBoost output increases total tank oxygen",
+        "OxyBoost use does not interrupt recipient oxygen gain"
+      ]
+    },
+    {
+      "run": "release-item-followup-20261024",
+      "phase": "death",
+      "checks": 3,
+      "sha256": "A283E3F4898171FEA37BD60DB0B296576C950B51D7507651E8E38860CB898653",
+      "assertions": [
+        "Three native peers have synchronized tanks",
+        "Recipient death stops both remote donors on the host",
+        "Both clients clear their dead recipient"
+      ]
+    }
+  ],
+  "mountChecks": {
+    "host": {
+      "frames": 188,
+      "samples": 376,
+      "gauges": 2,
+      "maxPositionErrorMetres": 0.0,
+      "maxAngleErrorDegrees": 0.0,
+      "maxAnchorTravelMetres": 747.3417,
+      "maxAnchorTurnDegrees": 179.834244,
+      "pass": true
+    },
+    "client": {
+      "frames": 184,
+      "samples": 368,
+      "gauges": 2,
+      "maxPositionErrorMetres": 0.0,
+      "maxAngleErrorDegrees": 0.0,
+      "maxAnchorTravelMetres": 731.45,
+      "maxAnchorTurnDegrees": 180.0,
+      "pass": true
+    }
+  },
+  "soak": {
+    "tanks": [
+      {
+        "id": 0,
+        "amount": 0.723156631,
+        "revision": 353
+      },
+      {
+        "id": 1,
+        "amount": 0.5,
+        "revision": 128
+      },
+      {
+        "id": 2,
+        "amount": 0.276843339,
+        "revision": 124
+      }
+    ],
+    "elapsedSeconds": 602.5639412,
+    "cycles": 120
+  },
+  "resources": {
+    "host": {
+      "privateMemoryDeltaMiB": 10.015625,
+      "handleDelta": -8,
+      "before": {
+        "role": "host",
+        "id": 3344,
+        "utc": "2026-10-24T18:25:03.6425323Z",
+        "privateBytes": 2996723712,
+        "workingSet": 1755471872,
+        "handles": 2530,
+        "cpuSeconds": null
+      },
+      "after": {
+        "role": "host",
+        "id": 3344,
+        "utc": "2026-10-24T18:35:06.4582545Z",
+        "privateBytes": 3007225856,
+        "workingSet": 1773113344,
+        "handles": 2522,
+        "cpuSeconds": null
+      }
+    },
+    "client": {
+      "privateMemoryDeltaMiB": 3.84375,
+      "handleDelta": 19,
+      "before": {
+        "role": "client",
+        "id": 17248,
+        "utc": "2026-10-24T18:25:03.689197Z",
+        "privateBytes": 2992893952,
+        "workingSet": 1747603456,
+        "handles": 2509,
+        "cpuSeconds": null
+      },
+      "after": {
+        "role": "client",
+        "id": 17248,
+        "utc": "2026-10-24T18:35:06.4790999Z",
+        "privateBytes": 2996924416,
+        "workingSet": 1758375936,
+        "handles": 2528,
+        "cpuSeconds": null
+      }
+    },
+    "client2": {
+      "privateMemoryDeltaMiB": 3.44140625,
+      "handleDelta": 14,
+      "before": {
+        "role": "client2",
+        "id": 44644,
+        "utc": "2026-10-24T18:25:03.7025448Z",
+        "privateBytes": 3005198336,
+        "workingSet": 1718714368,
+        "handles": 2502,
+        "cpuSeconds": null
+      },
+      "after": {
+        "role": "client2",
+        "id": 44644,
+        "utc": "2026-10-24T18:35:06.4852033Z",
+        "privateBytes": 3008806912,
+        "workingSet": 1730158592,
+        "handles": 2516,
+        "cpuSeconds": null
+      }
+    }
+  },
+  "processes": [
+    {
+      "run": "release-network-final-20261024",
+      "role": "client",
+      "id": 4664,
+      "started": "2026-10-24T15:18:56.6572933Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-network-final-20261024\\client",
+      "dllSha256": "DF3F39CBCB7FF5915A8CAB887E018842D387C391B88765C7B6904776455CC6E8"
+    },
+    {
+      "run": "release-network-final-20261024",
+      "role": "host",
+      "id": 6444,
+      "started": "2026-10-24T15:03:54.6271877Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-network-final-20261024\\host",
+      "dllSha256": "DF3F39CBCB7FF5915A8CAB887E018842D387C391B88765C7B6904776455CC6E8"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client",
+      "id": 17248,
+      "started": "2026-10-24T18:22:57.6448621Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client",
+      "dllSha256": "DF3F39CBCB7FF5915A8CAB887E018842D387C391B88765C7B6904776455CC6E8"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "client2",
+      "id": 44644,
+      "started": "2026-10-24T18:23:30.8832710Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\client2",
+      "dllSha256": "DF3F39CBCB7FF5915A8CAB887E018842D387C391B88765C7B6904776455CC6E8"
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "role": "host",
+      "id": 3344,
+      "started": "2026-10-24T18:22:03.3401577Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-three-peer-final-20261024\\host",
+      "dllSha256": "DF3F39CBCB7FF5915A8CAB887E018842D387C391B88765C7B6904776455CC6E8"
+    },
+    {
+      "run": "release-item-followup-20261024",
+      "role": "client",
+      "id": 5304,
+      "started": "2026-10-24T18:41:01.3304261Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-item-followup-20261024\\client",
+      "dllSha256": "DF3F39CBCB7FF5915A8CAB887E018842D387C391B88765C7B6904776455CC6E8"
+    },
+    {
+      "run": "release-item-followup-20261024",
+      "role": "client2",
+      "id": 39048,
+      "started": "2026-10-24T18:42:03.8236718Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-item-followup-20261024\\client2",
+      "dllSha256": "DF3F39CBCB7FF5915A8CAB887E018842D387C391B88765C7B6904776455CC6E8"
+    },
+    {
+      "run": "release-item-followup-20261024",
+      "role": "host",
+      "id": 49552,
+      "started": "2026-10-24T18:40:33.3697417Z",
+      "profile": "F:\\Programming\\Mods\\Lethal Company\\Oxygen\\.multiplayer-test\\release-item-followup-20261024\\host",
+      "dllSha256": "DF3F39CBCB7FF5915A8CAB887E018842D387C391B88765C7B6904776455CC6E8"
+    }
+  ],
+  "restoredOriginalSavesVerified": 3,
+  "initialAttemptsRetained": [
+    {
+      "run": "release-network-final-20261024",
+      "file": "assertions-network-initial.json",
+      "sha256": "4D56C4372698C61FD8D0429B489CF302879E9A307DFDE03D091ECD83CABADF82",
+      "failedAssertions": [
+        "Gauge follows the animated spine while crouching"
+      ]
+    },
+    {
+      "run": "release-network-final-20261024",
+      "file": "assertions-rejoin-initial.json",
+      "sha256": "E94A891325EBA7962D88CC7E82AAB2B63C3CF554199A8C529B3A04729EF6B67C",
+      "failedAssertions": [
+        "Fresh remote client can donate, release and conserve oxygen after reconnect"
+      ]
+    },
+    {
+      "run": "release-three-peer-final-20261024",
+      "file": "assertions-soak-initial.json",
+      "sha256": "138E6D6CBE4B78A85F5FA673E125A18580BD6D93E1A06326A378284940F8851B",
+      "failedAssertions": []
+    }
+  ],
+  "assemblyAudit": {
+    "assemblyVersion": "1.7.3.0",
+    "pluginVersion": "1.7.3",
+    "resources": [
+      "Oxygen.Assets.oxygenaudio",
+      "Oxygen.Assets.oxygenprefabs"
+    ],
+    "testHelperIncluded": false,
+    "gaugeHasPerFramePoseMethod": false,
+    "references": [
+      "netstandard",
+      "LethalCompanyInputUtils",
+      "Unity.InputSystem",
+      "BepInEx",
+      "0Harmony",
+      "UnityEngine.AudioModule",
+      "UnityEngine.CoreModule",
+      "Assembly-CSharp",
+      "UnityEngine.AssetBundleModule",
+      "Unity.Netcode.Runtime",
+      "UnityEngine.PhysicsModule",
+      "Unity.TextMeshPro",
+      "UnityEngine.UI",
+      "LethalLib",
+      "EladsHUD",
+      "ImmersiveVisor",
+      "Unity.RenderPipelines.Core.Runtime",
+      "LCVR",
+      "Unity.Collections",
+      "Unity.Netcode.Runtime"
+    ]
+  },
+  "finalItemLogCheck": {
+    "errors": {
+      "host": [],
+      "client": [],
+      "client2": []
+    },
+    "pass": true
+  },
+  "proxyCounters": {
+    "17778": {
+      "port": 17778,
+      "target": 7777,
+      "received": 24627,
+      "forwarded": 23937,
+      "dropped": 690,
+      "rule": {
+        "delayMs": 0,
+        "jitterMs": 0,
+        "dropPercent": 0
+      },
+      "utc": "2026-10-24T15:21:26.9437118Z"
+    },
+    "17779": {
+      "port": 17779,
+      "target": 7777,
+      "received": 9192,
+      "forwarded": 9192,
+      "dropped": 0,
+      "rule": {
+        "delayMs": 0,
+        "jitterMs": 0,
+        "dropPercent": 0
+      },
+      "utc": "2026-10-24T15:21:26.9443622Z"
+    }
+  },
+  "existingPackageAudit": {
+    "file": "Oxygen-1.7.3.zip",
+    "crcValid": true,
+    "manifestVersion": "1.7.3",
+    "dllSha256": "FDF1916AEF47D727CB1B99F22920F86B4E7143E3B45E1B116CE3DC435D50970C",
+    "containsTestedDll": false
+  },
+  "releasePackageReady": false,
+  "releaseBlockers": [
+    "Existing ZIP contains an older DLL.",
+    "Source/plugin/package version remains 1.7.3; new release version and package are not prepared.",
+    "README still describes a development build; changelog entries remain Unreleased."
+  ],
+  "fixtureNotes": [
+    "Initial client startup stopped while applying saved fullscreen settings; later fixture builds force windowed mode.",
+    "Crouch assertion now waits for replicated animation instead of a fixed 900 ms delay.",
+    "Reconnect input waits for targeting and replicated positions instead of a fixed 1500 ms delay.",
+    "Initial soak timed out starting cycle 10; final fixture checks both donor and server targeting before pressing Interact.",
+    "UDP proxy raised Windows socket error 10054 during shutdown after network checks completed.",
+    "Initial item fixture assigned OxyBoost inventory locally, leaving remote holders unset. Base-game drop RPC raised NullReferenceException at recipient death. Final boost/death phases use the native pickup RPC and verify holders on all three peers.",
+    "The first full soak logged 85 transient command-file sharing retries in the helper; every final cycle completed. Later helper builds retry expected read sharing races without logging ERROR."
+  ],
+  "limits": [
+    "Staged local LAN testing, not public internet/NAT/relay certification.",
+    "Virtual gamepad only; physical controllers and VR input untested.",
+    "120 staged cycles with reset starting amounts, not hours-long gameplay or a leak proof.",
+    "More Suits 1.5.4 tested; arbitrary replacement rigs/modpacks and nearby pickup conflicts untested."
+  ]
+}

@@ -1,3 +1,13 @@
+## Unreleased:
+
+ - Share oxygen with a teammate! Hold Interact while aiming at a teammate's backpack from behind. Check their current oxygen level on the backpack gauge.
+ - Added a host-synced transfer rate setting (5% of tank capacity per second by default).
+ - Fixed backpack targeting missing animated tanks, including when crouching or playing in VR.
+ - Simplified oxygen transfer prompts by removing button labels.
+ - Fixed LCVR transfer input and interaction prompts to work with the primary controller and Grip.
+ - Fixed VR HUD integration relying on an outdated LCVR namespace.
+ - Fixed OxyCharger appearing flat in VR.
+
 ## Version 1.7.3:
 
  - Fixed the missing "Fill oxygen" prompt that prevented manual refilling at OxyCharger on the ship (#39).
