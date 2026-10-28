@@ -1,109 +1,124 @@
-# <img src="https://i.imgur.com/0znYXqH.png" width=40 height=40> Oxygen 
+# <img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/branding/oxygen-logo.png" width="40" height="40"> Oxygen
 
-### Information
-
-Adds the need to have oxygen tanks behind your back. Moving around the planet also consumes oxygen, 
-since not all planets are habitable. You can also breathe underwater! However, you have a limited amount of oxygen, 
-don't forget to replenish the supply of oxygen cylinder on the ship! 
-
-A low-oxygen alarm sounds every 5 seconds below 20% oxygen, becoming faster and higher-pitched
-below 10% (every 2 seconds). It stops once oxygen reaches 20% again or the player dies.
-The alarm works with the HUD hidden, independently of breathing sounds and notifications.
-Under `Sounds` in the config, set `enableLowOxygenAlarm = false` to completely disable this alarm and use
-`lowOxygenAlarm_volume` to adjust its volume (0–1, default 0.1; 0 mutes the alarm).
-Existing configs keep their saved volume; set it to `0.1` for the quieter level.
-
-### Sharing oxygen
-
-Approach a teammate from behind, aim at their backpack and hold the game's Interact
-button (E by default) to share oxygen. Release to stop. Both players must be alive,
-within range and have an unobstructed connection. Turning after a transfer starts
-does not cancel it. Transfers stop when the donor is empty or the recipient is full.
-A white dial with a blue arc on each backpack shows the owner's oxygen, even with
-the HUD hidden. Longer marks span the blue band at 0%, 50% and 100%; shorter edge
-marks indicate 25% and 75%. The arc fills from left to right.
-A quiet pump loop plays while oxygen is moving.
-
-![Backpack oxygen gauge inside the facility](docs/images/oxygen-sharing/02-complex-backpack.png)
-
-[In-game screenshots: approach, hold to transfer, release, and full tank](docs/images/oxygen-sharing/README.md)
-
-The host controls `transferRate` (default `0.05`, or 5% of a tank per second) under
-`Oxygen transfer`. Sharing is lossless and limited to a fixed distance of 2 metres.
-All peers must update to Oxygen 1.8.0 to share oxygen.
-In LCVR, point the primary controller at a teammate's backpack and hold Grip
-to transfer oxygen.
+Adds oxygen management to Lethal Company. Your oxygen supply is limited — keep an eye on it and refill your tank before it runs out!
 
 <details>
   <summary>Compatibility with other mods</summary>
-  
-  #### Compatible with: 
-  
-  * EladsHUD (screenshot below)
-  * ShyHUD (HUD disappears if a oxygen value is > 75)
-  * LCVR (screenshot below). Works with Arm HUD enabled and disabled
-  * ImmersiveVisor (Additional oxygen consumption if the helmet is cracked)
 
+- **EladsHUD** — alternative oxygen HUD layout.
+- **ShyHUD** — oxygen HUD hiding support.
+- **LCVR** — VR HUD and controller interaction, with Arm HUD enabled or disabled.
+- **ImmersiveVisor** — additional oxygen consumption when the helmet is severely cracked.
+- Configurable oxygen protection in special areas added by other mods.
 
-  > Probably compatible with OopsAllFlooded but you'll find two oxygen canisters. One is from the Oxygen mod (OxyBoost) and one is from the OopsAllFlooded mod (Oxy-Canister). The working one is from this mod and is called OxyBoost.
+Compatibility with OopsAllFlooded may vary. If both mods are installed, Oxygen's refill item is called **OxyBoost**; OopsAllFlooded adds a separate **Oxy-Canister**.
+
 </details>
 
-<details>
-  <summary>Spoiler</summary>
-  
-  ```
-  Check the config file, there are plenty of settings :)
-  ```
-</details>
+## Features
 
-## Preview
-### HUD
-<details open>
-  <summary>Vanilla</summary>
-  <br>
-  &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/MAMfxmS.png" width=350 height=auto>
-</details>
-<details>
-  <summary>EladsHUD</summary>
-  <br>
-  &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/awUutxH.png" width=350 height=auto>
-</details>
-<details>
-  <summary>LCVR</summary>
-  <br>
-  &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.imgur.com/q19VwnN.png" width=650 height=auto>
-</details>
+### NEW: Share oxygen with teammates
 
+A gauge on each player's backpack shows their current oxygen level, even when the HUD is hidden.
 
-### Items
-<details open>
-    <summary>OxyBoost</summary>
-    <br>
-    &nbsp;&nbsp;<img src="https://i.imgur.com/uvktf0C.png" width=350 height=auto>
-  </details>
+> Transfers oxygen without loss, at 5% of tank capacity per second by default. The host can change the transfer rate in the config.
 
-### Ways to refill oxygen
- - automatic oxygen refilling
-    - when the player is on the ship
-    - when the player on the ship and doors are closed (default)
- - using OxyBoost
- - using oxygen cylinders located on the ship
+![Backpack oxygen gauge inside the facility](https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/oxygen-sharing/02-complex-backpack.png)
 
-    <img src="https://i.imgur.com/UUKqrrt.png" width=350 height=auto>
+[More in-game screenshots](https://github.com/execOQ/Oxygen-LC/blob/master/docs/images/oxygen-sharing/README.md)
 
-## Installation 
+### Oxygen management
 
-### R2ModMan or Thunderstore Manager (highly recommended)
- - Go to the Thunderstore page
- - Click Install with Mod Manager
+- Oxygen consumption outside and inside facilities.
+- Additional consumption while running, scared or underwater.
+- Breathe underwater while your tank still has oxygen.
+- Configurable consumption rates for individual moons.
+- Configurable breathable moons where outdoor oxygen consumption is disabled.
+- Running out of oxygen causes damage and visual effects.
+- Optional oxygen recovery at the start of a round and when the ship leaves.
+- An optional hold-to-die action if you become trapped underwater.
+
+### HUD Changes
+
+Displays your remaining oxygen.
+
+> Supports the vanilla HUD, EladsHUD and LCVR (works with Arm HUD enabled or disabled). Optional automatic hiding above a configurable oxygen level.
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/hud/vanilla.png" width="300" alt="Vanilla oxygen HUD">
+    </td>
+    <td align="center" width="33%">
+      <img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/hud/eladshud.png" width="300" alt="Oxygen with EladsHUD">
+    </td>
+    <td align="center" width="33%">
+      <img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/hud/lcvr.png" width="300" alt="Oxygen HUD in LCVR">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><b>Vanilla</b></td>
+    <td align="center"><b>EladsHUD</b></td>
+    <td align="center"><b>LCVR</b></td>
+  </tr>
+</table>
+
+### Sounds and warnings
+
+- Breathing sounds respond to walking, running, exhaustion and fear.
+- A low-oxygen alarm sounds below 20% oxygen and becomes more frequent below 10%.
+- The alarm works even when the HUD is hidden.
+
+> Configurable sound volumes, notifications and alarm controls.
+
+### OxyBoost
+
+A portable oxygen refill item available from the terminal store.
+
+> Configurable price and refill amount. Can be enabled or disabled in the config.
+
+<img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/items/oxyboost.png" width="350" alt="OxyBoost">
+
+### OxyCharger
+
+Refill your oxygen using the cylinders on the ship.
+
+- Supports manual refilling and optional automatic refilling.
+- Can be moved, rotated and stored using ship build mode (Type `oxycharger` in the terminal to return it from storage).
+
+> Can be enabled or disabled in the config.
+
+<img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/items/oxycharger.png" width="350" alt="OxyCharger">
+
+### Automatic refilling
+
+Choose when oxygen automatically refills:
+
+- While the player is on the ship.
+- Only while the player is on the ship and the doors are closed – the default.
+- Disabled, requiring manual refills using OxyCharger.
+
+> The refill rate is configurable.
+
+### Weather complications
+
+Eclipsed moons can limit the ship's oxygen supply until you leave the moon. The remaining ship reserve is shared between players.
+
+> The oxygen limit and weather complication can be configured.
+
+## Installation
+
+### R2ModMan or Thunderstore Mod Manager
+
+1. Open the mod's Thunderstore page.
+2. Click **Install with Mod Manager**.
 
 ### Manual
- - Go to the Thunderstore page
- - Click Manual Download
- - Unzip files
- - Extract Oxygen.dll into the plugins folder of BepInEx
 
-<br>
+1. Install BepInEx, LethalLib and LethalCompany InputUtils with their required dependencies.
+2. Download and extract the Oxygen archive.
+3. Place `Oxygen.dll` in `BepInEx/plugins`.
+
 <br>
 
 El. Psy. Kongroo.
