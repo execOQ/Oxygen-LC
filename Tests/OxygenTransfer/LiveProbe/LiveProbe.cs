@@ -30,6 +30,8 @@ public sealed class LiveProbe : BaseUnityPlugin
     private Vector3 position;
     private float yaw, next, release, aimHeight = 1.3f;
     private bool showcase;
+    private bool reserveView;
+    private int storedChargerId = -1;
     private Light showcaseLight;
     private bool posed, aim = true, pause;
     private bool aimGauge = true;
@@ -189,6 +191,16 @@ public sealed class LiveProbe : BaseUnityPlugin
     private void LateUpdate()
     {
         var p = Local;
+        if (reserveView && p != null && Charger() != null)
+        {
+            var gauge = Charger().transform.Find("Shared ship oxygen reserve gauge");
+            if (gauge != null)
+            {
+                p.gameplayCamera.transform.position = gauge.position - gauge.forward * 0.70f + gauge.up * 0.10f;
+                p.gameplayCamera.transform.LookAt(gauge.position, gauge.up);
+            }
+            return;
+        }
         if (!posed || p == null || p.isPlayerDead) return;
         p.transform.position = position;
         p.transform.rotation = Quaternion.Euler(0, yaw, 0);
@@ -233,6 +245,11 @@ public sealed class LiveProbe : BaseUnityPlugin
                 break;
             case "showcase":
                 showcase = true;
+                // Diagnostic camera poses can intersect the detached visor mesh.
+                // Hide only the local helmet in the isolated screenshot fixture.
+                if (Local.localVisor != null) Local.localVisor.gameObject.SetActive(false);
+                Local.cursorTip.gameObject.SetActive(false);
+                Local.cursorIcon.gameObject.SetActive(false);
                 Screen.SetResolution(1920, 1080, false);
                 var texture = IngamePlayerSettings.Instance.playerGameplayScreenTex;
                 texture.Release(); texture.width = 1920; texture.height = 1080; texture.Create();
@@ -247,6 +264,26 @@ public sealed class LiveProbe : BaseUnityPlugin
                 cfg.GetType().GetProperty("LocalValue", F).SetValue(cfg, Number(args[1])); break;
             case "aimchecks": CheckAim(); break;
             case "chargercheck": CheckChargerVisuals(); break;
+            case "reserveview": reserveView = bool.Parse(args[1]); break;
+            case "orbit": StartOfRound.Instance.inShipPhase = true; break;
+            case "autofill":
+                oxygenAssembly.GetType("Oxygen.Items.OxyCharger").GetMethod("AutoRefillOxygen", F).Invoke(Charger(), null); break;
+            case "refillmode":
+                var refillOption = Get(Get(oxygenAssembly.GetType("Oxygen.OxygenBase").GetProperty("OxygenConfig", F).GetValue(null), "autoFillingOnShip"), "Entry");
+                var refillValue = refillOption.GetType().GetProperty("Value", F);
+                refillValue.SetValue(refillOption, Enum.Parse(refillValue.PropertyType, args[1])); break;
+            case "chargerplace":
+                var placeable = Charger().GetComponentInChildren<PlaceableShipObject>();
+                var placePosition = StartOfRound.Instance.elevatorTransform.TransformPoint(new Vector3(Number(args[1]), Number(args[2]), Number(args[3])));
+                var placeRotation = new Vector3(Number(args[4]), Number(args[5]), Number(args[6]));
+                ShipBuildModeManager.Instance.PlaceShipObject(placePosition, placeRotation, placeable, false);
+                ShipBuildModeManager.Instance.PlaceShipObjectServerRpc(placePosition, placeRotation,
+                    new NetworkObjectReference(Charger().GetComponent<NetworkObject>()), (int)Local.playerClientId); break;
+            case "chargerstore":
+                storedChargerId = Charger().GetComponentInChildren<PlaceableShipObject>().unlockableID;
+                ShipBuildModeManager.Instance.StoreObjectServerRpc(new NetworkObjectReference(Charger().GetComponent<NetworkObject>()), (int)Local.playerClientId); break;
+            case "chargerreturn":
+                StartOfRound.Instance.ReturnUnlockableFromStorageServerRpc(storedChargerId); break;
             case "english":
                 if (originalKeyboardLayout == IntPtr.Zero) originalKeyboardLayout = GetKeyboardLayout(0);
                 var english = LoadKeyboardLayout("00000409", 0);
@@ -258,10 +295,13 @@ public sealed class LiveProbe : BaseUnityPlugin
             case "hud": HUDManager.Instance.HideHUD(!bool.Parse(args[1])); break;
             case "land":
                 if (!NetworkManager.Singleton.IsServer) throw new InvalidOperationException("Land from host");
-                StartOfRound.Instance.currentLevel.currentWeather = LevelWeatherType.None;
+                StartOfRound.Instance.currentLevel.currentWeather = args.Length > 1
+                    ? (LevelWeatherType)Enum.Parse(typeof(LevelWeatherType), args[1], true) : LevelWeatherType.None;
                 StartOfRound.Instance.overrideRandomSeed = true;
                 StartOfRound.Instance.overrideSeedNumber = 24680;
                 StartOfRound.Instance.StartGameServerRpc(); break;
+            case "weather":
+                StartOfRound.Instance.currentLevel.currentWeather = (LevelWeatherType)Enum.Parse(typeof(LevelWeatherType), args[1], true); break;
             case "noon":
                 TimeOfDay.Instance.globalTime = (TimeOfDay.Instance.totalTime * 0.35f - StartOfRound.Instance.currentLevel.OffsetFromGlobalTime) / StartOfRound.Instance.currentLevel.DaySpeedMultiplier;
                 TimeOfDay.Instance.globalTimeSpeedMultiplier = 0;
@@ -293,7 +333,7 @@ public sealed class LiveProbe : BaseUnityPlugin
                 typeof(UnlockableSuit).GetMethod("SwitchSuitForPlayer", F).Invoke(null, new object[] { wearer, suit, false }); break;
             case "hold":
                 Press(false); gamepadInput = false; xrInput = false;
-                key = InputSystem.actions.FindAction("Interact").controls.OfType<KeyControl>().First();
+                key = TransferAction.controls.OfType<KeyControl>().First();
                 Press(true); release = Time.realtimeSinceStartup + Number(args[1]);
                 Log("HOLD key=" + key.path); break;
             case "gamepad":
@@ -306,7 +346,7 @@ public sealed class LiveProbe : BaseUnityPlugin
                 if (gamepad != null) InputSystem.RemoveDevice(gamepad);
                 gamepad = null; release = 0; break;
             case "padbind":
-                var padAction = InputSystem.actions.FindAction("Interact");
+                var padAction = TransferAction;
                 padAction.Disable();
                 foreach (int i in Enumerable.Range(0, padAction.bindings.Count).Where(i => padAction.bindings[i].path.StartsWith("<Gamepad>")))
                     padAction.ApplyBindingOverride(i, "<Gamepad>/" + args[1]);
@@ -430,11 +470,16 @@ public sealed class LiveProbe : BaseUnityPlugin
                 Local.KillPlayer(Vector3.zero); break;
             case "crouch": typeof(PlayerControllerB).GetMethod("Crouch", F).Invoke(Local, new object[] { bool.Parse(args[1]) }); break;
             case "rebind":
-                var action = InputSystem.actions.FindAction("Interact");
+            case "vanillabind":
+                var action = args[0] == "rebind" ? TransferAction : InputSystem.actions.FindAction("Interact");
                 action.Disable();
                 int binding = Enumerable.Range(0, action.bindings.Count).First(i => action.bindings[i].path.StartsWith("<Keyboard>"));
                 action.ApplyBindingOverride(binding, "<Keyboard>/" + args[1]);
                 action.Enable(); break;
+            case "rawkey":
+                Press(false); gamepadInput = false; xrInput = false;
+                key = Keyboard.current[(Key)Enum.Parse(typeof(Key), args[1], true)];
+                Press(true); release = Time.realtimeSinceStartup + Number(args[2]); break;
             case "wall":
                 if (wall != null) Destroy(wall);
                 if (args.Length > 1)
@@ -475,18 +520,19 @@ public sealed class LiveProbe : BaseUnityPlugin
         var stock = GameObject.Find("Environment/HangarShip/ScavengerModelSuitParts").transform.Find("Circle.002").GetComponentInChildren<Renderer>(true).sharedMaterial;
         var rows = charger.GetComponentsInChildren<MeshRenderer>(true).Select(r =>
         {
-            var source = prefab.GetComponentsInChildren<MeshRenderer>(true).Single(p => p.name == r.name);
-            var original = source.sharedMaterial;
+            var source = prefab.GetComponentsInChildren<MeshRenderer>(true).SingleOrDefault(p => p.name == r.name);
+            var original = source != null ? source.sharedMaterial : null;
             var material = r.sharedMaterial;
             var mesh = r.GetComponent<MeshFilter>().sharedMesh;
             return new {
                 renderer = r.name, shader = material.shader.name,
                 usesGameShader = material.shader == stock.shader,
-                replacesBundledShader = material.shader != original.shader,
-                texturePreserved = material.GetTexture("_BaseColorMap") == original.GetTexture("_BaseColorMap"),
-                colorPreserved = material.GetColor("_BaseColor") == original.GetColor("_BaseColor"),
-                smoothnessPreserved = material.GetFloat("_Smoothness") == original.GetFloat("_Smoothness"),
-                meshPreserved = mesh == source.GetComponent<MeshFilter>().sharedMesh,
+                runtimeGauge = source == null,
+                replacesBundledShader = original != null && material.shader != original.shader,
+                texturePreserved = original != null && material.GetTexture("_BaseColorMap") == original.GetTexture("_BaseColorMap"),
+                colorPreserved = original != null && material.GetColor("_BaseColor") == original.GetColor("_BaseColor"),
+                smoothnessPreserved = original != null && material.GetFloat("_Smoothness") == original.GetFloat("_Smoothness"),
+                meshPreserved = source != null && mesh == source.GetComponent<MeshFilter>().sharedMesh,
                 meshBounds = mesh.bounds.ToString(), worldBounds = r.bounds.ToString(),
                 stereo = Local.gameplayCamera.stereoEnabled
             };
@@ -566,6 +612,30 @@ public sealed class LiveProbe : BaseUnityPlugin
 
     private Component Charger() => (Component)oxygenAssembly.GetType("Oxygen.Items.OxyCharger").GetProperty("Instance", F).GetValue(null);
 
+    private InputAction TransferAction => (InputAction)transferType.GetProperty("TransferAction", F).GetValue(null);
+
+    private object ReserveGaugeDetails()
+    {
+        var charger = Charger();
+        var root = charger != null ? charger.transform.Find("Shared ship oxygen reserve gauge") : null;
+        if (root == null) return null;
+        var stock = GameObject.Find("Environment/HangarShip/ScavengerModelSuitParts")?.transform.Find("Circle.002")?.GetComponentInChildren<Renderer>(true)?.sharedMaterial;
+        var arc = root.Find("Blue oxygen arc").GetComponent<MeshFilter>().sharedMesh;
+        return new {
+            networkId = charger.GetComponent<NetworkObject>().NetworkObjectId,
+            localPosition = root.localPosition.ToString("F5"), localRotation = root.localRotation.ToString("F5"),
+            localScale = root.localScale.ToString("F5"), worldPosition = root.position.ToString("F5"),
+            chargerPosition = charger.transform.position.ToString("F5"), chargerRotation = charger.transform.rotation.ToString("F5"),
+            parentIsCharger = root.parent == charger.transform,
+            count = charger.GetComponentsInChildren<Transform>(true).Count(t => t.name == root.name),
+            colliders = root.GetComponentsInChildren<Collider>(true).Length,
+            unlimited = root.Find("Unlimited reserve infinity mark").gameObject.activeSelf,
+            empty = (bool)Get(charger, "ReserveLimited") && (bool)Get(charger, "ReserveEmpty"),
+            arcVertices = arc.vertices.Select(v => new[] {v.x, v.y, v.z}).ToArray(),
+            stockShaders = root.GetComponentsInChildren<Renderer>(true).All(r => r.sharedMaterial.shader == stock?.shader)
+        };
+    }
+
     private void Snapshot()
     {
         var p = Local; var other = Other;
@@ -624,7 +694,15 @@ public sealed class LiveProbe : BaseUnityPlugin
             suits = StartOfRound.Instance?.unlockablesList.unlockables.Where(u => u.suitMaterial != null).Select(u => u.unlockableName).ToArray(),
             wornSuits = StartOfRound.Instance?.allPlayerScripts.Where(player => player != null && player.isPlayerControlled)
                 .Select(player => new { id = player.OwnerClientId, suit = Get(player, "currentSuitID") }).ToArray(),
-            reserve = Get(Charger(), "RemainedOxygenAmount"), boostAdded, boostGas = Get(boost, "emittingGas"), boostFuel = Get(boost, "fuel"),
+            reserve = Get(Charger(), "RemainedOxygenAmount"),
+            reserveCapacity = Get(Charger(), "ReserveCapacity"), reserveLimited = Get(Charger(), "ReserveLimited"),
+            reserveFraction = Get(Charger(), "ReserveFraction"),
+            reserveGauge = Charger()?.transform.Find("Shared ship oxygen reserve gauge")?.localPosition.ToString("F5"),
+            reserveGaugeDetails = ReserveGaugeDetails(),
+            weather = StartOfRound.Instance?.currentLevel.currentWeather.ToString(),
+            landed = StartOfRound.Instance?.shipHasLanded, inShipPhase = StartOfRound.Instance?.inShipPhase,
+            shipLeaving = StartOfRound.Instance?.shipIsLeaving,
+            boostAdded, boostGas = Get(boost, "emittingGas"), boostFuel = Get(boost, "fuel"),
             boostHolders = FindObjectsOfType<GrabbableObject>().Where(item => item.GetType().FullName == "Oxygen.Items.OxyBoost")
                 .Select(item => new { networkId = item.NetworkObjectId, holder = item.playerHeldBy != null ? (ulong?)item.playerHeldBy.OwnerClientId : null,
                     previousHolder = (Get(item, "previousPlayerHeldBy") as PlayerControllerB)?.OwnerClientId }).ToArray(),
@@ -644,8 +722,10 @@ public sealed class LiveProbe : BaseUnityPlugin
             xrControl = xrActions?.FindAction("Interact")?.activeControl?.path,
             xrControls = xrActions?.FindAction("Interact")?.controls.Select(c => c.path).ToArray(),
             xrBindingMask = xrActions?.bindingMask?.ToString(),
-            actionControls = p != null ? InputSystem.actions?.FindAction("Interact")?.controls.Select(c => c.path).ToArray() : null,
-            pressed = p != null ? InputSystem.actions?.FindAction("Interact")?.IsPressed() : null, gauges = gaugeInfo };
+            actionControls = p != null ? TransferAction?.controls.Select(c => c.path).ToArray() : null,
+            vanillaInteractControls = InputSystem.actions?.FindAction("Interact")?.controls.Select(c => c.path).ToArray(),
+            transferActionEnabled = TransferAction?.enabled,
+            pressed = p != null ? TransferAction?.IsPressed() : null, gauges = gaugeInfo };
         string json = JsonConvert.SerializeObject(snapshot);
         File.WriteAllText(Path.Combine(folder, "transfer-state.json"), json);
         File.AppendAllText(Path.Combine(folder, "transfer-states.jsonl"), json + "\n");

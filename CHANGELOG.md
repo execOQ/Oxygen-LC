@@ -1,3 +1,8 @@
+## Version 1.8.1:
+
+ - Added a separate "Transfer oxygen" keybind in Oxygen's controls. Native LCVR transfer continues to use the primary controller's Grip action. (#41)
+ - Added a physical oxygen reserve gauge to the front of OxyCharger. The gauge shows the team's remaining ship reserve on Eclipsed moons.
+
 ## Version 1.8.0:
 
  - Share oxygen with a teammate! Hold Interact while aiming at a teammate's backpack from behind. Check their current oxygen level on the backpack gauge.

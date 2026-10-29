@@ -17,11 +17,6 @@ namespace Oxygen.Patches
         private static void TransferHover(PlayerControllerB __instance)
             => OxygenBase.Instance?.Transfers.Hover(__instance);
 
-        [HarmonyPrefix]
-        [HarmonyPatch("Interact_performed")]
-        private static bool TransferInteract(PlayerControllerB __instance)
-            => OxygenBase.Instance?.Transfers.BeginInteraction(__instance) != true;
-
         [HarmonyPostfix]
         [HarmonyPatch("ConnectClientToPlayerObject")]
         [HarmonyPriority(Priority.Last)]

@@ -17,6 +17,25 @@ namespace Oxygen.Items
 
         private readonly NetworkVariable<float> _remainedOxygenAmount = new();
         private float? _queuedServerRemainedOxygenAmount;
+        // Replicated alongside the reserve, including for late joins. Clients must
+        // not infer the denominator or mode from their local configuration.
+        private readonly NetworkVariable<float> _reserveCapacity = new();
+        private readonly NetworkVariable<bool> _reserveLimited = new();
+        internal float ReserveCapacity => _reserveCapacity.Value;
+        internal bool ReserveLimited => _reserveLimited.Value;
+        // Sequential float deductions may leave a fraction of a millionth of
+        // one tank. Treat that as visually empty without changing allocation.
+        internal bool ReserveEmpty => RemainedOxygenAmount <= 0.000001f;
+        internal float ReserveFraction => ReserveCapacity > 0f
+            ? Mathf.Min(1f, Mathf.Max(0f, RemainedOxygenAmount / ReserveCapacity)) : 0f;
+
+        private void Update()
+        {
+            if (!IsSpawned || !IsServer) return;
+            _reserveCapacity.Value = WeatherHandler.ReserveCapacity;
+            _reserveLimited.Value = WeatherHandler.IsOxygenOnShipLimited;
+        }
+
 
         public float RemainedOxygenAmount
         {
@@ -66,6 +85,7 @@ namespace Oxygen.Items
 
             VanillaCanisters.SetVisible(false);
             WeatherHandler.RefreshLimit();
+            Update();
         }
 
         public override void OnNetworkDespawn()

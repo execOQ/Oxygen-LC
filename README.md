@@ -21,6 +21,8 @@ Compatibility with OopsAllFlooded may vary. If both mods are installed, Oxygen's
 
 A gauge on each player's backpack shows their current oxygen level, even when the HUD is hidden.
 
+Hold **Transfer oxygen** while aiming at a teammate's backpack from behind. The default is **E** on keyboard or **West** on gamepad. Rebind **Oxygen → Transfer oxygen** in the keybind settings independently of the game's Interact action, for example when using PushCompanyFork. In LCVR, use the primary controller's Grip action.
+
 > Transfers oxygen without loss, at 5% of tank capacity per second by default. The host can change the transfer rate in the config.
 
 <img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/oxygen-sharing/07-gauge-closeup.jpg" width="400" alt="Backpack oxygen gauge">
@@ -78,6 +80,8 @@ A portable oxygen refill item available from the terminal store.
 <img src="https://raw.githubusercontent.com/execOQ/Oxygen-LC/master/docs/images/items/oxyboost.jpg" width="350" alt="OxyBoost">
 
 ### OxyCharger
+
+A physical gauge on the front of the station shows the team's remaining ship oxygen reserve on Eclipsed moons. An empty reserve leaves the dial blank; ∞ means unlimited oxygen. The gauge follows manual and automatic refills and stays attached when the station is moved or stored.
 
 Refill your oxygen using the cylinders on the ship.
 

@@ -295,6 +295,7 @@ static class Program
         ChargerUnlockable.ResetFurniture();
         Assert(nextHost.Spawns == 2, "Native furniture reset must restore a previously stored default charger.");
         PlacementStorageRegressions();
+        checks += ReserveGaugeChecks.Run();
         checks += ConcurrentRefillChecks.Run();
         Console.WriteLine($"Passed {checks} charger lifecycle checks.");
     }

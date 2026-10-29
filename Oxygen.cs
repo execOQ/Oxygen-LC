@@ -19,6 +19,9 @@ namespace Oxygen
     {
         [InputAction(KeyboardControl.Equals, Name = "Hold to die underwater")]
         public InputAction DieEarlyButton { get; set; }
+
+        [InputAction(KeyboardControl.E, GamepadControl = GamepadControl.ButtonWest, Name = "Transfer oxygen")]
+        public InputAction TransferOxygenButton { get; set; }
     }
 
     [BepInPlugin(modGUID, modName, modVersion)]
@@ -42,7 +45,7 @@ namespace Oxygen
 
         public const string modName = "Oxygen";
         public const string modGUID = "consequential.Oxygen";
-        public const string modVersion = "1.8.0";
+        public const string modVersion = "1.8.1";
 
         private readonly Harmony harmony = new(modGUID);
         public static OxygenConfig OxygenConfig { get; private set; }
@@ -120,6 +123,7 @@ namespace Oxygen
             oxyAudioExample = _oxyPrefabs.LoadAsset<GameObject>("Assets/Oxygen/OxygenAudio/OxygenAudio.prefab");
             oxyCharger = _oxyPrefabs.LoadAsset<GameObject>("Assets/Oxygen/OxyCharger/OxyCharger.prefab");
             oxyCharger.AddComponent<ChargerVisuals>();
+            oxyCharger.AddComponent<ChargerGauge>();
             oxyBoost = _oxyPrefabs.LoadAsset<Item>("Assets/Oxygen/OxyBoost/OxyBoostItem.asset");
 
             mls.LogInfo($"Assets are loaded!");

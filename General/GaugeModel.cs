@@ -9,13 +9,15 @@ namespace Oxygen.General
     {
         internal const float ArcDepth = -0.0225f, TickDepth = -0.0232f;
         private readonly Transform root;
+        private readonly Shader gameShader;
         private readonly List<Object> assets = new();
         private readonly Material steel, casing, brass, rubber, face;
         internal readonly Material Blue, Marks;
 
-        internal GaugeModel(Transform root)
+        internal GaugeModel(Transform root, Shader gameShader = null)
         {
             this.root = root;
+            this.gameShader = gameShader;
             steel = WornMaterial("Worn steel", new Color(0.38f, 0.40f, 0.39f), 0.55f, true);
             casing = WornMaterial("Chipped charcoal case", new Color(0.13f, 0.15f, 0.15f), 0.35f, true);
             brass = WornMaterial("Tarnished fitting", new Color(0.36f, 0.29f, 0.16f), 0.55f, true);
@@ -47,7 +49,7 @@ namespace Oxygen.General
 
         private Material WornMaterial(string name, Color color, float metallic, bool chipped)
         {
-            var shader = Shader.Find("HDRP/Lit") ?? Shader.Find("Standard") ?? Shader.Find("Unlit/Color");
+            var shader = gameShader ?? Shader.Find("HDRP/Lit") ?? Shader.Find("Standard") ?? Shader.Find("Unlit/Color");
             var material = new Material(shader) { name = "Oxygen " + name, color = Color.white };
             assets.Add(material);
             const int size = 128;
@@ -92,6 +94,8 @@ namespace Oxygen.General
             if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", 0.075f);
             return material;
         }
+
+        internal Material Paint(string name, Color color) => WornMaterial(name, color, 0, false);
 
         private void Renderer(GameObject part, Material material)
         {

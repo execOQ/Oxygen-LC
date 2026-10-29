@@ -9,6 +9,7 @@ namespace Oxygen.General
         private static bool reserveConfigured;
         private static float configuredCapacity;
         private static float? carriedReserve;
+        internal static float ReserveCapacity => reserveConfigured ? configuredCapacity : 0f;
 
         public static bool IsOxygenOnShipLimited => StartOfRound.Instance != null &&
             !StartOfRound.Instance.shipIsLeaving && !StartOfRound.Instance.inShipPhase &&

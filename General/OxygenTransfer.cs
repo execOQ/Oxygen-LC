@@ -65,10 +65,10 @@ namespace Oxygen.General
                 if (!announced) { announcedAmount = Mathf.Clamp01(OxygenInit.Percent); announced = true; }
                 Send(0, 0, announcedAmount, None);
             }
-            var action = InteractAction;
-            // LCVR handles its grip action itself and bypasses the vanilla
-            // Interact_performed callback. Start only on a new grip press.
-            if (VrCompatibility.Active && action?.WasPressedThisFrame() == true && CanAct(local))
+            var action = TransferAction;
+            // Poll the dedicated action so other mods' Interact callbacks cannot
+            // suppress transfer input. LCVR retains its native primary-hand Grip.
+            if (action?.WasPressedThisFrame() == true && CanAct(local))
                 BeginInteraction(local);
             bool pressed = CanAct(local) && action?.IsPressed() == true;
             if (!pressed && held) { target = None; Send(2, 0, 0, None); }
@@ -264,16 +264,14 @@ namespace Oxygen.General
                 }
         }
 
-        // PlayerControllerB subscribes to the global action asset. PlayerInput
-        // may own a separate copy whose bindings differ after rebinding.
-        private static InputAction InteractAction
+        private static InputAction TransferAction
         {
             get
             {
                 var playerActions = IngamePlayerSettings.Instance?.playerInput?.actions;
                 if (VrCompatibility.Active)
                     return playerActions?.FindAction("Controls/Interact") ?? playerActions?.FindAction("Interact");
-                return InputSystem.actions?.FindAction("Interact") ?? playerActions?.FindAction("Interact");
+                return OxygenBase.InputActionsInstance?.TransferOxygenButton;
             }
         }
 
