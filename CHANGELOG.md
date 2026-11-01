@@ -1,3 +1,7 @@
+## Version 1.8.2:
+
+ - Fixed OxyCharger losing its refill prompt after the crew is fired. The station's refill and build-mode colliders now recover on the host and clients when the ship is ready again. (#42)
+
 ## Version 1.8.1:
 
  - Added a separate "Transfer oxygen" keybind in Oxygen's controls. Native LCVR transfer continues to use the primary controller's Grip action. (#41)

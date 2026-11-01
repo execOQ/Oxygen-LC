@@ -24,6 +24,16 @@ namespace Oxygen.Patches
         private static void AfterFurnitureReset() => ChargerUnlockable.ResetFurniture();
 
         [HarmonyPostfix]
+        [HarmonyPatch("SetShipReadyToLand")]
+        private static void AfterShipReady()
+        {
+            // Runs on host and clients after normal quota transitions and after
+            // EndPlayersFiredSequenceClientRpc has finished the ejection cutscene.
+            ChargerUnlockable.Refresh();
+            ChargerUnlockable.RestoreInteraction();
+        }
+
+        [HarmonyPostfix]
         [HarmonyPatch("ShipHasLeft")]
         private static void ShipHasLeft_Patch()
         {

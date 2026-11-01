@@ -294,6 +294,7 @@ static class Program
         item.inStorage = false; // Native reset clears storage before our postfix.
         ChargerUnlockable.ResetFurniture();
         Assert(nextHost.Spawns == 2, "Native furniture reset must restore a previously stored default charger.");
+        checks += InteractionRecoveryChecks.Run();
         PlacementStorageRegressions();
         checks += ReserveGaugeChecks.Run();
         checks += ConcurrentRefillChecks.Run();

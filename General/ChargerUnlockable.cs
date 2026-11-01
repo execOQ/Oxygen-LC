@@ -56,6 +56,29 @@ namespace Oxygen.General
             ready = true;
         }
 
+        internal static void RestoreInteraction()
+        {
+            var round = StartOfRound.Instance;
+            var charger = OxygenInit.oxyCharger;
+            if (round == null || round.firingPlayersCutsceneRunning || round.suckingFurnitureOutOfShip ||
+                item == null || item.inStorage || !OxygenBase.OxygenConfig.oxyCharger_Enabled.Value ||
+                charger == null || charger.GetComponent<NetworkObject>()?.IsSpawned != true) return;
+
+            // Firing disables every collider on spawned furniture. Our already-
+            // unlocked station survives that reset, so repair it locally on every
+            // peer once the ship is ready again. Never enable generated gauge parts
+            // or unrelated colliders that another component intentionally disabled.
+            foreach (var trigger in charger.GetComponentsInChildren<InteractTrigger>(true))
+            {
+                trigger.gameObject.SetActive(true);
+                trigger.enabled = true;
+                trigger.interactable = true;
+                foreach (var collider in trigger.GetComponents<Collider>()) collider.enabled = true;
+            }
+            foreach (var placeable in charger.GetComponentsInChildren<PlaceableShipObject>(true))
+                if (placeable.placeObjectCollider != null) placeable.placeObjectCollider.enabled = true;
+        }
+
         internal static void ResetFurniture()
         {
             // Native resets clear this unlockable's state, but only reposition built-in scene props.
@@ -67,6 +90,7 @@ namespace Oxygen.General
                     parent.rotationOffset = parent.startingRotation;
                 }
             Refresh();
+            RestoreInteraction();
         }
 
         internal static int Prepare(StartOfRound round)

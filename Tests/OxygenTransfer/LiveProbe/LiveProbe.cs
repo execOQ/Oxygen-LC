@@ -31,6 +31,7 @@ public sealed class LiveProbe : BaseUnityPlugin
     private float yaw, next, release, aimHeight = 1.3f;
     private bool showcase;
     private bool reserveView;
+    private bool chargerAim;
     private int storedChargerId = -1;
     private Light showcaseLight;
     private bool posed, aim = true, pause;
@@ -191,6 +192,18 @@ public sealed class LiveProbe : BaseUnityPlugin
     private void LateUpdate()
     {
         var p = Local;
+        if (chargerAim && p != null && Charger() != null)
+        {
+            var trigger = Charger().GetComponentInChildren<InteractTrigger>(true);
+            var collider = trigger.GetComponent<Collider>();
+            var gauge = Charger().transform.Find("Shared ship oxygen reserve gauge");
+            var center = collider.bounds.center;
+            // bounds collapse when disabled; retain the collider's geometric center.
+            if (collider is BoxCollider box) center = box.transform.TransformPoint(box.center);
+            p.gameplayCamera.transform.position = center - gauge.forward * 0.9f;
+            p.gameplayCamera.transform.LookAt(center, gauge.up);
+            return;
+        }
         if (reserveView && p != null && Charger() != null)
         {
             var gauge = Charger().transform.Find("Shared ship oxygen reserve gauge");
@@ -264,6 +277,13 @@ public sealed class LiveProbe : BaseUnityPlugin
                 cfg.GetType().GetProperty("LocalValue", F).SetValue(cfg, Number(args[1])); break;
             case "aimchecks": CheckAim(); break;
             case "chargercheck": CheckChargerVisuals(); break;
+            case "chargerhover": chargerAim = bool.Parse(args[1]); break;
+            case "firequota":
+                chargerAim = reserveView = posed = false;
+                StartOfRound.Instance.ManuallyEjectPlayersServerRpc(); break;
+            case "quotasuccess":
+                TimeOfDay.Instance.quotaFulfilled = TimeOfDay.Instance.profitQuota;
+                TimeOfDay.Instance.SetNewProfitQuota(); break;
             case "reserveview": reserveView = bool.Parse(args[1]); break;
             case "orbit": StartOfRound.Instance.inShipPhase = true; break;
             case "autofill":
@@ -614,6 +634,21 @@ public sealed class LiveProbe : BaseUnityPlugin
 
     private InputAction TransferAction => (InputAction)transferType.GetProperty("TransferAction", F).GetValue(null);
 
+    private object ChargerInteraction()
+    {
+        var charger = Charger();
+        if (charger == null) return null;
+        var triggers = charger.GetComponentsInChildren<InteractTrigger>(true);
+        return new {
+            networkId = charger.GetComponent<NetworkObject>().NetworkObjectId,
+            triggers = triggers.Select(t => new { t.name, t.enabled, t.interactable,
+                active = t.gameObject.activeInHierarchy,
+                colliders = t.GetComponents<Collider>().Select(c => new { c.enabled, c.isTrigger }).ToArray() }).ToArray(),
+            colliders = charger.GetComponentsInChildren<Collider>(true).Select(c => new { c.name, c.enabled }).ToArray(),
+            hoveringCharger = Local != null && triggers.Contains(Local.hoveringOverTrigger)
+        };
+    }
+
     private object ReserveGaugeDetails()
     {
         var charger = Charger();
@@ -699,6 +734,10 @@ public sealed class LiveProbe : BaseUnityPlugin
             reserveFraction = Get(Charger(), "ReserveFraction"),
             reserveGauge = Charger()?.transform.Find("Shared ship oxygen reserve gauge")?.localPosition.ToString("F5"),
             reserveGaugeDetails = ReserveGaugeDetails(),
+            chargerInteraction = ChargerInteraction(),
+            firing = StartOfRound.Instance?.firingPlayersCutsceneRunning,
+            suckingFurniture = StartOfRound.Instance?.suckingFurnitureOutOfShip,
+            quota = TimeOfDay.Instance?.profitQuota, timesFulfilledQuota = TimeOfDay.Instance?.timesFulfilledQuota,
             weather = StartOfRound.Instance?.currentLevel.currentWeather.ToString(),
             landed = StartOfRound.Instance?.shipHasLanded, inShipPhase = StartOfRound.Instance?.inShipPhase,
             shipLeaving = StartOfRound.Instance?.shipIsLeaving,

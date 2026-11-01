@@ -93,7 +93,7 @@ namespace UnityEngine
         public Vector3 InverseTransformPoint(Vector3 value) => new() { x = value.x - position.x };
         public Vector3 InverseTransformDirection(Vector3 value) => value;
     }
-    public class Collider { public Transform transform = new(); }
+    public class Collider { public Transform transform = new(); public bool enabled = true; }
     public class BoxCollider : Collider { public Vector3 center, size; }
     public class GameObject : Object
     {
@@ -199,6 +199,8 @@ public class TerminalNode : UnityEngine.ScriptableObject
 public class InteractTrigger
 {
     public UnityEngine.GameObject gameObject;
+    public bool enabled = true, interactable = true;
+    public T[] GetComponents<T>() where T : class => gameObject.Components.OfType<T>().ToArray();
 }
 public class PlaceableShipObject
 {
@@ -231,6 +233,7 @@ public class StartOfRound
     public UnityEngine.Vector3 DiskRotation;
     public SelectableLevel currentLevel = new();
     public bool shipIsLeaving, inShipPhase, hangarDoorsClosed = true;
+    public bool firingPlayersCutsceneRunning, suckingFurnitureOutOfShip;
     public bool IsServer => Unity.Netcode.NetworkManager.Singleton.IsServer;
     public int ReturnBroadcasts, ReturnRequests;
     public void SpawnUnlockable(int id)
