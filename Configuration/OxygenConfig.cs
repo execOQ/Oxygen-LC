@@ -20,6 +20,7 @@ namespace Oxygen.Configuration
 
         #region General
         internal ConfigEntry<bool> accurateMeter;
+        internal ConfigEntry<int> configSyncTimeoutSeconds;
 
         internal ConfigEntry<bool> autoHideHUD;
 
@@ -39,6 +40,10 @@ namespace Oxygen.Configuration
 
         private void BindGeneralEntries(ConfigFile file)
         {
+            configSyncTimeoutSeconds = file.Bind("Networking", "configSyncTimeoutSeconds", 60,
+                new ConfigDescription(
+                    "Seconds without host config sync progress before disconnecting (10-600). Increase this on clients that load large modpacks or existing saves slowly. Local setting; not synced with the host.",
+                    new AcceptableValueRange<int>(10, 600)));
             transferRate = BindHostEntry(file, "Oxygen transfer", "transferRate", 0.05f,
                 "Fraction of a tank transferred per second (0.001-1). Synced with host; default 5% per second.",
                 new AcceptableValueRange<float>(0.001f, 1f));

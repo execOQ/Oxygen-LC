@@ -197,7 +197,7 @@ static class Program
         var isolated = new NetworkManager(3, false);
         client.Sync.StartSession(isolated);
         int errors = OxygenConfig.mls.Errors.Count;
-        for (int i = 0; i < 5; i++) Oxygen.OxygenBase.Instance.Tick();
+        for (int i = 0; i < 30; i++) Oxygen.OxygenBase.Instance.Tick();
         Assert(OxygenConfig.mls.Errors.Count == errors + 1, "Missing host sync was silent.");
         Assert(isolated.ShutdownCount == 1 && !isolated.IsListening, "Unsynchronized client was left in the lobby.");
         isolated.Stop(); CustomMessagingManager.Pending.Clear();
@@ -302,10 +302,11 @@ static class Program
         network.IsListening = true; network.IsConnectedClient = true;
         GameNetworkManager.Instance = new() { Target = network };
         client.Sync.StartSession(network); CustomMessagingManager.Pending.Clear();
-        DeliverValues(network, invalid);
-        for (int attempt = 0; attempt < 5; attempt++) Oxygen.OxygenBase.Instance.Tick();
+        for (int attempt = 0; attempt < 5; attempt++) DeliverValues(network, invalid);
+        Oxygen.OxygenBase.Instance.Tick();
         Assert(GameNetworkManager.Instance.DisconnectCount == 1 && !network.IsListening &&
-            GameNetworkManager.Instance.disconnectionReasonMessage.Contains("Oxygen"),
+            GameNetworkManager.Instance.disconnectionReasonMessage.Contains("5 rejected snapshots") &&
+            !GameNetworkManager.Instance.disconnectionReasonMessage.Contains("timed out"),
             "Failed initial sync did not leave the game with a visible reason.");
         Assert(client.Price.Value == 777 && network.CustomMessagingManager.Handlers.Count == 0 && client.Config.OutsideMoons == null,
             "Failed connection retained overrides, handlers, or derived host state.");
@@ -319,6 +320,7 @@ static class Program
         // Transport exceptions must not kill the request coroutine before its failure path runs.
         network.IsListening = true; network.IsConnectedClient = true;
         network.CustomMessagingManager.SendFailuresRemaining = 5;
+        client.Config.configSyncTimeoutSeconds.Value = 10;
         client.Sync.StartSession(network);
         for (int attempt = 0; attempt < 5; attempt++) Oxygen.OxygenBase.Instance.Tick();
         Assert(network.ShutdownCount == 1 && !network.IsListening && client.Price.Value == 777,
@@ -493,6 +495,7 @@ static class Program
         string moons = string.Join(";", Enumerable.Range(0, 10000).Select(i => $"Moon{i}@0.0123"));
         var host = new Peer(moons, 400, true, 0.01f, Mode.OnShip);
         var client = new Peer("Local@1", 999, false, 0.9f, Mode.Off);
+        client.Config.configSyncTimeoutSeconds.Value = 10;
         var server = new NetworkManager(0, true); server.ConnectedClients.Add(1, new());
         var network = new NetworkManager(1, false);
         host.Sync.StartSession(server); client.Sync.StartSession(network);
@@ -523,6 +526,57 @@ static class Program
         Assert(!network.IsListening && network.ShutdownCount == 1 && client.Price.Value == 999,
             "Stalled transfer did not disconnect and clean up after ten seconds without progress.");
         server.Stop(); CustomMessagingManager.Pending.Clear();
+    }
+
+    private static void ConfigurableTimeoutChecks()
+    {
+        CustomMessagingManager.Pending.Clear(); CustomMessagingManager.Peers.Clear();
+        var host = new Peer("HostMoon@0.01", 400, true, 0.01f, Mode.OnShip);
+        var server = new NetworkManager(0, true); server.ConnectedClients.Add(1, new());
+        host.Sync.StartSession(server);
+        var client = new Peer("Local@1", 999, false, 0.9f, Mode.Off);
+        var network = new NetworkManager(1, false);
+        Assert(client.Config.configSyncTimeoutSeconds.Value == 60, "Default timeout is not sixty seconds.");
+        // Simulate save loading delaying the first response beyond the old ten-second deadline.
+        client.Sync.StartSession(network);
+        for (int i = 0; i < 20; i++) Oxygen.OxygenBase.Instance.Tick();
+        Assert(network.IsListening && client.Price.Value == 70 && CustomMessagingManager.Pending.Count > 1,
+            "A delayed first response disconnected early or stopped retries.");
+        CustomMessagingManager.Pump(); Oxygen.OxygenBase.Instance.Tick();
+        Assert(network.IsListening && client.Price.Value == 400 && client.Price.LocalValue == 999,
+            "Delayed first response failed to sync without changing local settings.");
+        network.Stop(); CustomMessagingManager.Pending.Clear();
+
+        // The client's timeout governs the wait, independently of the host's local setting.
+        client.Config.configSyncTimeoutSeconds.Value = 120;
+        host.Config.configSyncTimeoutSeconds.Value = 10;
+        network.IsListening = true; network.IsConnectedClient = true;
+        client.Sync.StartSession(network);
+        for (int i = 0; i < 35; i++) Oxygen.OxygenBase.Instance.Tick();
+        Assert(network.IsListening, "Configured client timeout was ignored after sixty seconds.");
+        CustomMessagingManager.Pump(); Oxygen.OxygenBase.Instance.Tick();
+        Assert(network.IsListening && client.Price.Value == 400 && client.Config.configSyncTimeoutSeconds.Value == 120,
+            "Long client timeout failed to recover or was overridden by the host.");
+        network.Stop(); server.Stop(); CustomMessagingManager.Pending.Clear();
+
+        // Missing responses must expire at each selected limit, with an actionable game message.
+        foreach (int seconds in new[] { 10, 60, 120 })
+        {
+            client.Config.configSyncTimeoutSeconds.Value = seconds;
+            network.IsListening = true; network.IsConnectedClient = true;
+            GameNetworkManager.Instance = new() { Target = network };
+            client.Sync.StartSession(network);
+            for (int i = 0; i < seconds / 2 - 1; i++) Oxygen.OxygenBase.Instance.Tick();
+            Assert(network.IsListening, "Client disconnected before its configured timeout.");
+            Oxygen.OxygenBase.Instance.Tick();
+            Assert(!network.IsListening && GameNetworkManager.Instance.DisconnectCount == 1 &&
+                GameNetworkManager.Instance.disconnectionReasonMessage.Contains($"{seconds} seconds without progress") &&
+                GameNetworkManager.Instance.disconnectionReasonMessage.Contains("configSyncTimeoutSeconds"),
+                "Client did not disconnect at its configured timeout with an actionable reason.");
+            Assert(client.Price.Value == 999 && network.CustomMessagingManager.Handlers.Count == 0,
+                "Timeout retained active overrides or message handlers.");
+            GameNetworkManager.Instance = null; CustomMessagingManager.Pending.Clear();
+        }
     }
 
     private static void CanisterChecks()
@@ -670,7 +724,7 @@ static class Program
         string longList = string.Join(";", Enumerable.Range(0, 3000).Select(i => $"Moon{i}@0.002")) + ";LastMoon@0.123";
         CodecChecks(longList); OverrideChecks(); SessionChecks(longList); SessionRegressionChecks(longList);
         HostEditRegressionChecks(); MalformedMoonEntryChecks(); ModpackConfigRegressionChecks();
-        SlowTransferChecks(); CanisterChecks(); ShopChecks(); WeatherAndRefillChecks();
+        SlowTransferChecks(); ConfigurableTimeoutChecks(); CanisterChecks(); ShopChecks(); WeatherAndRefillChecks();
         Console.WriteLine($"Passed {checks} config sync checks (production codec, overrides, and transport with engine doubles).");
     }
 }

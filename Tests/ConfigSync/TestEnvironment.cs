@@ -177,6 +177,7 @@ namespace Oxygen.Configuration
     internal sealed class OxygenConfig
     {
         internal static TestLog mls { get; } = new();
+        internal BepInEx.Configuration.ConfigEntry<int> configSyncTimeoutSeconds = new("configSyncTimeoutSeconds", 60, 60);
         internal int RefreshCount;
         internal int RefreshFailuresRemaining, ResetFailuresRemaining;
         internal Dictionary<string, float> OutsideMoons;
