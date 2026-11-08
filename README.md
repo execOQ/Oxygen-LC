@@ -2,6 +2,8 @@
 
 Adds oxygen management to Lethal Company. Your oxygen supply is limited — keep an eye on it and refill your tank before it runs out!
 
+If joining a large modpack or existing save times out while syncing Oxygen settings, increase `configSyncTimeoutSeconds` under `[Networking]` in the joining client's Oxygen config before reconnecting. It defaults to 60 seconds without sync progress and accepts 10-600 seconds. Each client controls its own timeout.
+
 <details>
   <summary>Compatibility with other mods</summary>
 

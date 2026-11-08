@@ -1,3 +1,8 @@
+## Version 1.8.3:
+
+ - Increased the client config-sync inactivity timeout from 10 to 60 seconds to allow slower modpacks and existing saves to load. Each client can adjust `Networking > configSyncTimeoutSeconds` from 10 to 600 seconds. (#43)
+ - Config-sync disconnect messages now distinguish a timeout from repeatedly rejected host settings.
+
 ## Version 1.8.2:
 
  - Fixed OxyCharger losing its refill prompt after the crew is fired. The station's refill and build-mode colliders now recover on the host and clients when the ship is ready again. (#42)

@@ -108,8 +108,9 @@ namespace Oxygen.Configuration
 
         private IEnumerator RequestUntilSynced(NetworkManager session)
         {
+            int timeoutSeconds = config.configSyncTimeoutSeconds.Value;
             while (manager == session && !receivedHost && rejectedSnapshots < 5 &&
-                Time.realtimeSinceStartup - lastProgressTime < 10f)
+                Time.realtimeSinceStartup - lastProgressTime < timeoutSeconds)
             {
                 // Reliable chunks already in flight need time to finish, not another full snapshot.
                 if (!receivingSnapshot)
@@ -125,13 +126,15 @@ namespace Oxygen.Configuration
                 yield return new WaitForSecondsRealtime(2f);
             }
             requestRoutine = null;
-            if (manager == session && !receivedHost) FailInitialSync(session);
+            if (manager == session && !receivedHost) FailInitialSync(session, timeoutSeconds);
         }
 
-        private void FailInitialSync(NetworkManager session)
+        private void FailInitialSync(NetworkManager session, int timeoutSeconds)
         {
             syncFailed = true;
-            const string reason = "Oxygen could not apply the host's settings. Check the host config and use the same Oxygen build on all peers.";
+            string reason = rejectedSnapshots >= 5
+                ? "Oxygen could not apply the host's settings after 5 rejected snapshots. Check the host config and use the same Oxygen build on all peers."
+                : $"Oxygen timed out waiting for the host's settings after {timeoutSeconds} seconds without progress. For slow-loading modpacks or saves, increase Networking > configSyncTimeoutSeconds in your local Oxygen config. Check that all peers use the same Oxygen build.";
             OxygenConfig.mls.LogError(reason);
             // Use the game's disconnect flow so lobby membership and the main menu also recover.
             try
