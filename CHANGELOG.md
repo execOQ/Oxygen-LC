@@ -1,4 +1,4 @@
-## Unreleased:
+## Version 1.8.3:
 
  - Increased the client config-sync inactivity timeout from 10 to 60 seconds to allow slower modpacks and existing saves to load. Each client can adjust `Networking > configSyncTimeoutSeconds` from 10 to 600 seconds. (#43)
  - Config-sync disconnect messages now distinguish a timeout from repeatedly rejected host settings.
